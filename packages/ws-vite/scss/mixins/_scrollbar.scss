@@ -1,0 +1,41 @@
+@use 'sass:math';
+
+@mixin scrollbar($size: 8px,
+  $thumb-color: rgba(128, 128, 128, 0.3),
+  $thumb-hover-color: rgba(128, 128, 128, 0.6),
+  $track-color: transparent,
+) {
+
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+    border-radius: 0;
+  }
+
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-button:hover {
+    display: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $thumb-color;
+    box-shadow: none;
+    border-radius: math.div($size, 2);
+
+    &:hover {
+      background-color: $thumb-hover-color;
+    }
+  }
+
+  &::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: $track-color;
+
+    &:hover {
+      background-color: $track-color;
+    }
+  }
+}

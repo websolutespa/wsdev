@@ -1,0 +1,63 @@
+{
+  "name": "@websolutespa/ws-cli",
+  "private": true,
+  "version": "0.0.1",
+  "description": "WS cli for Websolute boilerplates",
+  "keywords": [
+    "ws",
+    "cli"
+  ],
+  "scripts": {
+    "dev": "ts-node --esm ./src/index.ts",
+    "build": "tsup ./src/index.ts --outDir bin --format esm --dts",
+    "watch": "npm run build -- --watch",
+    "cli": "node ./bin/index.js"
+  },
+  "dependencies": {
+    "@clack/prompts": "latest",
+    "chalk": "^4.1.2",
+    "chokidar": "latest",
+    "cross-spawn": "latest",
+    "giget": "latest",
+    "gradient-string": "latest",
+    "nodemon": "latest",
+    "pluralize": "latest",
+    "transliteration": "latest",
+    "update-check": "latest",
+    "uuid": "latest",
+    "yargs": "latest"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "latest",
+    "@types/gradient-string": "latest",
+    "@types/node": "^17.0.45",
+    "@types/pluralize": "latest",
+    "@types/uuid": "latest",
+    "@types/yargs": "latest",
+    "@websolutespa/tsconfig": "*",
+    "eslint-config-websolute": "*",
+    "eslint": "^8.46.0",
+    "ts-node": "^10.9.1",
+    "tsup": "^6.7.0",
+    "typescript": "^5.1.6"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "bin": {
+    "ws": "./bin/index.js"
+  },
+  "prepack": {
+    "types": "./bin/index.d.ts",
+    "main": "./bin/index.js",
+    "module": "./bin/index.js"
+  },
+  "postpack": {
+    "types": "./src/index.ts",
+    "main": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "main": "./src/index.ts"
+}

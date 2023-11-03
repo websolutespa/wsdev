@@ -1,0 +1,12 @@
+<nav class="main-menu" role="navigation" aria-label="Main menu">
+  <ul>
+    {% for item in ['theme', 'images', 'icons'] %}
+    <li><a href="/{{ item }}.html">{{ item }}</a></li>
+    {% endfor %}
+    <li>
+      <a href='https://github.com/websolutespa/wsdev' title='WsDev'>
+        {{icon('github')}}
+      </a>
+    </li>
+  </ul>
+</nav>

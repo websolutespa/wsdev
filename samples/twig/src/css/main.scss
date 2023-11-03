@@ -1,0 +1,12 @@
+@import '~@websolutespa/ws-vite/scss/mixins.scss';
+
+@include container();
+@include grid();
+@include padding();
+@include margin();
+@include typography();
+@include lenis();
+
+@import 'common';
+@import 'components';
+@import 'sections';

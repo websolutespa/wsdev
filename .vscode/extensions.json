@@ -1,0 +1,25 @@
+{
+  "recommendations": [
+    // Env
+    "mikestead.dotenv",
+    // Linting / Formatting
+    "editorconfig.editorconfig",
+    "dbaeumer.vscode-eslint",
+    // "esbenp.prettier-vscode",
+    // "usernamehw.errorlens",
+    // Templating
+    "mblode.twig-language",
+    "Shopify.theme-check-vscode",
+    // Testing
+    "ms-playwright.playwright",
+    // "orta.vscode-jest",
+    // PR management / Reviewing
+    // "github.vscode-pull-request-github",
+    // Showing todo comments
+    // "gruntfuggly.todo-tree",
+    // Collaborating
+    // "ms-vsliveshare.vsliveshare",
+    // Debugging
+    // "ms-vscode.vscode-js-profile-flame"
+  ]
+}

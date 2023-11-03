@@ -1,0 +1,3 @@
+@mixin fluid($min: 48, $max: 96, $property: font-size, $base: 1920) {
+  #{$property}: Max($min * 1px, Min($max * 1px, calc($max / $base * 100vw)));
+}

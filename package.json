@@ -1,0 +1,41 @@
+{
+  "name": "@websolutespa/wsdev",
+  "private": true,
+  "scripts": {
+    "reinstall:clean": "rimraf \"**/node_modules/**\" \"**/dist/**\" \"**/\\.next/**\" \"**/\\.turbo/**\" \"package-lock.json\"",
+    "reinstall:install": "npm install",
+    "reinstall": "run-s reinstall:*",
+    "dev": "turbo run dev --filter=@twig/web",
+    "dev:liquid": "turbo run dev --filter=@liquid/web",
+    "dev:twig": "turbo run dev --filter=@twig/web",
+    "build": "turbo run build",
+    "build:liquid": "turbo run build --filter=@liquid/web",
+    "build:twig": "turbo run build --filter=@twig/web",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "preview:liquid": "turbo run preview --filter=@liquid/web",
+    "preview:twig": "turbo run preview --filter=@twig/web",
+    "changeset:init": "changeset init",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "package:compile": "turbo run compile --force --filter=./src/**/packages/* --no-daemon",
+    "package:prepack": "turbo run prepack --force --filter=./src/**/packages/* --no-daemon",
+    "package:publish": "changeset publish",
+    "package:tags": "git push --follow-tags"
+  },
+  "devDependencies": {
+    "@changesets/changelog-github": "^0.4.8",
+    "@changesets/cli": "^2.26.0",
+    "eslint": "^8.48.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.0.3",
+    "rimraf": "3.0.2",
+    "tsconfig": "*",
+    "turbo": "latest"
+  },
+  "packageManager": "npm@9.5.1",
+  "workspaces": [
+    "samples/*",
+    "packages/*"
+  ]
+}

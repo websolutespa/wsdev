@@ -1,0 +1,5 @@
+@mixin padding() {
+  :root {
+    @include evalMany(padding, $padding);
+  }
+}

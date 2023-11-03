@@ -1,0 +1,61 @@
+@use 'sass:map';
+
+@mixin grid() {
+
+  $grid-columns-raw: 12 !default;
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(var(--grid-columns), var(--grid-size));
+    grid-column-gap: var(--grid-column-gap);
+    grid-row-gap: var(--grid-row-gap);
+
+    &>* {
+      grid-column: span var(--grid-columns) / auto;
+    }
+  }
+
+  @each $key, $size in $breakpoint {
+    @if $key =='xs' {
+      @for $i from 1 through $grid-columns-raw {
+
+        .grid-#{$i},
+        .grid-xs-#{$i} {
+          grid-column: span $i / auto;
+        }
+      }
+    }
+
+    @else {
+      @media (min-width:$size) {
+        @for $i from 1 through $grid-columns-raw {
+          .grid-#{$key}-#{$i} {
+            grid-column: span $i / auto;
+          }
+        }
+      }
+    }
+  }
+
+  @each $key, $size in $breakpoint {
+    @if $key =='xs' {
+      @for $i from 2 through $grid-columns-raw {
+
+        .end-#{$i},
+        .end-xs-#{$i} {
+          grid-column-end: $i + 1;
+        }
+      }
+    }
+
+    @else {
+      @media (min-width:$size) {
+        @for $i from 2 through $grid-columns-raw {
+          .end-#{$key}-#{$i} {
+            grid-column-end: $i + 1;
+          }
+        }
+      }
+    }
+  }
+}

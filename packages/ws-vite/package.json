@@ -1,0 +1,62 @@
+{
+  "name": "@websolutespa/ws-vite",
+  "private": true,
+  "version": "0.0.1",
+  "description": "Vite plugin for WS boilerplates",
+  "keywords": [
+    "vite",
+    "plugin",
+    "ws",
+    "websolute"
+  ],
+  "scripts": {
+    "dev": "ts-node --esm ./schema/index.ts",
+    "build": "node ./schema/index.js"
+  },
+  "dependencies": {
+    "@vituum/vite-plugin-liquid": "^1.0.0",
+    "@vituum/vite-plugin-twig": "^1.0.0",
+    "axe-core": "^4.8.2",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "etag": "^1.8.1",
+    "fs-extra": "^11.1.1",
+    "html-minifier-terser": "^7.2.0",
+    "pathe": "^1.1.1",
+    "csstype": "^3.1.2",
+    "sass": "^1.69.3",
+    "sharp": "^0.32.6",
+    "svgo": "^3.0.2",
+    "terser": "^5.22.0",
+    "ts-json-schema-generator": "^1.4.0",
+    "vituum": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.15",
+    "@types/debug": "^4.1.10",
+    "@types/etag": "^1.8.2",
+    "@types/fs-extra": "^11.0.3",
+    "@types/node": "^20.8.9",
+    "@websolutespa/tsconfig": "*",
+    "eslint-config-websolute": "*",
+    "eslint": "^8.46.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./schema/**/*.schema.json": "./schema/**/*.schema.json",
+    "./scss/**/*.scss": "./scss/**/*.scss",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=18.16.0",
+    "npm": ">=9.5.1"
+  }
+}

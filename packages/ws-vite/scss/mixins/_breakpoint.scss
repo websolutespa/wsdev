@@ -1,0 +1,101 @@
+$breakpoints: (
+  "xs": 0,
+  "sm": 768px,
+  "md": 1024px,
+  "lg": 1440px,
+  "xl": 1600px
+);
+
+@function breakpoint-next($name, $breakpoint: $breakpoint) {
+  $keys: map-keys($breakpoint );
+  $n: index($keys, $name);
+  @return if($n !=null and $n < length($keys), nth($keys, $n + 1), null);
+}
+
+@function breakpoint-min($name, $breakpoint: $breakpoint) {
+  $min: map-get($breakpoint, $name);
+  @return if($min !=0, $min, null);
+}
+
+@function breakpoint-max($name, $breakpoint: $breakpoint) {
+  $next: breakpoint-next($name, $breakpoint);
+  @return if($next, breakpoint-min($next, $breakpoint) - .02, null);
+}
+
+@function breakpoint-infix($name, $breakpoint: $breakpoint) {
+  @return if(breakpoint-min($name, $breakpoint)==null, "", "-#{$name}");
+}
+
+@mixin media-up($name, $breakpoint: $breakpoint) {
+  $min: breakpoint-min($name, $breakpoint);
+
+  @if $min {
+    @media (min-width: $min) {
+      @content;
+    }
+  }
+
+  @else {
+    @content;
+  }
+}
+
+@mixin media-down($name, $breakpoint: $breakpoint) {
+  $max: breakpoint-max($name, $breakpoint);
+
+  @if $max {
+    @media (max-width: $max) {
+      @content;
+    }
+  }
+
+  @else {
+    @content;
+  }
+}
+
+@mixin media-between($lower, $upper, $breakpoint: $breakpoint) {
+  $min: breakpoint-min($lower, $breakpoint);
+  $max: breakpoint-max($upper, $breakpoint);
+
+  @if $min !=null and $max !=null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+
+  @else if $max==null {
+    @include media-up($lower, $breakpoint) {
+      @content;
+    }
+  }
+
+  @else if $min==null {
+    @include media-down($upper, $breakpoint) {
+      @content;
+    }
+  }
+}
+
+@mixin media-only($name, $breakpoint: $breakpoint) {
+  $min: breakpoint-min($name, $breakpoint);
+  $max: breakpoint-max($name, $breakpoint);
+
+  @if $min !=null and $max !=null {
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  }
+
+  @else if $max==null {
+    @include media-up($name, $breakpoint) {
+      @content;
+    }
+  }
+
+  @else if $min==null {
+    @include media-down($name, $breakpoint) {
+      @content;
+    }
+  }
+}

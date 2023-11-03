@@ -1,0 +1,17 @@
+{
+  "extends": "@websolutespa/tsconfig/tsnode.json",
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "bin"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "module": "nodenext",
+    "moduleResolution": "nodenext"
+  }
+}

@@ -1,0 +1,22 @@
+@use 'sass:map';
+@use 'sass:list';
+
+@mixin typography() {
+
+  @each $key in $typography {
+    .#{$key} {
+      font-family: var(--typography-#{$key}-font-family, var(--typography-font-family));
+      font-size: var(--typography-#{$key}-font-size, 1rem);
+      line-height: var(--typography-#{$key}-line-height, var(--typography-font-line-height));
+      font-weight: var(--typography-#{$key}-font-weight, inherit);
+    }
+  }
+
+  $weights: 100, 200, 300, 400, 500, 600, 700, 800, 900;
+
+  @each $weight in $weights {
+    .fw-#{$weight} {
+      font-weight: $weight;
+    }
+  }
+}

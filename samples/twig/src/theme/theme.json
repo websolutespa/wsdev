@@ -1,0 +1,166 @@
+{
+  "$schema": "../../../../node_modules/@websolutespa/ws-vite/schema/theme.schema.json",
+  "breakpoint": {
+    "xs": 0,
+    "sm": "768px",
+    "md": "1024px",
+    "lg": "1440px",
+    "xl": "1600px"
+  },
+  "margin": {
+    "default": [ 4, 8, 12, 16, 24, 32, [ 32, 40 ], [ 40, 48 ], [ 48, 64 ], [ 64, 80 ], [ 80, 96 ], [ 96, 128 ], [ 128, 160 ] ]
+  },
+  "padding": {
+    "default": [ 4, 8, 12, 16, 24, 32, [ 32, 40 ], [ 40, 48 ], [ 48, 64 ], [ 64, 80 ], [ 80, 96 ], [ 96, 128 ], [ 128, 160 ] ]
+  },
+  "typography": {
+    "default": {
+      "fontFamily": "Inter, -apple-system, 'Helvetica Neue', 'Segoe UI', Roboto, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+      "fontSize": {
+        "xs": "14px",
+        "sm": "15px",
+        "md": "15px",
+        "lg": "16px",
+        "xl": "16px"
+      },
+      "lineHeight": 1.5
+    },
+    "display10": {
+      "fontSize": "Min(8rem, 20vw)",
+      "lineHeight": 1.05
+    },
+    "display20": {
+      "fontSize": "Min(6.25rem, 16vw)",
+      "lineHeight": 1.15
+    },
+    "display30": {
+      "fontSize": "Min(4.5rem, 11.5vw)",
+      "lineHeight": 1.25
+    },
+    "display40": {
+      "fontSize": "Min(2.75rem, 7vw)",
+      "lineHeight": 1.35
+    },
+    "heading10": {
+      "fontSize": "Min(2.5rem, 6.4vw)",
+      "lineHeight": 1.45
+    },
+    "heading20": {
+      "fontSize": "2.25rem",
+      "lineHeight": 1.55
+    },
+    "heading30": {
+      "fontSize": "1.875rem",
+      "lineHeight": 1.65
+    },
+    "heading40": {
+      "fontSize": "1.5rem",
+      "lineHeight": 1.75
+    },
+    "paragraph10": {
+      "fontSize": "1.125rem",
+      "lineHeight": 1.85
+    },
+    "paragraph20": {
+      "fontSize": "1rem",
+      "lineHeight": 1.95
+    },
+    "paragraph30": {
+      "fontSize": "0.9rem",
+      "lineHeight": 2.05
+    },
+    "paragraph40": {
+      "fontSize": "0.8rem",
+      "lineHeight": 2.15
+    },
+    "paragraph50": {
+      "fontSize": "0.7rem",
+      "lineHeight": 2.25
+    }
+  },
+  "grid": {
+    "default": {
+      "columns": 12,
+      "size": "1fr",
+      "columnGap": {
+        "xs": "Max(4vw, Min(48px, calc(100vw / 24)))",
+        "sm": "Max(4vw, Min(60px, calc(100vw / 24)))",
+        "md": "Max(4vw, Min(72px, calc(100vw / 24)))",
+        "lg": "Max(4vw, Min(84px, calc(100vw / 24)))",
+        "xl": "Max(4vw, Min(96px, calc(100vw / 24)))"
+      },
+      "rowGap": 0
+    }
+  },
+  "container": {
+    "default": {
+      "maxWidth": {
+        "xs": "calc(100% - var(--grid-column-gap) * 2)",
+        "sm": "calc(100% - var(--grid-column-gap) * 2)",
+        "md": "calc(1024px - var(--grid-column-gap) * 2)",
+        "lg": "calc(1440px - var(--grid-column-gap) * 2)",
+        "xl": "calc(1600px - var(--grid-column-gap) * 2)"
+      }
+    },
+    "fluid": {
+      "maxWidth": "calc(100% - var(--grid-column-gap) * 2)"
+    }
+  },
+  "color": {
+    "neutral": {
+      "100": "#fafafa",
+      "200": "#d7d6d6",
+      "300": "#b6b4b4",
+      "400": "#8d8b8b",
+      "500": "#7c7a79",
+      "600": "#484747",
+      "700": "#3b3b3a",
+      "800": "#313030",
+      "900": "#121212"
+    },
+    "primary": {
+      "100": "#def2ff",
+      "200": "#b6e7ff",
+      "300": "#75d5ff",
+      "400": "#2cc1ff",
+      "500": "#00a2ed",
+      "600": "#0087d4",
+      "700": "#006bab",
+      "800": "#005a8d",
+      "900": "#064b74"
+    },
+    "success": {
+      "100": "#CFFDD5",
+      "200": "#A1FCB5",
+      "300": "#70F69B",
+      "400": "#4CED90",
+      "500": "#16e280",
+      "600": "#10C27E",
+      "700": "#0BA278",
+      "800": "#07836C",
+      "900": "#046C64"
+    },
+    "warning": {
+      "100": "#FEF9CB",
+      "200": "#FEF198",
+      "300": "#FEE765",
+      "400": "#FDDE3F",
+      "500": "#fdce00",
+      "600": "#D9AC00",
+      "700": "#B68D00",
+      "800": "#926E00",
+      "900": "#795900"
+    },
+    "danger": {
+      "100": "#FEE9CD",
+      "200": "#FECC9C",
+      "300": "#FCA86A",
+      "400": "#FA8645",
+      "500": "#f74e09",
+      "600": "#D43406",
+      "700": "#B11F04",
+      "800": "#8F0F02",
+      "900": "#760301"
+    }
+  }
+}

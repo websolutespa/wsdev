@@ -1,0 +1,8 @@
+*
+!schema/*.schema.json
+!scss/**
+!src/**
+!LICENSE
+!README.md
+!CHANGELOG.md
+!package.json

@@ -1,0 +1,41 @@
+{
+  "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
+  "page": {
+    "id": 1,
+    "title": "ws-vite liquid",
+    "abstract": "a boilerplate built with 🖤 by Websolute",
+    "meta": {
+      "title": "Liquid - Home"
+    },
+    "href": "/index",
+    "alternates": [
+      {
+        "id": "/it/index",
+        "title": "Home",
+        "locale": "it",
+        "market": "ww"
+      }
+    ],
+    "components": [
+      {
+        "schema": "text-only",
+        "title": "Text Only Title",
+        "abstract": "<p>Text Only Abstract.</p>"
+      },
+      {
+        "schema": "my-lazy",
+        "title": "Lazy Module",
+        "abstract": "<p>I'm a lazy module</p>"
+      },
+      {
+        "schema": "listing"
+      }
+    ],
+    "breadcrumb": [
+      {
+        "href": "/index",
+        "title": "Home"
+      }
+    ]
+  }
+}

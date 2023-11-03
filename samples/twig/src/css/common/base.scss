@@ -1,0 +1,20 @@
+html,
+body {
+  width: 100%;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
+
+body {
+  height: auto;
+  @include scrollbar();
+}
+
+[data-module] {
+  transition: opacity ease-in-out 200ms;
+
+  &:not(.init) {
+    min-height: 1px;
+    opacity: 0;
+  }
+}

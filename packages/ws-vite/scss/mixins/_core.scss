@@ -1,0 +1,175 @@
+@use 'sass:list';
+@use 'sass:map';
+@use 'sass:string';
+
+@function valuesByKeys($map, $keys) {
+  $values: (
+  );
+
+@each $k in $keys {
+  $values: list.append($values, map.get($map, $k));
+}
+
+@return $values;
+}
+
+@function is-map($value) {
+  @return type-of($value)=='map';
+}
+
+@function is-media($value) {
+  @return is-map($value) and map.has-key($value, 'xs');
+}
+
+@function is-list($value) {
+  @return type-of($value)=='list';
+}
+
+@function is-list-of-many($value) {
+  @return type-of($value)=='list' and list.length($value)>2;
+}
+
+@function is-list-of-two($value) {
+  @return type-of($value)=='list' and list.length($value)==2;
+}
+
+@function is-number($value) {
+  @return type-of($value)=='number';
+}
+
+@function strip-unit($number) {
+  @if type-of($number)=='number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+
+  @return $number;
+}
+
+@function get-variant($variant) {
+  @if $variant =='default' {
+    @return '';
+  }
+
+  @else {
+    @return -#{$variant};
+  }
+}
+
+@mixin evalMedia($key, $map) {
+
+  // $keys: map.keys($map);
+  // $values: map.values($map);
+  @each $breakpoint, $value in $map {
+    $i: index(($map), ($breakpoint $value));
+
+    @if $i >0 {
+      $width: map.get($breakpoints, $breakpoint);
+
+      @media (min-width: $width) {
+        #{$key}: $value;
+      }
+    }
+
+    @else {
+      #{$key}: $value;
+    }
+  }
+}
+
+@mixin expandDirections($slice, $key, $value, $expression) {
+  --#{$slice}-#{$value}: #{$expression};
+
+  // top
+  .#{$slice}t-#{$value} {
+    #{$key}-top: var(--#{$slice}-#{$value});
+  }
+
+  // right
+  .#{$slice}r-#{$value} {
+    #{$key}-right: var(--#{$slice}-#{$value});
+  }
+
+  // bottom
+  .#{$slice}b-#{$value} {
+    #{$key}-bottom: var(--#{$slice}-#{$value});
+  }
+
+  // left
+  .#{$slice}l-#{$value} {
+    #{$key}-left: var(--#{$slice}-#{$value});
+  }
+
+  // left right
+  .#{$slice}x-#{$value} {
+    #{$key}-left: var(--#{$slice}-#{$value});
+    #{$key}-right: var(--#{$slice}-#{$value});
+  }
+
+  // top bottom
+  .#{$slice}y-#{$value} {
+    #{$key}-top: var(--#{$slice}-#{$value});
+    #{$key}-bottom: var(--#{$slice}-#{$value});
+  }
+
+  // full
+  .#{$slice}-#{$value} {
+    #{$key}: var(--#{$slice}-#{$value});
+  }
+}
+
+@function minMax($min, $max) {
+  @return Max(#{$min}px, Min(#{$max}px, calc(#{$min}px + (100vw - 768px) / (1920 - 768) * (#{$max} - #{$min}))));
+}
+
+@function expandTwo($list) {
+  $min: list.nth($list, 1);
+  $max: list.nth($list, 2);
+  @return minMax($min, $max);
+}
+
+@mixin evalTwo($key, $list) {
+  $min: list.nth($list, 1);
+  $max: list.nth($list, 2);
+  $slice: string.slice($key, 1, 1);
+  $expression: minMax($min, $max);
+  @include expandDirections($slice, $key, $max, $expression);
+}
+
+@mixin evalMany($key, $list) {
+  $slice: string.slice($key, 1, 1);
+
+  @each $value in $list {
+    @if is-list-of-two($value) {
+      @include evalTwo($key, $value);
+    }
+
+    @else {
+      $expression: #{$value}px;
+      @include expandDirections($slice, $key, $value, $expression);
+    }
+  }
+}
+
+@mixin eval($key: font-size, $value: 10px) {
+  $type: type-of($value);
+
+  @if is-media($value) {
+    @include evalMedia($key, $value);
+  }
+
+  @else if is-list-of-many($value) {
+    @include evalMany($key, $value);
+  }
+
+  @else if is-list-of-two($value) {
+    @include evalTwo($key, $value);
+  }
+
+  @else if is-number($value) {
+    #{$key}: $value;
+  }
+
+  @else {
+    #{$key}: $value;
+  }
+}

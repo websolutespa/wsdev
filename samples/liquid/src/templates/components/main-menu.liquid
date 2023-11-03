@@ -1,0 +1,15 @@
+<nav class='main-menu' role='navigation' aria-label='Main menu'>
+  <ul>
+    {% assign items = 'theme,images,icons' | split: ',' %}
+    {% for item in items %}
+      <li>
+        <a href='/{{ item }}.html'>{{ item }}</a>
+      </li>
+    {% endfor %}
+    <li>
+      <a href='https://github.com/websolutespa/wsdev' title='WsDev'>
+        {{ 'github' | icon }}
+      </a>
+    </li>
+  </ul>
+</nav>

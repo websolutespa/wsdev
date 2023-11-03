@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="{{ layout.locale }}" xml:lang="{{ layout.locale }}">
+  <head>
+    {% include '../sections/meta.twig' %}
+    {% block meta %}{% endblock %}
+    <script type="module" src="/js/main.js"></script>
+    <link rel="stylesheet" href="/css/main.scss">
+    {% if false %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;300;600&display=swap">
+    {% endif %}
+    {% block head %}{% endblock %}
+  </head>
+  <body class="{% block body_class %}{% endblock %}">
+    {% include '../sections/header.twig' %}
+    {% block main %}{% endblock %}
+    {% include '../sections/footer.twig' %}
+    {% block body %}{% endblock %}
+  </body>
+</html>

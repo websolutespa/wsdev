@@ -1,0 +1,14 @@
+body {
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
+}
+
+.positive {
+  background: var(--color-neutral-100);
+  color: var(--color-neutral-800);
+}
+
+.negative {
+  background: var(--color-neutral-900);
+  color: var(--color-neutral-100);
+}

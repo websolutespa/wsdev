@@ -1,0 +1,63 @@
+{
+  "editor.bracketPairColorization.enabled": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true,
+    "source.fixAll.eslint": true
+  },
+  "editor.formatOnSave": true,
+  "editor.inlineSuggest.enabled": true,
+  "editor.matchBrackets": "near",
+  "editor.wordWrap": "off",
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[html][twig][lucid]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[css][scss][less]": {
+    "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[javascript][javascriptreact][typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[json][jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "json.format.keepLines": true,
+  "json.schemaDownload.enable": true,
+  // Ensure enough terminal history is preserved when running tests.
+  "terminal.integrated.scrollback": 10000,
+  // Enable file nesting for unit test files.
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "*.ts": "$(capture).test.ts, $(capture).test.tsx",
+    "*.tsx": "$(capture).test.ts, $(capture).test.tsx",
+    "*.js": "$(capture).test.js, $(capture).test.jsx",
+    "*.jsx": "$(capture).test.js, $(capture).test.jsx"
+  },
+  "eslint.options": {
+    "extensions": [
+      ".js",
+      ".jsx",
+      ".md",
+      ".mdx",
+      ".ts",
+      ".tsx"
+    ]
+  },
+  "eslint.validate": [
+    "markdown",
+    "mdx",
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  "explorer.autoReveal": true,
+  "editor.definitionLinkOpensInPeek": false,
+  "editor.gotoLocation.multipleDeclarations": "goto",
+  "editor.gotoLocation.multipleDefinitions": "goto",
+  "mdx.experimentalLanguageServer": true,
+  // !!! todo twig, liquid specific
+  "css.validate": false,
+  "css.lint.emptyRules": "ignore",
+  "css.lint.unknownProperties": "ignore",
+}
