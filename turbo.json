@@ -12,6 +12,22 @@
         "dist/**"
       ]
     },
+    "compile": {
+      "dependsOn": [
+        "^compile"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "prepack": {
+      "dependsOn": [
+        "^prepack"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
     "lint": { },
     "dev": {
       "cache": false,

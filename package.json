@@ -18,8 +18,8 @@
     "changeset:init": "changeset init",
     "changeset": "changeset",
     "changeset:version": "changeset version",
-    "package:compile": "turbo run compile --force --filter=./src/**/packages/* --no-daemon",
-    "package:prepack": "turbo run prepack --force --filter=./src/**/packages/* --no-daemon",
+    "package:compile": "turbo run compile --force --filter=./**/packages/* --no-daemon",
+    "package:prepack": "turbo run prepack --force --filter=./**/packages/* --no-daemon",
     "package:publish": "changeset publish",
     "package:tags": "git push --follow-tags"
   },

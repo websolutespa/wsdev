@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "dev": "ts-node --esm ./schema/index.ts",
-    "build": "node ./schema/index.js"
+    "build": "node ./schema/index.js",
+    "compile": "npm run build"
   },
   "dependencies": {
     "@vituum/vite-plugin-liquid": "^1.0.0",

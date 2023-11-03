@@ -12,7 +12,11 @@
     "dev": "ts-node --esm ./src/index.ts",
     "build": "tsup ./src/index.ts --outDir bin --format esm --dts",
     "watch": "npm run build -- --watch",
-    "cli": "node ./bin/index.js"
+    "cli": "node ./bin/index.js",
+    "bin": "node ./bin/index.js",
+    "compile": "npm run build",
+    "prepack": "ws prepack",
+    "postpack": "ws postpack"
   },
   "dependencies": {
     "@clack/prompts": "latest",
