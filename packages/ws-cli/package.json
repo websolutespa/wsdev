@@ -1,11 +1,12 @@
 {
   "name": "@websolutespa/ws-cli",
-  "private": true,
   "version": "0.0.1",
-  "description": "WS cli for Websolute boilerplates",
+  "description": "Ws cli for Websolute boilerplates",
   "keywords": [
     "ws",
-    "cli"
+    "cli",
+    "websolute",
+    "boilerplate"
   ],
   "scripts": {
     "dev": "ts-node --esm ./src/index.ts",

@@ -401,7 +401,7 @@ async function updateRepo(options, folder) {
 function updateScripts(options, data) {
   const scripts = {};
   Object.entries(data).forEach(([key, value]) => {
-    scripts[key] = String(value).replace(new RegExp(`@ws-${options.sampleType}`, "g"), `@${options.projectName}`);
+    scripts[key] = String(value).replace(new RegExp(`@${options.sampleType}`, "g"), `@${options.projectName}`);
   });
   return scripts;
 }
@@ -410,8 +410,8 @@ function updateDependencies(options, data, isPackage) {
   Object.entries(data).forEach(([key, value]) => {
     if (key.indexOf("@websolutespa") !== -1) {
       dependencies[key] = isPackage ? String(value) : "latest";
-    } else if (key.indexOf(`@ws-${options.sampleType}`) !== -1) {
-      dependencies[key.replace(`@ws-${options.sampleType}`, `@${options.projectName}`)] = String(value);
+    } else if (key.indexOf(`@${options.sampleType}`) !== -1) {
+      dependencies[key.replace(`@${options.sampleType}`, `@${options.projectName}`)] = String(value);
     } else {
       dependencies[key] = String(value);
     }
@@ -446,7 +446,7 @@ async function updatePackage(options, pathname, isPackage) {
 async function updateSource(options, pathname) {
   try {
     const data = await fsRead(pathname);
-    const source = String(data).replace(new RegExp(`@ws-${options.sampleType}`, "g"), `@${options.projectName}`);
+    const source = String(data).replace(new RegExp(`@${options.sampleType}`, "g"), `@${options.projectName}`);
     await fsWrite(pathname, source);
   } catch (error2) {
     console.error("updateSource", error2);

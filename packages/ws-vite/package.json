@@ -1,13 +1,13 @@
 {
   "name": "@websolutespa/ws-vite",
-  "private": true,
   "version": "0.0.1",
-  "description": "Vite plugin for WS boilerplates",
+  "description": "Ws Vite plugin for Websolute boilerplates",
   "keywords": [
+    "ws",
     "vite",
     "plugin",
-    "ws",
-    "websolute"
+    "websolute",
+    "boilerplate"
   ],
   "scripts": {
     "dev": "ts-node --esm ./schema/index.ts",

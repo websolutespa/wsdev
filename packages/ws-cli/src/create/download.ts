@@ -179,7 +179,7 @@ export async function updateRepo(options: ICreateOptions, folder?: string): Prom
 export function updateScripts(options: ICreateOptions, data: Record<string, string>): Record<string, string> {
   const scripts: Record<string, string> = {};
   Object.entries(data).forEach(([key, value]) => {
-    scripts[key] = String(value).replace(new RegExp(`@ws-${options.sampleType}`, 'g'), `@${options.projectName}`);
+    scripts[key] = String(value).replace(new RegExp(`@${options.sampleType}`, 'g'), `@${options.projectName}`);
   });
   return scripts;
 }
@@ -190,8 +190,8 @@ export function updateDependencies(options: ICreateOptions, data: Record<string,
     if (key.indexOf('@websolutespa') !== -1) {
       // !!! only apps dependencies should be updated to latest
       dependencies[key] = isPackage ? String(value) : 'latest';
-    } else if (key.indexOf(`@ws-${options.sampleType}`) !== -1) {
-      dependencies[key.replace(`@ws-${options.sampleType}`, `@${options.projectName}`)] = String(value);
+    } else if (key.indexOf(`@${options.sampleType}`) !== -1) {
+      dependencies[key.replace(`@${options.sampleType}`, `@${options.projectName}`)] = String(value);
     } else {
       dependencies[key] = String(value);
     }
@@ -229,7 +229,7 @@ export async function updatePackage(options: ICreateOptions, pathname: string, i
 export async function updateSource(options: ICreateOptions, pathname: string): Promise<void> {
   try {
     const data = await fsRead(pathname);
-    const source = String(data).replace(new RegExp(`@ws-${options.sampleType}`, 'g'), `@${options.projectName}`);
+    const source = String(data).replace(new RegExp(`@${options.sampleType}`, 'g'), `@${options.projectName}`);
     await fsWrite(pathname, source);
   } catch (error: any) {
     console.error('updateSource', error);
