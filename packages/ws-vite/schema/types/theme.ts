@@ -656,7 +656,7 @@ export type ITheme = {
    *  xl: <number> | <pixel>,
    * }`
    *
-   * @see https://wsdev/packages/ws-vite/README.md
+   * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
    */
   breakpoint: Breakpoints;
   /**
@@ -676,7 +676,7 @@ export type ITheme = {
    *  ...
    * }`
    *
-   * @see https://wsdev/packages/ws-vite/README.md
+   * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
    */
   color: Colors;
   /**
@@ -687,7 +687,7 @@ export type ITheme = {
    *  ...
    * }`
    *
-   * @see https://wsdev/packages/ws-vite/README.md
+   * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
    */
   container: Containers;
   /**
@@ -698,7 +698,7 @@ export type ITheme = {
    *  ...
    * }`
    *
-   * @see https://wsdev/packages/ws-vite/README.md
+   * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
    */
   grid: Grids;
   /**
@@ -710,7 +710,7 @@ export type ITheme = {
    *  ...
    * }`
    *
-   * @see https://wsdev/packages/ws-vite/README.md
+   * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
    */
   typography: Typographies;
 } & IThemeItem;

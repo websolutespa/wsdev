@@ -31,20 +31,6 @@ export const accessiblePlugin = (userOptions) => {
     async load(id, ssr) {
       // console.log(id);
       if (id === getIdByKey(MODULE_ID)) {
-        /*
-        base: '/',
-        command: 'serve',
-        mode: 'development',
-        ssr: {
-          format: 'esm',
-          target: 'node',
-          optimizeDeps: { disabled: true, esbuildOptions: [Object] }
-        },
-        isProduction: false,
-        envDir: '/Users/lucazampetti/Desktop/GIT/wsdev/samples/twig/src',
-        env: { BASE_URL: '/', MODE: 'development', DEV: true, PROD: false },
-        assetsInclude??
-        */
         // const isBuilding = currentConfig.command === 'build' || currentConfig.ssr;
         // const isDev = currentConfig.mode === 'development';
         if (currentConfig.mode === 'development') {

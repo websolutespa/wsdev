@@ -1,6 +1,6 @@
 # 🔵 WsVite
 
-Todo
+Liquid sample, a boilerplate built with 🖤 by Websolute
 
 ### Install 
 

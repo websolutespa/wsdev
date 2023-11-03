@@ -61,9 +61,9 @@ export async function doDownload(options: ICreateOptions): Promise<unknown> {
         console.log('temporaryName', temporaryName);
         console.log('temporaryPath', temporaryPath);
         console.log('options.projectName', options.projectName); // my-project2
-        console.log('options.projectFolder', options.projectFolder); // C:\WORK\GIT\wsdev\packages\ws-cli\.ws\my-project2
+        console.log('options.projectFolder', options.projectFolder); // C:\XXX\wsdev\packages\ws-cli\.ws\my-project2
         console.log('getPath(options.projectName)', getPath(options.projectName)); // .ws\my-project2
-        console.log('process.cwd()', process.cwd()); // C:\WORK\GIT\wsdev\packages\ws-cli
+        console.log('process.cwd()', process.cwd()); // C:\XXX\wsdev\packages\ws-cli
         */
 
         const results = await downloadTemplate('github:websolutespa/wsdev', {

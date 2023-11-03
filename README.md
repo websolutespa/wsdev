@@ -1,18 +1,13 @@
 # 🔵 WsDev
 
-WsDev is the official monorepo of the 
-[ws-vite](packages/ws-vite/README.md)  
-and  
-[ws-cli](packages/ws-cli/README.md)  
-plugin and boilerplate samples of 
-[Websolute](https://www.websolute.com) web agency.
+WsDev is the official monorepo of the [ws-vite](packages/ws-vite/README.md) and [ws-cli](packages/ws-cli/README.md) plugin and boilerplate samples of [Websolute](https://www.websolute.com) web agency.
 
 ## Using this repository
 
 ### Install dependencies
 
 ```sh
-npm i -g @wsdev/ws-cli
+npm i -g @websolutespa/ws-cli
 ```
 ### Create 
 
@@ -30,8 +25,8 @@ The monorepo includes the following packages and samples:
 
 |package                      |version                                                                                                           | changelog                                   |
 |:----------------------------|:---------------------------------------------------------------------------------------------------------------- |:--------------------------------------------|	
-|[ws-vite](packages/ws-vite)  |[![ws-vite version](https://img.shields.io/npm/v/@wsdev/ws-vite.svg?label=%20)](packages/ws-vite/CHANGELOG.md)    |[changelog](packages/ws-vite/CHANGELOG.md)   |
-|[ws-cli](packages/ws-vite)   |[![ws-cli version](https://img.shields.io/npm/v/@wsdev/ws-cli.svg?label=%20)](packages/ws-cli/CHANGELOG.md)       |[changelog](packages/ws-cli/CHANGELOG.md)    |
+|[ws-vite](packages/ws-vite)  |[![ws-vite version](https://img.shields.io/npm/v/@websolutespa/ws-vite.svg?label=%20)](packages/ws-vite/CHANGELOG.md)    |[changelog](packages/ws-vite/CHANGELOG.md)   |
+|[ws-cli](packages/ws-vite)   |[![ws-cli version](https://img.shields.io/npm/v/@websolutespa/ws-cli.svg?label=%20)](packages/ws-cli/CHANGELOG.md)       |[changelog](packages/ws-cli/CHANGELOG.md)    |
 
 ## Samples
 

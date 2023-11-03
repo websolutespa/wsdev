@@ -1,6 +1,6 @@
 # 🔵 WsVite
 
-Todo
+Twig sample, a boilerplate built with 🖤 by Websolute
 
 ### Install 
 
