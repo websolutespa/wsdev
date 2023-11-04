@@ -5,6 +5,7 @@ import theme from 'virtual:theme';
 import 'virtual:theme.css';
 import '../css/main.scss';
 import { lazyload } from './common/lazyload';
+import { colorScheme } from './components/color-scheme';
 import { lenis } from './components/lenis';
 
 const USE_LENIS = true;
@@ -14,6 +15,7 @@ addEventListener('DOMContentLoaded', () => {
     window.lenis = lenis();
   }
   lazyload(document);
+  colorScheme();
 });
 
 if (import.meta.env.DEV) {

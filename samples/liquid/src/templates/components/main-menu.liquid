@@ -7,7 +7,13 @@
       </li>
     {% endfor %}
     <li>
-      <a href='https://github.com/websolutespa/wsdev' title='WsDev'>
+      <div class='toggle'>
+        <input class='toggle__control' type='checkbox' name='color-scheme' id='color-scheme'>
+        <label class='toggle__label' for='color-scheme'> Toggle light / dark mode </label>
+      </div>
+    </li>
+    <li>
+      <a href='https://github.com/actarian/wsdev' title='WsDev'>
         {{ 'github' | icon }}
       </a>
     </li>

@@ -105,10 +105,12 @@ function queryNodes(nodes) {
       [nodes]
     )
   ).forEach(node => {
-    const nodes = Array.from(node.querySelectorAll('[data-module]'));
-    filteredNodes.push(...nodes);
-    if ('hasAttribute' in node && node.hasAttribute('data-module')) {
-      filteredNodes.push(node);
+    if (typeof node.querySelectorAll === 'function') {
+      const nodes = Array.from(node.querySelectorAll('[data-module]'));
+      filteredNodes.push(...nodes);
+      if ('hasAttribute' in node && node.hasAttribute('data-module')) {
+        filteredNodes.push(node);
+      }
     }
   });
   return filteredNodes;

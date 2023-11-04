@@ -4,11 +4,7 @@
   justify-content: center;
   min-height: min(70vh, 600px);
   min-height: min(--webkit-fill-available, 600px);
-  // background: linear-gradient(180deg, #101010 0%, #383838 100%);
-  background: #383838;
-  background: radial-gradient(circle, #383838 0%, #101010 70%, #101010 100%);
-  background-attachment: fixed;
-  background-size: 100% 200%;
+  @extend .radial;
 
   .container {
     display: flex;
