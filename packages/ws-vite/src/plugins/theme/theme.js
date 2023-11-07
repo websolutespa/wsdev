@@ -6,6 +6,11 @@ function isNumber(value) {
   return typeof value == 'number';
 }
 
+function isUnit(value) {
+  return isNumber(value) ||
+    (value === (parseInt(value) + 'px'));
+}
+
 function isString(value) {
   return typeof value == 'string';
 }
@@ -28,21 +33,33 @@ function isMediaMap(value) {
   return false;
 }
 
-function isList(value) {
-  if (isArray(value)) {
-    return value.reduce((p, c) => {
-      return p && (isNumber(c) || isList(c));
+function isListOfUnit(value) {
+  return isArray(value) &&
+    value.reduce((p, c) => {
+      return p && isUnit(c);
     }, true);
-  }
-  return false;
+}
+
+function isListOfManyUnit(value) {
+  return isArray(value) &&
+    value.reduce((p, c) => {
+      return p && (isUnit(c) || isListOfUnit(c));
+    }, true);
 }
 
 function isListOfMany(value) {
-  return isList(value) && value.length > 2;
+  return isListOfManyUnit(value) && value.length > 2;
 }
 
 function isListOfTwo(value) {
-  return isList(value) && value.length == 2;
+  return isListOfUnit(value) && value.length == 2;
+}
+
+function listToUnits(value) {
+  return value.map(x => isArray(x) ?
+    listToUnits(x) :
+    parseInt(String(x))
+  );
 }
 
 function isVariant(value) {
@@ -56,8 +73,8 @@ function toScssMap(value) {
 }
 
 function toScssList(value) {
-  if (isNumber(value)) {
-    return value;
+  if (isUnit(value)) {
+    return parseInt(String(value));
   } else {
     return `(${value.map((x) => toScssList(x)).join(', ')})`;
   }
@@ -93,7 +110,8 @@ function parseValue(value, breakpoint, parentKey = '', collection = { names: [],
                 return '';
               }
               if (isListOfTwo(expression)) {
-                expression = toMinMax(expression[0], expression[1], breakpoint);
+                const units = listToUnits(expression);
+                expression = toMinMax(units[0], units[1], breakpoint);
               }
               if (i === 0) {
                 return `${S}--${key}: ${expression};`;

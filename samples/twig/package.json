@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite dev --host",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start": "npm run dev"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.27"
