@@ -1,7 +1,7 @@
 @import './card';
-@import './components';
-@import './hero';
-@import './listing';
-@import './main-menu';
-@import './text-only';
 @import './toggle';
+@import '../../templates/components/components';
+@import '../../templates/components/hero/hero';
+@import '../../templates/components/listing/listing';
+@import '../../templates/components/main-menu/main-menu';
+@import '../../templates/components/text-only/text-only';

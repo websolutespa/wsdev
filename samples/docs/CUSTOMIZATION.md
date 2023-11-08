@@ -15,7 +15,6 @@ export default wsVite({
   paths: {
     src: './src',
     dist: './dist',
-    templates: './src/templates',
     assets: './src/assets',
     icons: './src/assets/icons',
   },

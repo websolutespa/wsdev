@@ -4,12 +4,10 @@
   position: relative;
   cursor: pointer;
 
-  /*
   .container {
     mix-blend-mode: difference;
     backdrop-filter: opacity(1); // fixes the chrome-bug
   }
-  */
 
   &:before,
   &:after {

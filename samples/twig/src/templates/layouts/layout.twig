@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ layout.locale }}" xml:lang="{{ layout.locale }}">
   <head>
-    {% include '../sections/meta.twig' %}
+    {% include '../sections/meta/meta.twig' %}
     {% block meta %}{% endblock %}
     <script type="module" src="/js/main.js"></script>
     <link rel="stylesheet" href="/css/main.scss">
@@ -13,9 +13,9 @@
     {% block head %}{% endblock %}
   </head>
   <body class="{% block body_class %}{% endblock %}">
-    {% include '../sections/header.twig' %}
+    {% include '../sections/header/header.twig' %}
     {% block main %}{% endblock %}
-    {% include '../sections/footer.twig' %}
+    {% include '../sections/footer/footer.twig' %}
     {% block body %}{% endblock %}
   </body>
 </html>
