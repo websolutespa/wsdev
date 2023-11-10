@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang='{{ layout.locale }}' xml:lang='{{ layout.locale }}'>
   <head>
-    {% include '../sections/meta.liquid' %}
+    {% include '../components/meta/meta.liquid' %}
     {% block meta %}
     {% endblock %}
     <script type='module' src='/js/main.js'></script>
@@ -15,10 +15,10 @@
     {% endblock %}
   </head>
   <body class='{% block body_class -%}{%- endblock %}'>
-    {% include '../sections/header.liquid' %}
+    {% include '../components/header/header.liquid' %}
     {% block main -%}
     {%- endblock %}
-    {% include '../sections/footer.liquid' %}
+    {% include '../components/footer/footer.liquid' %}
     {% block body -%}
     {%- endblock %}
   </body>

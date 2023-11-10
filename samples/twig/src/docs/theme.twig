@@ -1,0 +1,191 @@
+{% extends '/templates/layouts/layout.twig' %}
+
+{% block head %}
+<link rel="stylesheet" href="/docs/theme.scss">
+<script type="module" src="/docs/theme.js"></script>
+{% endblock %}
+
+{% block body_class %}theme{% endblock %}
+
+{% block main %}
+<main>
+
+  <section class="hero py-80">
+    <div class="container">
+      <h1 class="display20 fw-700">Theme</h1>
+      <div class="display40">
+        Theme provided by <a class="link" href="#theme" data-modal="#theme">theme.json</a>
+      </div>
+    </div>
+  </section>
+
+  {# theme #}
+  <section class="theme__modal" id="theme">
+    <div class="theme__backdrop" data-modal="#theme"></div>
+    <div class="container">
+      <code data-theme></code>
+    </div>
+    <button class="theme__close" data-modal="#theme">
+      <span>close</span>
+    </button>
+  </section>
+
+  {# colors #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Colors</div>
+      <div class="theme__variants">
+        {% for name, variant in theme.color %}
+        <div class="theme__variant">
+          <div class="theme__name">{{ name }}</div>
+          <div class="theme__color">
+            {% for color in variant %}
+            <div class="theme__block" style="{{style({ backgroundColor: color })}}">
+              {{ color }}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {# typography #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Typography</div>
+      <div class="theme__variants">
+        {% for name, variation in theme.typography %}
+        <div class="theme__variant">
+          <div class="theme__name">{{ name }}</div>
+          <div class="theme__font {{name}}" style="{{style(variation)}}">
+            {{ name }}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {# container #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Container</div>
+    </div>
+    <div class="theme__variants">
+      {% for name, variation in theme.container %}
+      <div class="theme__variant">
+        <div class="container">
+          <div class="theme__name">{{ name }}</div>
+        </div>
+        <div class="container{{name == 'default' ? '' : '-' ~ name }}">
+          <div class="theme__block"></div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+
+  {# grid #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Grid</div>
+      <div class="theme__variants">
+        {% for name, variation in theme.grid %}
+        <div class="theme__variant">
+          <div class="theme__name">{{ name }}</div>
+          <div class="grid">
+            <div class="grid-6 grid-md-6">
+              <div class="theme__block">grid-md-6</div>
+            </div>
+            <div class="grid-6 grid-md-6">
+              <div class="theme__block">grid-md-6</div>
+            </div>
+            <div class="grid-6 grid-md-4">
+              <div class="theme__block">grid-md-4</div>
+            </div>
+            <div class="grid-6 grid-md-4">
+              <div class="theme__block">grid-md-4</div>
+            </div>
+            <div class="grid-6 grid-md-4">
+              <div class="theme__block">grid-md-4</div>
+            </div>
+            <div class="grid-6 grid-md-3">
+              <div class="theme__block">grid-md-3</div>
+            </div>
+            <div class="grid-6 grid-md-3">
+              <div class="theme__block">grid-md-3</div>
+            </div>
+            <div class="grid-6 grid-md-3">
+              <div class="theme__block">grid-md-3</div>
+            </div>
+            <div class="grid-6 grid-md-3">
+              <div class="theme__block">grid-md-3</div>
+            </div>
+            <div class="grid-6 grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+            <div class="grid-6 grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+            <div class="grid-6 grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+            <div class="grid-6 grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+            <div class="grid-6 grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+            <div class="grid-md-2">
+              <div class="theme__block">grid-md-2</div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  {# padding #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Padding</div>
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__name">padding</div>
+          {% for key in ['pt', 'pr', 'pb', 'pl', 'py', 'px', 'p'] %}
+          <div class="theme__list theme__list--center">
+            {% for size in ['4', '8', '12', '16', '24', '32', '40', '48', '64', '80', '96', '128', '160'] %}
+            <div class="theme__padding {{key}}-{{size}}">{{key}}-{{size}}</div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {# margin #}
+  <section class="py-64">
+    <div class="container">
+      <div class="theme__title">Margin</div>
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__name">margin</div>
+          {% for key in ['mt', 'mr', 'mb', 'ml', 'my', 'mx', 'm'] %}
+          <div class="theme__list theme__list--center">
+            {% for size in ['4', '8', '12', '16', '24', '32', '40', '48', '64', '80', '96', '128', '160'] %}
+            <div class="theme__margin">
+              <div class="{{key}}-{{size}}">{{key}}-{{size}}</div>
+            </div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+{% endblock %}

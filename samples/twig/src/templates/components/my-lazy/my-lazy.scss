@@ -1,0 +1,52 @@
+.my-lazy {
+  --my-lazy-color: blue;
+  background: var(--my-lazy-color);
+  position: relative;
+  cursor: pointer;
+
+  &__container {
+    color: rgba(0, 0, 0, 0.5);
+  }
+
+  /*
+  &__container {
+    mix-blend-mode: difference;
+    backdrop-filter: opacity(1); // fixes the chrome-bug
+  }
+  */
+
+  &:before,
+  &:after {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity ease-in-out 200ms;
+  }
+
+  &:before {
+    content: '';
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(30px);
+  }
+
+  &:after {
+    content: 'click me';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 4rem;
+  }
+
+  &:hover {
+
+    &:before,
+    &:after {
+      opacity: 1;
+    }
+  }
+}

@@ -52,6 +52,7 @@
     "typescriptreact"
   ],
   "explorer.autoReveal": true,
+  "explorer.compactFolders": false,
   "editor.definitionLinkOpensInPeek": false,
   "editor.gotoLocation.multipleDeclarations": "goto",
   "editor.gotoLocation.multipleDefinitions": "goto",

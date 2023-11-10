@@ -1,15 +1,10 @@
 <nav class="main-menu" role="navigation" aria-label="Main menu">
   <ul>
     {% for item in ['theme', 'images', 'icons'] %}
-    <li><a href="/{{ item }}.html">{{ item }}</a></li>
+    <li><a href="/docs/{{item}}.html">{{item}}</a></li>
     {% endfor %}
     <li>
-      <div class="toggle">
-        <input class="toggle__control" type="checkbox" name="color-scheme" id="color-scheme">
-        <label class="toggle__label" for="color-scheme">
-          Toggle light / dark mode
-        </label>
-      </div>
+      {% include '../toggle/toggle.twig' with { id: 'color-scheme', title: 'Toggle light / dark mode' } %}
     </li>
     <li>
       <a href='https://github.com/actarian/wsdev' title='WsDev'>

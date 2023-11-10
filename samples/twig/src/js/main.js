@@ -1,12 +1,13 @@
 import 'virtual:accessible';
-import icons from 'virtual:icons';
 import 'virtual:spritemap';
-import theme from 'virtual:theme';
 import 'virtual:theme.css';
 import '../css/main.scss';
+//
+import icons from 'virtual:icons';
+import theme from 'virtual:theme';
+import { colorScheme } from './common/color-scheme';
 import { lazyload } from './common/lazyload';
-import { colorScheme } from './components/color-scheme';
-import { lenis } from './components/lenis';
+import { lenis } from './common/lenis';
 
 const USE_LENIS = true;
 
