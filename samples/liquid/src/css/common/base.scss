@@ -9,3 +9,12 @@ body {
   height: auto;
   @include scrollbar();
 }
+
+[data-module] {
+  transition: opacity ease-in-out 200ms;
+
+  &:not(.init) {
+    min-height: 1px;
+    opacity: 0;
+  }
+}

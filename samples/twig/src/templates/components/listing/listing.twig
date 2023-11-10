@@ -1,0 +1,15 @@
+<section class="listing py-80">
+  <div class="container">
+    <div class="grid">
+      {% for i in 0..11 %}
+      <div class="{{ classNames({
+        'grid-6': i % 3 != 0,
+        'grid-sm-6': [0, 1].includes(i % 5),
+        'grid-sm-4': [2, 3, 4].includes(i % 5),
+      }) }}">
+        {% include '../listing-item/listing-item.twig' %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

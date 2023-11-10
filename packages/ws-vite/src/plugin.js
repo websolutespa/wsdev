@@ -18,7 +18,6 @@ const defaultOptions = {
   paths: {
     src: './src',
     dist: './dist',
-    templates: './src/templates',
     assets: './src/assets',
     icons: './src/assets/icons',
   },
@@ -65,7 +64,7 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
   const isBuilding = viteOptions.command === 'build';
   const isDev = viteOptions.mode === 'development';
   // console.log('env', viteOptions.env);
-  return {
+  const config = {
     root: paths.src,
     // publicDir: paths.assets,
     css: {
@@ -83,20 +82,23 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
         // output: output(options),
         output: {
           entryFileNames: (info) => {
+            // console.log('entryFileNames', info.name, info.type);
             if (isBuilding) {
               return `js/${info.name.replace(/\.twig|\.liquid/g, '')}.min.js`;
             }
             return 'js/[name].js';
           },
           chunkFileNames: (info) => {
+            // console.log('chunkFileNames', info.name, info.type);
             if (isBuilding) {
               return `js/${info.name.replace(/\.twig|\.liquid/g, '')}.min.js`;
             }
             return 'js/[name].js';
           },
           assetFileNames: (info) => {
+            // console.log('assetFileNames', info.name, info.type, isBuilding);
             if (info.name.indexOf('.css') !== -1) {
-              return `css/[name]${isBuilding ? '' : '.min'}.[ext]`;
+              return `css/[name]${isBuilding ? '.min' : ''}.[ext]`;
             } else {
               return 'assets/[name].[ext]';
             }
@@ -130,6 +132,8 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
       entries: [],
     },
   };
+  // console.log('wsViteConfig', config);
+  return config;
 }
 
 /*

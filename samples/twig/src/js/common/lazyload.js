@@ -1,4 +1,4 @@
-const LAZY_MODULES = import.meta.glob('../lazy/*.module.js');
+const LAZY_MODULES = import.meta.glob('../../templates/components/**/*.module.js');
 console.log('LAZY_MODULES', `[${Object.keys(LAZY_MODULES).join(',')}]`);
 
 const loaders = new WeakMap();
