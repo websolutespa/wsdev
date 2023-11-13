@@ -64,7 +64,7 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
   const paths = resolvePaths(options.paths);
   const isBuilding = viteOptions.command === 'build';
   const isDev = viteOptions.mode === 'development';
-  console.log(viteOptions.env);
+  // console.log('env', viteOptions.env);
   return {
     root: paths.src,
     // publicDir: paths.assets,
