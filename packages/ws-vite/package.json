@@ -1,6 +1,6 @@
 {
   "name": "@websolutespa/ws-vite",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Ws Vite plugin for Websolute boilerplates",
   "keywords": [
     "ws",

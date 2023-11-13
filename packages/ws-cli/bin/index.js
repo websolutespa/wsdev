@@ -234,6 +234,7 @@ async function createWizard(options) {
     s.stop("Installed via npm");
   }
   outro("You're all set!");
+  process2.exit(0);
 }
 
 // src/create/download.ts
@@ -332,8 +333,6 @@ async function doDownload(options) {
           path3.join(temporaryPath, ".vscode"),
           path3.join(outputPath, ".vscode")
         );
-        console.log("temporaryPath", temporaryPath);
-        console.log("outputPath", outputPath);
         await removeDirectory(temporaryPath);
         return results;
       }
