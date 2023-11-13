@@ -10,14 +10,6 @@ export default wsVite({
     icons: './src/assets/icons',
   },
   theme,
-  /*
-  twig: {
-    globals: {
-      ...main,
-      theme,
-    },
-  },
-  */
   liquid: {
     globals: {
       ...main,

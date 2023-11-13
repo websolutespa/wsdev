@@ -16,14 +16,6 @@ export default wsVite({
       theme,
     },
   },
-  /*
-  liquid: {
-    globals: {
-      ...main,
-      theme,
-    },
-  },
-  */
   icons: true,
   image: true,
   html: {
