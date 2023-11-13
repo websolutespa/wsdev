@@ -136,6 +136,7 @@ export async function createWizard(options: CreateOptions) {
 
   // complete
   outro('You\'re all set!');
+  process.exit(0);
 
   /*
   outro(`You\'re all set!

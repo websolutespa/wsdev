@@ -104,8 +104,8 @@ export async function doDownload(options: ICreateOptions): Promise<unknown> {
           path.join(outputPath, '.vscode')
         );
 
-        console.log('temporaryPath', temporaryPath);
-        console.log('outputPath', outputPath);
+        // console.log('temporaryPath', temporaryPath);
+        // console.log('outputPath', outputPath);
 
         await removeDirectory(temporaryPath);
 
