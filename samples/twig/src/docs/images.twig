@@ -44,7 +44,7 @@
             </p>
             <p>The default loading method is <em>lazy</em>.</p>
           </div>
-          <code>&#123;&#123;image(&#123; src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 &#125;)&#125;&#125;</code>
+          <code>{% raw %}{{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}{% endraw %}</code>
           <code>&lt;img
   src="/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540&amp;f=webp"
   width="1440"
@@ -61,7 +61,7 @@
           <div class="theme__title">
             <p>You can use a <em>srcset</em> array with the helper to generate a list of srcset images.</p>
           </div>
-          <code>&#123;&#123;image(&#123; src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] &#125;)&#125;&#125;</code>
+          <code>{% raw %}{{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}{% endraw %}</code>
           <code>&lt;img
   srcset="/@image:/assets/img/mountains-02.jpg?w=810&amp;f=webp 810w,
   /@image:/assets/img/mountains-02.jpg?w=1080&amp;f=webp 1080w,
@@ -82,13 +82,13 @@
           <div class="theme__title">
             <p>You can use a <em>src</em> array to generate a list of source images with different ratios associated to the query breakpoints.</p>
           </div>
-          <code>&#123;&#123;image(&#123; src: [
+          <code>{% raw %}{{image({ src: [
   { src: '/assets/img/mountains-02.jpg', width: 768,  height: 614, down: 'xs' },
   { src: '/assets/img/mountains-02.jpg', width: 1024, height: 682, down: 'sm' },
   { src: '/assets/img/mountains-02.jpg', width: 1440, height: 822, down: 'md' },
-  { src: '/assets/img/mountains-02.jpg', width: 1600, height: 800, up: 'lg' }
-&#125;)&#125;&#125;</code>
-<code>&lt;source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614"&gt;
+  { src: '/assets/img/mountains-02.jpg', width: 1600, height: 800, up: 'lg' },
+})}}{% endraw %}</code>
+          <code>&lt;source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614"&gt;
 &lt;source media="(max-width: 1023.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1024&amp;h=682&amp;f=webp" width="1024" height="682"&gt;
 &lt;source media="(max-width: 1439.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1440&amp;h=822&amp;f=webp" width="1440" height="822"&gt;
 &lt;img src="/@image:/assets/img/mountains-02.jpg?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture"&gt;</code>
@@ -114,22 +114,22 @@
           <picture class="theme__picture">
             <img loading="lazy" src="/@image:placehold?w=1440&h=540" width="1440" height="540" alt="Picture" />
           </picture>
-          <code>&#123;&#123;image(&#123; width: 1440, height: 540 &#125;)&#125;&#125;</code>
+          <code>{% raw %}{{image({ width: 1440, height: 540 })}}{% endraw %}</code>
           <div class="theme__name">/@image:placehold?w=1080&h=540</div>
           <picture class="theme__picture">
             {{image({ width: 1080, height: 540 })}}
           </picture>
-          <code>&#123;&#123;image(&#123; width: 1440, height: 540, srcset: [810, 1080, 1440] &#125;)&#125;&#125;</code>
+          <code>{% raw %}{{image({ width: 1440, height: 540, srcset: [810, 1080, 1440] })}}{% endraw %}</code>
           <div class="theme__name">/@image:placehold?w=810&h=405 810w, /@image:placehold?w=1080&h=540 1080w, /@image:placehold?w=1440&h=720 1440w</div>
           <picture class="theme__picture">
             {{image({ width: 1080, height: 540, srcset: [810, 1080, 1440] })}}
           </picture>
-          <code>&#123;&#123;image(&#123; src: [
+          <code>{% raw %}{{image({ src: [
   { width: 768,  height: 614, down: 'xs' },
   { width: 1024, height: 682, down: 'sm' },
   { width: 1440, height: 822, down: 'md' },
   { width: 1600, height: 800, up: 'lg' }
-&#125;)&#125;&#125;</code>
+})}}{% endraw %}</code>
           <picture class="theme__picture">
             {{image({ src: [
               { width: 768,  height: 614, down: 'xs' },
