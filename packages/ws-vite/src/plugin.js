@@ -12,7 +12,9 @@ import { server } from './utils/server.js';
 // import { criticalPlugin } from './plugins/critical.js';
 // import { dynamicPlugin } from './plugins/dynamic-import.js';
 // import { purgePlugin } from './plugins/purge.js';
-// const require = createRequire(import.meta.url);
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+const packageJson = require('../package.json');
 
 const defaultOptions = {
   paths: {
@@ -69,6 +71,9 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
     // publicDir: paths.assets,
     css: {
       devSourcemap: true,
+    },
+    define: {
+      'import.meta.env.WS_VITE': JSON.stringify(packageJson.version),
     },
     plugins: [
       wsVitePlugin(options),

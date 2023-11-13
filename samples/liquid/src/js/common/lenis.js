@@ -1,13 +1,18 @@
 import Lenis from '@studio-freight/lenis';
 
+const USE_LENIS = true;
+
 export const lenis = () => {
-  const lenis = new Lenis({
-    smoothTouch: true,
-  });
-  function raf(time) {
-    lenis.raf(time);
+  if (USE_LENIS) {
+    const lenis = new Lenis({
+      smoothTouch: true,
+    });
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
     requestAnimationFrame(raf);
+    window.lenis = lenis;
   }
-  requestAnimationFrame(raf);
   return lenis;
 };

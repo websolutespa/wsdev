@@ -1,10 +1,10 @@
 const LAZY_MODULES = import.meta.glob('../../templates/components/**/*.module.js');
-console.log('LAZY_MODULES', `[${Object.keys(LAZY_MODULES).join(',')}]`);
+// console.log('LAZY_MODULES', Object.keys(LAZY_MODULES).join(','));
 
 const loaders = new WeakMap();
 const modules = new Map();
 
-export function lazyload(targetNode = document, callback = () => { }) {
+export function lazyLoad(targetNode = document, callback = () => { }) {
   const disposables = new Map();
   if (loaders.has(targetNode)) {
     throw ('node already registered');
@@ -23,7 +23,7 @@ export function lazyload(targetNode = document, callback = () => { }) {
   const nodes = queryNodes(targetNode);
   nodes.forEach(node => intersectionObserver.observe(node));
   const dispose = () => {
-    console.log('lazy.dispose');
+    // console.log('lazy.dispose');
     intersectionObserver.disconnect();
     mutationObserver.disconnect();
     disposables.forEach(dispose => dispose());
@@ -35,7 +35,7 @@ export function lazyload(targetNode = document, callback = () => { }) {
 async function load(node, cache) {
   let dispose;
   const key = node.getAttribute('data-module');
-  console.log(key);
+  // console.log(key);
   if (cache.has(key)) {
     const module = cache.get(key);
     dispose = module.default(node);
@@ -46,7 +46,7 @@ async function load(node, cache) {
     });
     if (loader) {
       const module = await loader[1]();
-      console.log(module);
+      // console.log(module);
       dispose = module.default(node);
       node.classList.add('init');
       cache.set(key, module);
@@ -87,9 +87,11 @@ function observeMutations(targetNode = document, callback = () => { }) {
         if (typeof callback === 'function') {
           callback(mutation);
         }
-      } else if (mutation.type === 'attributes') {
+      }
+      /* else if (mutation.type === 'attributes') {
         console.log(`The ${mutation.attributeName} attribute was modified.`);
       }
+      */
     }
   });
   observer.observe(targetNode, config);

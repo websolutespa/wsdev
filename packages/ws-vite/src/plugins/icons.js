@@ -134,7 +134,7 @@ if (typeof window !== 'undefined') {
     spritemap.innerHTML = ${JSON.stringify(cleanedSpritemap)};
     body.insertBefore(spritemap, body.${options.insert === 'before' ? 'firstChild' : 'lastChild'});
   }
-  if(document.readyState === 'loading') {
+  if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', loadSpritemap);
   } else {
     loadSpritemap()

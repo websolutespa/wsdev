@@ -28,11 +28,17 @@ export const getImageSrcSet = ({ src, srcset, breakpoint, loading, ...img }) => 
   if (srcset === true) {
     srcset = [640, 960, 1440, 1920];
   }
+  const ratio = img.width && img.height ? img.width / img.height : 0;
   const widths = [...srcset];
   let srcId, width;
   srcset = widths
     .map(x => {
-      const id = getImageSrc({ src, width: x, format: img.format });
+      const id = getImageSrc({
+        src,
+        width: x,
+        ...(ratio ? { height: x / ratio } : {}),
+        format: img.format,
+      });
       srcId = id;
       width = x;
       return `${id} ${x}w`;

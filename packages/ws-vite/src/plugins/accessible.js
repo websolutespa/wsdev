@@ -8,6 +8,7 @@ export const accessiblePlugin = (userOptions) => {
     userOptions = {};
   }
   const options = {
+    level: 2, // 0 inapplicable, 1 passes, 2 incomplete, 3 violations
     ...userOptions,
   };
   const MODULE_ID = 'virtual:accessible';
@@ -36,30 +37,47 @@ export const accessiblePlugin = (userOptions) => {
         if (currentConfig.mode === 'development') {
           let code = `
   if (typeof window !== 'undefined') {
+    const level = ${options.level};
+    function logViolations(results) {
+      const count = results.violations.length;
+      // console.info('%c' + results.testEngine.name + ' ' + results.testEngine.version, 'color: #757575');
+      console.info(
+        '%c' + count + ' accessibility issues found',
+        count > 0 ? 'color: #c353c3' : 'color: #0dbc79'
+      );
+    }
     function logViolation(item) {
-      console.group('%c[' + item.impact + '] ' + item.id, 'color: #c353c3');
-      console.info('%c' + item.description, 'color: #e5e5e5');
-      console.info('%c' + item.help, 'color: #14a8cd');
-      console.info('%c' + item.helpUrl, 'color: #757575');
-      console.groupCollapsed('elements');
-      item.nodes.forEach(x => {
-        const nodes = document.querySelectorAll(...x.target);
-        console.info(nodes);
-      });
-      console.groupEnd();
+      console.group(
+        '%c[' + item.impact + '] ' + item.id,
+        item.impact === 'serious' ?
+          'color: #c353c3' :
+          'color: #ff9800'
+      );
+        console.info('%c' + item.description, 'color: #e5e5e5');
+        console.info('%c' + item.help, 'color: #14a8cd');
+        console.info('%c' + item.helpUrl, 'color: #757575');
+        console.groupCollapsed('elements');
+          item.nodes.forEach(x => {
+            const nodes = document.querySelectorAll(...x.target);
+            console.info(nodes);
+          });
+        console.groupEnd();
       console.groupEnd();
     }
     function logPasses(item) {
+      if (level > 1) {
+        return;
+      }
       console.groupCollapsed('%c[passed] ' + item.id, 'color: #0dbc79');
-      console.info('%c' + item.description, 'color: #e5e5e5');
-      console.info('%c' + item.help, 'color: #14a8cd');
-      console.info('%c' + item.helpUrl, 'color: #757575');
-      console.groupCollapsed('elements');
-      item.nodes.forEach(x => {
-        const nodes = document.querySelectorAll(...x.target);
-        console.info(nodes);
-      });
-      console.groupEnd();
+        console.info('%c' + item.description, 'color: #e5e5e5');
+        console.info('%c' + item.help, 'color: #14a8cd');
+        console.info('%c' + item.helpUrl, 'color: #757575');
+        console.groupCollapsed('elements');
+          item.nodes.forEach(x => {
+            const nodes = document.querySelectorAll(...x.target);
+            console.info(nodes);
+          });
+        console.groupEnd();
       console.groupEnd();
     }
     function runAxe() {
@@ -72,7 +90,7 @@ export const accessiblePlugin = (userOptions) => {
             .run()
             .then(results => {
               // console.log('axe', results);
-              console.info(results.violations.length + ' accessibility issues found');
+              logViolations(results);
               results.violations.forEach(x => logViolation(x));
               results.passes.forEach(x => logPasses(x));
             });

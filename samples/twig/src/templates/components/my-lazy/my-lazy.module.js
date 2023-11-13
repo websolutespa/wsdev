@@ -6,12 +6,12 @@ import './my-lazy.scss';
  * @returns
  */
 function MyLazyModule(node) {
-  console.log('MyLazyModule');
+  // console.log('MyLazyModule');
   node.addEventListener('click', () => {
     cloneNode(node.outerHTML);
   });
   return () => {
-    console.log('MyLazyModule.dispose');
+    // console.log('MyLazyModule.dispose');
   };
 }
 

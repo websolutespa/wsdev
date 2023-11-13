@@ -78,10 +78,21 @@ function collectElements(html) {
  * @returns {string}
  */
 export function prettifyHtml(html, options) {
+  const codes = {}; let i = 0;
+  html = html.replace(/<code>([\S\s]*?)<\/code>/gm, function(match, group) {
+    const key = '$$code' + i + '$$';
+    i++;
+    codes[key] = group;
+    return key;
+  });
   let elements = collectElements(html);
   if (options === true) {
     options = {};
   }
   elements = indentElements(elements, options);
-  return elements.join('\n');
+  html = elements.join('\n');
+  Object.entries(codes).forEach(([k, v]) => {
+    html = html.replace(k, '<code>' + v + '</code>');
+  });
+  return html;
 }
