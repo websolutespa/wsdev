@@ -5,6 +5,16 @@
 Boilerplates use an integrated and versatile theming system.
 All the configurations happens on [theme.json](src/theme/theme.json) where all the properties will be converted to both scss vars and css vars.  
 
+### Usage
+
+Importing the `virtual:theme.css` assets in your `main.js` 
+will include all the generated css vars in your `main.css`.
+
+***src/js/main.js***
+```js
+import 'virtual:theme.css';
+```
+
 For example this object:
 
 ```json

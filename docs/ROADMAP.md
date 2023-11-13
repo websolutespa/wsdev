@@ -36,7 +36,7 @@ Here you can view an operational roadmap of the actual and future functionality 
 |sample           |liquid            |                               |✅          |
 |sample           |shopify           |                               |🕣          |
 |sample           |react             |                               |🕣          |
-|sample           |helpers           |img srcset                     |✅          |
+|sample           |helpers           |image, icon                    |✅          |
 |sample           |emails            |                               |🕣          |
 |sample           |forms             |                               |🕣          |
 |sample           |framework js      |                               |❓          |

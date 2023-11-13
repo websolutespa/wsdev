@@ -20,11 +20,15 @@
 [data-scheme="light"] {
   --color-background: var(--color-neutral-100);
   --color-foreground: var(--color-neutral-900);
+  --color-background-negative: var(--color-neutral-900);
+  --color-foreground-negative: var(--color-neutral-100);
 }
 
 [data-scheme="dark"] {
   --color-background: var(--color-neutral-900);
   --color-foreground: var(--color-neutral-100);
+  --color-background-negative: var(--color-neutral-100);
+  --color-foreground-negative: var(--color-neutral-900);
 }
 
 .positive {
@@ -33,8 +37,8 @@
 }
 
 .negative {
-  background: var(--color-foreground);
-  color: var(--color-background);
+  background: var(--color-background-negative);
+  color: var(--color-foreground-negative);
 }
 
 body {

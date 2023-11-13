@@ -42,13 +42,7 @@
 
     &>.theme__block {
       flex: 1 1 10%;
-
-      &:nth-child(1),
-      &:nth-child(2),
-      &:nth-child(3),
-      &:nth-child(4) {
-        color: black;
-      }
+      outline: 1px solid rgba(128, 128, 128, 0.1)
     }
   }
 
@@ -172,5 +166,38 @@
     overflow-y: hidden;
     padding-right: 15px; // Avoid width reflow
     */
+  }
+}
+
+[data-scheme="light"] {
+  .theme {
+    &__color {
+      &>.theme__block {
+
+        &:nth-child(5),
+        &:nth-child(6),
+        &:nth-child(7),
+        &:nth-child(8),
+        &:nth-child(9) {
+          color: var(--color-foreground-negative);
+        }
+      }
+    }
+  }
+}
+
+[data-scheme="dark"] {
+  .theme {
+    &__color {
+      &>.theme__block {
+
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3),
+        &:nth-child(4) {
+          color: var(--color-foreground-negative);
+        }
+      }
+    }
   }
 }
