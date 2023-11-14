@@ -20,8 +20,9 @@ const defaultOptions = {
   paths: {
     src: './src',
     dist: './dist',
-    assets: './src/assets',
-    icons: './src/assets/icons',
+    assets: './assets',
+    images: './assets/img',
+    icons: './assets/icons',
   },
   server: {
     host: 'localhost',
@@ -44,9 +45,12 @@ export function wsVitePlugin(userOptions) {
     liquidPlugin(options.liquid),
     iconsPlugin(options.icons ? {
       dirs: [paths.iconsPath],
-      ...options.icons,
+      ...(typeof options.icons === 'boolean' ? {} : options.icons),
     } : null),
-    imagePlugin(options.image),
+    imagePlugin(options.image ? {
+      ...paths,
+      ...(typeof options.image === 'boolean' ? {} : options.image),
+    } : null),
     htmlPlugin(options.html),
     accessiblePlugin(options.accessible),
     // dynamicPlugin(options.dynamic),

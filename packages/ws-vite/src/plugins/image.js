@@ -57,13 +57,16 @@ export const getImageSrcSet = ({ src, srcset, breakpoint, loading, ...img }) => 
   };
 };
 
-function keyToSrc(key) {
+function keyToSrc(key, userOptions) {
   const [src, query] = key.split('?');
   const searchParams = new URLSearchParams(query);
   const components = path.parse(src);
   const keys = ['w', 'h'];
   const values = keys.filter(k => searchParams.has(k)).map(k => searchParams.get(k));
   const format = 'webp';
+  if (components.name === 'placehold') {
+    components.dir = path.join('/', userOptions.images);
+  }
   return path.join(components.dir, `${[components.name, ...values].join('_')}.${format}`);
 }
 
@@ -142,6 +145,29 @@ export const imagePlugin = (userOptions) => {
       if (currentConfig.command !== 'build') {
         return null;
       }
+      const regExp = new RegExp(`(="|=')(${ID})(.+?)("|'|\\s,|,)`, 'g');
+      html = html.replace(
+        regExp,
+        (m, g1, g2, g3, g4) => {
+          const key = g2 + g3;
+          if (!pool.has(key)) {
+            pool.set(key, null);
+          }
+          const src = keyToSrc(g3, userOptions);
+          console.log(src);
+          return g1 + src + g4;
+        }
+      );
+      return html;
+    },
+
+    async transformIndexHtml_(html, { filename }) {
+      if (!isHtml(filename, options.filter)) {
+        return;
+      }
+      if (currentConfig.command !== 'build') {
+        return null;
+      }
       // replace src
       const regExpSrc = new RegExp(`(src="|src=')(${ID})(.+?)("|')`, 'g');
       html = html.replace(
@@ -151,7 +177,7 @@ export const imagePlugin = (userOptions) => {
           if (!pool.has(key)) {
             pool.set(key, null);
           }
-          const src = keyToSrc(g3);
+          const src = keyToSrc(g3, userOptions);
           // console.log(src);
           return g1 + src + g4;
         }
@@ -169,7 +195,7 @@ export const imagePlugin = (userOptions) => {
               if (!pool.has(key)) {
                 pool.set(key, null);
               }
-              const src = keyToSrc(g2);
+              const src = keyToSrc(g2, userOptions);
               // console.log('regExpSrcSet2.key', key, src + g3);
               return src + g3;
             }
@@ -232,11 +258,12 @@ export const imagePlugin = (userOptions) => {
         // console.log(key);
         const [_, src] = key.split(basePath);
         // console.log('src', src);
-        const output = keyToSrc(src);
+        const output = keyToSrc(src, userOptions);
         const folder = path.dirname(output);
         const basename = path.basename(output);
         const outputFolder = path.join(currentConfig.build.outDir, folder);
         const outputFile = path.join(outputFolder, basename);
+        console.log(output, outputFolder);
         const image = await resolveImage({ src, root: currentConfig.root });
         if (!fs.existsSync(outputFolder)) {
           fs.mkdirSync(outputFolder, { recursive: true });

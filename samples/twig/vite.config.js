@@ -6,8 +6,9 @@ export default wsVite({
   paths: {
     src: './src',
     dist: './dist',
-    assets: './src/assets',
-    icons: './src/assets/icons',
+    assets: './assets',
+    images: './assets/img',
+    icons: './assets/icons',
   },
   theme,
   twig: {

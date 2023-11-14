@@ -5,7 +5,7 @@ export function folder() {
   return folder;
 }
 
-export function resolvePaths({ src, dist, assets, icons }) {
+export function resolvePaths({ src, dist, assets, images, icons }) {
   const folder = process.cwd();
   // console.log('folder', folder);
   const metaUrlPath = path.normalize(import.meta.url);
@@ -21,11 +21,13 @@ export function resolvePaths({ src, dist, assets, icons }) {
     src,
     dist,
     assets,
+    images,
     icons,
     srcPath: path.resolve(folder, src),
     distPath: path.resolve(folder, dist),
-    assetsPath: path.resolve(folder, assets),
-    iconsPath: path.resolve(folder, icons),
+    assetsPath: path.resolve(folder, src, assets),
+    imagesPath: path.resolve(folder, src, images),
+    iconsPath: path.resolve(folder, src, icons),
     nodeModulesPath: nodeModulesPath,
     nodeModulesAliasPath: nodeModulesAliasPath,
   };
