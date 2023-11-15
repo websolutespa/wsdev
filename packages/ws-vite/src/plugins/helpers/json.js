@@ -1,8 +1,8 @@
 
-export function getJson(json) {
+export function jsonParse(json) {
   return JSON.parse(json);
 }
 
-export function toJson(json) {
+export function jsonStringify(json) {
   return JSON.stringify(json, null, 2);
 }

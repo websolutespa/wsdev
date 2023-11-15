@@ -10,14 +10,16 @@ Available templating engines are [twig](../samples/twig/README.md) and [liquid](
 
 Available custom helpers are:
 
-|helper                     | description                                                   |
-|:--------------------------|:--------------------------------------------------------------|
-|[classNames](#classNames)  |helper for class names based on conditions                     |
-|[icon](#icon)              |icon svg helper                                                |
-|[image](#image)            |image helper for srcset, sizes and source image optimization   |
-|[json](#json)              |a json parser                                                  |
-|[toJson](#toJson)          |a json serializer                                              |
-|[style](#style)            |a style helper for conversion between object to style notation |
+|helper                          | description                                                   |
+|:-------------------------------|:--------------------------------------------------------------|
+|[classNames](#classNames)       |helper for class names based on conditions                     |
+|[htmlDecode](#htmlDecode)       |an html decoder                                                |
+|[htmlEncode](#htmlEncode)       |an html encoder                                                |
+|[icon](#icon)                   |icon svg helper                                                |
+|[image](#image)                 |image helper for srcset, sizes and source image optimization   |
+|[jsonParse](#jsonParse)         |a json parser                                                  |
+|[jsonStringify](#jsonStringify) |a json serializer                                              |
+|[style](#style)                 |a style helper for conversion between object to style notation |
 
 #### classNames
 
@@ -37,16 +39,22 @@ Available custom helpers are:
 {{image({ src: '/assets/img/picture.jpg', width: 1440, height: 540, alt: 'Picture' })}}
 ```
 
-#### toJson
+#### jsonParse
 
 ```twig
-{{json({ "item": 1 })}}
+{{jsonParse({ "item": 1 })}}
+```
+
+#### jsonStringify
+
+```twig
+{{jsonStringify(item)}}
 ```
 
 #### style
 
 ```twig
-{{toJson(item)}}
+{{style(item)}}
 ```
 
 ---

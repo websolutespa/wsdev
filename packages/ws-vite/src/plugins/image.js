@@ -145,7 +145,7 @@ export const imagePlugin = (userOptions) => {
       if (currentConfig.command !== 'build') {
         return null;
       }
-      const regExp = new RegExp(`(="|=')(${ID})(.+?)("|'|\\s,|,)`, 'g');
+      const regExp = new RegExp(`(="|='|,\\s)(${ID})(.+?)("|'|\\s)`, 'g');
       html = html.replace(
         regExp,
         (m, g1, g2, g3, g4) => {
@@ -154,54 +154,8 @@ export const imagePlugin = (userOptions) => {
             pool.set(key, null);
           }
           const src = keyToSrc(g3, userOptions);
-          console.log(src);
-          return g1 + src + g4;
-        }
-      );
-      return html;
-    },
-
-    async transformIndexHtml_(html, { filename }) {
-      if (!isHtml(filename, options.filter)) {
-        return;
-      }
-      if (currentConfig.command !== 'build') {
-        return null;
-      }
-      // replace src
-      const regExpSrc = new RegExp(`(src="|src=')(${ID})(.+?)("|')`, 'g');
-      html = html.replace(
-        regExpSrc,
-        (m, g1, g2, g3, g4) => {
-          const key = g2 + g3;
-          if (!pool.has(key)) {
-            pool.set(key, null);
-          }
-          const src = keyToSrc(g3, userOptions);
           // console.log(src);
           return g1 + src + g4;
-        }
-      );
-      // replace srcset
-      const regExpSrcSet1 = new RegExp('(srcset="|srcset=\')(.+)+("|\')', 'g');
-      html = html.replace(
-        regExpSrcSet1,
-        (m, g1, g2, g3) => {
-          const regExpSrcSet2 = new RegExp(`(${ID})(.+?)(\\s|,)`, 'g');
-          const srcset = g2.replace(
-            regExpSrcSet2,
-            (m, g1, g2, g3) => {
-              const key = g1 + g2;
-              if (!pool.has(key)) {
-                pool.set(key, null);
-              }
-              const src = keyToSrc(g2, userOptions);
-              // console.log('regExpSrcSet2.key', key, src + g3);
-              return src + g3;
-            }
-          );
-          // console.log('regExpSrcSet1.srcset', srcset);
-          return g1 + srcset + g3;
         }
       );
       return html;
@@ -263,16 +217,17 @@ export const imagePlugin = (userOptions) => {
         const basename = path.basename(output);
         const outputFolder = path.join(currentConfig.build.outDir, folder);
         const outputFile = path.join(outputFolder, basename);
-        console.log(output, outputFolder);
+        // console.log(output, outputFolder);
         const image = await resolveImage({ src, root: currentConfig.root });
         if (!fs.existsSync(outputFolder)) {
           fs.mkdirSync(outputFolder, { recursive: true });
         }
-        image.toFile(outputFile).then(info => {
-          // console.log('image.info', info);
-        }).catch(error => {
+        try {
+          const info = await image.toFile(outputFile);
+          console.log(`optimizing ${basename}\t\t${formatBytes(info.size)}`);
+        } catch (error) {
           console.log('image.error', error);
-        });
+        }
       }
     },
   };
@@ -379,6 +334,15 @@ function existsSync(filepath) {
     flag = false;
   }
   return flag;
+}
+
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
 
 /*

@@ -44,14 +44,16 @@
             </p>
             <p>The default loading method is <em>lazy</em>.</p>
           </div>
-          <code>{% raw %}{{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}{% endraw %}</code>
-          <code>&lt;img
-  src="/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540&amp;f=webp"
+          <code>{{htmlEncode(
+"{{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img src="/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540&amp;f=webp"
   width="1440"
   height="540"
   loading="lazy"
-  alt="picture"
-&gt;</code>
+  alt="picture">'
+          )}}</code>
           <div class="theme__name">/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540</div>
           <picture class="theme__picture">
             {{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}
@@ -61,9 +63,11 @@
           <div class="theme__title">
             <p>You can use a <em>srcset</em> array with the helper to generate a list of srcset images.</p>
           </div>
-          <code>{% raw %}{{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}{% endraw %}</code>
-          <code>&lt;img
-  srcset="/@image:/assets/img/mountains-02.jpg?w=810&amp;f=webp 810w,
+          <code>{{htmlEncode(
+"{{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img srcset="/@image:/assets/img/mountains-02.jpg?w=810&amp;f=webp 810w,
   /@image:/assets/img/mountains-02.jpg?w=1080&amp;f=webp 1080w,
   /@image:/assets/img/mountains-02.jpg?w=1440&amp;f=webp 1440w"
   sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
@@ -71,8 +75,8 @@
   width="1440"
   height="auto"
   loading="lazy"
-  alt="picture"
-&gt;</code>
+  alt="picture">'
+          )}}</code>
           <div class="theme__name">/@image:/assets/img/mountains-02.jpg?w=810 810w, /@image:/assets/img/mountains-02.jpg?w=1080 1080w, /@image:/assets/img/mountains-02.jpg?w=1440 1440w</div>
           <picture class="theme__picture">
             {{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}
@@ -82,16 +86,20 @@
           <div class="theme__title">
             <p>You can use a <em>src</em> array to generate a list of source images with different ratios associated to the query breakpoints.</p>
           </div>
-          <code>{% raw %}{{image({ src: [
+          <code>{{htmlEncode(
+"{{image({ src: [
   { src: '/assets/img/mountains-02.jpg', width: 768,  height: 614, down: 'xs' },
   { src: '/assets/img/mountains-02.jpg', width: 1024, height: 682, down: 'sm' },
   { src: '/assets/img/mountains-02.jpg', width: 1440, height: 822, down: 'md' },
   { src: '/assets/img/mountains-02.jpg', width: 1600, height: 800, up: 'lg' },
-})}}{% endraw %}</code>
-          <code>&lt;source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614"&gt;
-&lt;source media="(max-width: 1023.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1024&amp;h=682&amp;f=webp" width="1024" height="682"&gt;
-&lt;source media="(max-width: 1439.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1440&amp;h=822&amp;f=webp" width="1440" height="822"&gt;
-&lt;img src="/@image:/assets/img/mountains-02.jpg?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture"&gt;</code>
+]})}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:/assets/img/mountains-02.jpg?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
+          )}}</code>
           <picture class="theme__picture">
             {{image({ src: [
               { src: '/assets/img/mountains-02.jpg', width: 768,  height: 614, down: 'xs' },
@@ -114,22 +122,28 @@
           <picture class="theme__picture">
             <img loading="lazy" src="/@image:placehold?w=1440&h=540" width="1440" height="540" alt="Picture" />
           </picture>
-          <code>{% raw %}{{image({ width: 1440, height: 540 })}}{% endraw %}</code>
+          <code>{{htmlEncode(
+"{{image({ width: 1440, height: 540 })}}"
+          )}}</code>
           <div class="theme__name">/@image:placehold?w=1080&h=540</div>
           <picture class="theme__picture">
             {{image({ width: 1080, height: 540 })}}
           </picture>
-          <code>{% raw %}{{image({ width: 1440, height: 540, srcset: [810, 1080, 1440] })}}{% endraw %}</code>
+          <code>{{htmlEncode(
+"{{image({ width: 1440, height: 540, srcset: [810, 1080, 1440] })}}"
+          )}}</code>
           <div class="theme__name">/@image:placehold?w=810&h=405 810w, /@image:placehold?w=1080&h=540 1080w, /@image:placehold?w=1440&h=720 1440w</div>
           <picture class="theme__picture">
             {{image({ width: 1080, height: 540, srcset: [810, 1080, 1440] })}}
           </picture>
-          <code>{% raw %}{{image({ src: [
+          <code>{{htmlEncode(
+"{{image({ src: [
   { width: 768,  height: 614, down: 'xs' },
   { width: 1024, height: 682, down: 'sm' },
   { width: 1440, height: 822, down: 'md' },
   { width: 1600, height: 800, up: 'lg' }
-})}}{% endraw %}</code>
+]})}}"
+          )}}</code>
           <picture class="theme__picture">
             {{image({ src: [
               { width: 768,  height: 614, down: 'xs' },

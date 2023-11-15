@@ -1,9 +1,10 @@
 import Liquid from '@vituum/vite-plugin-liquid';
 import { getClassNames } from './helpers/classname.js';
 import { getEntries } from './helpers/entries.js';
+import { htmlDecode, htmlEncode } from './helpers/html.js';
 import { getIcon } from './helpers/icon.js';
 import { getImage } from './helpers/image.js';
-import { getJson, toJson } from './helpers/json.js';
+import { jsonParse, jsonStringify } from './helpers/json.js';
 import { getStyle } from './helpers/style.js';
 
 export const liquidPlugin = (userOptions) => {
@@ -31,10 +32,12 @@ export const liquidPlugin = (userOptions) => {
     filters: {
       classNames: getClassNames,
       entries: getEntries,
+      htmlDecode,
+      htmlEncode,
       icon: getIcon,
       image: getImage(breakpoint),
-      json: getJson,
-      toJson: toJson,
+      jsonParse,
+      jsonStringify,
       style: getStyle,
     },
     ...userOptions,
