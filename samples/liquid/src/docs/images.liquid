@@ -5,6 +5,7 @@
 {% endblock %}
 
 {% block main %}
+
 <main>
   <section class='hero py-80'>
     <div class='container'>
@@ -49,10 +50,19 @@
             </p>
             <p>The default loading method is <em>lazy</em>.</p>
           </div>
-          <code
-            >&#123;&#123;image(&#123; src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 &#125;)&#125;&#125;</code
-          >
-          <div class='theme__name'>/@image:/assets/img/mountains-01.jpg?w=1440&h=540</div>
+          {% raw %}<code>{% assign data = '{ "src": "/assets/img/mountains-01.jpg", "width": 1440, "height": 540 }' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<img src="/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540&amp;f=webp"
+  width="1440"
+  height="540"
+  loading="lazy"
+  alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
+          <div class='theme__name'>/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540</div>
           <picture class='theme__picture'>
             {% assign data = '{ "src": "/assets/img/mountains-01.jpg", "width": 1440, "height": 540 }' | jsonParse %}
             {{ data | image }}
@@ -62,12 +72,65 @@
           <div class='theme__title'>
             <p>You can use a <em>srcset</em> array with the helper to generate a list of srcset images.</p>
           </div>
-          <code
-            >&#123;&#123;image(&#123; src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] &#125;)&#125;&#125;</code
-          >
-          <div class='theme__name'>srcset</div>
+          {% raw %}<code>{% assign data = '{ "src": "/assets/img/mountains-02.jpg", "srcset": [810, 1080, 1440] }' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<img srcset="/@image:/assets/img/mountains-02.jpg?w=810&amp;f=webp 810w,
+  /@image:/assets/img/mountains-02.jpg?w=1080&amp;f=webp 1080w,
+  /@image:/assets/img/mountains-02.jpg?w=1440&amp;f=webp 1440w"
+  sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
+  src="/@image:/assets/img/mountains-02.jpg?w=1440&amp;f=webp"
+  width="1440"
+  height="auto"
+  loading="lazy"
+  alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
+          <div class='theme__name'>
+            /@image:/assets/img/mountains-02.jpg?w=810 810w, /@image:/assets/img/mountains-02.jpg?w=1080 1080w,
+            /@image:/assets/img/mountains-02.jpg?w=1440 1440w
+          </div>
           <picture class='theme__picture'>
             {% assign data = '{ "src": "/assets/img/mountains-02.jpg", "srcset": [810, 1080, 1440] }' | jsonParse %}
+            {{ data | image }}
+          </picture>
+        </div>
+        <div class='theme__variant'>
+          <div class='theme__title'>
+            <p>
+              You can use a <em>src</em> array to generate a list of source images with different ratios associated to
+              the query breakpoints.
+            </p>
+          </div>
+          {% raw %}<code>{% assign data = '{ "src": [
+  { "src": "/assets/img/mountains-02.jpg", "width": 768,  "height": 614, "down": "xs" },
+  { "src": "/assets/img/mountains-02.jpg", "width": 1024, "height": 682, "down": "sm" },
+  { "src": "/assets/img/mountains-02.jpg", "width": 1440, "height": 822, "down": "md" },
+  { "src": "/assets/img/mountains-02.jpg", "width": 1600, "height": 800, "up": "lg" }
+]}' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:/assets/img/mountains-02.jpg?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
+          <picture class='theme__picture'>
+            {% assign data = '{
+              "src": [
+                { "src": "/assets/img/mountains-02.jpg", "width": 768,  "height": 614, "down": "xs" },
+                { "src": "/assets/img/mountains-02.jpg", "width": 1024, "height": 682, "down": "sm" },
+                { "src": "/assets/img/mountains-02.jpg", "width": 1440, "height": 822, "down": "md" },
+                { "src": "/assets/img/mountains-02.jpg", "width": 1600, "height": 800, "up": "lg" }
+              ]
+            }'
+              | jsonParse
+            %}
             {{ data | image }}
           </picture>
         </div>
@@ -84,9 +147,74 @@
           <picture class='theme__picture'>
             <img loading='lazy' src='/@image:placehold?w=1440&h=540' width='1440' height='540' alt='Picture'>
           </picture>
+          {% raw %}<code>{% assign data = '{ "width": 1080, "height": 540 }' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<img
+  src="/@image:placehold?w=1080&amp;h=540&amp;f=webp"
+  width="1080"
+  height="540"
+  loading="lazy"
+  alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
           <div class='theme__name'>/@image:placehold?w=1080&h=540</div>
           <picture class='theme__picture'>
             {% assign data = '{ "width": 1080, "height": 540 }' | jsonParse %}
+            {{ data | image }}
+          </picture>
+          {% raw %}<code>{% assign data = '{ "width": 1440, "height": 540, "srcset": [810, 1080, 1440] }' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<img
+  srcset="/@image:placehold?w=810&amp;h=303.75&amp;f=webp 810w, /@image:placehold?w=1080&amp;h=405&amp;f=webp 1080w, /@image:placehold?w=1440&amp;h=540&amp;f=webp 1440w"
+  sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
+  src="/@image:placehold?w=1440&amp;h=540&amp;f=webp"
+  width="1440"
+  height="auto"
+  loading="lazy"
+  alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
+          <div class='theme__name'>
+            /@image:placehold?w=810&h=405 810w, /@image:placehold?w=1080&h=540 1080w, /@image:placehold?w=1440&h=720
+            1440w
+          </div>
+          <picture class='theme__picture'>
+            {% assign data = '{ "width": 1440, "height": 540, "srcset": [810, 1080, 1440] }' | jsonParse %}
+            {{ data | image }}
+          </picture>
+          {% raw %}<code>{% assign data = '{ "src": [
+  { "width": 768,  "height": 614, "down": "xs" },
+  { "width": 1024, "height": 682, "down": "sm" },
+  { "width": 1440, "height": 822, "down": "md" },
+  { "width": 1600, "height": 800, "up": "lg" }
+]}' | jsonParse %}
+{{ data | image }}</code>{% endraw %}
+          <code>
+            {{-
+              '<source media="(max-width: 767.80px)" srcset="/@image:placehold?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:placehold?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:placehold?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:placehold?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
+              | htmlEncode
+            -}}
+          </code>
+          <picture class='theme__picture'>
+            {% assign data = '{
+              "src": [
+                { "width": 768,  "height": 614, "down": "xs" },
+                { "width": 1024, "height": 682, "down": "sm" },
+                { "width": 1440, "height": 822, "down": "md" },
+                { "width": 1600, "height": 800, "up": "lg" }
+              ]
+            }'
+              | jsonParse
+            %}
             {{ data | image }}
           </picture>
         </div>

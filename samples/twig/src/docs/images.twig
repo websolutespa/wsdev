@@ -7,12 +7,12 @@
 {% block main %}
 
 <main>
-
   <section class="hero py-80">
     <div class="container">
       <h1 class="display20 fw-700">Images</h1>
       <div class="display40">
-        High performance image processing with ♯ <a class="link" href="https://sharp.pixelplumbing.com/" target="_blank" title="Sharp.js">Sharp.js</a>.
+        High performance image processing with ♯
+        <a class="link" href="https://sharp.pixelplumbing.com/" target="_blank" title="Sharp.js">Sharp.js</a>.
       </div>
     </div>
   </section>
@@ -125,12 +125,30 @@
           <code>{{htmlEncode(
 "{{image({ width: 1440, height: 540 })}}"
           )}}</code>
+          <code>{{htmlEncode(
+'<img
+  src="/@image:placehold?w=1080&amp;h=540&amp;f=webp"
+  width="1080"
+  height="540"
+  loading="lazy"
+  alt="picture">'
+          )}}</code>
           <div class="theme__name">/@image:placehold?w=1080&h=540</div>
           <picture class="theme__picture">
             {{image({ width: 1080, height: 540 })}}
           </picture>
           <code>{{htmlEncode(
 "{{image({ width: 1440, height: 540, srcset: [810, 1080, 1440] })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img
+  srcset="/@image:placehold?w=810&amp;h=405&amp;f=webp 810w, /@image:placehold?w=1080&amp;h=540&amp;f=webp 1080w, /@image:placehold?w=1440&amp;h=720&amp;f=webp 1440w"
+  sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
+  src="/@image:placehold?w=1440&amp;h=720&amp;f=webp"
+  width="1440"
+  height="auto"
+  loading="lazy"
+  alt="picture">'
           )}}</code>
           <div class="theme__name">/@image:placehold?w=810&h=405 810w, /@image:placehold?w=1080&h=540 1080w, /@image:placehold?w=1440&h=720 1440w</div>
           <picture class="theme__picture">
@@ -143,6 +161,12 @@
   { width: 1440, height: 822, down: 'md' },
   { width: 1600, height: 800, up: 'lg' }
 ]})}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<source media="(max-width: 767.80px)" srcset="/@image:placehold?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:placehold?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:placehold?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:placehold?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
           )}}</code>
           <picture class="theme__picture">
             {{image({ src: [

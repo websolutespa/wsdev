@@ -27,6 +27,18 @@ Available custom helpers are:
 <div class="{{classNames({ active: i === 0 })}}">
 ```
 
+#### htmlDecode
+
+```twig
+<div class="{{htmlDecode('&lt;b&gt;bold&lt;/b&gt;')}}">
+```
+
+#### htmlEncode
+
+```twig
+<div class="{{htmlEncode('<b>bold</b>')}}">
+```
+
 #### icon
 
 ```twig
