@@ -6,7 +6,7 @@ import { copyDirectory, fsRead, fsReadFiles, fsReadJson, fsWrite, fsWriteJson, g
 import { Logger } from '../utils/logger.js';
 import { ICreateOptions } from './types.js';
 
-const DOWNLOAD: 'default' | 'test' | 'none' = 'test';
+const DOWNLOAD: 'default' | 'test' | 'local' | 'none' = 'test';
 
 const inputRegex = /^(?<repo>[\w.-]+\/[\w.-]+)(?<subdir>[^#]+)?(?<ref>#[\w.-]+)?/;
 
@@ -111,6 +111,22 @@ export async function doDownload(options: ICreateOptions): Promise<unknown> {
 
         // Logger.log('results', results);
         return results;
+      }
+      case 'local': {
+        const projectPath = path.resolve(process.cwd(), '..', '..');
+        const outputPath = getAbsolutePath(options.projectName);
+
+        await copyDirectory(
+          path.join(projectPath, 'samples', options.sampleType),
+          path.join(outputPath, '')
+        );
+
+        await copyDirectory(
+          path.join(projectPath, '.vscode'),
+          path.join(outputPath, '.vscode')
+        );
+
+        break;
       }
       case 'none':
         break;

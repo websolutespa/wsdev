@@ -104,7 +104,15 @@ export async function removeDirectory(pathname: string): Promise<void> {
 
 export async function copyDirectory(fromDir: string, toDir: string): Promise<void> {
   try {
-    return fs.promises.cp(fromDir, toDir, { recursive: true, force: true });
+    return fs.promises.cp(fromDir, toDir, {
+      recursive: true,
+      force: true,
+      filter: (source: string, destination: string) => {
+        const normalizedSource = path.normalize(source);
+        const isNodeModules = normalizedSource.includes('node_modules');
+        return !isNodeModules;
+      },
+    });
   } catch (error) {
     console.log('copyDirectory', error, fromDir, toDir);
     return Promise.reject(error);

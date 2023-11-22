@@ -303,7 +303,15 @@ async function removeDirectory(pathname) {
 }
 async function copyDirectory(fromDir, toDir) {
   try {
-    return fs3.promises.cp(fromDir, toDir, { recursive: true, force: true });
+    return fs3.promises.cp(fromDir, toDir, {
+      recursive: true,
+      force: true,
+      filter: (source, destination) => {
+        const normalizedSource = path2.normalize(source);
+        const isNodeModules = normalizedSource.includes("node_modules");
+        return !isNodeModules;
+      }
+    });
   } catch (error2) {
     console.log("copyDirectory", error2, fromDir, toDir);
     return Promise.reject(error2);
@@ -335,6 +343,19 @@ async function doDownload(options) {
         );
         await removeDirectory(temporaryPath);
         return results;
+      }
+      case "local": {
+        const projectPath = path3.resolve(process.cwd(), "..", "..");
+        const outputPath = getAbsolutePath(options.projectName);
+        await copyDirectory(
+          path3.join(projectPath, "samples", options.sampleType),
+          path3.join(outputPath, "")
+        );
+        await copyDirectory(
+          path3.join(projectPath, ".vscode"),
+          path3.join(outputPath, ".vscode")
+        );
+        break;
       }
       case "none":
         break;
@@ -378,7 +399,7 @@ async function doDownload(options) {
     }
     process.exit(1);
   }
-  return new Promise((resolve4) => setTimeout(resolve4, 1e3));
+  return new Promise((resolve5) => setTimeout(resolve5, 1e3));
 }
 async function updateRepo(options, folder) {
   const folderName = folder || options.projectFolder;
@@ -473,7 +494,7 @@ function changeCwd(folder) {
   }
 }
 function doSpawn(command, silent = false, options = {}) {
-  return new Promise((resolve4, reject) => {
+  return new Promise((resolve5, reject) => {
     const args = command.split(" ");
     const name2 = args.shift();
     const child = spawn(name2, args, {
@@ -491,7 +512,7 @@ function doSpawn(command, silent = false, options = {}) {
       if (code !== 0) {
         reject(code);
       } else {
-        resolve4(result);
+        resolve5(result);
       }
     });
     child.on("error", (error2) => {
@@ -509,7 +530,7 @@ function doInstall(folder, name2) {
   if (!BYPASS_INSTALLATION) {
     return doSpawn("npm install", false);
   }
-  return new Promise((resolve4) => setTimeout(resolve4, 3e3));
+  return new Promise((resolve5) => setTimeout(resolve5, 3e3));
 }
 
 // src/create/create.ts
