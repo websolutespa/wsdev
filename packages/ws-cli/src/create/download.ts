@@ -1,12 +1,10 @@
 import * as fs from 'fs';
 import { GitInfo, TemplateProvider, downloadTemplate } from 'giget';
 import * as path from 'path';
-import { getAbsolutePath, getPackage, getPath } from '../package.js';
+import { getAbsolutePath, getPackage, getPath, isTest } from '../package.js';
 import { copyDirectory, fsRead, fsReadFiles, fsReadJson, fsWrite, fsWriteJson, getTemporaryFolderName, removeDirectory } from '../utils/fs.js';
 import { Logger } from '../utils/logger.js';
 import { ICreateOptions } from './types.js';
-
-const DOWNLOAD: 'default' | 'test' | 'local' | 'none' = 'test';
 
 const inputRegex = /^(?<repo>[\w.-]+\/[\w.-]+)(?<subdir>[^#]+)?(?<ref>#[\w.-]+)?/;
 
@@ -42,123 +40,84 @@ export const github: TemplateProvider = (input, options) => {
 
 export async function doDownload(options: ICreateOptions): Promise<unknown> {
   try {
-    switch (DOWNLOAD) {
-      case 'test': {
-        const temporaryName = getTemporaryFolderName();
-        const temporaryFolder = getPath(temporaryName);
-        const temporaryPath = getAbsolutePath(temporaryName);
-        const outputPath = getAbsolutePath(options.projectName);
+    if (isTest()) {
+      const projectPath = path.resolve(process.cwd(), '..', '..');
+      const outputPath = getAbsolutePath(options.projectName);
 
-        // symlinks
-        /*
-        await symlinkDirectory(
-          getAbsolutePath('aa'),
-          getAbsolutePath('bb')
-        );
-        */
+      await copyDirectory(
+        path.join(projectPath, 'samples', options.sampleType),
+        path.join(outputPath, '')
+      );
 
-        /*
-        console.log('temporaryName', temporaryName);
-        console.log('temporaryPath', temporaryPath);
-        console.log('options.projectName', options.projectName); // my-project2
-        console.log('options.projectFolder', options.projectFolder); // C:\XXX\wsdev\packages\ws-cli\.ws\my-project2
-        console.log('getPath(options.projectName)', getPath(options.projectName)); // .ws\my-project2
-        console.log('process.cwd()', process.cwd()); // C:\XXX\wsdev\packages\ws-cli
-        */
+      await copyDirectory(
+        path.join(projectPath, '.vscode'),
+        path.join(outputPath, '.vscode')
+      );
 
-        const results = await downloadTemplate('github:websolutespa/wsdev', {
-          dir: temporaryFolder,
-          cwd: process.cwd(),
-          auth: options.authToken || undefined,
-        } as any);
+    } else {
+      const temporaryName = getTemporaryFolderName();
+      const temporaryFolder = getPath(temporaryName);
+      const temporaryPath = getAbsolutePath(temporaryName);
+      const outputPath = getAbsolutePath(options.projectName);
 
-        await copyDirectory(
-          path.join(temporaryPath, 'samples', options.sampleType),
-          path.join(outputPath, '')
-        );
+      // symlinks
+      /*
+      await symlinkDirectory(
+        getAbsolutePath('aa'),
+        getAbsolutePath('bb')
+      );
+      */
 
-        /*
-        await copyDirectory(
-          path.join(temporaryPath, 'samples', '@shared', 'src', 'assets'),
-          path.join(outputPath, 'src', 'assets')
-        );
+      /*
+      console.log('temporaryName', temporaryName);
+      console.log('temporaryPath', temporaryPath);
+      console.log('options.projectName', options.projectName); // my-project2
+      console.log('options.projectFolder', options.projectFolder); // C:\XXX\wsdev\packages\ws-cli\.ws\my-project2
+      console.log('getPath(options.projectName)', getPath(options.projectName)); // .ws\my-project2
+      console.log('process.cwd()', process.cwd()); // C:\XXX\wsdev\packages\ws-cli
+      */
 
-        await copyDirectory(
-          path.join(temporaryPath, 'samples', '@shared', 'src', 'css'),
-          path.join(outputPath, 'src', 'css')
-        );
+      const results = await downloadTemplate('github:websolutespa/wsdev', {
+        dir: temporaryFolder,
+        cwd: process.cwd(),
+        auth: options.authToken || undefined,
+      } as any);
 
-        await copyDirectory(
-          path.join(temporaryPath, 'samples', '@shared', 'src', 'js'),
-          path.join(outputPath, 'src', 'js')
-        );
+      await copyDirectory(
+        path.join(temporaryPath, 'samples', options.sampleType),
+        path.join(outputPath, '')
+      );
 
-        await copyDirectory(
-          path.join(temporaryPath, 'samples', '@shared', 'src', 'public'),
-          path.join(outputPath, 'src', 'public')
-        );
-        */
+      /*
+      await copyDirectory(
+        path.join(temporaryPath, 'samples', '@shared', 'src', 'assets'),
+        path.join(outputPath, 'src', 'assets')
+      );
 
-        await copyDirectory(
-          path.join(temporaryPath, '.vscode'),
-          path.join(outputPath, '.vscode')
-        );
+      await copyDirectory(
+        path.join(temporaryPath, 'samples', '@shared', 'src', 'css'),
+        path.join(outputPath, 'src', 'css')
+      );
 
-        // console.log('temporaryPath', temporaryPath);
-        // console.log('outputPath', outputPath);
+      await copyDirectory(
+        path.join(temporaryPath, 'samples', '@shared', 'src', 'js'),
+        path.join(outputPath, 'src', 'js')
+      );
 
-        await removeDirectory(temporaryPath);
+      await copyDirectory(
+        path.join(temporaryPath, 'samples', '@shared', 'src', 'public'),
+        path.join(outputPath, 'src', 'public')
+      );
+      */
 
-        // Logger.log('results', results);
-        return results;
-      }
-      case 'local': {
-        const projectPath = path.resolve(process.cwd(), '..', '..');
-        const outputPath = getAbsolutePath(options.projectName);
+      await copyDirectory(
+        path.join(temporaryPath, '.vscode'),
+        path.join(outputPath, '.vscode')
+      );
 
-        await copyDirectory(
-          path.join(projectPath, 'samples', options.sampleType),
-          path.join(outputPath, '')
-        );
-
-        await copyDirectory(
-          path.join(projectPath, '.vscode'),
-          path.join(outputPath, '.vscode')
-        );
-
-        break;
-      }
-      case 'none':
-        break;
-      default: {
-        const results = await downloadTemplate(`github:websolutespa/wsdev/samples/${options.sampleType}`, {
-          dir: getPath(options.projectName),
-          cwd: process.cwd(),
-          auth: options.authToken || undefined,
-          /*
-            providers: {
-              github
-            },
-            */
-          /*
-            dir: (string) Destination directory to clone to. If not provided, user-projectName will be used relative to the current directory.
-            provider: (string) Either github, gitlab, bitbucket or sourcehut. The default is github.
-            repo: (string) Name of repository in format of {userprojectName}/{repoprojectName}.
-            ref: (string) Git ref (branch or commit or tag). The default value is main.
-            subdir: (string) Directory of the repo to clone from. The default value is none.
-            force: (boolean) Extract to the exisiting dir even if already exsists.
-            forceClean: (boolean) ⚠️ Clean ups any existing directory or file before cloning.
-            offline: (boolean) Do not attempt to download and use cached version.
-            preferOffline: (boolean) Use cache if exists otherwise try to download.
-            providers: (object) A map from provider projectName to custom providers. Can be used to override built-ins too.
-            registry: (string or false) Set to false to disable registry. Set to a URL string (without trailing slash) for custom registry. (Can be overriden with GIGET_REGISTRY environment variable).
-            cwd: (string) Current working directory to resolve dirs relative to it.
-            auth: (string) Custom Authorization token to use for downloading template. (Can be overriden with GIGET_AUTH environment variable).
-            */
-        } as any);
-        // Logger.log('results', results);
-        return results;
-      }
+      await removeDirectory(temporaryPath);
+      // Logger.log('results', results);
+      return results;
     }
   } catch (error: any) {
     if (error.message.includes('404')) {
