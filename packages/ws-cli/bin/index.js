@@ -319,74 +319,39 @@ async function copyDirectory(fromDir, toDir) {
 }
 
 // src/create/download.ts
-var DOWNLOAD = "test";
 async function doDownload(options) {
   try {
-    switch (DOWNLOAD) {
-      case "test": {
-        const temporaryName = getTemporaryFolderName();
-        const temporaryFolder = getPath(temporaryName);
-        const temporaryPath = getAbsolutePath(temporaryName);
-        const outputPath = getAbsolutePath(options.projectName);
-        const results = await downloadTemplate("github:websolutespa/wsdev", {
-          dir: temporaryFolder,
-          cwd: process.cwd(),
-          auth: options.authToken || void 0
-        });
-        await copyDirectory(
-          path3.join(temporaryPath, "samples", options.sampleType),
-          path3.join(outputPath, "")
-        );
-        await copyDirectory(
-          path3.join(temporaryPath, ".vscode"),
-          path3.join(outputPath, ".vscode")
-        );
-        await removeDirectory(temporaryPath);
-        return results;
-      }
-      case "local": {
-        const projectPath = path3.resolve(process.cwd(), "..", "..");
-        const outputPath = getAbsolutePath(options.projectName);
-        await copyDirectory(
-          path3.join(projectPath, "samples", options.sampleType),
-          path3.join(outputPath, "")
-        );
-        await copyDirectory(
-          path3.join(projectPath, ".vscode"),
-          path3.join(outputPath, ".vscode")
-        );
-        break;
-      }
-      case "none":
-        break;
-      default: {
-        const results = await downloadTemplate(`github:websolutespa/wsdev/samples/${options.sampleType}`, {
-          dir: getPath(options.projectName),
-          cwd: process.cwd(),
-          auth: options.authToken || void 0
-          /*
-            providers: {
-              github
-            },
-            */
-          /*
-            dir: (string) Destination directory to clone to. If not provided, user-projectName will be used relative to the current directory.
-            provider: (string) Either github, gitlab, bitbucket or sourcehut. The default is github.
-            repo: (string) Name of repository in format of {userprojectName}/{repoprojectName}.
-            ref: (string) Git ref (branch or commit or tag). The default value is main.
-            subdir: (string) Directory of the repo to clone from. The default value is none.
-            force: (boolean) Extract to the exisiting dir even if already exsists.
-            forceClean: (boolean) ⚠️ Clean ups any existing directory or file before cloning.
-            offline: (boolean) Do not attempt to download and use cached version.
-            preferOffline: (boolean) Use cache if exists otherwise try to download.
-            providers: (object) A map from provider projectName to custom providers. Can be used to override built-ins too.
-            registry: (string or false) Set to false to disable registry. Set to a URL string (without trailing slash) for custom registry. (Can be overriden with GIGET_REGISTRY environment variable).
-            cwd: (string) Current working directory to resolve dirs relative to it.
-            auth: (string) Custom Authorization token to use for downloading template. (Can be overriden with GIGET_AUTH environment variable).
-            */
-        });
-        return results;
-      }
+    if (isTest()) {
+      const projectPath = path3.resolve(process.cwd(), "..", "..");
+      const outputPath = getAbsolutePath(options.projectName);
+      await copyDirectory(
+        path3.join(projectPath, "samples", options.sampleType),
+        path3.join(outputPath, "")
+      );
+      await copyDirectory(
+        path3.join(projectPath, ".vscode"),
+        path3.join(outputPath, ".vscode")
+      );
+    } else {
+      const temporaryName = getTemporaryFolderName();
+      const temporaryFolder = getPath(temporaryName);
+      const temporaryPath = getAbsolutePath(temporaryName);
+      const outputPath = getAbsolutePath(options.projectName);
+      const results = await downloadTemplate("github:websolutespa/wsdev", {
+        dir: temporaryFolder,
+        cwd: process.cwd(),
+        auth: options.authToken || void 0
+      });
+      await copyDirectory(
+        path3.join(temporaryPath, "samples", options.sampleType),
+        path3.join(outputPath, "")
+      );
+      await copyDirectory(
+        path3.join(temporaryPath, ".vscode"),
+        path3.join(outputPath, ".vscode")
+      );
+      await removeDirectory(temporaryPath);
+      return results;
     }
   } catch (error2) {
     if (error2.message.includes("404")) {
@@ -486,6 +451,7 @@ async function updateJson(options, pathname) {
 
 // src/utils/spawn.ts
 import spawn from "cross-spawn";
+import { parse } from "shell-quote";
 function changeCwd(folder) {
   try {
     process.chdir(folder);
@@ -497,7 +463,7 @@ function doSpawn(command, silent = false, options = {}) {
   return new Promise((resolve5, reject) => {
     const args = command.split(" ");
     const name2 = args.shift();
-    const child = spawn(name2, args, {
+    const child = spawn(name2, parse(args.join(" ")), {
       stdio: silent ? "pipe" : "inherit",
       // stdio: [process.stdin, process.stdout, 'pipe']
       ...options

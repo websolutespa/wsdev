@@ -1,4 +1,5 @@
 import spawn from 'cross-spawn';
+import { parse } from 'shell-quote';
 import { Logger } from './logger.js';
 
 export function changeCwd(folder: string) {
@@ -13,10 +14,10 @@ export function doSpawn(command: string, silent: boolean = false, options = {}):
   return new Promise((resolve, reject) => {
     const args = command.split(' ');
     const name = args.shift() as string;
-    const child = spawn(name, args, {
+    const child = spawn(name, parse(args.join(' ')) as string[], {
       stdio: silent ? 'pipe' : 'inherit',
       // stdio: [process.stdin, process.stdout, 'pipe']
-      ...options
+      ...options,
     });
     let result = '';
     if (silent) {

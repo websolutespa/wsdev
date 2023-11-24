@@ -1,3 +1,4 @@
+import { sanitizeUrl } from '@braintree/sanitize-url';
 import cors from 'cors';
 import getEtag from 'etag';
 import * as fs from 'fs';
@@ -183,16 +184,18 @@ export const imagePlugin = (userOptions) => {
     configureServer: ({ middlewares }) => {
       middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
-        const url = normalizePath(req.url);
+        const reqUrl = sanitizeUrl(req.url);
+        console.log(req.url, reqUrl);
+        const url = normalizePath(reqUrl);
         if (url.startsWith(ID)) {
-          let buffer = pool.get(req.url);
+          let buffer = pool.get(reqUrl);
           if (!buffer) {
             // console.log('middleware', 'url', url);
-            const [, src] = req.url.split(basePath);
+            const [, src] = reqUrl.split(basePath);
             // console.log('middleware', src);
             buffer = await resolveImage({ src, root: currentConfig.root, buffer: true });
             // !!! todo handle content type
-            pool.set(req.url, buffer);
+            pool.set(reqUrl, buffer);
           }
           res.setHeader('Content-Type', 'image/webp');
           res.setHeader('Cache-Control', 'no-cache');
