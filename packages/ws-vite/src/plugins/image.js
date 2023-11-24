@@ -185,7 +185,6 @@ export const imagePlugin = (userOptions) => {
       middlewares.use(cors({ origin: '*' }));
       middlewares.use(async (req, res, next) => {
         const reqUrl = sanitizeUrl(req.url);
-        console.log(req.url, reqUrl);
         const url = normalizePath(reqUrl);
         if (url.startsWith(ID)) {
           let buffer = pool.get(reqUrl);

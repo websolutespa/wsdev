@@ -12,9 +12,10 @@ export function changeCwd(folder: string) {
 
 export function doSpawn(command: string, silent: boolean = false, options = {}): Promise<string> {
   return new Promise((resolve, reject) => {
-    const args = command.split(' ');
+    const sanitizedCommand = parse(command);
+    const args = sanitizedCommand as string[];
     const name = args.shift() as string;
-    const child = spawn(name, parse(args.join(' ')) as string[], {
+    const child = spawn(name, args, {
       stdio: silent ? 'pipe' : 'inherit',
       // stdio: [process.stdin, process.stdout, 'pipe']
       ...options,

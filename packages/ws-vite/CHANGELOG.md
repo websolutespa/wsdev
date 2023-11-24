@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.5
+
+### Patch Changes
+
+- Fixing: xxs security issue
+
 ## 0.0.4
 
 ### Patch Changes

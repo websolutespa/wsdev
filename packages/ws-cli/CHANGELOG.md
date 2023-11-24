@@ -1,5 +1,11 @@
 # @websolutespa/ws-cli
 
+## 0.0.4
+
+### Patch Changes
+
+- Fixing: xxs security issue
+
 ## 0.0.3
 
 ### Patch Changes

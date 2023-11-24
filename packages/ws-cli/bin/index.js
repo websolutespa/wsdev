@@ -461,9 +461,10 @@ function changeCwd(folder) {
 }
 function doSpawn(command, silent = false, options = {}) {
   return new Promise((resolve5, reject) => {
-    const args = command.split(" ");
+    const sanitizedCommand = parse(command);
+    const args = sanitizedCommand;
     const name2 = args.shift();
-    const child = spawn(name2, parse(args.join(" ")), {
+    const child = spawn(name2, args, {
       stdio: silent ? "pipe" : "inherit",
       // stdio: [process.stdin, process.stdout, 'pipe']
       ...options
