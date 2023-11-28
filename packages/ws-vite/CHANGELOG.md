@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.6
+
+### Patch Changes
+
+- Added: grid breakpoint columns, nested grid columns, multiple grids
+
 ## 0.0.5
 
 ### Patch Changes

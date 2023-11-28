@@ -2,35 +2,64 @@
 
 @mixin grid() {
 
-  $grid-columns-raw: 12 !default;
+  @each $key in $grid {
+    $variant: get-variant($key);
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(var(--grid-columns), var(--grid-size));
-    grid-column-gap: var(--grid-column-gap);
-    grid-row-gap: var(--grid-row-gap);
+    // @debug map.get($refs, "grid#{$variant}-columns");
 
-    &>* {
-      grid-column: span var(--grid-columns) / auto;
+    .grid#{$variant} {
+      --columns: var(--grid#{$variant}-columns, 12);
+      --size: var(--grid#{$variant}-size, 1fr);
+      --column-gap: var(--grid#{$variant}-column-gap, 0);
+      --row-gap: var(--grid#{$variant}-row-gap, 0);
+      display: grid;
+      grid-template-columns: repeat(var(--columns), var(--size));
+      grid-column-gap: var(--column-gap);
+      grid-row-gap: var(--row-gap);
+
+      &>* {
+        grid-column: span var(--columns) / auto;
+      }
     }
   }
 
+  // $grid-columns-raw: 12 !default;
+  $grid-columns: 24;
+
   @each $key, $size in $breakpoint {
     @if $key =='xs' {
-      @for $i from 1 through $grid-columns-raw {
+      @for $i from 1 through $grid-columns {
 
         .grid-#{$i},
         .grid-xs-#{$i} {
           grid-column: span $i / auto;
+
+          @each $key in $grid {
+            $variant: get-variant($key);
+
+            &.grid#{$variant},
+            &>.grid#{$variant} {
+              --columns: #{$i};
+            }
+          }
         }
       }
     }
 
     @else {
       @media (min-width:$size) {
-        @for $i from 1 through $grid-columns-raw {
+        @for $i from 1 through $grid-columns {
           .grid-#{$key}-#{$i} {
             grid-column: span $i / auto;
+
+            @each $key in $grid {
+              $variant: get-variant($key);
+
+              &.grid#{$variant},
+              &>.grid#{$variant} {
+                --columns: #{$i};
+              }
+            }
           }
         }
       }
@@ -39,7 +68,7 @@
 
   @each $key, $size in $breakpoint {
     @if $key =='xs' {
-      @for $i from 2 through $grid-columns-raw {
+      @for $i from 2 through $grid-columns {
 
         .end-#{$i},
         .end-xs-#{$i} {
@@ -50,7 +79,7 @@
 
     @else {
       @media (min-width:$size) {
-        @for $i from 2 through $grid-columns-raw {
+        @for $i from 2 through $grid-columns {
           .end-#{$key}-#{$i} {
             grid-column-end: $i + 1;
           }
@@ -58,4 +87,7 @@
       }
     }
   }
+
+  // @debug $refs;
+
 }

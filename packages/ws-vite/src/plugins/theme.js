@@ -91,7 +91,7 @@ function setPreprocessorOptions(currentConfig, scssVars) {
   const preprocessorOptions = css.preprocessorOptions || (css.preprocessorOptions = {});
   const scss = preprocessorOptions.scss || (preprocessorOptions.scss = {});
   scss.additionalData = (scss.additionalData || '') + scssVars;
-  // console.log(scssVars);
+  // console.log('scssVars', scssVars);
   // console.log('theme.useScssVars', scss.additionalData);
 }
 

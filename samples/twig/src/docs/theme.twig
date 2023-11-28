@@ -95,51 +95,24 @@
         {% for name, variation in theme.grid %}
         <div class="theme__variant">
           <div class="theme__name">{{ name }}</div>
-          <div class="grid">
-            <div class="grid-6 grid-md-6">
+          <div class="grid{{name == 'default' ? '' : '-' ~ name }}">
+            <div class="grid-md-6">
               <div class="theme__block">grid-md-6</div>
             </div>
-            <div class="grid-6 grid-md-6">
+            <div class="grid-md-6">
               <div class="theme__block">grid-md-6</div>
             </div>
-            <div class="grid-6 grid-md-4">
-              <div class="theme__block">grid-md-4</div>
+            <div class="grid-md-6 end-md-12">
+              <div class="theme__block">grid-md-6 end-md-12</div>
             </div>
             <div class="grid-6 grid-md-4">
-              <div class="theme__block">grid-md-4</div>
+              <div class="theme__block">grid-6 grid-md-4</div>
             </div>
             <div class="grid-6 grid-md-4">
-              <div class="theme__block">grid-md-4</div>
+              <div class="theme__block">grid-6 grid-md-4</div>
             </div>
-            <div class="grid-6 grid-md-3">
-              <div class="theme__block">grid-md-3</div>
-            </div>
-            <div class="grid-6 grid-md-3">
-              <div class="theme__block">grid-md-3</div>
-            </div>
-            <div class="grid-6 grid-md-3">
-              <div class="theme__block">grid-md-3</div>
-            </div>
-            <div class="grid-6 grid-md-3">
-              <div class="theme__block">grid-md-3</div>
-            </div>
-            <div class="grid-6 grid-md-2">
-              <div class="theme__block">grid-md-2</div>
-            </div>
-            <div class="grid-6 grid-md-2">
-              <div class="theme__block">grid-md-2</div>
-            </div>
-            <div class="grid-6 grid-md-2">
-              <div class="theme__block">grid-md-2</div>
-            </div>
-            <div class="grid-6 grid-md-2">
-              <div class="theme__block">grid-md-2</div>
-            </div>
-            <div class="grid-6 grid-md-2">
-              <div class="theme__block">grid-md-2</div>
-            </div>
-            <div class="grid-md-2">
-              <div class="theme__block">grid-md-2</div>
+            <div class="grid-12 grid-md-4">
+              <div class="theme__block">grid-12 grid-md-4</div>
             </div>
           </div>
         </div>

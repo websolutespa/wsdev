@@ -88,7 +88,7 @@ function toMinMax(min, max, breakpoint) {
   return `max(${min}px, min(${max}px, calc(${min}px + (100vw - ${low}px) / ${viewDiff} * ${diff})))`;
 }
 
-function parseValue(value, breakpoint, parentKey = '', collection = { names: [], values: [], scss: [], css: [] }) {
+function parseValue(value, breakpoint, parentKey = '', collection = { names: [], values: [], css: [], scss: [], refs: [] }) {
   if (value) {
     Object.entries(value).forEach(([key, value]) => {
       if (key === '$schema') {
@@ -103,6 +103,7 @@ function parseValue(value, breakpoint, parentKey = '', collection = { names: [],
           if (key === 'breakpoint') {
             const values = toScssMap(value);
             collection.scss.push(`$${key}: ${values};`);
+            // collection.refs.push([key, values]);
           } else {
             const css = Object.entries(breakpoint).map(([k, v], i) => {
               let expression = value[k];
@@ -123,22 +124,26 @@ ${S}}`;
             });
             collection.css.push(...css);
             collection.scss.push(`$${key}: var(--${key});`);
+            collection.refs.push([key, `(${Object.entries(value).map(x => `${x[0]}: ${x[1]}`).join(', ')})`]);
           }
         } else if (isListOfMany(value)) {
           collection.names.push(key);
           collection.values.push(value);
           const values = toScssList(value);
           collection.scss.push(`$${key}: ${values};`);
+          // collection.refs.push([key, values]);
         } else if (isListOfTwo(value)) {
           collection.names.push(key);
           collection.values.push(value);
           const values = toMinMax(value[0], value[1], breakpoint);
           collection.css.push(`${S}--${key}: ${values};`);
           collection.scss.push(`$${key}: var(--${key});`);
+          collection.refs.push([key, values]);
         } else {
           if (isVariant(value) && parentKey === '') {
             const keys = Object.keys(value);
             collection.scss.push(`$${key}: ('${keys.join('\',\'')}');`);
+            // collection.refs.push([key, `$${key}: '${keys.join('\',\'')}'`]);
           }
           collection = parseValue(value, breakpoint, key, collection);
         }
@@ -148,6 +153,7 @@ ${S}}`;
         collection.css.push(`${S}--${key}: ${value};`);
         collection.scss.push(`$${key}-raw: ${value};`);
         collection.scss.push(`$${key}: var(--${key});`);
+        collection.refs.push([key, typeof value === 'string' && value.indexOf(',') !== -1 ? `(${value})` : value]);
       }
     });
   }
@@ -161,6 +167,7 @@ export function renderTheme(theme) {
 :root {
 ${collection.css.join('\n')}
 }`;
+  collection.scss.unshift(`$refs: (${collection.refs.map(x => `"${x[0]}": ${x[1]}`).join(', ')});`);
   collection.scssVars = collection.scss.join('\n');
   collection.theme = theme;
   return collection;

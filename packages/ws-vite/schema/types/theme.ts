@@ -561,7 +561,7 @@ export type Grid = {
    *
    * **Initial value**: `12`
    */
-  columns: number; // CSSProps['gridTemplateColumns'];
+  columns: CSSProps['columns'];
   /**
    * fraction size of the grid.
    *
