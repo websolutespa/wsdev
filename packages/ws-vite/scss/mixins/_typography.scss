@@ -7,8 +7,9 @@
     .#{$key} {
       font-family: var(--typography-#{$key}-font-family, var(--typography-font-family));
       font-size: var(--typography-#{$key}-font-size, 1rem);
-      line-height: var(--typography-#{$key}-line-height, var(--typography-font-line-height));
       font-weight: var(--typography-#{$key}-font-weight, inherit);
+      letter-spacing: var(--typography-#{$key}-letter-spacing, inherit);
+      line-height: var(--typography-#{$key}-line-height, var(--typography-font-line-height));
     }
   }
 
