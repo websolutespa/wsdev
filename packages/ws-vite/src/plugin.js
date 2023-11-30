@@ -17,6 +17,7 @@ const require = createRequire(import.meta.url);
 const packageJson = require('../package.json');
 
 const defaultOptions = {
+  base: undefined,
   paths: {
     src: './src',
     dist: './dist',
@@ -66,11 +67,15 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
     ...defaultOptions,
     ...userOptions,
   };
+  // options.server.origin = 'http://' + options.server.host + ':' + options.server.port + options.base;
   const paths = resolvePaths(options.paths);
   const isBuilding = viteOptions.command === 'build';
   const isDev = viteOptions.mode === 'development';
+  const isPreview = viteOptions.command === 'serve' && viteOptions.mode === 'production';
   // console.log('env', viteOptions.env);
+  // console.log('command', viteOptions.command, 'mode', viteOptions.mode);
   const config = {
+    base: (isBuilding || isPreview) ? options.base : './',
     root: paths.src,
     // publicDir: paths.assets,
     css: {
@@ -139,6 +144,19 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
     },
     optimizeDeps: {
       entries: [],
+    },
+    experimental: {
+      renderBuiltUrl(filename, { hostType }) {
+        console.log(filename, hostType);
+        return { relative: true };
+        /*
+        if (hostType === 'js') {
+          return { runtime: `window.__toCdnUrl(${JSON.stringify(filename)})` };
+        } else {
+          return { relative: true };
+        }
+        */
+      },
     },
   };
   // console.log('wsViteConfig', config);

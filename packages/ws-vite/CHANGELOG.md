@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.8
+
+### Patch Changes
+
+- Added: base path support
+
 ## 0.0.7
 
 ### Patch Changes

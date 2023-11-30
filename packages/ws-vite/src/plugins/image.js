@@ -121,7 +121,7 @@ export const imagePlugin = (userOptions) => {
     configResolved(resolved) {
       currentConfig = resolved;
       // console.log('currentConfig', currentConfig);
-      basePath = createBasePath(currentConfig.base);
+      basePath = createBasePath('');
       // console.log('basePath', basePath);
     },
 
@@ -156,7 +156,7 @@ export const imagePlugin = (userOptions) => {
           }
           const src = keyToSrc(g3, userOptions);
           // console.log(src);
-          return g1 + src + g4;
+          return g1 + path.join(currentConfig.base || '', src).replace(/\\/g, '/') + g4;
         }
       );
       return html;
@@ -213,7 +213,7 @@ export const imagePlugin = (userOptions) => {
       for (const key of pool.keys()) {
         // console.log(key);
         const [_, src] = key.split(basePath);
-        // console.log('src', src);
+        // console.log('src', src, key, basePath);
         const output = keyToSrc(src, userOptions);
         const folder = path.dirname(output);
         const basename = path.basename(output);

@@ -62,7 +62,7 @@
   @each $breakpoint, $value in $map {
     $i: index(($map), ($breakpoint $value));
 
-    @if $i >0 {
+    @if $i >1 {
       $width: map.get($breakpoints, $breakpoint);
 
       @media (min-width: $width) {
@@ -79,41 +79,115 @@
 @mixin expandDirections($slice, $key, $value, $expression) {
   --#{$slice}-#{$value}: #{$expression};
 
-  // top
-  .#{$slice}t-#{$value} {
-    #{$key}-top: var(--#{$slice}-#{$value});
-  }
+  @each $b, $w in $breakpoints {
+    $i: index(($breakpoints), ($b $w));
 
-  // right
-  .#{$slice}r-#{$value} {
-    #{$key}-right: var(--#{$slice}-#{$value});
-  }
+    /*
+    @debug $i;
+    @debug $b;
+    @debug $w;
+    */
 
-  // bottom
-  .#{$slice}b-#{$value} {
-    #{$key}-bottom: var(--#{$slice}-#{$value});
-  }
+    @if $i >1 {
+      $width: map.get($breakpoints, $b);
 
-  // left
-  .#{$slice}l-#{$value} {
-    #{$key}-left: var(--#{$slice}-#{$value});
-  }
+      // top
+      .#{$slice}t-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-top: var(--#{$slice}-#{$value});
+        }
+      }
 
-  // left right
-  .#{$slice}x-#{$value} {
-    #{$key}-left: var(--#{$slice}-#{$value});
-    #{$key}-right: var(--#{$slice}-#{$value});
-  }
+      // right
+      .#{$slice}r-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-right: var(--#{$slice}-#{$value});
+        }
+      }
 
-  // top bottom
-  .#{$slice}y-#{$value} {
-    #{$key}-top: var(--#{$slice}-#{$value});
-    #{$key}-bottom: var(--#{$slice}-#{$value});
-  }
+      // bottom
+      .#{$slice}b-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-bottom: var(--#{$slice}-#{$value});
+        }
+      }
 
-  // full
-  .#{$slice}-#{$value} {
-    #{$key}: var(--#{$slice}-#{$value});
+      // left
+      .#{$slice}l-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-left: var(--#{$slice}-#{$value});
+        }
+      }
+
+      // left right
+      .#{$slice}x-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-left: var(--#{$slice}-#{$value});
+          #{$key}-right: var(--#{$slice}-#{$value});
+        }
+      }
+
+      // top bottom
+      .#{$slice}y-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}-top: var(--#{$slice}-#{$value});
+          #{$key}-bottom: var(--#{$slice}-#{$value});
+        }
+      }
+
+      // full
+      .#{$slice}-#{$b}-#{$value} {
+        @media (min-width: $width) {
+          #{$key}: var(--#{$slice}-#{$value});
+        }
+      }
+    }
+
+    @else {
+
+      /*
+      @debug $i;
+      @debug $b;
+      @debug $w;
+      */
+
+      // top
+      .#{$slice}t-#{$value} {
+        #{$key}-top: var(--#{$slice}-#{$value});
+      }
+
+      // right
+      .#{$slice}r-#{$value} {
+        #{$key}-right: var(--#{$slice}-#{$value});
+      }
+
+      // bottom
+      .#{$slice}b-#{$value} {
+        #{$key}-bottom: var(--#{$slice}-#{$value});
+      }
+
+      // left
+      .#{$slice}l-#{$value} {
+        #{$key}-left: var(--#{$slice}-#{$value});
+      }
+
+      // left right
+      .#{$slice}x-#{$value} {
+        #{$key}-left: var(--#{$slice}-#{$value});
+        #{$key}-right: var(--#{$slice}-#{$value});
+      }
+
+      // top bottom
+      .#{$slice}y-#{$value} {
+        #{$key}-top: var(--#{$slice}-#{$value});
+        #{$key}-bottom: var(--#{$slice}-#{$value});
+      }
+
+      // full
+      .#{$slice}-#{$value} {
+        #{$key}: var(--#{$slice}-#{$value});
+      }
+    }
   }
 }
 

@@ -3,7 +3,7 @@
     {% assign items = 'theme,images,icons' | split: ',' %}
     {% for item in items %}
       <li>
-        <a href='/docs/{{ item }}.html'>{{ item }}</a>
+        <a href='%BASE_URL%docs/{{ item }}.html'>{{ item }}</a>
       </li>
     {% endfor %}
     <li>
