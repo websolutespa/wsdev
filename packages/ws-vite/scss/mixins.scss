@@ -1,3 +1,12 @@
+$breakpoint: (
+  "xs": 0,
+  "sm": 768px,
+  "md": 1024px,
+  "lg": 1440px,
+  "xl": 1600px) !default;
+
+// @debug $breakpoint;
+
 @import 'mixins/breakpoint';
 @import 'mixins/container';
 @import 'mixins/core';

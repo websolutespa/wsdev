@@ -1,5 +1,9 @@
 @import '~@websolutespa/ws-vite/scss/mixins.scss';
 
+// utils
+@include breakpoint();
+// shows current breakpoint (optional: comment to remove)
+
 @include container();
 @include grid();
 @include padding();

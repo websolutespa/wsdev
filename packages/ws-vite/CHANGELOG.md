@@ -1,5 +1,12 @@
 # @websolutespa/ws-vite
 
+## 0.0.9
+
+### Patch Changes
+
+- Added: dynamic breakpoints
+- Fixing: html minification
+
 ## 0.0.8
 
 ### Patch Changes

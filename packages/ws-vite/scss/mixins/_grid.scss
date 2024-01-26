@@ -27,11 +27,11 @@
   $grid-columns: 24;
 
   @each $key, $size in $breakpoint {
-    @if $key =='xs' {
+    @if index(($breakpoint), ($key $size))==1 {
       @for $i from 1 through $grid-columns {
 
         .grid-#{$i},
-        .grid-xs-#{$i} {
+        .grid-#{$key}-#{$i} {
           grid-column: span $i / auto;
 
           @each $key in $grid {
@@ -67,11 +67,11 @@
   }
 
   @each $key, $size in $breakpoint {
-    @if $key =='xs' {
+    @if index(($breakpoint), ($key $size))==1 {
       @for $i from 2 through $grid-columns {
 
         .end-#{$i},
-        .end-xs-#{$i} {
+        .end-#{$key}-#{$i} {
           grid-column-end: $i + 1;
         }
       }

@@ -1,13 +1,5 @@
-$breakpoints: (
-  "xs": 0,
-  "sm": 768px,
-  "md": 1024px,
-  "lg": 1440px,
-  "xl": 1600px
-);
-
 @function breakpoint-next($name, $breakpoint: $breakpoint) {
-  $keys: map-keys($breakpoint );
+  $keys: map-keys($breakpoint);
   $n: index($keys, $name);
   @return if($n !=null and $n < length($keys), nth($keys, $n + 1), null);
 }
@@ -96,6 +88,27 @@ $breakpoints: (
   @else if $min==null {
     @include media-down($name, $breakpoint) {
       @content;
+    }
+  }
+}
+
+@mixin breakpoint() {
+  html {
+    &:after {
+      content: var(--breakpoint, '~');
+      display: block;
+      position: fixed;
+      right: 6px;
+      bottom: 8px;
+      padding: 3px 6px;
+      border-radius: 2px;
+      border: 1px solid var(--color-warning-600, #D9AC00);
+      background: var(--color-warning-500, #fdce00);
+      color: var(--color-warning-900, #795900);
+      font-family: monospace;
+      font-size: 10px;
+      line-height: 1;
+      z-index: 100000000;
     }
   }
 }

@@ -80,7 +80,10 @@
   },
   "grid": {
     "default": {
-      "columns": 12,
+      "columns": {
+        "xs": 4,
+        "md": 12
+      },
       "size": "1fr",
       "columnGap": {
         "xs": "Max(4vw, Min(48px, calc(100vw / 24)))",

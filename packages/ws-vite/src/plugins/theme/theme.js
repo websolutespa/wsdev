@@ -7,8 +7,9 @@ function isNumber(value) {
 }
 
 function isUnit(value) {
-  return isNumber(value) ||
-    (value === (parseInt(value) + 'px'));
+  return isNumber(value)
+    || (value === (parseInt(value) + 'px'))
+    || /^(max|min|calc)/i.test(value);
 }
 
 function isString(value) {
@@ -24,13 +25,35 @@ function isArray(value) {
 }
 
 function isMediaMap(value) {
-  if (isObject(value)) {
-    const keys = ['xs', 'sm', 'md', 'lg', 'xl'];
+  if (isMapOfUnit(value)) {
+    const keys = ['xxxs', 'xxs', 'xs', 'sm', 'md', 'lg', 'xl', 'xxl', 'xxxl'];
     return Object.keys(value).reduce((p, c) => {
       return p && keys.includes(c);
     }, true);
+    /*
+    const matchedKeys = keys.filter(key => value[key] != null);
+    const hasEnoughKeys = matchedKeys.length > 1;
+    if (hasEnoughKeys) {
+      console.log('isMediaMap', value, 'matchedKeys', matchedKeys.length);
+    }
+    return hasEnoughKeys;
+    */
   }
   return false;
+}
+
+function isMapOfUnit(value) {
+  return isObject(value) &&
+    Object.keys(value).reduce((p, c) => {
+      return p && isUnit(value[c]);
+    }, true);
+}
+
+function isMapOfManyUnit(value) {
+  return isObject(value) &&
+    Object.keys(value).reduce((p, c) => {
+      return p && (isUnit(value[c]) || isListOfUnit(value[c]));
+    }, true);
 }
 
 function isListOfUnit(value) {
@@ -104,10 +127,21 @@ function parseValue(value, breakpoint, parentKey = '', collection = { names: [],
             const values = toScssMap(value);
             collection.scss.push(`$${key}: ${values};`);
             // collection.refs.push([key, values]);
+            // console.log(breakpoint, value, parentKey);
+            const css = Object.entries(breakpoint).map(([k, v], i) => {
+              if (i === 0) {
+                return `${S}--breakpoint: '${k}';`;
+              } else {
+                return `${S}@media (min-width: ${v}) {
+${S}${S}--breakpoint: '${k}';
+${S}}`;
+              }
+            });
+            collection.css.push(...css);
           } else {
             const css = Object.entries(breakpoint).map(([k, v], i) => {
               let expression = value[k];
-              if (!expression) {
+              if (expression == null) {
                 return '';
               }
               if (isListOfTwo(expression)) {

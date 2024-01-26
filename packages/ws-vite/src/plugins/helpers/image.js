@@ -2,6 +2,7 @@ import { getImageSrc, getImageSrcSet } from '../image.js';
 
 export function getImage(breakpoint) {
   const keys = Object.keys(breakpoint);
+  const firstKey = keys[0];
   const values = Object.values(breakpoint).map(x => parseInt(String(x)));
   // console.log('getImage.breakpoint', breakpoint);
   return (userOptions) => {
@@ -31,8 +32,8 @@ export function getImage(breakpoint) {
         if (s.down || s.up) {
           s.breakpoint = s.down || s.up;
         } else {
-          s.breakpoint = 'xs';
-          s.down = 'xs';
+          s.breakpoint = firstKey;
+          s.down = firstKey;
         }
         const i = keys.indexOf(s.breakpoint);
         const value = s.down ? (

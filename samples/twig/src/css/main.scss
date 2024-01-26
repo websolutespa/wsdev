@@ -1,5 +1,9 @@
 @import '~@websolutespa/ws-vite/scss/mixins.scss';
 
+// utils
+@include breakpoint();
+// shows current breakpoint (optional: comment to remove)
+
 @include container();
 @include grid();
 @include padding();
@@ -20,3 +24,25 @@
 @import '../templates/components/main-menu/main-menu';
 @import '../templates/components/text-only/text-only';
 @import '../templates/components/toggle/toggle';
+
+/*
+:root {
+  --bg: red;
+}
+
+@media (min-width: 300px) {
+  :root {
+    --bg: blue;
+  }
+}
+
+@media (min-width: 600px) {
+  :root {
+    --bg: green;
+  }
+}
+*/
+
+body {
+  background: var(--bg);
+}

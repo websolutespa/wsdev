@@ -18,7 +18,7 @@
 }
 
 @function is-media($value) {
-  @return is-map($value) and map.has-key($value, 'xs');
+  @return is-map($value) and map.has-key($value, 'sm');
 }
 
 @function is-list($value) {
@@ -59,11 +59,11 @@
 
   // $keys: map.keys($map);
   // $values: map.values($map);
-  @each $breakpoint, $value in $map {
-    $i: index(($map), ($breakpoint $value));
+  @each $key, $value in $map {
+    $i: index(($map), ($key $value));
 
     @if $i >1 {
-      $width: map.get($breakpoints, $breakpoint);
+      $width: map.get($breakpoint, $key);
 
       @media (min-width: $width) {
         #{$key}: $value;
@@ -79,8 +79,8 @@
 @mixin expandDirections($slice, $key, $value, $expression) {
   --#{$slice}-#{$value}: #{$expression};
 
-  @each $b, $w in $breakpoints {
-    $i: index(($breakpoints), ($b $w));
+  @each $b, $w in $breakpoint {
+    $i: index(($breakpoint), ($b $w));
 
     /*
     @debug $i;
@@ -89,7 +89,7 @@
     */
 
     @if $i >1 {
-      $width: map.get($breakpoints, $b);
+      $width: map.get($breakpoint, $b);
 
       // top
       .#{$slice}t-#{$b}-#{$value} {

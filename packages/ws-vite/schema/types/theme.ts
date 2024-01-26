@@ -260,17 +260,21 @@ export type CSSExtendedValues<T = CSSExcludedValues> = {
 /**
  * The breakpoint variants in the media query of the responsive css.
  */
-export type BreakpointVariants = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+export type BreakpointVariants = 'xxxs' | 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl' | 'xxxl';
 
 /**
  * The css variant of the values resolved in the media query by each breakpoint.
  *
  * **Syntax**: {`
+ *  xxxs: <value>,
+ *  xxs: <value>,
  *  xs: <value>,
  *  sm: <value>,
  *  md: <value>,
  *  lg: <value>,
  *  xl: <value>,
+ *  xxl: <value>,
+ *  xxxl: <value>,
  * }`
  */
 export type CSSResponsive<T> = {
@@ -278,11 +282,15 @@ export type CSSResponsive<T> = {
    * The css variant of the values resolved in the media query by each breakpoint.
    *
    * **Syntax**: {`
+   *  xxxs: <value>,
+   *  xxs: <value>,
    *  xs: <value>,
    *  sm: <value>,
    *  md: <value>,
    *  lg: <value>,
    *  xl: <value>,
+   *  xxl: <value>,
+   *  xxxl: <value>,
    * }`
    */
   [key in BreakpointVariants]: T;
@@ -435,16 +443,32 @@ export type Typographies = Partial<{
 
 // breakpoints
 
+export type BreakpointsXS = {
+  [key in Extract<'xxxs' | 'xxs' | 'xs', BreakpointVariants>]?: Unit;
+};
+
+export type BreakpointsSM = {
+  [key in Extract<'sm' | 'md' | 'lg', BreakpointVariants>]: Unit;
+};
+
+export type BreakpointsXL = {
+  [key in Extract<'xl' | 'xxl' | 'xxxl', BreakpointVariants>]?: Unit;
+};
+
 export type Breakpoints = {
   /**
    * property width associated to the breakpoint of the media query.
    *
-   * **Syntax**: `{
-   *  xs: <number> | <pixel>,
-   *  sm: <number> | <pixel>,
-   *  md: <number> | <pixel>,
-   *  lg: <number> | <pixel>,
-   *  xl: <number> | <pixel>,
+   * **Syntax**: {`
+   *  xxxs: <value>,
+   *  xxs: <value>,
+   *  xs: <value>,
+   *  sm: <value>,
+   *  md: <value>,
+   *  lg: <value>,
+   *  xl: <value>,
+   *  xxl: <value>,
+   *  xxxl: <value>,
    * }`
    */
   // [key in BreakpointVariants]: CSSProps['width'];
@@ -455,8 +479,7 @@ export type Breakpoints = {
    *
    * @see https://developer.mozilla.org/docs/Web/CSS/width
    */
-  [key in BreakpointVariants]: Unit;
-};
+} & BreakpointsXS & BreakpointsSM & BreakpointsXL;
 
 // colors
 
@@ -649,11 +672,15 @@ export type ITheme = {
    * The breakpoint used in the media query of the responsive css.
    *
    * **Syntax**: {`
-   *  xs: <number> | <pixel>,
-   *  sm: <number> | <pixel>,
-   *  md: <number> | <pixel>,
-   *  lg: <number> | <pixel>,
-   *  xl: <number> | <pixel>,
+   *  xxxs: <value>,
+   *  xxs: <value>,
+   *  xs: <value>,
+   *  sm: <value>,
+   *  md: <value>,
+   *  lg: <value>,
+   *  xl: <value>,
+   *  xxl: <value>,
+   *  xxxl: <value>,
    * }`
    *
    * @see https://github.com/websolutespa/wsdev/blob/main/samples/docs/THEMING.md
