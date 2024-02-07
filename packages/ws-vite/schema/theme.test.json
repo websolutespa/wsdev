@@ -48,7 +48,7 @@
   "grid": {
     "default": {
       "columns": 12,
-      "size": "1fr",
+      "size": "minmax(0, 1fr)",
       "columnGap": {
         "xs": "Max(4vw, Min(48px, calc(100vw / 24)))",
         "sm": "Max(4vw, Min(60px, calc(100vw / 24)))",

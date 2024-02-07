@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.10
+
+### Patch Changes
+
+- Fixing: Base64 encoded SVG inclusion
+
 ## 0.0.9
 
 ### Patch Changes

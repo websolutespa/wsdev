@@ -124,6 +124,7 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
       cssMinify: 'esbuild',
       sourcemap: true,
       reportCompressedSize: false,
+      assetsInlineLimit: 0,
       // manifest: true,
       // cssCodeSplit: true, // default
     },
@@ -162,35 +163,6 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
   // console.log('wsViteConfig', config);
   return config;
 }
-
-/*
-// import meta env
-{
-  "MODE": "production",
-  "DEV": false,
-  "PROD": true,
-  "SSR": false,
-  "BASE_URL": "/",
-  "VITE_VERCEL_URL": "wsdev-twig-dpby9zd87-actarian.vercel.app",
-  "VITE_VERCEL_BRANCH_URL": "wsdev-twig-git-main-actarian.vercel.app",
-  "VITE_VERCEL_ENV": "production",
-  "VITE_VERCEL_GIT_COMMIT_AUTHOR_LOGIN": "actarian",
-  "VITE_VERCEL_GIT_COMMIT_AUTHOR_NAME": "Luca Zampetti",
-  "VITE_VERCEL_GIT_COMMIT_MESSAGE": "Update turbo.json",
-  "VITE_VERCEL_GIT_COMMIT_REF": "main",
-  "VITE_VERCEL_GIT_COMMIT_SHA": "a2f8f5b5d957be40bf4e93e13d820ada27180611",
-  "VITE_VERCEL_GIT_PREVIOUS_SHA": "",
-  "VITE_VERCEL_GIT_PROVIDER": "github",
-  "VITE_VERCEL_GIT_PULL_REQUEST_ID": "",
-  "VITE_VERCEL_GIT_REPO_ID": "704246552",
-  "VITE_VERCEL_GIT_REPO_OWNER": "actarian",
-  "VITE_VERCEL_GIT_REPO_SLUG": "wsdev",
-}
-*/
-
-// JSON data
-// const require = createRequire(fileURL);
-// const en = require(`./${src}/data/en.json`);
 
 /*
 "devDependencies": {
