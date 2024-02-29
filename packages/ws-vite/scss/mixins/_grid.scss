@@ -9,11 +9,10 @@
 
     .grid#{$variant} {
       --columns: var(--grid#{$variant}-columns, 12);
-      --size: var(--grid#{$variant}-size, 1fr);
       --column-gap: var(--grid#{$variant}-column-gap, 0);
       --row-gap: var(--grid#{$variant}-row-gap, 0);
       display: grid;
-      grid-template-columns: repeat(var(--columns), var(--size));
+      grid-template-columns: repeat(var(--columns), minmax(0, 1fr));
       grid-column-gap: var(--column-gap);
       grid-row-gap: var(--row-gap);
 

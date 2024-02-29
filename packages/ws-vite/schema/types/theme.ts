@@ -585,14 +585,6 @@ export type Grid = {
    * **Initial value**: `12`
    */
   columns: CSSProps['columns'];
-  /**
-   * fraction size of the grid.
-   *
-   * **Syntax**: `<string>`
-   *
-   * **Initial value**: `1fr`
-   */
-  size: string; // CSSProps['gridTemplateColumns'];
 } & Pick<CSSProps, 'columnGap' | 'rowGap'>;
 
 export type Grids = {
@@ -601,7 +593,6 @@ export type Grids = {
      *
      * **Syntax**: `{
      *  columns: <number>,
-     *  size: <string>,
      *  columnGap: <value>,
      *  rowGap: <value>,
      * }`
@@ -612,7 +603,6 @@ export type Grids = {
      *
      * **Syntax**: `{
      *  columns: <number>,
-     *  size: <string>,
      *  columnGap: <value>,
      *  rowGap: <value>,
      * }`

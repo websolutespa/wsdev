@@ -82,9 +82,8 @@
     "default": {
       "columns": {
         "xs": 4,
-        "md": 12
+        "sm": 12
       },
-      "size": "minmax(0, 1fr)",
       "columnGap": {
         "xs": "Max(4vw, Min(48px, calc(100vw / 24)))",
         "sm": "Max(4vw, Min(60px, calc(100vw / 24)))",
