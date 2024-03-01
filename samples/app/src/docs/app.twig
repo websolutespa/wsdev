@@ -19,6 +19,267 @@
     </div>
   </section>
 
+  <div class="contacts" data-contacts>
+    <div class="container" data-if="success">
+      Richiesta inviata
+    </div>
+    <div class="container" data-if="!success">
+      <form class="form" name="form" role="form" novalidate autocomplete="off" action="#">
+        <div class="form__fields">
+          <div class="control--checkfield" data-control-checkfield data-field="checkField">
+            <input type="text" value="" name="checkField">
+          </div>
+          <div class="control" data-control-text data-field="firstName">
+            <label class="control__label" for="firstName">
+              Nome <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Nome" id="firstName">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="lastName">
+            <label class="control__label" for="lastName">
+              Cognome <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Cognome" id="lastName">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="email">
+            <label class="control__label" for="email">
+              Email <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Email" id="email">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="telephone">
+            <label class="control__label" for="telephone">
+              Telefono <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Telefono" id="telephone">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="job">
+            <label class="control__label" for="job">
+              Professione <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Professione" id="job">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="company">
+            <label class="control__label" for="company">
+              Azienda <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Azienda" id="company">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-text data-field="city">
+            <label class="control__label" for="city">
+              Città <span class="control__required">*</span>
+            </label>
+            <div class="control__field">
+              <input class="control__input" type="text" placeholder="Città" id="city">
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-select data-field="country">
+            <label class="control__label" for="country">
+              Paese <span class="control__required">*</span>
+            </label>
+            <div class="control__field control__field--select">
+              <select class="control__select" name="country" id="country">
+                <option value="" disabled selected>Paese</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              {{icon('caret-down')}}
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-select data-field="requestType">
+            <label class="control__label" for="requestType">
+              Motivo <span class="control__required">*</span>
+            </label>
+            <div class="control__field control__field--select">
+              <select class="control__select" name="requestType" id="requestType">
+                <option value="" disabled selected>Motivo</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+              </select>
+              {{icon('caret-down')}}
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control" data-control-textarea data-field="message">
+            <label class="control__label" for="message">
+              Messaggio <span class="control__required">*</span>
+            </label>
+            <div class="control__field control__field--textarea">
+              <textarea class="control__textarea" rows="4" placeholder="Messaggio" id="message"></textarea>
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="form__spacer"></div>
+          <div class="control control--full" data-control-checkbox data-field="privacy">
+            <div class="control__field--checkbox">
+              <input class="control__input" type="checkbox" value="true" id="privacy">
+              <label class="control__label" for="privacy">
+                {{icon('checkbox')}}
+                {{icon('checkbox-checked')}}
+                <span>Dichiaro di aver letto l'<a href="/it/en/privacy-policy" target="_blank">informativa</a> e acconsento al trattamento dei dati</span>
+                <span class="control__required">*</span>
+              </label>
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control control--full" data-control-privacy data-field="newsletter">
+            <div class="control__field--privacy">
+              <div class="control__radios">
+                <input class="control__input" type="radio" value="true" id="newsletter_true" name="newsletter">
+                <label class="control__label" for="newsletter_true">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Acconsento</span>
+                </label>
+                <input class="control__input" type="radio" value="false" id="newsletter_false" name="newsletter">
+                <label class="control__label" for="newsletter_false">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Non acconsento</span>
+                </label>
+              </div>
+              <div class="control__description">
+                <span>Al trattamento dei miei dati personali per attività di marketing diretto mediante l'iscrizione alla newsletter.</span>
+                <span class="control__required">*</span>
+              </div>
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control control--full" data-control-privacy data-field="commercial">
+            <div class="control__field--privacy">
+              <div class="control__radios">
+                <input class="control__input" type="radio" value="true" id="commercial_true" name="commercial">
+                <label class="control__label" for="commercial_true">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Acconsento</span>
+                </label>
+                <input class="control__input" type="radio" value="false" id="commercial_false" name="commercial">
+                <label class="control__label" for="commercial_false">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Non acconsento</span>
+                </label>
+              </div>
+              <div class="control__description">
+                <span>Al trattamento dei miei dati personali per attività di profilazione, al fine di ricevere comunicazioni commerciali più vicine ai miei interessi.</span>
+                <span class="control__required">*</span>
+              </div>
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+          <div class="control control--full" data-control-privacy data-field="promotion">
+            <div class="control__field--privacy">
+              <div class="control__radios">
+                <input class="control__input" type="radio" value="true" id="promotion_true" name="promotion">
+                <label class="control__label" for="promotion_true">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Acconsento</span>
+                </label>
+                <input class="control__input" type="radio" value="false" id="promotion_false" name="promotion">
+                <label class="control__label" for="promotion_false">
+                  {{icon('checkbox')}}
+                  {{icon('checkbox-checked')}}
+                  <span>Non acconsento</span>
+                </label>
+              </div>
+              <div class="control__description">
+                <span>Al trasferimento dei miei dati personali per attività promozionali da parte di terzi. I dati saranno trasferiti esclusivamente a società facenti parte del Gruppo.</span>
+                <span class="control__required">*</span>
+              </div>
+            </div>
+            <div class="control__errors">
+              <div class="required">Il campo è obbligatorio</div>
+              <div class="email">Email non valida</div>
+              <div class="match">I campi non corrispondono</div>
+            </div>
+          </div>
+        </div>
+        <div class="form__cta">
+          <button type="submit" class="btn--submit" data-title="Invia">
+            <span>Invia la tua richiesta</span>
+          </button>
+        </div>
+        <div class="form__test" data-test></div>
+      </form>
+    </div>
+  </div>
+
   <div class="guide">
     <div class="container">
       <div class="guide__title">data-html</div>

@@ -11,8 +11,8 @@
 @include typography();
 @include lenis();
 
-// common
 @import 'common';
+@import 'forms';
 
 // components
 @import '../templates/components/components';

@@ -5,12 +5,14 @@ import '../css/main.scss';
 
 import { CoreModule, FormsModule, useModule } from '@websolutespa/ws-app';
 import { AppComponent } from './app.component';
+import { ComponentsModule } from './components/components.module';
 
 addEventListener('DOMContentLoaded', () => {
   const app = useModule({
     imports: [
       CoreModule,
       FormsModule,
+      ComponentsModule,
     ],
     factories: [
       AppComponent,

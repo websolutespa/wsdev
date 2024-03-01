@@ -10,15 +10,16 @@ import { deleteState } from '../state/state';
 type Props = {
   metas: ?
   node: element,
+  originalNode: originalElement,
   data: attributes,
   unsubscribe$: unsubscribe$,
-  originalNode: originalElement,
   module: Module,
 }
 */
 
-function Factory(props) {
-  const { metas, node, data, unsubscribe$, module, originalNode } = props;
+// Props & { metas: Meta[] };
+function Factory({ metas, ...props }) {
+  const { node, data, unsubscribe$, module, originalNode } = props;
   return Promise.all(metas.map(meta => {
     return module.getFactory(meta).then(factory => {
       if (typeof factory === 'object') {

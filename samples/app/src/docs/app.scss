@@ -1,6 +1,5 @@
 .guide {
-  @extend .pt-80 !optional;
-  @extend .pb-80 !optional;
+  @extend .py-80;
   border: 1px solid rgba(128, 128, 128, 0.1);
 
   .container {

@@ -1,0 +1,29 @@
+.control__field--textarea {
+
+  .control__textarea {
+    @extend .p-12;
+    width: 100%;
+    resize: vertical;
+    background: none;
+    border: none;
+    outline: none;
+    appearance: none;
+    color: var(--color-input);
+
+    &,
+    &::placeholder {
+      @extend .paragraph10;
+      font-family: var(--font-family);
+    }
+
+    &::placeholder {
+      color: var(--color-placeholder);
+    }
+
+    @include scrollbar();
+  }
+
+  label {
+    margin-bottom: 5px;
+  }
+}

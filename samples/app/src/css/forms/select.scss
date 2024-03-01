@@ -1,0 +1,47 @@
+.control__field--select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0;
+  cursor: pointer;
+
+  .control__select {
+    @extend .p-12;
+    flex: 1 1 auto;
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    appearance: none;
+    @extend .paragraph10;
+    font-family: var(--font-family);
+    color: var(--color-input);
+    cursor: pointer;
+  }
+
+  .icon--caret-down {
+    position: absolute;
+    top: 0;
+    right: 0.5em;
+    height: 100%;
+    width: 10px;
+    pointer-events: none;
+  }
+
+  input {
+    pointer-events: none;
+  }
+
+  .multiple>& {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: calc(100% - 23px);
+  }
+
+  @include media-down(xs) {
+    margin: 0 0 10px 0;
+  }
+}

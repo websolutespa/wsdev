@@ -1,0 +1,115 @@
+.control {
+  --color-input: var(--color-foreground-500);
+  --color-background: var(--color-background);
+  --color-border: var(--color-background-200);
+  --color-label: var(--color-foreground);
+  --color-required: transparent;
+  --color-placeholder: rgba(128, 128, 128, 0.5);
+
+  &__field {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+  }
+
+  &__input {
+    &[type="text"] {
+      flex: 1 1 auto;
+      width: 1px;
+      max-width: 100%;
+      background: none;
+      border: none;
+      outline: none;
+      appearance: none;
+      @extend .p-12;
+      @extend .paragraph10;
+      font-family: var(--font-family);
+      color: var(--color-input);
+
+      &::placeholder {
+        color: var(--color-placeholder);
+      }
+    }
+  }
+
+  &__label {
+    display: block;
+    flex: 0 0 100%;
+    @extend .paragraph50;
+    text-transform: uppercase;
+    color: var(--color-label);
+  }
+
+  &__required {
+    color: var(--color-required);
+  }
+
+  &.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  &.pristine {
+    --color-input: var(--color-foreground-500);
+  }
+
+  &.dirty {
+    --color-input: var(--color-foreground-700);
+  }
+
+  &.touched {
+    --color-input: var(--color-foreground-900);
+  }
+
+  &.invalid.touched {
+    --color-input: var(--color-danger-500);
+    --color-border: var(--color-danger-500);
+  }
+
+  &.required {
+    --color-required: var(--color-foreground-500);
+
+    &.valid.touched {
+      --color-required: var(--color-success-500);
+      --color-input: var(--color-success-500);
+      --color-border: var(--color-success-500);
+    }
+
+    &.invalid.touched {
+      --color-required: var(--color-danger-500);
+    }
+  }
+}
+
+.control__errors {
+  @extend .paragraph50;
+  color: var(--color-danger-500);
+
+  &>* {
+    display: none;
+  }
+
+  .touched.invalid.error--required & {
+    &>.required {
+      display: block;
+    }
+  }
+
+  .touched.invalid.error--email & {
+    &>.email {
+      display: block;
+    }
+  }
+
+  .touched.invalid.error--match & {
+    &>.match {
+      display: block;
+    }
+  }
+}
+
+.control--checkfield {
+  display: none;
+}

@@ -15,11 +15,13 @@ export function TestComponent(props) {
   }
 
   node.innerHTML = /*html*/`
-		<code class="forms-test__code"[innerHTML]="form.value | json"></code>
-		<button type="button" class="btn--submit"><span>Test</span></button>
-		<button type="button" class="btn--reset"><span>Reset</span></button>
+		<code class="form__code" data-html="form.value | json"></code>
+    <div class="form__cta">
+		  <button type="button" class="btn--reset"><span>Reset</span></button>
+		  <button type="button" class="btn--submit"><span>Test</span></button>
+    </div>
 	`;
-  const code = node.querySelector('.forms-test__code');
+  const code = node.querySelector('.form__code');
   listeners$().pipe(
     takeUntil(unsubscribe$)
   ).subscribe();
@@ -35,7 +37,7 @@ export function TestComponent(props) {
   function change$() {
     return form.changes$.pipe(
       tap(value => {
-        code.innerText = JSON.stringify(value);
+        code.innerText = JSON.stringify(value, null, 2);
       })
     );
   }
