@@ -1,0 +1,185 @@
+{% extends '/templates/layouts/layout.twig' %}
+
+{% block head %}
+<link rel="stylesheet" href="/docs/theme.scss">
+{% endblock %}
+
+{% block main %}
+
+<main>
+  <section class="hero py-80">
+    <div class="container">
+      <h1 class="display20 fw-700">Images</h1>
+      <div class="display40">
+        High performance image processing with ♯
+        <a class="link" href="https://sharp.pixelplumbing.com/" target="_blank" title="Sharp.js">Sharp.js</a>.
+      </div>
+    </div>
+  </section>
+
+  {# images #}
+  <section class="theme py-64">
+    <div class="container">
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>Use namespace <em>/@image:</em> to initiate image processing.</p>
+            <p>The default output format is <em>.webp</em>, you can change it with <em>f</em> parameter.</p>
+          </div>
+          <div class="theme__name">/@image:/assets/img/mountains-01.jpg?w=1920&h=540&f=jpg</div>
+        </div>
+      </div>
+    </div>
+    <picture class="theme__picture">
+      <img loading="lazy" src="/@image:/assets/img/mountains-01.jpg?w=1920&h=540" width="1920" height="540" alt="Picture" />
+    </picture>
+    <div class="container">
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>You can build the url manually or use the <em>image</em> template helper</p>
+            <p>
+              Available helper parameters are <em>src</em>, <em>width</em>, <em>height</em>, <em>format</em>,
+              <em>loading</em>, <em>alt</em>.
+            </p>
+            <p>The default loading method is <em>lazy</em>.</p>
+          </div>
+          <code>{{htmlEncode(
+"{{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img src="/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540&amp;f=webp"
+  width="1440"
+  height="540"
+  loading="lazy"
+  alt="picture">'
+          )}}</code>
+          <div class="theme__name">/@image:/assets/img/mountains-01.jpg?w=1440&amp;h=540</div>
+          <picture class="theme__picture">
+            {{image({ src: '/assets/img/mountains-01.jpg', width: 1440, height: 540 })}}
+          </picture>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>You can use a <em>srcset</em> array with the helper to generate a list of srcset images.</p>
+          </div>
+          <code>{{htmlEncode(
+"{{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img srcset="/@image:/assets/img/mountains-02.jpg?w=810&amp;f=webp 810w,
+  /@image:/assets/img/mountains-02.jpg?w=1080&amp;f=webp 1080w,
+  /@image:/assets/img/mountains-02.jpg?w=1440&amp;f=webp 1440w"
+  sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
+  src="/@image:/assets/img/mountains-02.jpg?w=1440&amp;f=webp"
+  width="1440"
+  height="auto"
+  loading="lazy"
+  alt="picture">'
+          )}}</code>
+          <div class="theme__name">/@image:/assets/img/mountains-02.jpg?w=810 810w, /@image:/assets/img/mountains-02.jpg?w=1080 1080w, /@image:/assets/img/mountains-02.jpg?w=1440 1440w</div>
+          <picture class="theme__picture">
+            {{image({ src: '/assets/img/mountains-02.jpg', srcset: [810, 1080, 1440] })}}
+          </picture>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>You can use a <em>src</em> array to generate a list of source images with different ratios associated to the query breakpoints.</p>
+          </div>
+          <code>{{htmlEncode(
+"{{image({ src: [
+  { src: '/assets/img/mountains-02.jpg', width: 768,  height: 614, down: 'xs' },
+  { src: '/assets/img/mountains-02.jpg', width: 1024, height: 682, down: 'sm' },
+  { src: '/assets/img/mountains-02.jpg', width: 1440, height: 822, down: 'md' },
+  { src: '/assets/img/mountains-02.jpg', width: 1600, height: 800, up: 'lg' },
+]})}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<source media="(max-width: 767.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:/assets/img/mountains-02.jpg?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:/assets/img/mountains-02.jpg?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
+          )}}</code>
+          <picture class="theme__picture">
+            {{image({ src: [
+              { src: '/assets/img/mountains-02.jpg', width: 768,  height: 614, down: 'xs' },
+              { src: '/assets/img/mountains-02.jpg', width: 1024, height: 682, down: 'sm' },
+              { src: '/assets/img/mountains-02.jpg', width: 1440, height: 822, down: 'md' },
+              { src: '/assets/img/mountains-02.jpg', width: 1600, height: 800, up: 'lg' }
+            ] })}}
+          </picture>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>You can use the wildcard <em>placehold</em> to generate image placeholder.</p>
+            <p>An image placeholder appear also if source image is missing.</p>
+          </div>
+          <div class="theme__name">/@image:placehold?w=1440&h=540</div>
+          <picture class="theme__picture">
+            <img loading="lazy" src="/@image:placehold?w=1440&h=540" width="1440" height="540" alt="Picture" />
+          </picture>
+          <code>{{htmlEncode(
+"{{image({ width: 1440, height: 540 })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img
+  src="/@image:placehold?w=1080&amp;h=540&amp;f=webp"
+  width="1080"
+  height="540"
+  loading="lazy"
+  alt="picture">'
+          )}}</code>
+          <div class="theme__name">/@image:placehold?w=1080&h=540</div>
+          <picture class="theme__picture">
+            {{image({ width: 1080, height: 540 })}}
+          </picture>
+          <code>{{htmlEncode(
+"{{image({ width: 1440, height: 540, srcset: [810, 1080, 1440] })}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<img
+  srcset="/@image:placehold?w=810&amp;h=405&amp;f=webp 810w, /@image:placehold?w=1080&amp;h=540&amp;f=webp 1080w, /@image:placehold?w=1440&amp;h=720&amp;f=webp 1440w"
+  sizes="(max-width: 1024px) 810px, (max-width: 1440px) 1080px, 1440px"
+  src="/@image:placehold?w=1440&amp;h=720&amp;f=webp"
+  width="1440"
+  height="auto"
+  loading="lazy"
+  alt="picture">'
+          )}}</code>
+          <div class="theme__name">/@image:placehold?w=810&h=405 810w, /@image:placehold?w=1080&h=540 1080w, /@image:placehold?w=1440&h=720 1440w</div>
+          <picture class="theme__picture">
+            {{image({ width: 1080, height: 540, srcset: [810, 1080, 1440] })}}
+          </picture>
+          <code>{{htmlEncode(
+"{{image({ src: [
+  { width: 768,  height: 614, down: 'xs' },
+  { width: 1024, height: 682, down: 'sm' },
+  { width: 1440, height: 822, down: 'md' },
+  { width: 1600, height: 800, up: 'lg' }
+]})}}"
+          )}}</code>
+          <code>{{htmlEncode(
+'<source media="(max-width: 767.80px)" srcset="/@image:placehold?w=768&amp;h=614&amp;f=webp" width="768" height="614">
+<source media="(max-width: 1023.80px)" srcset="/@image:placehold?w=1024&amp;h=682&amp;f=webp" width="1024" height="682">
+<source media="(max-width: 1439.80px)" srcset="/@image:placehold?w=1440&amp;h=822&amp;f=webp" width="1440" height="822">
+<img src="/@image:placehold?w=1600&amp;h=800&amp;f=webp" width="1600" height="800" loading="lazy" alt="picture">'
+          )}}</code>
+          <picture class="theme__picture">
+            {{image({ src: [
+              { width: 768,  height: 614, down: 'xs' },
+              { width: 1024, height: 682, down: 'sm' },
+              { width: 1440, height: 822, down: 'md' },
+              { width: 1600, height: 800, up: 'lg' }
+            ] })}}
+          </picture>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

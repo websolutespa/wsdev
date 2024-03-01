@@ -1,0 +1,37 @@
+{
+  "name": "@websolutespa/ws-app",
+  "version": "0.0.0",
+  "private": true,
+  "description": "",
+  "keywords": [
+    "ws",
+    "app",
+    "plugin",
+    "websolute",
+    "framework"
+  ],
+  "scripts": {
+  },
+  "dependencies": {
+  },
+  "peerDependencies": {
+    "rxjs": ">= 7.4.0"
+  },
+  "devDependencies": {
+    "@websolutespa/tsconfig": "*",
+    "eslint-config-websolute": "*",
+    "eslint": "^8.46.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "./src/index.js",
+  "engines": {
+    "node": ">=18.16.0",
+    "npm": ">=9.5.1"
+  }
+}

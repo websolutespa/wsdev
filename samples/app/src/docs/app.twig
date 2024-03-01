@@ -1,0 +1,179 @@
+{% extends '/templates/layouts/layout.twig' %}
+
+{% block head %}
+<link rel="stylesheet" href="/docs/theme.scss">
+<script type="module" src="/docs/theme.js"></script>
+{% endblock %}
+
+{% block body_class %}theme{% endblock %}
+
+{% block main %}
+<main>
+
+  <section class="hero py-80">
+    <div class="container">
+      <h1 class="display20 fw-700">ws-app</h1>
+      <div class="display40">
+        a reactive component library by Websolute
+      </div>
+    </div>
+  </section>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-html</div>
+      <div class="guide__abstract">The data-html attribute evaluate an expression in the innerHTML property of the html element.</div>
+      <div>Input</div>
+      <code data-text="`<div data-html='item.title'>`"></code>
+      <div>Output</div>
+      <code data-text="`<div>${item.title}</div>`"></code>
+      <div>Item</div>
+      <code data-text="item | json"></code>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-text</div>
+      <div class="guide__abstract">The data-text attribute evaluate an expression in the innerText property of the html element.</div>
+      <div>Input</div>
+      <code data-text="`<div data-text='item.title'>`"></code>
+      <div>Output</div>
+      <code data-text="`<div>${item.title}</div>`"></code>
+      <div>Item</div>
+      <code data-text="item | json"></code>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide" data-attr="{ id: item.id, title: item.title }">
+    <div class="container">
+      <div class="guide__title">data-attr</div>
+      <div class="guide__abstract">The data-attr attribute adds reactively attributes to the html element.</div>
+      <div>Input</div>
+      <code data-text="`<div data-attr='{ id: item.id, title: item.title }'>`"></code>
+      <div>Output</div>
+      <code data-text="`<div id='${item.id}' title='${item.title}'></div>`"></code>
+      <div>Item</div>
+      <code data-text="item | json"></code>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-class</div>
+      <div class="guide__abstract">The data-class attribute adds reactively classes to the html element.</div>
+      <div>Input</div>
+      <code data-text="`<div data-class='{ red: items.length % 2 == 0, green: items.length % 2 != 0 }'>`"></code>
+      <div>Output</div>
+      <code data-text="`<div data-class='${ items.length % 2 == 0 ? 'red' : 'green'}'>`"></code>
+      <div>Items</div>
+      <code data-text="`Array(${items.length})`"></code>
+      <div data-class="{ red: items.length % 2 == 0, green: items.length % 2 != 0 }">
+        <span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'red' : 'green'"></span>
+      </div>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-style</div>
+      <div class="guide__abstract">The data-style attribute adds reactively style to the html element.</div>
+      <div>Input</div>
+      <code data-text="`<div data-style='{ color: items.length % 2 == 0 ? \'yellow\' : \'blue\' }'>`"></code>
+      <div>Output</div>
+      <code data-text="`<div style='color: ${items.length % 2 == 0 ? 'yellow' : 'blue'};'>`"></code>
+      <div>Items</div>
+      <code data-text="`Array(${items.length})`"></code>
+      <div class="guide__abstract" data-style="{ color: items.length % 2 == 0 ? 'yellow' : 'blue' }">
+        <span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'yellow' : 'blue'"></span>
+      </div>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-event</div>
+      <div class="guide__abstract">The data-event attribute adds reactively an event to the html element.</div>
+      <div>Event</div>
+      <code data-text="`<button data-event='alert'>send</button>`"></code>
+      <div>Listen for events</div>
+      <code data-text="`EventService.bubble$(node).subscribe(event => alert(event.type))`"></code>
+      <button type="button" class="guide__btn" data-event='alert'>send</button>
+      <div>Known events</div>
+      <div class="guide__abstract">A list of known events binded to the data-{event} attribute:<br><em>click</em>, <em>dblclick</em>, <em>mouseover</em>, <em>mouseout</em>, <em>mouseenter</em>, <em>mouseleave</em>, <em>mousedown</em>, <em>mouseup</em>, <em>mousemove</em>, <em>contextmenu</em>, <em>touchstart</em>, <em>touchmove</em>, <em>touchend</em>, <em>keydown</em>, <em>keyup</em>, <em>input</em>, <em>change</em>, <em>loaded</em>.</div>
+      <div>Examples</div>
+      <code data-text="`<button data-click='alert(item.title)'>click</button>`"></code>
+      <button type="button" class="guide__btn" data-click="alert(item.title)">click</button>
+      <code data-text="`<button data-mouseover='alert(item.title)'>hover</button>`"></code>
+      <button type="button" class="guide__btn" data-mouseover="alert(item.title)">hover</button>
+      <div>Item</div>
+      <code data-text="item | json"></code>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-if</div>
+      <div class="guide__abstract">The data-if attribute adds or removes reactively the html element from the dom.</div>
+      <div>Input</div>
+      <code data-text="`<span data-if='items.length % 2 == 0'>pair</span>`"></code>
+      <div>Output</div>
+      <code data-text="`${items.length % 2 == 0 ? '<span>pair</span>' : 'none'}`"></code>
+      <div>Items</div>
+      <code data-text="`Array(${items.length})`"></code>
+      <div>
+        <span data-html="items.length"></span> is <span data-if="items.length % 2 == 0">pair</span> <span data-if="items.length % 2 != 0">odd</span>
+      </div>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">data-for</div>
+      <div class="guide__abstract">The data-for attribute creates a repeater that reactively adds or removes html elements from the dom.</div>
+      <div>Input</div>
+      <code data-text="`<div data-for='let x of items'><div data-html='x.name'></div></div>`"></code>
+      <div>Output</div>
+      <code data-text="`${items.slice(0, 2).map(x => '<div>' + x.name + '</div>').join('')}...`"></code>
+      <div class="guide__items">
+        <div class="guide__item" data-class="{ active: x.id == item.id }" data-attr="{ title: x.title, id: item.id }" data-click="doSelect(x)" data-for="let x of items">
+          <div data-html="x.name"></div>
+        </div>
+      </div>
+      <div>Item</div>
+      <code data-text="item | json"></code>
+      <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+    </div>
+  </div>
+
+  <div class="guide" data-lazy-component>
+    <div class="container">
+      <div class="guide__time"></div>
+      <div class="guide__title">I'm a lazy loaded component</div>
+    </div>
+  </div>
+
+  <div class="guide" data-lazy-module>
+    <div class="container">
+      <div data-lazy-module-component>
+        <div class="guide__time"></div>
+        <div class="guide__title">I'm a lazy loaded module</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guide">
+    <div class="container">
+      <div class="guide__title">Modals</div>
+      <button type="button" class="guide__btn" data-event="modal">open modal</button>
+    </div>
+  </div>
+
+</main>
+{% endblock %}

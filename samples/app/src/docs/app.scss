@@ -1,0 +1,81 @@
+.guide {
+  @extend .pt-80 !optional;
+  @extend .pb-80 !optional;
+  border: 1px solid rgba(128, 128, 128, 0.1);
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+  }
+
+  code {
+    margin: 0;
+  }
+
+  em {
+    font-style: normal;
+  }
+
+  &__title {
+    @extend .display40;
+  }
+
+  &__abstract {
+    @extend .paragraph10;
+    margin-bottom: 1em;
+  }
+
+  &__items {
+    display: flex;
+    flex-wrap: wrap;
+    @extend .heading30;
+    gap: 10px;
+    line-height: 40px;
+  }
+
+  &__item {
+    flex: 0 1 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid rgba(128, 128, 128, 0.1);
+    cursor: pointer;
+
+    &:hover {
+      background: var(--color-neutral-800);
+    }
+
+    &.active {
+      border: 1px solid rgba(128, 128, 128, 1);
+    }
+  }
+
+  &__btn {
+    align-self: flex-end;
+    position: relative;
+    display: inline-flex;
+    place-content: center;
+    padding: 0.2em 2em;
+    border: 2px solid currentColor;
+    outline: 1px solid transparent;
+    outline-offset: 0;
+    border-radius: 6px;
+    transition: ease-in-out 100ms;
+    transition-property: outline-color, outline-offset;
+    cursor: pointer;
+
+    &:hover {
+      outline-color: currentColor;
+      outline-offset: 3px;
+    }
+  }
+
+  .red {
+    color: red;
+  }
+
+  .green {
+    color: green;
+  }
+}

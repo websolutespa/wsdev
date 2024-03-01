@@ -1,0 +1,7 @@
+{% if page.components %}
+<div class="components">
+  {% for component in page.components %}
+  {% include './' ~ component.schema ~ '/' ~ component.schema ~ '.twig' with { item: component } %}
+  {% endfor %}
+</div>
+{% endif %}
