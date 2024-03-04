@@ -1,0 +1,23 @@
+{% if page.menu %}
+<menu class="docs__menu" data-menu>
+  {% for item in page.menu %}
+  <li>
+    <span>{{item.title}}</span>
+    <menu>
+      {% for item in item.items %}
+      <li><a href="./docs/app.html#{{item}}">{{item}}</a></li>
+      {% endfor %}
+    </menu>
+  </li>
+  {% endfor %}
+</menu>
+{% endif %}
+<!--
+{% if page.components %}
+<menu class="docs__menu" data-menu>
+  {% for component in page.components %}
+  <li><a href="./docs/app.html#{{component.schema}}">{{component.schema}}</a></li>
+  {% endfor %}
+</menu>
+{% endif %}
+-->

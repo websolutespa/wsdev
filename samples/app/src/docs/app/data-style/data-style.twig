@@ -1,0 +1,16 @@
+<div id="data-style" class="guide">
+  <div class="container">
+    <div class="guide__title">data-style</div>
+    <div class="guide__abstract">The data-style attribute adds reactively style to the html element.</div>
+    <div>Input</div>
+    <code data-text="`<div data-style='{ color: items.length % 2 == 0 ? \'yellow\' : \'blue\' }'>`"></code>
+    <div>Output</div>
+    <code data-text="`<div style='color: ${items.length % 2 == 0 ? 'yellow' : 'blue'};'>`"></code>
+    <div>Items</div>
+    <code data-text="`Array(${items.length})`"></code>
+    <div class="guide__abstract" data-style="{ color: items.length % 2 == 0 ? 'yellow' : 'blue' }">
+      <span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'yellow' : 'blue'"></span>
+    </div>
+    <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+  </div>
+</div>

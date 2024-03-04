@@ -1,0 +1,18 @@
+<div id="data-for" class="guide">
+  <div class="container">
+    <div class="guide__title">data-for</div>
+    <div class="guide__abstract">The data-for attribute creates a repeater that reactively adds or removes html elements from the dom.</div>
+    <div>Input</div>
+    <code data-text="`<div data-for='let x of items'><div data-html='x.name'></div></div>`"></code>
+    <div>Output</div>
+    <code data-text="`${items.slice(0, 2).map(x => '<div>' + x.name + '</div>').join('')}...`"></code>
+    <div class="guide__items">
+      <div class="guide__item" data-class="{ active: x.id == item.id }" data-attr="{ title: x.title, id: item.id }" data-click="doSelect(x)" data-for="let x of items">
+        <div data-html="x.name"></div>
+      </div>
+    </div>
+    <div>Item</div>
+    <code data-text="item | json"></code>
+    <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+  </div>
+</div>

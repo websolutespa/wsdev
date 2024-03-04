@@ -1,0 +1,16 @@
+<div id="data-class" class="guide">
+  <div class="container">
+    <div class="guide__title">data-class</div>
+    <div class="guide__abstract">The data-class attribute adds reactively classes to the html element.</div>
+    <div>Input</div>
+    <code data-text="`<div data-class='{ red: items.length % 2 == 0, green: items.length % 2 != 0 }'>`"></code>
+    <div>Output</div>
+    <code data-text="`<div data-class='${ items.length % 2 == 0 ? 'red' : 'green'}'>`"></code>
+    <div>Items</div>
+    <code data-text="`Array(${items.length})`"></code>
+    <div data-class="{ red: items.length % 2 == 0, green: items.length % 2 != 0 }">
+      <span data-html="items.length"></span> is <span data-html="(items.length % 2 == 0) ? 'red' : 'green'"></span>
+    </div>
+    <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+  </div>
+</div>

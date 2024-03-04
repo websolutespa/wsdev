@@ -1,0 +1,16 @@
+<div id="data-if" class="guide">
+  <div class="container">
+    <div class="guide__title">data-if</div>
+    <div class="guide__abstract">The data-if attribute adds or removes reactively the html element from the dom.</div>
+    <div>Input</div>
+    <code data-text="`<span data-if='items.length % 2 == 0'>pair</span>`"></code>
+    <div>Output</div>
+    <code data-text="`${items.length % 2 == 0 ? '<span>pair</span>' : 'none'}`"></code>
+    <div>Items</div>
+    <code data-text="`Array(${items.length})`"></code>
+    <div>
+      <span data-html="items.length"></span> is <span data-if="items.length % 2 == 0">pair</span> <span data-if="items.length % 2 != 0">odd</span>
+    </div>
+    <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+  </div>
+</div>

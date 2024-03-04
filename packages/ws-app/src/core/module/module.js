@@ -407,20 +407,16 @@ class Module {
   }
 
   static stats(key) {
-    if (true) {
-      return;
-    }
     const lpt = Module.lpt || performance.now();
     const now = performance.now();
     const div = document.createElement('div');
     const ts = (key ? key : 'stats') + ' (' + Math.floor((now - lpt) * 100) / 100 + 'ms)';
-    if (false) {
-      div.innerHTML = ts;
-      const body = document.querySelector('body');
-      body.insertBefore(div, body.firstElementChild);
-    } else {
-      console.log(ts);
-    }
+    console.log('Module.stats', ts);
+    /*
+    div.innerHTML = ts;
+    const body = document.querySelector('body');
+    body.insertBefore(div, body.firstElementChild);
+    */
     Module.lpt = now;
   }
 }

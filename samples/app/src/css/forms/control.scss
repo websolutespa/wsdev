@@ -39,6 +39,7 @@
     flex: 0 0 100%;
     @extend .paragraph50;
     text-transform: uppercase;
+    user-select: none;
     color: var(--color-label);
   }
 

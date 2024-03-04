@@ -1,6 +1,3 @@
-
-
-
 import { FormControl, FormGroup, Validators, useState } from '@websolutespa/ws-app';
 import { first, fromEvent, map, takeUntil } from 'rxjs';
 // import { ContactsService } from './contacts.service';
@@ -58,6 +55,7 @@ export function ContactsComponent(props) {
     map(event => onSubmit(event)),
     takeUntil(unsubscribe$)
   ).subscribe();
+
   // !!! expose form
   form.test = () => {
     test();

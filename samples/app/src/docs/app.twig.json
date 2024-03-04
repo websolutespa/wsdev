@@ -1,0 +1,63 @@
+{
+  "$schema": "../../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
+  "page": {
+    "id": 1,
+    "title": "ws-app",
+    "abstract": "a reactive component library by Websolute",
+    "meta": {
+      "title": "Ws Vite - App"
+    },
+    "href": "/docs/app.html",
+    "alternates": [
+      {
+        "id": "/docs/app.html",
+        "title": "App",
+        "locale": "it",
+        "market": "ww"
+      }
+    ],
+    "breadcrumb": [
+      {
+        "href": "/index",
+        "title": "Home"
+      }
+    ],
+    "menu": [
+      {
+        "title": "Core",
+        "items": [
+          "data-text", "data-html",
+          "data-attr", "data-class",
+          "data-style", "data-event",
+          "data-if", "data-for"
+        ]
+      },
+      {
+        "title": "Lazy",
+        "items": [ "lazy-component", "lazy-module" ]
+      },
+      {
+        "title": "Forms",
+        "items": [ "forms" ]
+      },
+      {
+        "title": "Modals",
+        "items": [ "modals" ]
+      }
+    ],
+    "components": [
+      { "schema": "data-text" },
+      { "schema": "data-html" },
+      { "schema": "data-attr" },
+      { "schema": "data-class" },
+      { "schema": "data-style" },
+      { "schema": "data-event" },
+      { "schema": "data-if" },
+      { "schema": "data-for" },
+      { "schema": "lazy-component" },
+      { "schema": "lazy-module" },
+      { "schema": "forms" },
+      { "schema": "modals" }
+    ]
+  }
+}

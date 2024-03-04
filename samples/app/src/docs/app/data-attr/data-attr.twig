@@ -1,0 +1,13 @@
+<div id="data-attr" class="guide">
+  <div class="container" data-attr="{ id: item.id, title: item.title }">
+    <div class="guide__title">data-attr</div>
+    <div class="guide__abstract">The data-attr attribute adds reactively attributes to the html element.</div>
+    <div>Input</div>
+    <code data-text="`<div data-attr='{ id: item.id, title: item.title }'>`"></code>
+    <div>Output</div>
+    <code data-text="`<div id='${item.id}' title='${item.title}'></div>`"></code>
+    <div>Item</div>
+    <code data-text="item | json"></code>
+    <button type="button" class="guide__btn" data-event="randomize">randomize</button>
+  </div>
+</div>

@@ -1,7 +1,7 @@
 import 'virtual:accessible';
 import 'virtual:spritemap';
 import 'virtual:theme.css';
-import '../css/main.scss';
+// import '../css/main.scss';
 //
 import { colorScheme } from './common/colorScheme';
 import { lazyLoad } from './common/lazyLoad';
