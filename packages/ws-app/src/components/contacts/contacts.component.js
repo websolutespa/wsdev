@@ -11,7 +11,7 @@ export const FormStrategy = {
   ApiData: 'api',
 };
 
-export function ContactsComponent(node, data, unsubscribe$, module) {
+export function ContactsComponent(element, data, unsubscribe$, module) {
   const strategy = data.strategy || FormStrategy.InferData;
   const form = new FormGroup({
     firstName: new FormControl(null, [Validators.RequiredValidator()]),
@@ -32,8 +32,8 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
     checkField: '',
   });
   const controls = form.controls;
-  node.form_ = form;
-  const state = useState(node, { form, test, success: false });
+  element.form_ = form;
+  const state = useState(element, { form, test, success: false });
   /*
   form.changes$.pipe(
     takeUntil(unsubscribe$)
@@ -51,7 +51,7 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
     ).subscribe();
   }
 
-  fromEvent(node, 'submit').pipe(
+  fromEvent(element, 'submit').pipe(
     map(event => onSubmit(event)),
     takeUntil(unsubscribe$)
   ).subscribe();
@@ -61,7 +61,7 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
   };
 
   function inferData() {
-    const selects = Array.prototype.slice.call(node.querySelectorAll('select'));
+    const selects = Array.prototype.slice.call(element.querySelectorAll('select'));
     selects.forEach(select => {
       const key = select.getAttribute('name');
       const control = form.get(key);
@@ -94,7 +94,7 @@ export function ContactsComponent(node, data, unsubscribe$, module) {
       state.success = true;
     } else {
       form.touched = true;
-      const invalids = Array.prototype.slice.call(node.querySelectorAll('.invalid'));
+      const invalids = Array.prototype.slice.call(element.querySelectorAll('.invalid'));
       if (invalids.length) {
         const target = invalids[0];
         const scrollToY = target.getBoundingClientRect().top + window.scrollY - 100;

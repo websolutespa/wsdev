@@ -52,7 +52,7 @@ export class ModalService {
     return this.getTemplate$(modal).pipe(
       // startWith(new ModalLoadEvent(Object.assign({}, modal.data, { $src: modal.src }))),
       map(template => {
-        return { node: this.getNode(template), data: modal.data, modal: modal };
+        return { element: this.getElement(template), data: modal.data, modal: modal };
       }),
       tap(x => {
         // console.log(x);
@@ -88,7 +88,7 @@ export class ModalService {
     }
   }
 
-  static getNode(template) {
+  static getElement(template) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(template, 'text/html');
     return doc.body.firstElementChild;
@@ -96,8 +96,8 @@ export class ModalService {
     // console.log(doc.body);
     const div = document.createElement('div');
     div.innerHTML = template;
-    const node = div.firstElementChild;
-    return node;
+    const element = div.firstElementChild;
+    return element;
     */
   }
 

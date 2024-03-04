@@ -1,7 +1,7 @@
 import { getState } from '../../core';
 
-export function ModalComponent(node, data, unsubscribe$) {
-  const state = getState(node);
+export function ModalComponent(element, data, unsubscribe$) {
+  const state = getState(element);
   if (state) {
     console.log('ModalComponent.state', state);
   }

@@ -3,14 +3,14 @@ import { takeUntil } from 'rxjs';
 import { state$ } from '../state/state';
 
 export function IfComponent(props) {
-  const { node, data, unsubscribe$, module, originalNode } = props;
-  delete originalNode.dataset.if;
-  // const originalNode = node.cloneNode(true);
+  const { element, data, unsubscribe$, module, originalElement } = props;
+  delete originalElement.dataset.if;
+  // const originalElement = element.cloneNode(true);
   const getValue = module.makeFunction(data.if);
   const ref = document.createComment('if');
-  node.parentNode.replaceChild(ref, node);
+  element.parentElement.replaceChild(ref, element);
   let flag_;
-  let clonedNode;
+  let clonedElement;
   state$(ref).pipe(
     takeUntil(unsubscribe$)
   ).subscribe(state => {
@@ -18,15 +18,15 @@ export function IfComponent(props) {
     if (flag_ !== flag) {
       flag_ = flag;
       if (flag) {
-        clonedNode = originalNode.cloneNode(true);
-        ref.after(clonedNode);
-        module.observe$(clonedNode).subscribe();
+        clonedElement = originalElement.cloneNode(true);
+        ref.after(clonedElement);
+        module.observe$(clonedElement).subscribe();
       } else {
-        if (clonedNode) {
-          clonedNode.remove();
-          clonedNode = null;
+        if (clonedElement) {
+          clonedElement.remove();
+          clonedElement = null;
         }
-        module.unregister(originalNode);
+        module.unregister(originalElement);
       }
     }
   });

@@ -5,15 +5,15 @@ import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
 export function ControlSelect(props) {
-  const { node, data, unsubscribe$ } = props;
-  const control = getControl(node, data.field);
-  const select = node.querySelector('select');
+  const { element, data, unsubscribe$ } = props;
+  const control = getControl(element, data.field);
+  const select = element.querySelector('select');
 
   if (control) {
     control.changes$.pipe(
       takeUntil(unsubscribe$)
     ).subscribe((value) => {
-      updateControl(node, control);
+      updateControl(element, control);
       select.disabled = control.flags.disabled;
       select.readOnly = control.flags.readonly;
       if (control.flags.touched && control.errors.length) {

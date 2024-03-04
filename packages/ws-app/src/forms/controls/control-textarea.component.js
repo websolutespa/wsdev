@@ -5,15 +5,15 @@ import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
 export function ControlTextarea(props) {
-  const { node, data, unsubscribe$ } = props;
-  const control = getControl(node, data.field);
-  const textarea = node.querySelector('textarea');
+  const { element, data, unsubscribe$ } = props;
+  const control = getControl(element, data.field);
+  const textarea = element.querySelector('textarea');
 
   if (control) {
     control.changes$.pipe(
       takeUntil(unsubscribe$)
     ).subscribe((value) => {
-      updateControl(node, control);
+      updateControl(element, control);
       textarea.disabled = control.flags.disabled;
       textarea.readOnly = control.flags.readonly;
       if (control.flags.touched && control.errors.length) {

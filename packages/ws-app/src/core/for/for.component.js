@@ -3,15 +3,15 @@ import { takeUntil } from 'rxjs';
 import { getParentState, state$, useState } from '../state/state';
 
 export function ForComponent(props) {
-  const { node, data, unsubscribe$, module, originalNode } = props;
-  delete originalNode.dataset.for;
+  const { element, data, unsubscribe$, module, originalElement } = props;
+  delete originalElement.dataset.for;
   const tokens = getEachExpressionTokens(data.for);
   const ref = document.createComment('for');
-  node.before(ref);
-  node.remove();
+  element.before(ref);
+  element.remove();
   // {key: 'index', value: 'item', iterable: 'items'}
   // console.log(tokens);
-  const nodes = [];
+  const elements = [];
   const states = [];
   const getValue = module.makeFunction(tokens.iterable);
   state$(ref).pipe(
@@ -25,7 +25,7 @@ export function ForComponent(props) {
     const isArray = Array.isArray(items);
     const array = isArray ? items : Object.keys(items);
     const total = array.length;
-    const previous = nodes.length;
+    const previous = elements.length;
     const end = Math.max(previous, total);
     const parentState = getParentState(ref);
     // console.log('updateItems', this.tokens, items, previous, total, array);
@@ -41,30 +41,30 @@ export function ForComponent(props) {
           state[tokens.value] = value;
         } else {
           // create
-          const clonedNode = originalNode.cloneNode(true);
-          const state = useState(clonedNode);
+          const clonedElement = originalElement.cloneNode(true);
+          const state = useState(clonedElement);
           Object.assign(state, parentState);
           state[tokens.key] = key;
           state[tokens.value] = value;
           // console.log('ForComponent.key', tokens.key, key);
           // console.log('ForComponent.value', tokens.value, value);
-          ref.parentNode.insertBefore(clonedNode, ref);
+          ref.parentElement.insertBefore(clonedElement, ref);
           // const args = [tokens.key, key, tokens.value, value, i, total];
           // console.log(args);
           // const skipSubscription = true;
-          module.observe$(clonedNode).subscribe();
-          nodes.push(clonedNode);
+          module.observe$(clonedElement).subscribe();
+          elements.push(clonedElement);
           states.push(state);
           // console.log('updateItems.create', i, state);
         }
       } else {
         // remove
-        const clonedNode = nodes[i];
-        clonedNode.remove();
-        module.unregister(clonedNode);
+        const clonedElement = elements[i];
+        clonedElement.remove();
+        module.unregister(clonedElement);
       }
     }
-    nodes.length = array.length;
+    elements.length = array.length;
     states.length = array.length;
   }
 }

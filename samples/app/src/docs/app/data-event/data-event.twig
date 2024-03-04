@@ -5,7 +5,7 @@
     <div>Event</div>
     <code data-text="`<button data-event='alert'>send</button>`"></code>
     <div>Listen for events</div>
-    <code data-text="`EventService.bubble$(node).subscribe(event => alert(event.type))`"></code>
+    <code data-text="`EventService.bubble$(element).subscribe(event => alert(event.type))`"></code>
     <button type="button" class="guide__btn" data-event='alert'>send</button>
     <div>Known events</div>
     <div class="guide__abstract">A list of known events binded to the data-{event} attribute:<br><em>click</em>, <em>dblclick</em>, <em>mouseover</em>, <em>mouseout</em>, <em>mouseenter</em>, <em>mouseleave</em>, <em>mousedown</em>, <em>mouseup</em>, <em>mousemove</em>, <em>contextmenu</em>, <em>touchstart</em>, <em>touchmove</em>, <em>touchend</em>, <em>keydown</em>, <em>keyup</em>, <em>input</em>, <em>change</em>, <em>loaded</em>.</div>

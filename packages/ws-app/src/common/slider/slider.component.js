@@ -32,10 +32,10 @@ export class SliderComponent extends Component {
     if (this.current_ !== current) {
       this.current_ = current;
       this.items.forEach((item, i) => {
-        i === current ? item.node.classList.add('active') : item.node.classList.remove('active');
+        i === current ? item.element.classList.add('active') : item.element.classList.remove('active');
       });
-      current === 0 ? this.node.classList.add('first') : this.node.classList.remove('first');
-      current >= this.items.length - 1 ? this.node.classList.add('last') : this.node.classList.remove('last');
+      current === 0 ? this.element.classList.add('first') : this.element.classList.remove('first');
+      current >= this.items.length - 1 ? this.element.classList.add('last') : this.element.classList.remove('last');
       this.updatePosition();
       this.current$.next(current);
       // console.log('SliderComponent.current.set', current);
@@ -68,11 +68,11 @@ export class SliderComponent extends Component {
     this.wrapper.style.transform = `translate3d(${x}px, 0, 0)`;
   }
 
-  getTranslation(node, container) {
+  getTranslation(element, container) {
     let x = 0,
       y = 0,
       z = 0;
-    const transform = node.style.transform;
+    const transform = element.style.transform;
     if (transform) {
       const coords = transform.split('(')[1].split(')')[0].split(',');
       x = parseFloat(coords[0]);
@@ -85,7 +85,7 @@ export class SliderComponent extends Component {
   }
 
   onInit() {
-    const node = this.node;
+    const element = this.element;
     const options = this.options = {
       autoplay: false,
       centered: false,
@@ -94,27 +94,27 @@ export class SliderComponent extends Component {
       slidePerView: 1,
       gutter: 0,
     };
-    if (node.hasAttribute('autoplay')) {
+    if (element.hasAttribute('autoplay')) {
       options.autoplay = true;
     }
-    if (node.hasAttribute('centered')) {
+    if (element.hasAttribute('centered')) {
       options.centered = true;
     }
-    if (node.hasAttribute('wheel')) {
+    if (element.hasAttribute('wheel')) {
       options.wheel = true;
     }
-    this.container = node;
-    this.wrapper = node.querySelector('.slider__wrapper');
-    this.inner = node.querySelector('.slider__inner');
-    this.items = Array.prototype.slice.call(node.querySelectorAll('.slider__slide')).map((node, i) => {
-      return { node };
+    this.container = element;
+    this.wrapper = element.querySelector('.slider__wrapper');
+    this.inner = element.querySelector('.slider__inner');
+    this.items = Array.prototype.slice.call(element.querySelectorAll('.slider__slide')).map((element, i) => {
+      return { element };
     });
     this.current$ = new BehaviorSubject(this.current_);
     this.userGesture$ = new Subject();
     setTimeout(() => {
       this.onInitSlider();
     }, 1);
-    node.slider = this;
+    element.slider = this;
   }
 
   onInitSlider() {
@@ -140,7 +140,7 @@ export class SliderComponent extends Component {
 
   slider$() {
     let translation, dragDownEvent, dragMoveEvent;
-    const container = this.node;
+    const container = this.element;
     const wrapper = this.wrapper;
     return DragService.events$(wrapper).pipe(
       tap((event) => {
@@ -179,7 +179,7 @@ export class SliderComponent extends Component {
   }
 
   updateItems() {
-    const container = this.node;
+    const container = this.element;
     const wrapper = this.wrapper;
     const rect = this.rect;
     const options = this.options;
@@ -189,19 +189,19 @@ export class SliderComponent extends Component {
       clearTimeout(this.to_);
     }
     this.items.forEach((item, i) => {
-      const itemNode = item.node;
+      const itemElement = item.element;
       if (options.slidePerView !== 'auto') {
         const slidePerView = options.slidePerView;
         const gutter = options.gutter;
         const width = (rect.width - gutter * (Math.floor(slidePerView) - 1)) / slidePerView;
-        itemNode.style.width = `${width}px`;
-        const itemRect = itemNode.getBoundingClientRect();
+        itemElement.style.width = `${width}px`;
+        const itemRect = itemElement.getBoundingClientRect();
         item.left = (width + gutter) * i;
         item.width = width;
         item.top = itemRect.top - rect.top;
         item.height = itemRect.height;
       } else {
-        const itemRect = itemNode.getBoundingClientRect();
+        const itemRect = itemElement.getBoundingClientRect();
         item.left = itemRect.left - rect.left;
         item.width = itemRect.width;
         item.top = itemRect.top - rect.top;
@@ -230,11 +230,11 @@ export class SliderComponent extends Component {
   }
 
   resize$() {
-    const node = this.node;
+    const element = this.element;
     return fromEvent(window, 'resize').pipe(
       startWith(true),
       tap(_ => {
-        const rect = node.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         this.rect = rect;
         this.updateItems();
       })
@@ -242,10 +242,10 @@ export class SliderComponent extends Component {
   }
 
   scroll$() {
-    const node = this.node;
+    const element = this.element;
     return fromEvent(window, 'scroll').pipe(
       tap(_ => {
-        const rect = node.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         this.rect = rect;
       })
     );
@@ -268,13 +268,13 @@ export class SliderComponent extends Component {
   }
 
   wheel$() {
-    const node = this.node;
+    const element = this.element;
     const options = this.options;
     return fromEvent(window, 'wheel', { passive: false }).pipe(
       filter(_ => options.wheel && this.isInViewport),
       map(event => {
         let delta = event.deltaY;
-        const rect = node.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         const cy = (rect.top + rect.height / 2) - window.innerHeight / 2;
         // console.log('SliderComponent.wheel$', delta, this.hasNext(), this.hasPrev());
         if (delta > 0) {
@@ -328,8 +328,8 @@ export class SliderComponent extends Component {
   }
 
   prev$() {
-    const node = this.node;
-    const prev = node.querySelector('.btn--prev');
+    const element = this.element;
+    const prev = element.querySelector('.btn--prev');
     if (prev) {
       return fromEvent(prev, 'click').pipe(
         tap(_ => {
@@ -345,8 +345,8 @@ export class SliderComponent extends Component {
   }
 
   next$() {
-    const node = this.node;
-    const next = node.querySelector('.btn--next');
+    const element = this.element;
+    const next = element.querySelector('.btn--next');
     if (next) {
       return fromEvent(next, 'click').pipe(
         tap(_ => {

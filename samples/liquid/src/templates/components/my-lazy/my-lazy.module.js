@@ -2,32 +2,32 @@ import './my-lazy.scss';
 
 /**
  *
- * @param {HTMLElement} node
+ * @param {HTMLElement} element
  * @returns
  */
-function MyLazyModule(node) {
+function MyLazyModule(element) {
   // console.log('MyLazyModule');
-  node.addEventListener('click', () => {
-    cloneNode(node.outerHTML);
+  element.addEventListener('click', () => {
+    cloneElement(element.outerHTML);
   });
   return () => {
     // console.log('MyLazyModule.dispose');
   };
 }
 
-function cloneNode(html) {
-  const node = create(html);
-  node.querySelector('.display20').innerText = 'Another Lazy Module';
-  node.querySelector('.display40').innerText = 'I\'m another lazy loaded module';
+function cloneElement(html) {
+  const element = create(html);
+  element.querySelector('.display20').innerText = 'Another Lazy Module';
+  element.querySelector('.display40').innerText = 'I\'m another lazy loaded module';
   const color = getRandomColor();
-  node.style.setProperty('--my-lazy-color', color);
+  element.style.setProperty('--my-lazy-color', color);
   const body = document.querySelector('body');
-  body.appendChild(node);
+  body.appendChild(element);
   setTimeout(() => {
     if (window.lenis) {
-      window.lenis.scrollTo(node);
+      window.lenis.scrollTo(element);
     } else {
-      node.scrollIntoView({
+      element.scrollIntoView({
         behavior: 'smooth',
         block: 'end',
         inline: 'nearest',
@@ -37,9 +37,9 @@ function cloneNode(html) {
 }
 
 function create(html) {
-  const node = document.createElement('div');
-  node.innerHTML = html;
-  return node.firstElementChild;
+  const element = document.createElement('div');
+  element.innerHTML = html;
+  return element.firstElementChild;
 }
 
 function getRandomColor() {

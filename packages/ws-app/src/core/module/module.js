@@ -4,13 +4,13 @@ import { deleteState } from '../state/state';
 // const modules = new WeakMap();
 
 /*
-(metas, node, data, unsubscribe$, originalNode)
-(node, data, unsubscribe$, this, originalNode)
+(metas, element, data, unsubscribe$, originalElement)
+(element, data, unsubscribe$, this, originalElement)
 
 type Props = {
   metas: ?
-  node: element,
-  originalNode: originalElement,
+  element: element,
+  originalElement: originalElement,
   data: attributes,
   unsubscribe$: unsubscribe$,
   module: Module,
@@ -19,18 +19,18 @@ type Props = {
 
 // Props & { metas: Meta[] };
 function Factory({ metas, ...props }) {
-  const { node, data, unsubscribe$, module, originalNode } = props;
+  const { element, data, unsubscribe$, module, originalElement } = props;
   return Promise.all(metas.map(meta => {
     return module.getFactory(meta).then(factory => {
       if (typeof factory === 'object') {
         const submodule = useModule(factory);
-        submodule.observe$(node).pipe(
+        submodule.observe$(element).pipe(
           takeUntil(unsubscribe$),
-          finalize(_ => submodule.unregister(node))
+          finalize(_ => submodule.unregister(element))
         ).subscribe();
       } else if (factory.length > 0) {
         factory(props);
-        // factory(node, node.dataset, unsubscribe$, originalNode);
+        // factory(element, element.dataset, unsubscribe$, originalElement);
         return unsubscribe$;
       } else {
         const instance = new factory.prototype.constructor(props);
@@ -84,123 +84,123 @@ class Module {
     });
   }
 
-  init(metas, node, data, unsubscribe$, originalNode) {
+  init(metas, element, data, unsubscribe$, originalElement) {
     return Promise.all(metas.map(meta => {
       return this.getFactory(meta).then(factory => {
         if (typeof factory === 'object') {
           const submodule = useModule(factory);
-          submodule.observe$(node).pipe(
+          submodule.observe$(element).pipe(
             takeUntil(unsubscribe$),
-            finalize(_ => submodule.unregister(node))
+            finalize(_ => submodule.unregister(element))
           ).subscribe();
         } else if (factory.length > 0) {
-          factory(node, data, unsubscribe$, this, originalNode);
-          // factory(node, node.dataset, unsubscribe$, originalNode);
+          factory(element, data, unsubscribe$, this, originalElement);
+          // factory(element, element.dataset, unsubscribe$, originalElement);
           return unsubscribe$;
         } else {
-          const instance = new factory.prototype.constructor(node, data, unsubscribe$, this, originalNode);
+          const instance = new factory.prototype.constructor(element, data, unsubscribe$, this, originalElement);
           return instance;
         }
       });
     }));
   }
 
-  matches(factories, node = document) {
+  matches(factories, element = document) {
     const results = new Map();
     const datas = new WeakMap();
-    const originalNodes = new WeakMap();
+    const originalElements = new WeakMap();
     factories = Module.sortFactories(factories);
     const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
     const flags = { structure: false };
-    const match = function(node) {
+    const match = function(element) {
       let lazy = false;
       let structure = false;
       const matches = [];
-      results.set(node, matches);
+      results.set(element, matches);
       selectors.forEach(function(selector, i) {
-        if (!structure && !lazy && node.matches(selector)) {
+        if (!structure && !lazy && element.matches(selector)) {
           const factory = factories[i];
           if (Array.isArray(factory)) {
             lazy = true;
           } else if (factory.meta.structure) {
             structure = true;
-            const originalNode = node.cloneNode(true);
-            originalNodes.set(node, originalNode);
+            const originalElement = element.cloneNode(true);
+            originalElements.set(element, originalElement);
           }
           matches.push(factory);
         }
       });
       if (matches.length) {
         const data = {};
-        Object.keys(node.dataset).forEach(key => {
-          data[key] = node.dataset[key];
-          delete node.dataset[key];
+        Object.keys(element.dataset).forEach(key => {
+          data[key] = element.dataset[key];
+          delete element.dataset[key];
         });
-        datas.set(node, data);
+        datas.set(element, data);
       } else {
-        results.delete(node);
+        results.delete(element);
       }
       return lazy || structure;
     };
-    function matchNode(node) {
-      if (node) {
-        const skipChilds = match(node);
-        matchNode(node.nextElementSibling);
+    function matchElement(element) {
+      if (element) {
+        const skipChilds = match(element);
+        matchElement(element.nextElementSibling);
         if (!skipChilds) {
-          matchNode(node.firstElementChild);
+          matchElement(element.firstElementChild);
         }
       }
     }
-    if ('matches' in node) {
-      match(node);
+    if ('matches' in element) {
+      match(element);
     }
-    matchNode(node.firstElementChild);
+    matchElement(element.firstElementChild);
     // Module.stats(`matches ${results.size}`);
-    return { results, datas, originalNodes };
+    return { results, datas, originalElements };
     // return results;
   }
 
-  register(node = document) {
+  register(element = document) {
     const store = this.store;
-    if (store.instances.has(node)) {
-      throw ('node already registered');
-      // this.unregister(node);
+    if (store.instances.has(element)) {
+      throw ('element already registered');
+      // this.unregister(element);
     }
     const factories = this.factories;
     const instances = [];
-    store.instances.set(node, instances);
-    const { results, datas, originalNodes } = this.matches(factories, node);
-    const observingNodes = Array.from(results.keys());
-    return Promise.all(observingNodes.map(node => {
-      const data = datas.get(node);
-      const originalNode = originalNodes.get(node);
-      const metas = results.get(node);
+    store.instances.set(element, instances);
+    const { results, datas, originalElements } = this.matches(factories, element);
+    const observingElements = Array.from(results.keys());
+    return Promise.all(observingElements.map(element => {
+      const data = datas.get(element);
+      const originalElement = originalElements.get(element);
+      const metas = results.get(element);
       const unsubscribe$ = new Subject();
-      return Factory({ metas, node, data, unsubscribe$, originalNode, model: this });
+      return Factory({ metas, element, data, unsubscribe$, originalElement, model: this });
     })).then(items => {
       return instances.push(...items);
     });
   }
 
-  observe$(node = document) {
+  observe$(element = document) {
     const store = this.store;
-    if (store.instances.has(node)) {
-      throw ('node already registered');
-      // this.unregister(node);
+    if (store.instances.has(element)) {
+      throw ('element already registered');
+      // this.unregister(element);
     }
     const factories = this.factories;
     const instances = [];
-    store.instances.set(node, instances);
+    store.instances.set(element, instances);
     const instances$ = new Subject();
-    const { results, datas, originalNodes } = this.matches(factories, node);
-    const observingNodes = Array.from(results.keys());
-    const initialize = (node) => {
-      if (results.has(node)) {
-        const data = datas.get(node);
-        const originalNode = originalNodes.get(node);
-        const metas = results.get(node);
+    const { results, datas, originalElements } = this.matches(factories, element);
+    const observingElements = Array.from(results.keys());
+    const initialize = (element) => {
+      if (results.has(element)) {
+        const data = datas.get(element);
+        const originalElement = originalElements.get(element);
+        const metas = results.get(element);
         const unsubscribe$ = new Subject();
-        Factory({ metas, node, data, unsubscribe$, originalNode, module: this }).then(items => {
+        Factory({ metas, element, data, unsubscribe$, originalElement, module: this }).then(items => {
           instances.push(...items);
           instances$.next(instances.slice());
         });
@@ -208,7 +208,7 @@ class Module {
     };
     if ('IntersectionObserver' in window) {
       const observerOptions = {
-        root: node.parentNode ? node.parentNode : node,
+        root: element.parentElement ? element.parentElement : element,
         rootMargin: '50px',
         threshold: [0.01, 0.99],
       };
@@ -220,27 +220,27 @@ class Module {
           }
         });
       }, observerOptions);
-      observingNodes.forEach((node) => {
-        observer.observe(node);
+      observingElements.forEach((element) => {
+        observer.observe(element);
       });
-      store.observers.set(node, observer);
+      store.observers.set(element, observer);
     } else {
-      observingNodes.forEach((node) => {
-        initialize(node);
+      observingElements.forEach((element) => {
+        initialize(element);
       });
     }
     return instances$;
   }
 
-  unregister(node = document) {
+  unregister(element = document) {
     const store = this.store;
-    if (store.observers.has(node)) {
-      const observer = store.observers.get(node);
+    if (store.observers.has(element)) {
+      const observer = store.observers.get(element);
       observer.disconnect();
-      store.observers.delete(node);
+      store.observers.delete(element);
     }
-    if (store.instances.has(node)) {
-      const instances = store.instances.get(node);
+    if (store.instances.has(element)) {
+      const instances = store.instances.get(element);
       instances.forEach(instance => {
         if (typeof instance.destroy === 'function') {
           instance.destroy();
@@ -248,9 +248,9 @@ class Module {
           instance.next();
         }
       });
-      store.instances.delete(node);
+      store.instances.delete(element);
     }
-    deleteState(node);
+    deleteState(element);
   }
 
   destroy(instance) {

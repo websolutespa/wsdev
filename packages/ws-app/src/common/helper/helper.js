@@ -51,8 +51,8 @@ export function merge(target, source) {
 
 const observer = new MutationObserver(function(mutations_list) {
   mutations_list.forEach(function(mutation) {
-    mutation.addedNodes.forEach(function(added_node) {
-      if(added_node.id == 'child') {
+    mutation.addedNodes.forEach(function(added_element) {
+      if(added_element.id == 'child') {
         // console.log('#child has been added');
         observer.disconnect();
       }
@@ -80,7 +80,7 @@ if (!Element.prototype.closest) {
 
   do {
     if (Element.prototype.matches.call(el, s)) return el;
-    el = el.parentElement || el.parentNode;
+    el = el.parentElement || el.parentElement;
   } while (el !== null && el.nodeType === 1);
   return null;
   };

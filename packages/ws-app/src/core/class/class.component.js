@@ -2,13 +2,13 @@ import { takeUntil } from 'rxjs';
 import { state$ } from '../state/state';
 
 export function ClassComponent(props) {
-  const { node, data, unsubscribe$, module } = props;
+  const { element, data, unsubscribe$, module } = props;
   const initialKeys = [];
-  Array.prototype.slice.call(node.classList).forEach((value) => {
+  Array.prototype.slice.call(element.classList).forEach((value) => {
     initialKeys.push(value);
   });
   const getValue = module.makeFunction(data.class);
-  state$(node).pipe(
+  state$(element).pipe(
     takeUntil(unsubscribe$)
   ).subscribe(state => {
     const value = getValue(state);
@@ -23,7 +23,7 @@ export function ClassComponent(props) {
       keys = value.split(/\s+/);
     }
     keys = keys.concat(initialKeys);
-    node.setAttribute('class', keys.join(' '));
+    element.setAttribute('class', keys.join(' '));
   });
 }
 

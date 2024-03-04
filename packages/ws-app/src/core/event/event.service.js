@@ -4,22 +4,22 @@ export class EventService {
 
   static event$ = new Subject();
 
-  static send(type, data, node, event) {
-    EventService.event$.next({ type, data, node, event });
+  static send(type, data, element, event) {
+    EventService.event$.next({ type, data, element, event });
   }
 
-  static bubble$(node) {
+  static bubble$(element) {
     return this.event$.pipe(
-      // tap(event => console.log(event.node, node, node.contains(event.node))),
-      filter(event => event.node && node.contains(event.node))
+      // tap(event => console.log(event.element, element, element.contains(event.element))),
+      filter(event => event.element && element.contains(event.element))
     );
   }
 
-  static filter$(node, events) {
+  static filter$(element, events) {
     events = Array.isArray(events) ? events : [events];
     return this.event$.pipe(
-      // tap(event => console.log(event.node, node, node.contains(event.node))),
-      filter(event => events.indexOf(event.type) !== -1 && event.node && node.contains(event.node))
+      // tap(event => console.log(event.element, element, element.contains(event.element))),
+      filter(event => events.indexOf(event.type) !== -1 && event.element && element.contains(event.element))
     );
   }
 
@@ -27,7 +27,7 @@ export class EventService {
 
 export function useEvent(props, callback) {
   console.log('useEvent', props);
-  EventService.bubble$(props.node).pipe(
+  EventService.bubble$(props.element).pipe(
     takeUntil(props.unsubscribe$)
   ).subscribe(event => {
     if (typeof callback === 'function') {

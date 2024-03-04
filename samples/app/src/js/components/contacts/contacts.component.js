@@ -9,7 +9,7 @@ export const FormStrategy = {
 
 export function ContactsComponent(props) {
 
-  const { node, data, unsubscribe$, module } = props;
+  const { element, data, unsubscribe$, module } = props;
   const strategy = data.strategy || FormStrategy.InferData;
 
   const form = new FormGroup({
@@ -32,8 +32,8 @@ export function ContactsComponent(props) {
   });
 
   const controls = form.controls;
-  node.form_ = form;
-  const state = useState(node, { form, test, success: false });
+  element.form_ = form;
+  const state = useState(element, { form, test, success: false });
   /*
   form.changes$.pipe(
     takeUntil(unsubscribe$)
@@ -51,7 +51,7 @@ export function ContactsComponent(props) {
     ).subscribe();
   }
 
-  fromEvent(node, 'submit').pipe(
+  fromEvent(element, 'submit').pipe(
     map(event => onSubmit(event)),
     takeUntil(unsubscribe$)
   ).subscribe();
@@ -62,7 +62,7 @@ export function ContactsComponent(props) {
   };
 
   function inferData() {
-    const selects = Array.prototype.slice.call(node.querySelectorAll('select'));
+    const selects = Array.prototype.slice.call(element.querySelectorAll('select'));
     selects.forEach(select => {
       const key = select.getAttribute('name');
       const control = form.get(key);
@@ -95,7 +95,7 @@ export function ContactsComponent(props) {
       state.success = true;
     } else {
       form.touched = true;
-      const invalids = Array.prototype.slice.call(node.querySelectorAll('.invalid'));
+      const invalids = Array.prototype.slice.call(element.querySelectorAll('.invalid'));
       if (invalids.length) {
         const target = invalids[0];
         const scrollToY = target.getBoundingClientRect().top + window.scrollY - 100;

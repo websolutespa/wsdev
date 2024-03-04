@@ -19,11 +19,11 @@ function getRandomItem(items) {
 }
 
 export function AppComponent(props) {
-  const { node } = props;
+  const { element } = props;
   const items = getRandomItems();
   const item = getRandomItem(items);
 
-  const state = useState(node, {
+  const state = useState(element, {
     items,
     item,
     doSelect: (item) => {

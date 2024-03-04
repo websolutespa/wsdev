@@ -2,9 +2,9 @@ import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getControl, updateControl } from './control.component';
 
 export function ControlPrivacy(props) {
-  const { node, data, unsubscribe$ } = props;
-  const control = getControl(node, data.field);
-  const inputs = Array.prototype.slice.call(node.querySelectorAll('input'));
+  const { element, data, unsubscribe$ } = props;
+  const control = getControl(element, data.field);
+  const inputs = Array.prototype.slice.call(element.querySelectorAll('input'));
   inputs.forEach((input, i) => {
     (control.value === true && i === 0) || (control.value === false && i === 1) ? input.setAttribute('checked', '') : input.removeAttribute('checked');
   });
@@ -13,7 +13,7 @@ export function ControlPrivacy(props) {
     control.changes$.pipe(
       takeUntil(unsubscribe$)
     ).subscribe((value) => {
-      updateControl(node, control);
+      updateControl(element, control);
       inputs.forEach((input, i) => {
         input.disabled = control.flags.disabled;
         input.readOnly = control.flags.readonly;

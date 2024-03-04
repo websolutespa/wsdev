@@ -5,23 +5,23 @@ import { EventService } from '../../core/event/event.service';
 // import './modal-outlet.component.scss';
 import { ModalService } from './modal.service';
 
-export function ModalOutletComponent(node, data, unsubscribe$, module) {
+export function ModalOutletComponent(element, data, unsubscribe$, module) {
   let modal_;
   let busy_;
   let lastModal_ = null;
-  node.innerHTML = /* html */ `
+  element.innerHTML = /* html */ `
 	<div class="modal-outlet__container">
 		<div class="modal-outlet__background" data-event="close"></div>
 		<div class="modal-outlet__modal"></div>
 		<div class="spinner spinner--contrasted"></div>
 	</div>
 	`;
-  const state = useState(node);
+  const state = useState(element);
 
-  const modalNode = node.querySelector('.modal-outlet__modal');
-  const containerNode = node.querySelector('.modal-outlet__container');
+  const modalElement = element.querySelector('.modal-outlet__modal');
+  const containerElement = element.querySelector('.modal-outlet__container');
 
-  module.register(containerNode);
+  module.register(containerElement);
 
   listeners$().pipe(
     takeUntil(unsubscribe$)
@@ -36,19 +36,19 @@ export function ModalOutletComponent(node, data, unsubscribe$, module) {
       tap(modal => {
         // console.log('ModalOutletComponent set modal', modal);
         const previousModal = modal_;
-        if (previousModal && previousModal.node) {
-          module.unregister(previousModal.node);
+        if (previousModal && previousModal.element) {
+          module.unregister(previousModal.element);
         }
         modal_ = modal;
-        if (modal && modal.node) {
+        if (modal && modal.element) {
           const lastModal = lastModal_;
           if (lastModal) {
-            modalNode.removeChild(lastModal.node);
+            modalElement.removeChild(lastModal.element);
           }
-          modalNode.appendChild(modal.node);
+          modalElement.appendChild(modal.element);
           state.modal = modal;
           // !!! todo immediate registration
-          module.observe$(modal.node).subscribe();
+          module.observe$(modal.element).subscribe();
           lastModal_ = modal;
           updateClassList();
         } else {
@@ -70,10 +70,10 @@ export function ModalOutletComponent(node, data, unsubscribe$, module) {
   }
 
   function event$() {
-    // return EventService.bubble$(this.node).pipe(
+    // return EventService.bubble$(this.element).pipe(
     // filter(event => event.type === 'close'),
-    return EventService.bubble$(node, 'close').pipe(
-      // return EventService.filter$(node, 'close').pipe(
+    return EventService.bubble$(element, 'close').pipe(
+      // return EventService.filter$(element, 'close').pipe(
       tap(_ => {
         console.log('ModalOutletComponent.event$.close');
         ModalService.reject();
@@ -97,7 +97,7 @@ export function ModalOutletComponent(node, data, unsubscribe$, module) {
 
   function updateClassList() {
     const classList = getClassList();
-    containerNode.setAttribute('class', classList);
+    containerElement.setAttribute('class', classList);
   }
 }
 

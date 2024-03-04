@@ -1,23 +1,23 @@
 import { state$, useState } from '../state/state';
 
-// const noderef = new WeakMap();
+// const elementRefs = new WeakMap();
 
 export class Component {
 
   constructor(props) {
-    const { node, data, unsubscribe$, originalNode, module } = props;
-    this.node = node;
+    const { element, data, unsubscribe$, originalElement, module } = props;
+    this.element = element;
     this.data = data;
     this.unsubscribe$ = unsubscribe$;
-    this.originalNode = originalNode;
+    this.originalElement = originalElement;
     this.module = module;
     /*
     let refs;
-    if (noderef.has(node)) {
-      refs = noderef.get(node);
+    if (elementRefs.has(element)) {
+      refs = elementRefs.get(element);
     } else {
       refs = [];
-      noderef.set(node, refs);
+      elementRefs.set(element, refs);
     }
     refs.push(this);
     */
@@ -32,21 +32,21 @@ export class Component {
     this.unsubscribe$.next();
     this.onDestroy();
     /*
-    const node = this.node;
-    const refs = noderef.get(node);
+    const element = this.element;
+    const refs = elementRefs.get(element);
     refs.splice(refs.indexOf(this), 1);
     if (refs.length === 0) {
-      noderef.delete(node);
+      elementRefs.delete(element);
     }
     */
-    this.node = null;
+    this.element = null;
     this.unsubscribe$ = null;
     this.module.destroy(this);
   }
 
   get state() {
     if (!this.state_) {
-      this.state_ = useState(this.node);
+      this.state_ = useState(this.element);
     }
     return this.state_;
   }
@@ -55,14 +55,14 @@ export class Component {
   }
 
   get state$() {
-    return state$(this.node);
+    return state$(this.element);
   }
 
   /*
   static create(html) {
-    const node = document.createElement('div');
-    node.innerHTML = html;
-    return node.firstElementChild;
+    const element = document.createElement('div');
+    element.innerHTML = html;
+    return element.firstElementChild;
   }
   */
 

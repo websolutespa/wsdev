@@ -2,16 +2,16 @@ import { takeUntil } from 'rxjs';
 import { state$ } from '../state/state';
 
 export function HtmlComponent(props) {
-  const { node, data, unsubscribe$, module } = props;
+  const { element, data, unsubscribe$, module } = props;
   const getValue = module.makeFunction(data.html);
   let innerHTML_;
-  state$(node).pipe(
+  state$(element).pipe(
     takeUntil(unsubscribe$)
   ).subscribe(state => {
     const innerHTML = getValue(state);
     if (innerHTML_ !== innerHTML) {
       innerHTML_ = innerHTML;
-      node.innerHTML = innerHTML == undefined ? '' : innerHTML; // !!! keep == loose equality
+      element.innerHTML = innerHTML == undefined ? '' : innerHTML; // !!! keep == loose equality
     }
   });
 }

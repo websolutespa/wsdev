@@ -73,7 +73,7 @@ export class DragService {
     ).pipe(
       map((event) => {
         downEvent = downEvent || new DragDownEvent();
-        downEvent.node = target;
+        downEvent.element = target;
         downEvent.target = event.target;
         downEvent.originalEvent = event;
         downEvent.down = this.getPosition(event, downEvent.down);
@@ -95,7 +95,7 @@ export class DragService {
       startWith(downEvent),
       map((event) => {
         moveEvent = moveEvent || new DragMoveEvent();
-        moveEvent.node = target;
+        moveEvent.element = target;
         moveEvent.target = event.target;
         moveEvent.originalEvent = event;
         moveEvent.position = this.getPosition(event, moveEvent.position);

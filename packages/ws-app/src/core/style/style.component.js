@@ -2,10 +2,10 @@ import { takeUntil } from 'rxjs';
 import { state$ } from '../state/state';
 
 export function StyleComponent(props) {
-  const { node, data, unsubscribe$, module } = props;
+  const { element, data, unsubscribe$, module } = props;
   const getValue = module.makeFunction(data.style);
   let previousStyle;
-  state$(node).pipe(
+  state$(element).pipe(
     takeUntil(unsubscribe$)
   ).subscribe(state => {
     const style = getValue(state);
@@ -14,7 +14,7 @@ export function StyleComponent(props) {
         if (!style || !style[key]) {
           const splitted = key.split('.');
           const propertyName = splitted.shift();
-          node.style.removeProperty(propertyName);
+          element.style.removeProperty(propertyName);
         }
       }
     }
@@ -24,7 +24,7 @@ export function StyleComponent(props) {
           const splitted = key.split('.');
           const propertyName = splitted.shift();
           const value = style[key] + (splitted.length ? splitted[0] : '');
-          node.style.setProperty(propertyName, value);
+          element.style.setProperty(propertyName, value);
         }
       }
     }

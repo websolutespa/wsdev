@@ -4,26 +4,26 @@
 import { getState } from '../../core';
 import { mapErrors_ } from '../helpers/helpers';
 
-export function getForm(node) {
-  const state = getState(node);
+export function getForm(element) {
+  const state = getState(element);
   return state ? state.form : null;
   let form = null;
-  let parentNode = node.parentNode;
-  while (parentNode) {
-    if (parentNode.form_) {
-      form = parentNode.form_;
+  let parentElement = element.parentElement;
+  while (parentElement) {
+    if (parentElement.form_) {
+      form = parentElement.form_;
     }
-    parentNode = (form ? null : parentNode.parentNode);
+    parentElement = (form ? null : parentElement.parentElement);
   }
   return form;
 }
 
-export function getControl(node, fieldName) {
-  // const fieldName = getField(node);
+export function getControl(element, fieldName) {
+  // const fieldName = getField(element);
   if (fieldName === '') {
     return;
   }
-  const form = getForm(node);
+  const form = getForm(element);
   // console.log(form);
   if (!form) {
     return;
@@ -35,16 +35,16 @@ export function getControl(node, fieldName) {
   return control;
 }
 
-export function updateControl(node, control) {
+export function updateControl(element, control) {
   const flags = control.flags;
   Object.keys(flags).forEach(key => {
-    node.classList.toggle(key, flags[key]);
+    element.classList.toggle(key, flags[key]);
   });
-  node.classList.toggle('value', hasValue(control));
-  node.classList.toggle('required', control.validators.length > 0);
+  element.classList.toggle('value', hasValue(control));
+  element.classList.toggle('required', control.validators.length > 0);
   const errors = mapErrors_(control.errors);
   errors.forEach(kv => {
-    node.classList.toggle(`error--${kv.key}`, kv.value != null);
+    element.classList.toggle(`error--${kv.key}`, kv.value != null);
   });
 }
 

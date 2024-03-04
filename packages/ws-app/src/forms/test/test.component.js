@@ -3,25 +3,25 @@ import { fromEvent, merge, takeUntil, tap } from 'rxjs';
 import { getForm } from '../controls/control.component';
 
 export function TestComponent(props) {
-  const { node, data, unsubscribe$ } = props;
+  const { element, data, unsubscribe$ } = props;
   /*
   if (environment.flags.production) {
     return;
   }
   */
-  const form = getForm(node);
+  const form = getForm(element);
   if (!form) {
     return;
   }
 
-  node.innerHTML = /*html*/`
+  element.innerHTML = /*html*/`
 		<code class="form__code" data-html="form.value | json"></code>
     <div class="form__cta">
 		  <button type="button" class="btn--reset"><span>Reset</span></button>
 		  <button type="button" class="btn--submit"><span>Test</span></button>
     </div>
 	`;
-  const code = node.querySelector('.form__code');
+  const code = element.querySelector('.form__code');
   listeners$().pipe(
     takeUntil(unsubscribe$)
   ).subscribe();
@@ -43,7 +43,7 @@ export function TestComponent(props) {
   }
 
   function test$() {
-    const button = node.querySelector('.btn--submit');
+    const button = element.querySelector('.btn--submit');
     return fromEvent(button, 'click').pipe(
       tap(event => {
         if (typeof form.test === 'function') {
@@ -67,7 +67,7 @@ export function TestComponent(props) {
   }
 
   function reset$() {
-    const button = node.querySelector('.btn--reset');
+    const button = element.querySelector('.btn--reset');
     return fromEvent(button, 'click').pipe(
       tap(event => {
         form.reset();
