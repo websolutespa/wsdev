@@ -5,7 +5,6 @@ const ATTRIBUTES = ['action', 'align', 'allow', 'alt', 'autoplay', 'background',
 
 export function AttributeComponent(props) {
   const { element, data, unsubscribe$, module } = props;
-  console.log('AttributeComponent.data', data);
   const getValue = module.makeFunction(data.attr);
   state$(element).pipe(
     takeUntil(unsubscribe$)

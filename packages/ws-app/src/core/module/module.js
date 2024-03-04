@@ -1,40 +1,50 @@
+// import { Subject, finalize, map, takeUntil } from 'rxjs';
+// import { deleteState, state$ } from '../state/state';
 import { Subject, finalize, takeUntil } from 'rxjs';
 import { deleteState } from '../state/state';
 
 // const modules = new WeakMap();
 
 /*
-(metas, element, data, unsubscribe$, originalElement)
-(element, data, unsubscribe$, this, originalElement)
-
 type Props = {
-  metas: ?
   element: element,
-  originalElement: originalElement,
-  data: attributes,
+  data: element's data- attributes,
   unsubscribe$: unsubscribe$,
   module: Module,
+  originalElement: originalElement,
 }
 */
 
-// Props & { metas: Meta[] };
-function Factory({ metas, ...props }) {
+// Props & { factories: Meta[] };
+function Factory({ factories, ...props }) {
   const { element, data, unsubscribe$, module, originalElement } = props;
-  return Promise.all(metas.map(meta => {
-    return module.getFactory(meta).then(factory => {
-      if (typeof factory === 'object') {
+  return Promise.all(factories.map(factory => {
+    return module.resolveFactory(factory).then(factory => {
+      if (typeof factory === 'function') {
+        if (factory.length > 0) {
+          // collect matched selector value if attribute
+          /*
+          const getValue = props.module.makeFunction(props.data.attr);
+          props.state$ = state$(props.element).pipe(
+            map(state => getValue(state)),
+            takeUntil(props.unsubscribe$)
+          );
+          */
+          factory(props);
+          // const subscription = props.state$.subscribe();
+          // factory(element, element.dataset, unsubscribe$, originalElement);
+          return unsubscribe$;
+        } else {
+          // typeof factory === 'function' && factory.prototype?.constructor
+          const instance = new factory.prototype.constructor(props);
+          return instance;
+        }
+      } else if (typeof factory === 'object') {
         const submodule = useModule(factory);
         submodule.observe$(element).pipe(
           takeUntil(unsubscribe$),
           finalize(_ => submodule.unregister(element))
         ).subscribe();
-      } else if (factory.length > 0) {
-        factory(props);
-        // factory(element, element.dataset, unsubscribe$, originalElement);
-        return unsubscribe$;
-      } else {
-        const instance = new factory.prototype.constructor(props);
-        return instance;
       }
     });
   }));
@@ -53,7 +63,7 @@ class Module {
     };
   }
 
-  getFactory(factory) {
+  resolveFactory(factory) {
     const store = this.store;
     return new Promise((resolve, reject) => {
       if (Array.isArray(factory)) {
@@ -84,9 +94,9 @@ class Module {
     });
   }
 
-  init(metas, element, data, unsubscribe$, originalElement) {
-    return Promise.all(metas.map(meta => {
-      return this.getFactory(meta).then(factory => {
+  init(factories, element, data, unsubscribe$, originalElement) {
+    return Promise.all(factories.map(meta => {
+      return this.resolveFactory(meta).then(factory => {
         if (typeof factory === 'object') {
           const submodule = useModule(factory);
           submodule.observe$(element).pipe(
@@ -106,31 +116,33 @@ class Module {
   }
 
   matches(factories, element = document) {
-    const results = new Map();
+    const elementFactories = new Map();
     const datas = new WeakMap();
     const originalElements = new WeakMap();
     factories = Module.sortFactories(factories);
     const selectors = factories.map((factory) => (Array.isArray(factory) ? factory[2] : factory.meta.selector));
-    const flags = { structure: false };
     const match = function(element) {
-      let lazy = false;
-      let structure = false;
-      const matches = [];
-      results.set(element, matches);
+      let elementHasLazyFactory = false;
+      let elementHasStructureFactory = false;
+      const matchedFactories = [];
+      elementFactories.set(element, matchedFactories);
       selectors.forEach(function(selector, i) {
-        if (!structure && !lazy && element.matches(selector)) {
+        if (elementHasStructureFactory || elementHasLazyFactory) {
+          return;
+        }
+        if (element.matches(selector)) {
           const factory = factories[i];
           if (Array.isArray(factory)) {
-            lazy = true;
+            elementHasLazyFactory = true;
           } else if (factory.meta.structure) {
-            structure = true;
+            elementHasStructureFactory = true;
             const originalElement = element.cloneNode(true);
             originalElements.set(element, originalElement);
           }
-          matches.push(factory);
+          matchedFactories.push(factory);
         }
       });
-      if (matches.length) {
+      if (matchedFactories.length) {
         const data = {};
         Object.keys(element.dataset).forEach(key => {
           data[key] = element.dataset[key];
@@ -138,9 +150,9 @@ class Module {
         });
         datas.set(element, data);
       } else {
-        results.delete(element);
+        elementFactories.delete(element);
       }
-      return lazy || structure;
+      return elementHasLazyFactory || elementHasStructureFactory;
     };
     function matchElement(element) {
       if (element) {
@@ -155,9 +167,9 @@ class Module {
       match(element);
     }
     matchElement(element.firstElementChild);
-    // Module.stats(`matches ${results.size}`);
-    return { results, datas, originalElements };
-    // return results;
+    // Module.stats(`elementFactories ${elementFactories.size}`);
+    return { elementFactories, datas, originalElements };
+    // return elementFactories;
   }
 
   register(element = document) {
@@ -169,14 +181,14 @@ class Module {
     const factories = this.factories;
     const instances = [];
     store.instances.set(element, instances);
-    const { results, datas, originalElements } = this.matches(factories, element);
-    const observingElements = Array.from(results.keys());
+    const { elementFactories, datas, originalElements } = this.matches(factories, element);
+    const observingElements = Array.from(elementFactories.keys());
     return Promise.all(observingElements.map(element => {
       const data = datas.get(element);
       const originalElement = originalElements.get(element);
-      const metas = results.get(element);
+      const factories = elementFactories.get(element);
       const unsubscribe$ = new Subject();
-      return Factory({ metas, element, data, unsubscribe$, originalElement, model: this });
+      return Factory({ factories, element, data, unsubscribe$, originalElement, model: this });
     })).then(items => {
       return instances.push(...items);
     });
@@ -192,15 +204,15 @@ class Module {
     const instances = [];
     store.instances.set(element, instances);
     const instances$ = new Subject();
-    const { results, datas, originalElements } = this.matches(factories, element);
-    const observingElements = Array.from(results.keys());
+    const { elementFactories, datas, originalElements } = this.matches(factories, element);
+    const observingElements = Array.from(elementFactories.keys());
     const initialize = (element) => {
-      if (results.has(element)) {
+      if (elementFactories.has(element)) {
         const data = datas.get(element);
         const originalElement = originalElements.get(element);
-        const metas = results.get(element);
+        const factories = elementFactories.get(element);
         const unsubscribe$ = new Subject();
-        Factory({ metas, element, data, unsubscribe$, originalElement, module: this }).then(items => {
+        Factory({ factories, element, data, unsubscribe$, originalElement, module: this }).then(items => {
           instances.push(...items);
           instances$.next(instances.slice());
         });

@@ -3,7 +3,6 @@ import { fromEvent, takeUntil, tap } from 'rxjs';
 
 export function MenuComponent(props) {
   const { element, data, unsubscribe$, module } = props;
-  console.log('MenuComponent', props);
   const items = Array.from(element.querySelectorAll('a'));
   fromEvent(items, 'click').pipe(
     tap(event => {

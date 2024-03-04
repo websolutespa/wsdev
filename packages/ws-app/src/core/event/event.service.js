@@ -26,7 +26,7 @@ export class EventService {
 }
 
 export function useEvent(props, callback) {
-  console.log('useEvent', props);
+  // console.log('useEvent', props);
   EventService.bubble$(props.element).pipe(
     takeUntil(props.unsubscribe$)
   ).subscribe(event => {
