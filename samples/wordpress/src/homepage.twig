@@ -1,0 +1,13 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block body_class %}-header-overlap -header-light{% endblock %}
+
+{% block main %}
+
+<main>
+    {% include 'partials/components.twig' with {
+        items: page.components
+    } only %}
+</main>
+
+{% endblock %}

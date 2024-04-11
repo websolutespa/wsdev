@@ -1,0 +1,111 @@
+{
+  "breakpoint": {
+    "xs": 0,
+    "sm": "768px",
+    "md": "1024px",
+    "lg": "1440px",
+    "xl": "1600px"
+  },
+  "padding": {
+    "default": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      [32, 32],
+      [32, 40],
+      [40, 48],
+      [48, 64],
+      [64, 80],
+      [80, 96],
+      [40, 128],
+      [128, 160]
+    ]
+  },
+  "margin": {
+    "default": [
+      4,
+      8,
+      12,
+      16,
+      24,
+      [32, 32],
+      [32, 40],
+      [40, 48],
+      [48, 64],
+      [64, 80],
+      [80, 96],
+      [40, 128],
+      [128, 160]
+    ]
+  },
+  "typography": {
+    "default": {
+      "fontFamily": "sans-serif",
+      "fontWeight": 400,
+      "fontSize": [16, 22],
+      "lineHeight": 1.5
+    }
+  },
+  "grid": {
+    "default": {
+      "columns": {
+        "xs": 4,
+        "sm": 4,
+        "md": 12,
+        "lg": 12,
+        "xl": 12
+      },
+      "size": "1fr",
+      "columnGap": [16, 32],
+      "rowGap": [16, 32]
+    }
+  },
+  "container": {
+    "default": {
+      "maxWidth": {
+        "xs": "calc(100vw - var(--grid-column-gap) * 2)",
+        "sm": "calc(100vw - var(--grid-column-gap) * 2)",
+        "md": "calc(100vw - var(--grid-column-gap) * 4)",
+        "lg": "calc(100vw - var(--grid-column-gap) * 4)",
+        "xl": "calc(100vw - var(--grid-column-gap) * 4)"
+      }
+    },
+    "fluid": {
+      "maxWidth": "100vw"
+    }
+  },
+  "color": {
+    "ui": {
+      "palatinateBlue": "#2B40E6",
+      "brandeisBlue": "#0A6BFF",
+      "fringyFlower": "#AFE7CE",
+      "mikadoYellow": "#FEC516",
+      "artyclickWarm": "#FF3B11",
+      "carouselPink": "#FDDDE3",
+      "lavanderPink": "#DE82D6",
+      "black": "#000",
+      "white": "#fff",
+      "lightGrey": "#F5F5F5",
+      "cloudGrey": "#B5B4B6"
+    },
+    "neutral": {
+      "100": "#fafafa",
+      "200": "#d7d6d6",
+      "300": "#b6b4b4",
+      "400": "#8d8b8b",
+      "500": "#7c7a79",
+      "600": "#484747",
+      "700": "#3b3b3a",
+      "800": "#313030",
+      "900": "#121212"
+    },
+    "status": {
+      "error": "#F74242",
+      "success": "#00C88C",
+      "warning": "#FFB800",
+      "neutral": "#A3A3A3"
+    }
+  }
+}

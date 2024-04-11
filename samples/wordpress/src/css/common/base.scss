@@ -1,0 +1,14 @@
+body {
+  min-height: 100svh;
+  background: var(--color-ui-white);
+  color: var(--color-ui-black);
+  font-family: var(--typography-font-family, sans-serif);
+  &._resizing * {
+    transition: none !important;
+
+    &:before,
+    &:after {
+      transition: none !important;
+    }
+  }
+}

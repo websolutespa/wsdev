@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="{{ layout.locale }}" xml:lang="{{ layout.locale }}">
+    <head>
+        {% include '../partials/meta/meta.twig' %}
+        {% block meta %}{% endblock %}
+        <script type="module" src="/js/main.js"></script>
+        {% block head %}{% endblock %}
+    </head>
+     <body class="{% block body_class %}{% endblock %}">
+        {% include '@components/header/header.twig' %}
+        {% block main %}{% endblock %}
+        {% include '@components/footer/footer.twig' %}
+    </body>
+</html>
