@@ -1,0 +1,150 @@
+{% extends '/layouts/layout.twig' %}
+
+{% block head %}
+<link rel="stylesheet" href="/docs/theme.scss">
+{% endblock %}
+
+{% block main %}
+
+<main>
+  <section class="hero py-80">
+    <div class="container">
+      <h1 class="display20 fw-700">Images</h1>
+    </div>
+  </section>
+
+  {# images #}
+  <section class="theme py-64">
+    <div class="container">
+      <div class="theme__variants">
+        <div class="theme__variant">
+          <div class="theme__title">
+            <p>Include media component <em>"include @components/media/media.twig"</em> to insert image or video.<br/>Params :</p>
+          </div>
+          <code>
+            {
+                    images: Array
+                    [
+                        {
+                            src: String,
+                            alt: String,
+                        }
+                        ...
+                    ],
+                    video: {
+                        options: {
+                            loop: Bool, default -> true,
+                            muted: Bool, default -> true,
+                            playsinline: Bool, default -> true,
+                            autoplay: Bool, default -> true,
+                            controls: Bool, default -> false,
+                        },
+                        sources: Array
+                        [
+                            src: String,
+                            srcset: String,
+                            sizes: String,
+                            height: String,
+                            width: String,
+                            type: String,
+                        ],
+                    }
+                }
+          </code>
+          <div class="theme__title">
+            <p>Single image</p>
+          </div>
+          <code>
+            include "@components/media/media.twig" with {
+                images: [
+                    {
+                        src: 'media/images/mountains-01.jpg',
+                        alt: 'test image'
+                    }
+                ]
+            }
+          </code>
+          <div class="theme__title">
+            <p>Art direction image (with <em>{{htmlEncode("<picture/>")}}</em>)</p>
+            <small>Resize windows to see it in action</small>
+          </div>
+          <code>
+            include "@components/media/media.twig" with {
+                images: [
+                    {
+                        src: 'media/images/mountains-01.jpg',
+                        alt: 'test image'
+                    },{
+                        src: 'media/images/mountains-02.jpg',
+                        alt: 'test image'
+                    }
+                ]
+            }
+          </code>
+
+        <div class="theme__name">
+            {% include "@components/media/media.twig" with {
+                images: [
+                    {
+                        src: 'media/images/mountains-01.jpg',
+                        alt: 'test image'
+                    },{
+                        src: 'media/images/mountains-02.jpg',
+                        alt: 'test image'
+                    }
+                ]
+            } %}
+          </div>
+        </div>
+
+        <div class="theme__title">
+            <p>Video</p>
+          </div>
+          <code>
+            include "@components/media/media.twig" with {
+                video: {
+                  options: {
+                    controls: true,
+                    autoplay: false,
+                  },
+                  sources: [
+                      {
+                        src: 'media/video/mountains.mp4',
+                        type: 'mp4'
+                    },{
+                        src: 'media/video/mountains.webm',
+                        type: 'webm'
+                    },
+                  ]
+                }
+            }
+          </code>
+
+        <div class="theme__name">
+            {% include "@components/media/media.twig" with {
+                video: {
+                  options: {
+                    controls: true,
+                    autoplay: false,
+                  },
+                  sources: [
+                      {
+                        src: 'media/video/mountains.mp4',
+                        type: 'mp4'
+                    },{
+                        src: 'media/video/mountains.webm',
+                        type: 'webm'
+                    },
+                  ]
+                }
+            } %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </section>
+</main>
+
+{% endblock %}

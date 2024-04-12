@@ -1,0 +1,10 @@
+.text-only {
+  &__title {
+    @extend .display20;
+    font-weight: 700;
+  }
+
+  &__abstract {
+    @extend .display40;
+  }
+}

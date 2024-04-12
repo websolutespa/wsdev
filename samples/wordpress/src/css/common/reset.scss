@@ -80,7 +80,7 @@ html {
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: inherit;
 }
 
 img,
@@ -102,6 +102,13 @@ td,
 th {
   padding: 0;
 }
+
+//
+/*
+:root {
+  user-select: none;
+}
+*/
 
 html,
 body {

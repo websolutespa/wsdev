@@ -12,7 +12,7 @@
     "build:copy:css": "copy-and-watch --clean dist/css/**/*.* ../static/css",
     "build:copy:js": "copy-and-watch --clean dist/js/**/*.js ../static/js",
     "build:copy:img": "copy-and-watch --clean dist/assets/**/*.* ../static/img",
-    "build:set:resources": "copy-and-watch --clean src/templates/partials/resources/build/*.twig ../templates/partials/resources",
+    "build:set:resources": "copy-and-watch --clean src/templates/partials/resources/prod/*.twig ../templates/partials/resources",
     "build:wp": "npm-run-all --serial build build:set:resources build:copy:twig build:copy:css build:copy:js build:copy:img",
     "watch:set:resources": "copy-and-watch --clean src/templates/partials/resources/dev/*.twig ../templates/partials/resources",
     "watch:copy:twig": "copy-and-watch --watch \"src/templates/components/**/*.twig\" ../templates/components",

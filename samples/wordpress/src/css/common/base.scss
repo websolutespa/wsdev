@@ -1,14 +1,20 @@
+html,
 body {
-  min-height: 100svh;
-  background: var(--color-ui-white);
-  color: var(--color-ui-black);
-  font-family: var(--typography-font-family, sans-serif);
-  &._resizing * {
-    transition: none !important;
+  width: 100%;
+  min-height: 100vh;
+  scroll-behavior: smooth;
+}
 
-    &:before,
-    &:after {
-      transition: none !important;
-    }
+body {
+  height: auto;
+  @include scrollbar();
+}
+
+[data-module] {
+  transition: opacity ease-in-out 200ms;
+
+  &:not(.init) {
+    min-height: 1px;
+    opacity: 0;
   }
 }

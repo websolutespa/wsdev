@@ -1,6 +1,107 @@
 {
+  "$schema": "../../../../node_modules/@websolutespa/ws-vite/schema/main.schema.json",
   "layout": {
-    "header": {},
-    "footer": {}
+    "labels": [
+      {
+        "id": "notfound.title",
+        "text": "Page not found"
+      },
+      {
+        "id": "notfound.abstract",
+        "text": "The page you are looking for does not exist."
+      },
+      {
+        "id": "navigation.back",
+        "text": "Back"
+      },
+      {
+        "id": "error.required",
+        "text": "Required field"
+      },
+      {
+        "id": "error.email",
+        "text": "Invalid email"
+      },
+      {
+        "id": "error.match",
+        "text": "Fields do not match"
+      },
+      {
+        "id": "error.exhist",
+        "text": "This value is already in use"
+      }
+    ],
+    "locale": "en",
+    "locales": [
+      {
+        "id": "en",
+        "title": "English",
+        "isDefault": true
+      },
+      {
+        "id": "it",
+        "title": "Italiano"
+      }
+    ],
+    "market": "ww",
+    "markets": [
+      {
+        "id": "ww",
+        "title": "International",
+        "isDefault": true
+      },
+      {
+        "id": "eu",
+        "title": "Europe",
+        "countries": [
+          "it",
+          "en"
+        ],
+        "languages": [
+          "it",
+          "en"
+        ],
+        "defaultLanguage": "en"
+      }
+    ],
+    "menu": {
+
+    },
+    "topLevelHrefs": {
+      "homepage": "/en-ww"
+    },
+    "topLevelRoutes": {
+      "homepage": {
+        "category": "homepage",
+        "href": "/en-ww",
+        "id": 1,
+        "items": [ ],
+        "schema": "homepage",
+        "title": "Home"
+      }
+    },
+    "tree": {
+      "category": "homepage",
+      "href": "/en-ww",
+      "id": 1,
+      "items": [ ],
+      "schema": "homepage",
+      "title": "Home"
+    }
+  },
+  "page": {
+    "abstract": "Abstract",
+    "components": [
+      {
+        "schema": "description",
+        "description": "<p>Lorem Ipsum</p>"
+      }
+    ],
+    "href": "/",
+    "id": 1,
+    "meta": {
+      "title": "Title"
+    },
+    "title": "Ws Vite - Untitled"
   }
 }

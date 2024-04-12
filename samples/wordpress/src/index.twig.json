@@ -1,30 +1,46 @@
 {
-  "$schema": "../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
+  "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
   "page": {
     "id": 1,
-    "title": "Index page",
-    "abstract": "",
-    "href": "/",
+    "title": "ws-vite twig",
+    "abstract": "a boilerplate built with 🖤 by Websolute",
     "meta": {
-      "title": "Wsdev - Homepage"
+      "title": "Ws Vite - Home"
     },
+    "href": "/index",
+    "alternates": [
+      {
+        "id": "/it/index",
+        "title": "Home",
+        "locale": "it",
+        "market": "ww"
+      }
+    ],
     "components": [
       {
-        "schema": "test-component",
-        "title": "This is a title",
-        "text": "This is a paragraph",
-        "media": {
-          "images": [
-            {
-              "src": "/media/images/test-1.jpg",
-              "alt": "alt text"
-            },
-            {
-              "src": "/media/images/test-2.jpg",
-              "alt": "alt text"
-            }
-          ]
+        "schema": "text-only",
+        "title": "Text Only Title",
+        "abstract": "<p>Text Only Abstract.</p>",
+        "nav": {
+          "id": 1,
+          "title": "ss",
+          "href": "asdsd",
+          "type": "page"
         }
+      },
+      {
+        "schema": "my-lazy",
+        "title": "Lazy Module",
+        "abstract": "<p>I'm a lazy module</p>"
+      },
+      {
+        "schema": "listing"
+      }
+    ],
+    "breadcrumb": [
+      {
+        "href": "/index",
+        "title": "Home"
       }
     ]
   }

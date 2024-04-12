@@ -1,5 +1,9 @@
 @import '~@websolutespa/ws-vite/scss/mixins.scss';
 
+// utils
+@include breakpoint();
+// shows current breakpoint (optional: comment to remove)
+
 @include container();
 @include grid();
 @include padding();
@@ -11,7 +15,34 @@
 @import 'common';
 
 // components
-@import '../templates/components/media/media.scss';
-@import '../templates/components/icon/icon.scss';
-@import '../templates/components/header/header.scss';
-@import '../templates/components/footer/footer.scss';
+@import '../templates/components/components';
+@import '../templates/components/footer/footer';
+@import '../templates/components/header/header';
+@import '../templates/components/hero/hero';
+@import '../templates/components/listing-item/listing-item';
+@import '../templates/components/listing/listing';
+@import '../templates/components/main-menu/main-menu';
+@import '../templates/components/text-only/text-only';
+@import '../templates/components/toggle/toggle';
+
+/*
+:root {
+  --bg: red;
+}
+
+@media (min-width: 300px) {
+  :root {
+    --bg: blue;
+  }
+}
+
+@media (min-width: 600px) {
+  :root {
+    --bg: green;
+  }
+}
+*/
+
+body {
+  background: var(--bg);
+}
