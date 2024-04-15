@@ -1,0 +1,11 @@
+.print-none {
+  @media print {
+    display: none;
+  }
+}
+
+.screen-none {
+  @media screen {
+    display: none;
+  }
+}

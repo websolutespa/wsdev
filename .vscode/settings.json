@@ -28,35 +28,38 @@
   // Enable file nesting for unit test files.
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.patterns": {
-    "*.ts": "$(capture).test.ts, $(capture).test.tsx",
-    "*.tsx": "$(capture).test.ts, $(capture).test.tsx",
     "*.js": "$(capture).test.js, $(capture).test.jsx",
-    "*.jsx": "$(capture).test.js, $(capture).test.jsx"
+    "*.jsx": "$(capture).test.js, $(capture).test.jsx",
+    "*.ts": "$(capture).test.ts, $(capture).test.tsx",
+    "*.tsx": "$(capture).test.ts, $(capture).test.tsx"
   },
+  "eslint.enable": true,
+  "eslint.format.enable": true,
+  "eslint.experimental.useFlatConfig": true,
+  "eslint.workingDirectories": [ { "mode": "auto" } ],
   "eslint.options": {
     "extensions": [
       ".js",
       ".jsx",
-      ".md",
-      ".mdx",
       ".ts",
-      ".tsx"
+      ".tsx",
+      ".md",
+      ".mdx"
     ]
   },
   "eslint.validate": [
-    "markdown",
-    "mdx",
     "javascript",
     "javascriptreact",
     "typescript",
-    "typescriptreact"
+    "typescriptreact",
+    "markdown",
+    "mdx"
   ],
   "explorer.autoReveal": true,
   "explorer.compactFolders": false,
   "editor.definitionLinkOpensInPeek": false,
   "editor.gotoLocation.multipleDeclarations": "goto",
   "editor.gotoLocation.multipleDefinitions": "goto",
-  "mdx.experimentalLanguageServer": true,
   // !!! todo twig, liquid specific
   "css.validate": false,
   "css.lint.emptyRules": "ignore",

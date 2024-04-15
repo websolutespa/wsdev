@@ -40,7 +40,7 @@ export function doSpawn(command: string, silent: boolean = false, options = {}):
         resolve(result);
       }
     });
-    child.on('error', (error: any) => {
+    child.on('error', (error) => {
       reject(`Failed to spawn command ${command}`);
     });
   });

@@ -5,7 +5,7 @@ import { Logger } from '../utils/logger.js';
 
 export type Cancel = typeof cancel;
 
-export const REQUEST_AUTH_TOKEN = true;
+export const REQUEST_AUTH_TOKEN = false;
 
 export type CreateOptions = {
   projectName?: string;
@@ -50,6 +50,7 @@ export async function createWizard(options: CreateOptions) {
           options: [
             { value: 'twig', label: 'Twig' },
             { value: 'liquid', label: 'Liquid' },
+            { value: 'wordpress', label: 'Wordpress' },
             { value: 'shopify', label: 'Shopify', hint: 'available soon', disabled: true },
             { value: 'react', label: 'React', hint: 'available soon', disabled: true },
           ],

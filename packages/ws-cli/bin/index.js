@@ -137,7 +137,7 @@ import * as process3 from "process";
 // src/create/create.wizard.ts
 import { cancel, confirm, group, intro, isCancel, outro, select, spinner, text } from "@clack/prompts";
 import * as process2 from "process";
-var REQUEST_AUTH_TOKEN = true;
+var REQUEST_AUTH_TOKEN = false;
 async function createWizard(options) {
   console.clear();
   Logger.name();
@@ -161,6 +161,7 @@ async function createWizard(options) {
           options: [
             { value: "twig", label: "Twig" },
             { value: "liquid", label: "Liquid" },
+            { value: "wordpress", label: "Wordpress" },
             { value: "shopify", label: "Shopify", hint: "available soon", disabled: true },
             { value: "react", label: "React", hint: "available soon", disabled: true }
           ]
