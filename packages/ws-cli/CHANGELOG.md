@@ -1,5 +1,11 @@
 # @websolutespa/ws-cli
 
+## 0.0.5
+
+### Patch Changes
+
+- cbd49c1: Added: Sample for wordpress starter theme
+
 ## 0.0.4
 
 ### Patch Changes

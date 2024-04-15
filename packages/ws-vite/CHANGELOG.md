@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.11
+
+### Patch Changes
+
+- c620fa1: Removed: grid size
+
 ## 0.0.10
 
 ### Patch Changes
