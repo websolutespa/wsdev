@@ -81,7 +81,7 @@ export async function doDownload(options: ICreateOptions): Promise<unknown> {
         dir: temporaryFolder,
         cwd: process.cwd(),
         auth: options.authToken || undefined,
-      } as any);
+      });
 
       await copyDirectory(
         path.join(temporaryPath, 'samples', options.sampleType),
@@ -196,7 +196,7 @@ export async function updatePackage(options: ICreateOptions, pathname: string, i
       data.devDependencies = updateDependencies(options, data.devDependencies, isPackage);
     }
     await fsWriteJson(pathname, data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('updatePackage', error);
   }
 }
@@ -206,7 +206,7 @@ export async function updateSource(options: ICreateOptions, pathname: string): P
     const data = await fsRead(pathname);
     const source = String(data).replace(new RegExp(`@${options.sampleType}`, 'g'), `@${options.projectName}`);
     await fsWrite(pathname, source);
-  } catch (error: any) {
+  } catch (error) {
     console.error('updateSource', error);
   }
 }
@@ -220,7 +220,7 @@ export async function updateJson(options: ICreateOptions, pathname: string): Pro
         data.$schema.replace('../../../../node_modules/', '../../node_modules/');
     }
     await fsWriteJson(pathname, data);
-  } catch (error: any) {
+  } catch (error) {
     console.error('updatePackage', error);
   }
 }

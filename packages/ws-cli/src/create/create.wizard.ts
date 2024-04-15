@@ -5,7 +5,7 @@ import { Logger } from '../utils/logger.js';
 
 export type Cancel = typeof cancel;
 
-export const REQUEST_AUTH_TOKEN = true;
+export const REQUEST_AUTH_TOKEN = false;
 
 export type CreateOptions = {
   projectName?: string;

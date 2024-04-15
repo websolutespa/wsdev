@@ -1,45 +1,45 @@
 {% set breakpoints = ['1024px','768px'] %}
 
 {% set video_options = {
-    loop: true,
-    muted: true,
-    playsinline: true,
-    autoplay: true,
-    controls: false,
+  loop: true,
+  muted: true,
+  playsinline: true,
+  autoplay: true,
+  controls: false,
 }%}
 
 <div class="{% if ratio %}-ratio-{{ratio}}{% endif %} media">
-    {% if video %}
-        {% if video.options %}
-            {% set video_options = video.options|merge({video_options}) %}
-        {% endif %}
-        <video {% for k,v in video_options %}{% if v %} {{k}} {% endif %}{% endfor %}>
-            {% for v in video.sources %}
-                <source src="{{v.src}}" type="video/{{v.type}}">
-            {% endfor %}
-        </video>
-    {% else %}
-        {% if images|length == 1 %}
-            {% set image = images[0] %}
-            <img
-                {% if image.srcset %} srcset="{{image.srcset}}" {% endif %}
-                {% if image.sizes %} sizes="{{image.sizes}}" {% endif %}
-                {% if image.height %} height="{{image.height}}" {% endif %}
-                {% if image.width %} width="{{image.width}}" {% endif %}
-                {% if lazy is not defined %} loading="lazy" {% endif %}
-                src="{{image.src}}"
-                alt="{{image.alt}}"
-            />
-        {% else %}
-            <picture>
-                {% for image in images|slice(0, 3) %}
-                    {% if loop.last %}
-                        <img {% if lazy is not defined %} loading="lazy" {% endif %} src="{{image.src}}" alt="{{image.alt}}">
-                    {% else %}
-                        <source media="(min-width:{{breakpoints[loop.index0]}})" srcset="{{image.src}}">
-                    {% endif %}
-                {% endfor %}
-            </picture>
-        {% endif %}
+  {% if video %}
+    {% if video.options %}
+      {% set video_options = video.options|merge({video_options}) %}
     {% endif %}
+    <video {% for k,v in video_options %}{% if v %} {{k}} {% endif %}{% endfor %}>
+      {% for v in video.sources %}
+        <source src="{{v.src}}" type="video/{{v.type}}">
+      {% endfor %}
+    </video>
+  {% else %}
+    {% if images|length == 1 %}
+        {% set image = images[0] %}
+        <img
+          {% if image.srcset %} srcset="{{image.srcset}}" {% endif %}
+          {% if image.sizes %} sizes="{{image.sizes}}" {% endif %}
+          {% if image.height %} height="{{image.height}}" {% endif %}
+          {% if image.width %} width="{{image.width}}" {% endif %}
+          {% if lazy is not defined %} loading="lazy" {% endif %}
+          src="{{image.src}}"
+          alt="{{image.alt}}"
+        />
+    {% else %}
+      <picture>
+        {% for image in images|slice(0, 3) %}
+          {% if loop.last %}
+            <img {% if lazy is not defined %} loading="lazy" {% endif %} src="{{image.src}}" alt="{{image.alt}}">
+          {% else %}
+            <source media="(min-width:{{breakpoints[loop.index0]}})" srcset="{{image.src}}">
+          {% endif %}
+        {% endfor %}
+      </picture>
+    {% endif %}
+  {% endif %}
 </div>

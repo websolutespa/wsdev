@@ -2,7 +2,7 @@
   "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
   "page": {
     "id": 1,
-    "title": "ws-vite twig",
+    "title": "ws-vite wordpress",
     "abstract": "a boilerplate built with 🖤 by Websolute",
     "meta": {
       "title": "Ws Vite - Home"

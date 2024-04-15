@@ -58,7 +58,7 @@ export async function fsFindNode(folder: string, app: string, parent?: INode): P
       }
     }
     return node;
-  } catch (error: any) {
+  } catch (error) {
     console.log('fsCollectPackages', error, folder);
     return Promise.reject(error);
   }

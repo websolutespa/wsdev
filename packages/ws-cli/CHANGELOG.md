@@ -1,11 +1,5 @@
 # @websolutespa/ws-cli
 
-## 0.0.5
-
-### Patch Changes
-
-- Add: Sample for wordpress starter theme
-
 ## 0.0.4
 
 ### Patch Changes
