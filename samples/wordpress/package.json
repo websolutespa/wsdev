@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@websolutespa/ws-vite": "*",
-    "copy-and-watch": "^0.1.6",
+    "copy-and-watch": "0.1.6",
     "eslint-config-websolute": "*",
     "eslint": "^8.46.0",
     "livereload": "^0.9.3",
