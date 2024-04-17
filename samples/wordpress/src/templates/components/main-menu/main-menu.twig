@@ -4,11 +4,13 @@
     <li><a href="%BASE_URL%docs/{{item}}.html">{{item}}</a></li>
     {% endfor %}
     <li>
-      {% include '../toggle/toggle.twig' with { id: 'color-scheme', title: 'Toggle light / dark mode' } %}
+      {% include '@components/toggle/toggle.twig' with { id: 'color-scheme', title: 'Toggle light / dark mode' } %}
     </li>
     <li>
       <a href='https://github.com/websolutespa/wsdev' title='WsDev'>
-        {{icon('github')}}
+        {% include "@components/icon/icon.twig" with {
+          name: 'github'
+        } %}
       </a>
     </li>
   </ul>
