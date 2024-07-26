@@ -110,11 +110,11 @@ export async function createWizard(options: CreateOptions) {
   await options.check(result, cancel);
 
   const s = spinner();
-  if (result.authToken && REQUEST_AUTH_TOKEN) {
+  if (result.authToken || !REQUEST_AUTH_TOKEN) {
     s.start('downloading repo...');
   }
   await options.download(result, cancel);
-  if (result.authToken) {
+  if (result.authToken || !REQUEST_AUTH_TOKEN) {
     s.stop('Repo downloaded');
   }
 
