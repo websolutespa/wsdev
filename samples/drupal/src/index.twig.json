@@ -1,0 +1,47 @@
+{
+  "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
+  "page": {
+    "id": 1,
+    "title": "ws-vite Drupal",
+    "abstract": "a boilerplate built with 🖤 by Websolute",
+    "meta": {
+      "title": "Ws Vite - Home"
+    },
+    "href": "/index",
+    "alternates": [
+      {
+        "id": "/it/index",
+        "title": "Home",
+        "locale": "it",
+        "market": "ww"
+      }
+    ],
+    "components": [
+      {
+        "schema": "text-only",
+        "title": "Text Only Title",
+        "abstract": "<p>Text Only Abstract.</p>",
+        "nav": {
+          "id": 1,
+          "title": "ss",
+          "href": "asdsd",
+          "type": "page"
+        }
+      },
+      {
+        "schema": "my-lazy",
+        "title": "Lazy Module",
+        "abstract": "<p>I'm a lazy module</p>"
+      },
+      {
+        "schema": "listing"
+      }
+    ],
+    "breadcrumb": [
+      {
+        "href": "/index",
+        "title": "Home"
+      }
+    ]
+  }
+}

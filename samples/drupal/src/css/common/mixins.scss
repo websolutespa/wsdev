@@ -1,0 +1,29 @@
+@mixin text($style) {
+  font-family: var(--typography-#{$style}-font-family);
+  font-size: var(--typography-#{$style}-font-size);
+  font-style: var(--typography-#{$style}-font-style, normal);
+  font-weight: var(--typography-#{$style}-font-weight, normal);
+  text-transform: var(--typography-#{$style}-text-transform);
+  line-height: var(--typography-#{$style}-line-height);
+  letter-spacing: var(--typography-#{$style}-letter-spacing);
+}
+
+@function spacing($size) {
+  @return var(--m-#{$size});
+}
+
+@mixin hover() {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin fill() {
+  display: block;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
