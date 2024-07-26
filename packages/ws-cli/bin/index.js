@@ -162,6 +162,7 @@ async function createWizard(options) {
             { value: "twig", label: "Twig" },
             { value: "liquid", label: "Liquid" },
             { value: "wordpress", label: "Wordpress" },
+            { value: "drupal", label: "Drupal" },
             { value: "shopify", label: "Shopify", hint: "available soon", disabled: true },
             { value: "react", label: "React", hint: "available soon", disabled: true }
           ]

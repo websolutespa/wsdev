@@ -1,0 +1,22 @@
+.header {
+  position: sticky;
+  top: 0;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(60px);
+  z-index: 100;
+
+  a {
+    display: flex;
+  }
+
+  .icon--webhook {
+    width: 36px;
+    height: 36px;
+  }
+
+  .icon--github {
+    width: 24px;
+    height: 24px;
+  }
+}

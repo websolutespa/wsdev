@@ -1,0 +1,15 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: min(70vh, 600px);
+  min-height: min(--webkit-fill-available, 600px);
+  @extend .radial;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    row-gap: 1em;
+  }
+}
