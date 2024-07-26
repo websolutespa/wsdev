@@ -8,8 +8,6 @@
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
   "ignore": [
-    "@liquid/web",
-    "@twig/web",
-    "@wordpress/web"
+    "@**/web"
   ]
 }

@@ -1,10 +1,16 @@
 # @websolutespa/ws-cli
 
+## 0.0.6
+
+### Patch Changes
+
+- d8875e4: Added: Drupal sample
+
 ## 0.0.5
 
 ### Patch Changes
 
-- cbd49c1: Added: Sample for wordpress starter theme
+- cbd49c1: Added: Sample for WordPress starter theme
 
 ## 0.0.4
 

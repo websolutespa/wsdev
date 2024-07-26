@@ -161,7 +161,7 @@ async function createWizard(options) {
           options: [
             { value: "twig", label: "Twig" },
             { value: "liquid", label: "Liquid" },
-            { value: "wordpress", label: "Wordpress" },
+            { value: "wordpress", label: "WordPress" },
             { value: "drupal", label: "Drupal" },
             { value: "shopify", label: "Shopify", hint: "available soon", disabled: true },
             { value: "react", label: "React", hint: "available soon", disabled: true }
@@ -215,11 +215,11 @@ async function createWizard(options) {
   result.sampleType = result.sampleType || "twig";
   await options.check(result, cancel);
   const s = spinner();
-  if (result.authToken && REQUEST_AUTH_TOKEN) {
+  if (result.authToken || !REQUEST_AUTH_TOKEN) {
     s.start("downloading repo...");
   }
   await options.download(result, cancel);
-  if (result.authToken) {
+  if (result.authToken || !REQUEST_AUTH_TOKEN) {
     s.stop("Repo downloaded");
   }
   const installDependencies = await confirm({

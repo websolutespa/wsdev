@@ -50,7 +50,7 @@ export async function createWizard(options: CreateOptions) {
           options: [
             { value: 'twig', label: 'Twig' },
             { value: 'liquid', label: 'Liquid' },
-            { value: 'wordpress', label: 'Wordpress' },
+            { value: 'wordpress', label: 'WordPress' },
             { value: 'drupal', label: 'Drupal' },
             { value: 'shopify', label: 'Shopify', hint: 'available soon', disabled: true },
             { value: 'react', label: 'React', hint: 'available soon', disabled: true },
