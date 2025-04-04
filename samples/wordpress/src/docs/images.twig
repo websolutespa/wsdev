@@ -19,7 +19,8 @@
       <div class="theme__variants">
         <div class="theme__variant">
           <div class="theme__title">
-            <p>Include media component <em>"include @components/media/media.twig"</em> to insert image or video.<br />Params :</p>
+            <p>Include media component <em>"include @components/base/media/media.twig"</em> to insert image or
+              video.<br />Params :</p>
           </div>
           <code>
 {
@@ -55,7 +56,7 @@
             <p>Single image</p>
           </div>
           <code>
-include "@components/media/media.twig" with {
+include "@components/base/media/media.twig" with {
   images: [
     {
       src: 'media/images/mountains-01.jpg',
@@ -65,11 +66,13 @@ include "@components/media/media.twig" with {
 }
           </code>
           <div class="theme__title">
-            <p>Art direction image (with <em>{{htmlEncode("<picture/>")}}</em>)</p>
+            <p>Art direction image (with <em>{{htmlEncode("
+                <picture />")}}
+              </em>)</p>
             <small>Resize windows to see it in action</small>
           </div>
           <code>
-include "@components/media/media.twig" with {
+include "@components/base/media/media.twig" with {
   images: [
     {
       src: 'media/images/mountains-01.jpg',
@@ -82,21 +85,21 @@ include "@components/media/media.twig" with {
 }
           </code>
           <div class="theme__name">
-            {% include "@components/media/media.twig" with {
-              images: [{
-                src: 'media/images/mountains-01.jpg',
-                alt: 'test image'
-              }, {
-                src: 'media/images/mountains-02.jpg',
-                alt: 'test image'
-              }]
+            {% include "@components/base/media/media.twig" with {
+            images: [{
+            src: 'media/images/mountains-01.jpg',
+            alt: 'test image'
+            }, {
+            src: 'media/images/mountains-02.jpg',
+            alt: 'test image'
+            }]
             } %}
           </div>
           <div class="theme__title">
             <p>Video</p>
           </div>
           <code>
-include "@components/media/media.twig" with {
+include "@components/base/media/media.twig" with {
   video: {
     options: {
       controls: true,
@@ -115,20 +118,20 @@ include "@components/media/media.twig" with {
 }
           </code>
           <div class="theme__name">
-            {% include "@components/media/media.twig" with {
-              video: {
-                options: {
-                  controls: true,
-                  autoplay: false,
-                },
-                sources: [{
-                  src: 'media/video/mountains.mp4',
-                  type: 'mp4'
-                }, {
-                  src: 'media/video/mountains.webm',
-                  type: 'webm'
-                }]
-              } 
+            {% include "@components/base/media/media.twig" with {
+            video: {
+            options: {
+            controls: true,
+            autoplay: false,
+            },
+            sources: [{
+            src: 'media/video/mountains.mp4',
+            type: 'mp4'
+            }, {
+            src: 'media/video/mountains.webm',
+            type: 'webm'
+            }]
+            }
             } %}
           </div>
         </div>
