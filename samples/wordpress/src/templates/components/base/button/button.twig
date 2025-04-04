@@ -1,0 +1,40 @@
+{#
+class?: 'primary' as string
+url?: string,
+colorScheme?: 'dark' as string
+target?: '_self' | '_blank' as string
+submit?: boolean,
+disabled?: boolean,
+title?: string,
+icon?: as string
+a11y?: boolean
+#}
+
+{% set btn_type = class|default('primary') %}
+{% set btn_color = colorScheme is defined ? '-' ~ colorScheme : '' %}
+{% set btn_a11y = a11y|default(false) ? ' -a11y' : '' %}
+
+{% set btn_classes = 'button -type-' ~ btn_type ~ btn_color ~ btn_a11y %}
+{# {% set btn_attrs = '' %} #}
+{% if url %}
+<a class="{{btn_classes}}" href="{{url}}" {% if target %} target="{{target}}" {% endif %} {% if anchor %}
+  data-scroll-to="{{anchor}}" {% endif %} {{btn_attrs}}>
+  {% else %}
+  <button class="{{btn_classes}}" type="{% if submit %}submit{% else %}button{% endif %}" {% if disabled %} disabled {%
+    endif %} {{btn_attrs}}>
+    {% endif %}
+
+    {% if title %}<span>{{title}}</span>{% endif %}
+    {% if icon %}
+    <i class="e-icon">
+      <svg>
+        <use xlink:href="#icon-{{icon}}"></use>
+      </svg>
+    </i>
+    {% endif %}
+
+    {% if url %}
+</a>
+{% else %}
+</button>
+{% endif %}

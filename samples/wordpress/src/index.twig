@@ -2,8 +2,14 @@
 
 {% block main %}
 
+{% set hero_options = {
+title: page.title,
+abstract: page.abstract,
+heading: 'h1'
+} %}
+
 <main>
-  {% include '@components/hero/hero.twig' with { item: page } %}
+  {% include '@components/layout/hero/hero.twig' with hero_options only %}
   {% include '@components/components.twig' %}
 </main>
 

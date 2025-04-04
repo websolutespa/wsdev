@@ -11,38 +11,23 @@
 @include typography();
 @include lenis();
 
-// common
+// COMMON
 @import 'common';
-
-// components
 @import '../templates/components/components';
-@import '../templates/components/footer/footer';
-@import '../templates/components/header/header';
-@import '../templates/components/hero/hero';
-@import '../templates/components/listing-item/listing-item';
-@import '../templates/components/listing/listing';
-@import '../templates/components/main-menu/main-menu';
-@import '../templates/components/text-only/text-only';
-@import '../templates/components/toggle/toggle';
 
-/*
-:root {
-  --bg: red;
-}
+// BASE - atomic components not flexible
+@import '../templates/components/base/listing-item/listing-item';
+@import '../templates/components/base/toggle/toggle';
+@import '../templates/components/base/button/button';
+@import '../templates/components/base/content/content';
 
-@media (min-width: 300px) {
-  :root {
-    --bg: blue;
-  }
-}
 
-@media (min-width: 600px) {
-  :root {
-    --bg: green;
-  }
-}
-*/
+// LAYOUT - layout items not flexible
+@import '../templates/components/layout/footer/footer';
+@import '../templates/components/layout/header/header';
+@import '../templates/components/layout/hero/hero';
+@import '../templates/components/layout/main-menu/main-menu';
 
-body {
-  background: var(--bg);
-}
+// BLOCKS - flexible components repeated by components.twig
+@import '../templates/components/blocks/listing/listing';
+@import '../templates/components/blocks/text-only/text-only';

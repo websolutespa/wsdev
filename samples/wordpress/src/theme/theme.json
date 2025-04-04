@@ -42,40 +42,103 @@
       "lineHeight": 1.35
     },
     "heading10": {
-      "fontSize": "Min(2.5rem, 6.4vw)",
-      "lineHeight": 1.45
+      "fontSize": [
+        60,
+        100
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-3%"
     },
     "heading20": {
-      "fontSize": "2.25rem",
-      "lineHeight": 1.55
+      "fontSize": [
+        32,
+        48
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-2%"
     },
     "heading30": {
-      "fontSize": "1.875rem",
-      "lineHeight": 1.65
+      "fontSize": [
+        28,
+        40
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-2%"
     },
     "heading40": {
-      "fontSize": "1.5rem",
-      "lineHeight": 1.75
+      "fontSize": [
+        24,
+        32
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-2%"
     },
-    "paragraph10": {
-      "fontSize": "1.125rem",
-      "lineHeight": 1.85
+    "heading50": {
+      "fontSize": [
+        24,
+        24
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-1"
     },
-    "paragraph20": {
-      "fontSize": "1rem",
-      "lineHeight": 1.95
+    "heading60": {
+      "fontSize": [
+        20,
+        20
+      ],
+      "fontWeight": 500,
+      "lineHeight": "120%",
+      "letterSpacing": "-1"
     },
-    "paragraph30": {
-      "fontSize": "0.9rem",
-      "lineHeight": 2.05
+    "body10": {
+      "fontSize": [
+        20,
+        28
+      ],
+      "fontWeight": 400,
+      "lineHeight": "130%",
+      "letterSpacing": "-2%"
     },
-    "paragraph40": {
-      "fontSize": "0.8rem",
-      "lineHeight": 2.15
+    "body20": {
+      "fontSize": [
+        16,
+        24
+      ],
+      "fontWeight": 400,
+      "lineHeight": "130%",
+      "letterSpacing": "-1%"
     },
-    "paragraph50": {
-      "fontSize": "0.7rem",
-      "lineHeight": 2.25
+    "body30": {
+      "fontSize": [
+        16,
+        20
+      ],
+      "fontWeight": 400,
+      "lineHeight": "130%",
+      "letterSpacing": "-1%"
+    },
+    "body40": {
+      "fontSize": [
+        14,
+        16
+      ],
+      "fontWeight": 400,
+      "lineHeight": "140%",
+      "letterSpacing": "-1%"
+    },
+    "body50": {
+      "fontSize": [
+        13,
+        14
+      ],
+      "fontWeight": 400,
+      "lineHeight": "140%",
+      "letterSpacing": "0%"
     }
   },
   "grid": {
