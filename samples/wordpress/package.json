@@ -8,14 +8,16 @@
     "dev:wp": "vite dev --host --no-open",
     "build": "vite build",
     "preview": "vite preview",
-    "build:copy:twig": "cpx \"src/templates/components/**/*.twig\" ../templates/components -v",
+    "build:copy:twig": "cpx \"src/templates/components/**/*.twig\" ../views/components -v",
+    "build:copy:assets": "cpx \"dist/assets/**/*.*\" ../static/assets -v",
     "build:copy:css": "cpx \"dist/css/**/*.*\" ../static/css -v",
     "build:copy:js": "cpx \"dist/js/**/*.js\" ../static/js -v",
-    "build:copy:img": "cpx \"dist/assets/**/*.*\" ../static/img -v",
-    "build:set:resources": "cpx \"src/templates/partials/resources/prod/*.twig\" ../templates/partials/resources -v",
-    "build:wp": "npm-run-all --serial build build:set:resources build:copy:twig build:copy:css build:copy:js build:copy:img",
-    "watch:set:resources": "cpx \"src/templates/partials/resources/dev/*.twig\" ../templates/partials/resources -v",
-    "watch:copy:twig": "cpx \"src/templates/components/**/*.twig\" ../templates/components -w -v",
+    "build:copy:img": "cpx \"dist/img/**/*.*\" ../static/img -v",
+    "build:copy:fonts": "cpx \"dist/fonts/**/*.*\" ../static/fonts -v",
+    "build:set:resources": "cpx \"src/templates/partials/resources/prod/*.twig\" ../views/partials/resources -v",
+    "build:wp": "npm-run-all --serial build build:set:resources build:copy:twig build:copy:css build:copy:js build:copy:img build:copy:fonts build:copy:assets",
+    "watch:set:resources": "cpx \"src/templates/partials/resources/dev/*.twig\" ../views/partials/resources -v",
+    "watch:copy:twig": "cpx \"src/templates/components/**/*.twig\" ../views/components -w -v",
     "watch:reload": "livereload ../templates -e 'twig'",
     "watch:wp": "npm-run-all build:wp watch:set:resources --parallel watch:reload dev:wp watch:copy:twig",
     "start": "npm run dev"
@@ -29,6 +31,7 @@
     "eslint": "^8.46.0",
     "eslint-config-websolute": "*",
     "livereload": "^0.9.3",
-    "npm-run-all": "^4.1.5"
+    "npm-run-all": "^4.1.5",
+    "sass": "1.77.6"
   }
 }

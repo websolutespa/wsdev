@@ -1,0 +1,70 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--p-32);
+
+  &.-light {
+    color: var(--color-primary-white);
+  }
+
+  &.-center {
+    text-align: center;
+    align-items: center;
+  }
+
+  &__cta {
+    display: flex;
+    flex-direction: row;
+    gap: var(--m-12);
+  }
+
+  .-gap104,
+  &.-gap104 {
+    gap: var(--p-104);
+  }
+
+  .-gap100,
+  &.-gap100 {
+    gap: var(--p-100);
+  }
+
+  .-gap40,
+  &.-gap40 {
+    gap: var(--p-40);
+  }
+
+  .-gap32,
+  &.-gap32 {
+    gap: var(--p-32);
+  }
+
+  .-gap24,
+  &.-gap24 {
+    gap: var(--p-24);
+  }
+
+  .-gap20,
+  &.-gap20 {
+    gap: var(--p-20);
+  }
+
+  .-gap16,
+  &.-gap16 {
+    gap: var(--p-16);
+  }
+
+  .-gap8,
+  &.-gap8 {
+    gap: var(--p-8);
+  }
+
+  .-gap4,
+  &.-gap4 {
+    gap: var(--p-4);
+  }
+
+  .-gap0,
+  &.-gap0 {
+    gap: 0;
+  }
+}

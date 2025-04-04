@@ -1,0 +1,65 @@
+{#
+colorScheme?: 'dark'|'light' as string
+align?: 'left'|'center' as string
+gap?: '0'|'8'|'24'|'32'|'40' as string
+type?: 'xxs'|'xs'|'sm'|'md'|'lg'|'xl'|'xxl' as string
+typeText?: 'xl','lg'|'md'|'sm'|'xs' as string
+classes?: 'string'
+eyelet?: String,
+abstract?: String,
+title: String,
+text?: String,
+navs?: Array of Button (button/button.twig)
+heading?: 'h1'|'h2'|'h3'|'h4'|'h5'|'h6'|'div' as string
+#}
+{% set content_color = colorScheme|default('dark') %}
+{% set content_align = align|default('left') %}
+{% set content_gap = gap|default('24') %}
+{% set content_type = type|default('md') %}
+{% set content_type_text = typeText|default('md') %}
+{% set content_classes = 'content ' ~ '-' ~ content_color ~ ' -gap' ~ content_gap ~ ' -' ~ content_align ~ ' -' ~
+classes %}
+{% set heading_tag = heading|default('div') %}
+
+{% set title_class = {
+'xl': 'heading10',
+'lg': 'heading20',
+'md': 'heading30',
+'sm': 'heading40',
+'xs': 'heading50',
+'xxs': 'heading60',
+}[content_type] %}
+
+{% set text_class = {
+'xl': 'body20',
+'lg': 'body30',
+'md': 'body40',
+'sm': 'body50',
+'xs': 'body60',
+}[content_type_text] %}
+
+<div class="{{content_classes}}">
+  {% if eyelet %}
+  <div class="content__eyelet">{{ eyelet }}</div>
+  {% endif %}
+
+  {% if title %}
+  <{{ heading_tag }} class="content__title {{ title_class }}">{{ title }}</{{ heading_tag }}>
+  {% endif %}
+
+  {% if abstract %}
+  <div class="content__abstract body30">{{ abstract }}</div>
+  {% endif %}
+
+  {% if text %}
+  <div class="content__text {{ text_class }} wysiwyg -gap{{ content_gap }}">{{ text|raw }}</div>
+  {% endif %}
+
+  {% if navs is defined and navs is not empty %}
+  <div class="content__cta">
+    {% for nav in navs %}
+    {% include "@components/base/button/button.twig" with nav only %}
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>

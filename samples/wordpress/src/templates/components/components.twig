@@ -1,7 +1,8 @@
-{% if page.components %}
+{% set components = page.components %}
+{% if components %}
 <div class="components">
-  {% for component in page.components %}
-  {% include './' ~ component.schema ~ '/' ~ component.schema ~ '.twig' with { item: component } %}
+  {% for component in components %}
+  {% include '@components/blocks/' ~ component.schema ~ '/' ~ component.schema ~ '.twig' with component only %}
   {% endfor %}
 </div>
 {% endif %}

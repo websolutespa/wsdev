@@ -1,0 +1,13 @@
+{% set content_options = {
+title: title,
+text: abstract,
+heading: 'h2',
+type: 'lg',
+typeText: 'lg'
+}%}
+
+<section class="text-only py-80">
+  <div class="container">
+    {% include '@components/base/content/content.twig' with content_options only %}
+  </div>
+</section>

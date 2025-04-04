@@ -7,6 +7,7 @@ body {
 
 body {
   height: auto;
+  background: var(--bg);
   @include scrollbar();
 }
 
