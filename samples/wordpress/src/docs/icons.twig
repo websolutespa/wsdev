@@ -13,7 +13,8 @@
     <div class="container">
       <h1 class="display20 fw-700">Icons</h1>
       <div class="display40">
-        Svg sprite map generation with <a class="link" href="https://github.com/svg/svgo" target="_blank" title="Sharp.js">SVG Optimizer</a> tool for optimizing SVG vector graphics files.
+        Svg sprite map generation with <a class="link" href="https://github.com/svg/svgo" target="_blank"
+          title="Sharp.js">SVG Optimizer</a> tool for optimizing SVG vector graphics files.
       </div>
     </div>
   </section>
@@ -32,11 +33,12 @@
       <div class="theme__variants">
         <div class="theme__variant">
           <div class="theme__title">
-            <p>You can write your svg with <em>use</em> <em>xlink:href</em> manually or use the <em>icon</em> template compoent.</p>
+            <p>You can write your svg with <em>use</em> <em>xlink:href</em> manually or use the <em>icon</em> template
+              compoent.</p>
           </div>
-          <code>{% raw %}{{include '@components/icon/icon.twig' with {name: 'websolute'}}}{% endraw %}</code>
+          <code>{% raw %}{{include '@components/base/icon/icon.twig' with {name: 'websolute'}}}{% endraw %}</code>
           <div class="theme__title">
-            {% include '@components/icon/icon.twig' with {name: 'websolute'} %}
+            {% include '@components/base/icon/icon.twig' with {name: 'websolute'} %}
           </div>
           <div class="theme__title">
             <p>will be converted to <em>svg</em> tag with correspondent <em>xlink:href</em>:</p>
