@@ -42,7 +42,6 @@ export function wsVitePlugin(userOptions) {
   };
   const paths = resolvePaths(options.paths);
   return [
-    tailwindPlugin(options.tailwind),
     vituumPlugin(options.vituum), // always
     themePlugin(options.theme),
     twigPlugin(options.twig),
@@ -61,6 +60,7 @@ export function wsVitePlugin(userOptions) {
     // purgePlugin(options.purge),
     // criticalPlugin(options.critical),
     // https://github.com/Jax-p/vite-plugin-html-purgecss
+    tailwindPlugin(options.tailwind),
   ];
 }
 

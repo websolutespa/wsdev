@@ -147,3 +147,7 @@
   --color-white: #fff;
 
 }
+
+@view-transition {
+  navigation: auto;
+}

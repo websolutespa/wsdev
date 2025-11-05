@@ -1,5 +1,4 @@
 import tailwindcss from '@tailwindcss/vite';
-// import tailwindcss from '@vituum/vite-plugin-tailwindcss';
 
 export const tailwindPlugin = (userOptions) => {
   if (!userOptions) {
