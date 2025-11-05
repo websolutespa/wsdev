@@ -159,6 +159,7 @@ async function createWizard(options) {
         return select({
           message: `Select a sample type for ${results.projectName}?`,
           options: [
+            { value: "tailwind", label: "Tailwind" },
             { value: "twig", label: "Twig" },
             { value: "liquid", label: "Liquid" },
             { value: "wordpress", label: "WordPress" },
@@ -212,7 +213,7 @@ async function createWizard(options) {
   );
   result.projectName = result.projectName || "my-project";
   result.projectName = result.projectName.toLowerCase().replace(/\s/g, "-");
-  result.sampleType = result.sampleType || "twig";
+  result.sampleType = result.sampleType || "tailwind";
   await options.check(result, cancel);
   const s = spinner();
   if (result.authToken || !REQUEST_AUTH_TOKEN) {

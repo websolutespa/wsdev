@@ -1,0 +1,162 @@
+/* typography */
+
+@utility display-* {
+  font-family: --value(--display-*);
+  line-height: --value(--display-*--line-height);
+  font-weight: --value(--display-*--font-weight);
+  letter-spacing: --value(--display-*--letter-spacing);
+  font-size: --value(--display-*--font-size);
+  font-size: --range(--value(--display-*--font-size-min), --value(--display-*--font-size-max));
+}
+
+@utility heading-* {
+  font-family: --value(--heading-*);
+  line-height: --value(--heading-*--line-height);
+  font-weight: --value(--heading-*--font-weight);
+  letter-spacing: --value(--heading-*--letter-spacing);
+  font-size: --value(--heading-*--font-size);
+  font-size: --range(--value(--heading-*--font-size-min), --value(--heading-*--font-size-max));
+}
+
+@utility body-* {
+  font-family: --value(--body-*);
+  line-height: --value(--body-*--line-height);
+  font-weight: --value(--body-*--font-weight);
+  letter-spacing: --value(--body-*--letter-spacing);
+  font-size: --value(--body-*--font-size);
+  font-size: --range(--value(--body-*--font-size-min), --value(--body-*--font-size-max));
+}
+
+@utility cta-* {
+  font-family: --value(--cta-*);
+  line-height: --value(--cta-*--line-height);
+  font-weight: --value(--cta-*--font-weight);
+  letter-spacing: --value(--cta-*--letter-spacing);
+  font-size: --value(--cta-*--font-size);
+  font-size: --range(--value(--cta-*--font-size-min), --value(--cta-*--font-size-max));
+}
+
+@utility label-* {
+  font-family: --value(--label-*);
+  line-height: --value(--label-*--line-height);
+  font-weight: --value(--label-*--font-weight);
+  letter-spacing: --value(--label-*--letter-spacing);
+  font-size: --value(--label-*--font-size);
+  font-size: --range(--value(--label-*--font-size-min), --value(--label-*--font-size-max));
+}
+
+/* padding */
+
+/*
+@utility p-* {
+  padding: --size4(--value(integer));
+}
+
+@utility pt-* {
+  padding-top: --size4(--value(integer));
+}
+
+@utility pr-* {
+  padding-right: --size4(--value(integer));
+}
+
+@utility pb-* {
+  padding-bottom: --size4(--value(integer));
+}
+
+@utility pl-* {
+  padding-left: --size4(--value(integer));
+}
+
+@utility px-* {
+  padding-inline: --size4(--value(integer));
+}
+
+@utility py-* {
+  padding-block: --size4(--value(integer));
+}
+
+@utility ps-* {
+  padding-inline-start: --size4(--value(integer));
+}
+
+@utility pe-* {
+  padding-inline-end: --size4(--value(integer));
+}
+*/
+
+/* margin */
+
+/*
+@utility m-* {
+  margin: --size4(--value(integer));
+}
+
+@utility mt-* {
+  margin-top: --size4(--value(integer));
+}
+
+@utility mr-* {
+  margin-right: --size4(--value(integer));
+}
+
+@utility mb-* {
+  margin-bottom: --size4(--value(integer));
+}
+
+@utility ml-* {
+  margin-left: --size4(--value(integer));
+}
+
+@utility mx-* {
+  margin-inline: --size4(--value(integer));
+}
+
+@utility my-* {
+  margin-block: --size4(--value(integer));
+}
+
+@utility ms-* {
+  margin-inline-start: --size4(--value(integer));
+}
+
+@utility me-* {
+  margin-inline-end: --size4(--value(integer));
+}
+*/
+
+/* gap */
+
+/*
+@utility gap-* {
+  gap: --size4(--value(integer));
+}
+
+@utility gap-x-* {
+  column-gap: --size4(--value(integer));
+}
+
+@utility gap-y-* {
+  row-gap: --size4(--value(integer));
+}
+*/
+
+/*
+p-<number> padding: calc(var(--spacing) * <number>);
+p-px padding: 1px;
+p-(<custom-property>) padding: var(<custom-property>);
+p-[<value>] padding: <value>;
+*/
+/* font-size: calc(var(--spacing)* --value(integer)); */
+
+@utility auto-fill-* {
+  grid-template-columns: repeat(auto-fill, minmax(min(--value([*]), 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(--value(--text-*), 100%), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--spacing)* --value(integer), 100%), 1fr));
+}
+
+@utility auto-fit-* {
+  grid-template-columns: repeat(auto-fit, minmax(min(--value([*]), 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(--value(--text-*), 100%), 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--spacing)* --value(integer), 100%), 1fr));
+}

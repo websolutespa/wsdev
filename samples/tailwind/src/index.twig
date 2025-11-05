@@ -1,0 +1,10 @@
+{% extends '/templates/layouts/layout.twig' %}
+
+{% block main %}
+
+<main>
+  {% include '/templates/components/hero/hero.twig' with { item: page } %}
+  {% include '/templates/components/components.twig' %}
+</main>
+
+{% endblock %}

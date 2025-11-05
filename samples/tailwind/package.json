@@ -1,0 +1,20 @@
+{
+  "name": "@tailwind/web",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev --host",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@studio-freight/lenis": "^1.0.27"
+  },
+  "devDependencies": {
+    "@websolutespa/ws-vite": "*",
+    "eslint-config-websolute": "*",
+    "eslint": "^8.46.0"
+  }
+}

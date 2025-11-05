@@ -48,6 +48,7 @@ export async function createWizard(options: CreateOptions) {
         return select({
           message: `Select a sample type for ${results.projectName}?`,
           options: [
+            { value: 'tailwind', label: 'Tailwind' },
             { value: 'twig', label: 'Twig' },
             { value: 'liquid', label: 'Liquid' },
             { value: 'wordpress', label: 'WordPress' },
@@ -105,7 +106,7 @@ export async function createWizard(options: CreateOptions) {
 
   result.projectName = result.projectName || 'my-project';
   result.projectName = result.projectName.toLowerCase().replace(/\s/g, '-');
-  result.sampleType = result.sampleType || 'twig';
+  result.sampleType = result.sampleType || 'tailwind';
   // result.includedTools = result.includedTools || ['mixer'];
 
   await options.check(result, cancel);

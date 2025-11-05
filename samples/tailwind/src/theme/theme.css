@@ -1,0 +1,149 @@
+@import 'tailwindcss';
+@import './theme.utilities.css';
+@import './theme.wysiwyg.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme static {
+  /* spacing */
+  /* 0.25rem = 4px */
+  --spacing: 0.25rem;
+
+  /* fluid */
+  --fluid: --fluid(375, 1600);
+
+  /* breakpoint */
+  --breakpoint-*: initial;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1440px;
+  --breakpoint-xl: 1600px;
+
+  /* font */
+  --font-sans: var(--font-geist-sans);
+  --font-serif: var(--font-bodoni-moda);
+  --font-mono: var(--font-geist-mono);
+
+  /* typography */
+
+  --display-1: var(--font-sans);
+  /* fixed value */
+  --display-1--font-size: 8rem;
+  /* fixed min max */
+  --display-1--font-size-min: 96;
+  --display-1--font-size-max: 128;
+  --display-1--font-weight: 100;
+
+  --display-2: var(--font-sans);
+  --display-2--font-size-min: 80;
+  --display-2--font-size-max: 112;
+  --display-2--font-weight: 100;
+
+  --display-3: var(--font-sans);
+  --display-3--font-size-min: 64;
+  --display-3--font-size-max: 96;
+  --display-3--font-weight: 100;
+
+  --display-4: var(--font-sans);
+  --display-4--font-size-min: 48;
+  --display-4--font-size-max: 80;
+  --display-4--font-weight: 100;
+
+  --display-5: var(--font-sans);
+  --display-5--font-size-min: 32;
+  --display-5--font-size-max: 64;
+  --display-5--font-weight: 100;
+
+  --display-6: var(--font-sans);
+  --display-6--font-size-min: 16;
+  --display-6--font-size-max: 48;
+  --display-6--font-weight: 100;
+
+  --heading-1: var(--font-serif);
+  --heading-1--font-size-min: 56;
+  --heading-1--font-size-max: 64;
+  --heading-1--font-weight: 100;
+
+  --heading-2: var(--font-serif);
+  --heading-2--font-size-min: 48;
+  --heading-2--font-size-max: 56;
+  --heading-2--font-weight: 100;
+
+  --heading-3: var(--font-serif);
+  --heading-3--font-size-min: 40;
+  --heading-3--font-size-max: 48;
+  --heading-3--font-weight: 100;
+
+  --heading-4: var(--font-serif);
+  --heading-4--font-size-min: 36;
+  --heading-4--font-size-max: 40;
+  --heading-4--font-weight: 100;
+
+  --heading-5: var(--font-serif);
+  --heading-5--font-size-min: 28;
+  --heading-5--font-size-max: 32;
+  --heading-5--font-weight: 100;
+
+  --heading-6: var(--font-serif);
+  --heading-6--font-size-min: 20;
+  --heading-6--font-size-max: 24;
+  --heading-6--font-weight: 100;
+
+  --body-1: var(--font-sans);
+  --body-1--font-size-min: 20;
+  --body-1--font-size-max: 24;
+
+  --body-2: var(--font-sans);
+  --body-2--font-size-min: 18;
+  --body-2--font-size-max: 22;
+
+  --body-3: var(--font-sans);
+  --body-3--font-size-min: 16;
+  --body-3--font-size-max: 20;
+
+  --body-4: var(--font-sans);
+  --body-4--font-size-min: 14;
+  --body-4--font-size-max: 18;
+
+  --body-5: var(--font-sans);
+  --body-5--font-size-min: 12;
+  --body-5--font-size-max: 16;
+
+  --body-6: var(--font-sans);
+  --body-6--font-size-min: 10;
+  --body-6--font-size-max: 14;
+
+  /* colors */
+
+  --color-*: initial;
+
+  --color-lazy: blue;
+
+  --color-neutral-50: oklch(0.985 0 0);
+  --color-neutral-100: oklch(0.97 0 0);
+  --color-neutral-200: oklch(0.922 0 0);
+  --color-neutral-300: oklch(0.87 0 0);
+  --color-neutral-400: oklch(0.708 0 0);
+  --color-neutral-500: oklch(0.556 0 0);
+  --color-neutral-600: oklch(0.439 0 0);
+  --color-neutral-700: oklch(0.371 0 0);
+  --color-neutral-800: oklch(0.269 0 0);
+  --color-neutral-900: oklch(0.205 0 0);
+  --color-neutral-950: oklch(0.145 0 0);
+
+  --color-primary-50: oklch(0.97 0.014 254.604);
+  --color-primary-100: oklch(0.932 0.032 255.585);
+  --color-primary-200: oklch(0.882 0.059 254.128);
+  --color-primary-300: oklch(0.809 0.105 251.813);
+  --color-primary-400: oklch(0.707 0.165 254.624);
+  --color-primary-500: oklch(0.623 0.214 259.815);
+  --color-primary-600: oklch(0.546 0.245 262.881);
+  --color-primary-700: oklch(0.488 0.243 264.376);
+  --color-primary-800: oklch(0.424 0.199 265.638);
+  --color-primary-900: oklch(0.379 0.146 265.522);
+  --color-primary-950: oklch(0.282 0.091 267.935);
+
+  --color-black: #000;
+  --color-white: #fff;
+
+}

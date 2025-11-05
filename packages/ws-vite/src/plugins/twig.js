@@ -14,7 +14,13 @@ export const twigPlugin = (userOptions) => {
   if (typeof userOptions == 'boolean') {
     userOptions = {};
   }
-  const breakpoint = userOptions.globals.theme.breakpoint;
+  const breakpoint = userOptions.globals.theme?.breakpoint || {
+    xs: 0,
+    sm: '768px',
+    md: '1024px',
+    lg: '1440px',
+    xl: '1600px'
+  };
   const options = {
     /**
      * default null

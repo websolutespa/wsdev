@@ -1,0 +1,55 @@
+:root {
+  --color-background: var(--color-neutral-100);
+  --color-foreground: var(--color-neutral-900);
+
+  @media (prefers-color-scheme: dark) {
+    --color-background: var(--color-neutral-900);
+    --color-foreground: var(--color-neutral-100);
+  }
+}
+
+:root {
+  --color-scheme: 'initial';
+  color-scheme: var(--color-scheme);
+
+  @media (prefers-color-scheme: dark) {
+    --color-scheme: 'dark';
+  }
+}
+
+[data-scheme="light"] {
+  --color-background: var(--color-neutral-100);
+  --color-foreground: var(--color-neutral-900);
+  --color-background-negative: var(--color-neutral-900);
+  --color-foreground-negative: var(--color-neutral-100);
+}
+
+[data-scheme="dark"] {
+  --color-background: var(--color-neutral-900);
+  --color-foreground: var(--color-neutral-100);
+  --color-background-negative: var(--color-neutral-100);
+  --color-foreground-negative: var(--color-neutral-900);
+}
+
+.positive {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.negative {
+  background: var(--color-background-negative);
+  color: var(--color-foreground-negative);
+}
+
+body {
+  @extend .positive;
+}
+
+.radial {
+  // background: linear-gradient(180deg, #101010 0%, #383838 100%);
+  // background: radial-gradient(circle, #383838 0%, #101010 70%, #101010 100%);
+  background: transparent;
+  background: radial-gradient(circle, #88888880 0%, #88888808 70%, #88888800 100%);
+  background-attachment: fixed;
+  background-size: 100% 200%;
+}

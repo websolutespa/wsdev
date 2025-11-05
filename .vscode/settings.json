@@ -12,8 +12,11 @@
   "[html][twig][lucid]": {
     "editor.defaultFormatter": "vscode.html-language-features"
   },
-  "[css][scss][less]": {
+  "[scss][less]": {
     "editor.defaultFormatter": "vscode.css-language-features"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "bradlc.vscode-tailwindcss"
   },
   "[javascript][javascriptreact][typescript]": {
     "editor.defaultFormatter": "vscode.typescript-language-features"
@@ -33,9 +36,13 @@
     "*.ts": "$(capture).test.ts, $(capture).test.tsx",
     "*.tsx": "$(capture).test.ts, $(capture).test.tsx"
   },
+  "files.associations": {
+    "*.css": "tailwindcss",
+    "*.scss": "tailwindcss"
+  },
   "eslint.enable": true,
   "eslint.format.enable": true,
-  "eslint.experimental.useFlatConfig": true,
+  "eslint.useFlatConfig": true,
   "eslint.workingDirectories": [ { "mode": "auto" } ],
   "eslint.options": {
     "extensions": [

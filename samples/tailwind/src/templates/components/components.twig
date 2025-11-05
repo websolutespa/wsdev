@@ -1,0 +1,7 @@
+{% if page.components %}
+<div class="border-y border-[rgba(128,128,128,0.2)]">
+  {% for component in page.components %}
+  {% include './' ~ component.schema ~ '/' ~ component.schema ~ '.twig' with { item: component } %}
+  {% endfor %}
+</div>
+{% endif %}

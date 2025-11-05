@@ -1,0 +1,12 @@
+<section class="relative py-20 cursor-pointer [--color-lazy:blue] bg-lazy
+before:block before:absolute before:inset-0 before:w-full before:h-full before:opacity-0 before:transition-opacity before:duration-200 before:ease-in-out
+after:absolute after:inset-0 after:w-full after:h-full after:opacity-0 after:transition-opacity after:duration-200 after:ease-in-out
+before:content-[''] before:bg-black/50 before:backdrop-blur-[30px]
+after:content-['click_me'] after:flex after:justify-center after:items-center after:text-center after:text-6xl after:text-white
+hover:before:opacity-100 hover:after:opacity-100
+" data-module="my-lazy.module">
+  <div class="container mx-auto text-[rgba(0,0,0,0.5)]">
+    <h1 class="display-2 font-bold">{{item.title}}</h1>
+    <div class="display-4">{{item.abstract}}</div>
+  </div>
+</section>

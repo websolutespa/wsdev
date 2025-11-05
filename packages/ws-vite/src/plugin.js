@@ -1,8 +1,10 @@
+import postcssFunctions from 'postcss-functions';
 import { accessiblePlugin } from './plugins/accessible.js';
 import { htmlPlugin } from './plugins/html.js';
 import { iconsPlugin } from './plugins/icons.js';
 import { imagePlugin } from './plugins/image.js';
 import { liquidPlugin } from './plugins/liquid.js';
+import { tailwindPlugin } from './plugins/tailwind.js';
 import { themePlugin } from './plugins/theme.js';
 import { twigPlugin } from './plugins/twig.js';
 import { vituumPlugin } from './plugins/vituum.js';
@@ -40,6 +42,7 @@ export function wsVitePlugin(userOptions) {
   };
   const paths = resolvePaths(options.paths);
   return [
+    tailwindPlugin(options.tailwind),
     vituumPlugin(options.vituum), // always
     themePlugin(options.theme),
     twigPlugin(options.twig),
@@ -80,6 +83,13 @@ export async function wsViteConfig(userOptions = {}, viteOptions = {}) {
     // publicDir: paths.assets,
     css: {
       devSourcemap: true,
+      ...(options.postcssFunctions ? {
+        postcss: {
+          plugins: [
+            postcssFunctions(options.postcssFunctions)
+          ]
+        }
+      } : {}),
     },
     define: {
       'import.meta.env.WS_VITE': JSON.stringify(packageJson.version),
