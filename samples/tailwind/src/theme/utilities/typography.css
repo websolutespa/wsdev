@@ -1,0 +1,46 @@
+/* typography */
+
+@utility display-* {
+  font-family: --value(--display-*);
+  line-height: --value(--display-*--line-height);
+  font-weight: --value(--display-*--font-weight);
+  letter-spacing: --value(--display-*--letter-spacing);
+  font-size: --value(--display-*--font-size);
+  font-size: --range(--value(--display-*--font-size-min), --value(--display-*--font-size-max));
+}
+
+@utility heading-* {
+  font-family: --value(--heading-*);
+  line-height: --value(--heading-*--line-height);
+  font-weight: --value(--heading-*--font-weight);
+  letter-spacing: --value(--heading-*--letter-spacing);
+  font-size: --value(--heading-*--font-size);
+  font-size: --range(--value(--heading-*--font-size-min), --value(--heading-*--font-size-max));
+}
+
+@utility body-* {
+  font-family: --value(--body-*);
+  line-height: --value(--body-*--line-height);
+  font-weight: --value(--body-*--font-weight);
+  letter-spacing: --value(--body-*--letter-spacing);
+  font-size: --value(--body-*--font-size);
+  font-size: --range(--value(--body-*--font-size-min), --value(--body-*--font-size-max));
+}
+
+@utility cta-* {
+  font-family: --value(--cta-*);
+  line-height: --value(--cta-*--line-height);
+  font-weight: --value(--cta-*--font-weight);
+  letter-spacing: --value(--cta-*--letter-spacing);
+  font-size: --value(--cta-*--font-size);
+  font-size: --range(--value(--cta-*--font-size-min), --value(--cta-*--font-size-max));
+}
+
+@utility label-* {
+  font-family: --value(--label-*);
+  line-height: --value(--label-*--line-height);
+  font-weight: --value(--label-*--font-weight);
+  letter-spacing: --value(--label-*--letter-spacing);
+  font-size: --value(--label-*--font-size);
+  font-size: --range(--value(--label-*--font-size-min), --value(--label-*--font-size-max));
+}

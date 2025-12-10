@@ -1,8 +1,6 @@
 @import 'tailwindcss';
-@import './theme.utilities.css';
-@import './theme.wysiwyg.css';
-
-@custom-variant dark (&:where(.dark, .dark *));
+@import './utilities/typography.css';
+@import './components/wysiwyg.css';
 
 @theme static {
   /* spacing */
@@ -19,105 +17,159 @@
   --breakpoint-lg: 1440px;
   --breakpoint-xl: 1600px;
 
+  --font-inter: Inter, -apple-system, 'Helvetica Neue', 'Segoe UI', Roboto, Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-playfair-display: 'Playfair Display';
+
+  --default-font-family: var(--font-inter);
+  --default-font-feature-settings: normal;
+  --default-font-variation-settings: normal;
+
   /* font */
-  --font-sans: var(--font-geist-sans);
-  --font-serif: var(--font-bodoni-moda);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair-display);
+  --font-mono: monospace;
 
   /* typography */
-
   --display-1: var(--font-sans);
   /* fixed value */
-  --display-1--font-size: 8rem;
-  /* fixed min max */
+  --display-1--font-size: 6rem;
+  /* min max value */
   --display-1--font-size-min: 96;
   --display-1--font-size-max: 128;
   --display-1--font-weight: 100;
 
   --display-2: var(--font-sans);
+  /* fixed value */
+  --display-2--font-size: 5rem;
+  /* min max value */
   --display-2--font-size-min: 80;
   --display-2--font-size-max: 112;
   --display-2--font-weight: 100;
 
   --display-3: var(--font-sans);
+  /* fixed value */
+  --display-3--font-size: 4rem;
+  /* min max value */
   --display-3--font-size-min: 64;
   --display-3--font-size-max: 96;
   --display-3--font-weight: 100;
 
   --display-4: var(--font-sans);
+  /* fixed value */
+  --display-4--font-size: 3rem;
+  /* min max value */
   --display-4--font-size-min: 48;
   --display-4--font-size-max: 80;
   --display-4--font-weight: 100;
 
   --display-5: var(--font-sans);
+  /* fixed value */
+  --display-5--font-size: 2rem;
+  /* min max value */
   --display-5--font-size-min: 32;
   --display-5--font-size-max: 64;
   --display-5--font-weight: 100;
 
   --display-6: var(--font-sans);
+  /* fixed value */
+  --display-6--font-size: 1rem;
+  /* min max value */
   --display-6--font-size-min: 16;
   --display-6--font-size-max: 48;
   --display-6--font-weight: 100;
 
   --heading-1: var(--font-serif);
+  /* fixed value */
+  --heading-1--font-size: 3.5rem;
+  /* min max value */
   --heading-1--font-size-min: 56;
   --heading-1--font-size-max: 64;
   --heading-1--font-weight: 100;
 
   --heading-2: var(--font-serif);
+  /* fixed value */
+  --heading-2-font-size: 3rem;
+  /* min max value */
   --heading-2--font-size-min: 48;
   --heading-2--font-size-max: 56;
   --heading-2--font-weight: 100;
 
   --heading-3: var(--font-serif);
+  /* fixed value */
+  --heading-3--font-size: 2.5rem;
+  /* min max value */
   --heading-3--font-size-min: 40;
   --heading-3--font-size-max: 48;
   --heading-3--font-weight: 100;
 
   --heading-4: var(--font-serif);
+  /* fixed value */
+  --heading-4--font-size: 2rem;
+  /* min max value */
   --heading-4--font-size-min: 36;
   --heading-4--font-size-max: 40;
   --heading-4--font-weight: 100;
 
   --heading-5: var(--font-serif);
+  /* fixed value */
+  --heading-5--font-size: 1.75rem;
+  /* min max value */
   --heading-5--font-size-min: 28;
   --heading-5--font-size-max: 32;
   --heading-5--font-weight: 100;
 
   --heading-6: var(--font-serif);
+  /* fixed value */
+  --heading-6--font-size: 1.25rem;
+  /* min max value */
   --heading-6--font-size-min: 20;
   --heading-6--font-size-max: 24;
   --heading-6--font-weight: 100;
 
   --body-1: var(--font-sans);
+  /* fixed value */
+  --body-1--font-size: 1.25rem;
+  /* min max value */
   --body-1--font-size-min: 20;
   --body-1--font-size-max: 24;
 
   --body-2: var(--font-sans);
+  /* fixed value */
+  --body-2--font-size: 1.125rem;
+  /* min max value */
   --body-2--font-size-min: 18;
   --body-2--font-size-max: 22;
 
   --body-3: var(--font-sans);
+  /* fixed value */
+  --body-3--font-size: 1rem;
+  /* min max value */
   --body-3--font-size-min: 16;
   --body-3--font-size-max: 20;
 
   --body-4: var(--font-sans);
+  /* fixed value */
+  --body-4--font-size: 0.875rem;
+  /* min max value */
   --body-4--font-size-min: 14;
   --body-4--font-size-max: 18;
 
   --body-5: var(--font-sans);
+  /* fixed value */
+  --body-5--font-size: 0.75rem;
+  /* min max value */
   --body-5--font-size-min: 12;
   --body-5--font-size-max: 16;
 
   --body-6: var(--font-sans);
+  /* fixed value */
+  --body-6--font-size: 0.625rem;
+  /* min max value */
   --body-6--font-size-min: 10;
   --body-6--font-size-max: 14;
 
   /* colors */
-
   --color-*: initial;
-
-  --color-lazy: blue;
 
   --color-neutral-50: oklch(0.985 0 0);
   --color-neutral-100: oklch(0.97 0 0);
@@ -143,10 +195,13 @@
   --color-primary-900: oklch(0.379 0.146 265.522);
   --color-primary-950: oklch(0.282 0.091 267.935);
 
-  --color-black: #000;
-  --color-white: #fff;
+  --color-black: oklch(0 0 0);
+  --color-white: oklch(1 0 0);
 
+  --color-lazy: oklch(0.424 0.199 265.638);
 }
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @view-transition {
   navigation: auto;

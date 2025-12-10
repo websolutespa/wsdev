@@ -1,0 +1,146 @@
+/* padding */
+
+@utility p-* {
+  padding: --size4(--value(integer));
+}
+
+@utility pt-* {
+  padding-top: --size4(--value(integer));
+}
+
+@utility pr-* {
+  padding-right: --size4(--value(integer));
+}
+
+@utility pb-* {
+  padding-bottom: --size4(--value(integer));
+}
+
+@utility pl-* {
+  padding-left: --size4(--value(integer));
+}
+
+@utility px-* {
+  padding-inline: --size4(--value(integer));
+}
+
+@utility py-* {
+  padding-block: --size4(--value(integer));
+}
+
+@utility ps-* {
+  padding-inline-start: --size4(--value(integer));
+}
+
+@utility pe-* {
+  padding-inline-end: --size4(--value(integer));
+}
+
+/*
+// Example
+class="p-<number>"
+// Outputs
+padding: calc(var(--spacing) * --value(integer));
+// Example
+class="p-px"
+// Outputs
+padding: 1px;
+// Example
+class="p-(<custom-property>)"
+// Outputs
+padding: var(<custom-property>);
+// Example
+class="p-[<value>]"
+// Outputs
+padding: <value>;
+*/
+
+/* margin */
+
+@utility m-* {
+  margin: --size4(--value(integer));
+}
+
+@utility mt-* {
+  margin-top: --size4(--value(integer));
+}
+
+@utility mr-* {
+  margin-right: --size4(--value(integer));
+}
+
+@utility mb-* {
+  margin-bottom: --size4(--value(integer));
+}
+
+@utility ml-* {
+  margin-left: --size4(--value(integer));
+}
+
+@utility mx-* {
+  margin-inline: --size4(--value(integer));
+}
+
+@utility my-* {
+  margin-block: --size4(--value(integer));
+}
+
+@utility ms-* {
+  margin-inline-start: --size4(--value(integer));
+}
+
+@utility me-* {
+  margin-inline-end: --size4(--value(integer));
+}
+
+/*
+// Example
+class="m-<number>"
+// Outputs
+margin: calc(var(--spacing) * --value(integer));
+// Example
+class="m-px"
+// Outputs
+margin: 1px;
+// Example
+class="m-(<custom-property>)"
+// Outputs
+margin: var(<custom-property>);
+// Example
+class="m-[<value>]"
+// Outputs
+margin: <value>;
+*/
+
+/* gap */
+
+@utility gap-* {
+  gap: --size4(--value(integer));
+}
+
+@utility gap-x-* {
+  column-gap: --size4(--value(integer));
+}
+
+@utility gap-y-* {
+  row-gap: --size4(--value(integer));
+}
+
+/*
+// Example
+class="gap-<number>"
+// Outputs
+gap: calc(var(--spacing) * --value(integer));
+// Example
+class="gap-px"
+// Outputs
+gap: 1px;
+// Example
+class="gap-(<custom-property>)"
+// Outputs
+gap: var(<custom-property>);
+// Example
+class="gap-[<value>]"
+// Outputs
+gap: <value>;
+*/

@@ -1,8 +1,8 @@
 {% extends '/templates/layouts/layout.twig' %}
 
 {% block head %}
-<link rel="stylesheet" href="/docs/theme.scss">
-<script type="module" src="/docs/theme.js"></script>
+<link rel="stylesheet" href="/docs/docs.css">
+<script type="module" src="/docs/docs.js"></script>
 {% endblock %}
 
 {% block main %}
@@ -10,7 +10,7 @@
 <main>
 
   <section class="hero py-20">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <h1 class="display-2 font-bold">Icons</h1>
       <div class="display-4">
         Svg sprite map generation with <a class="link" href="https://github.com/svg/svgo" target="_blank" title="Sharp.js">SVG Optimizer</a> tool for optimizing SVG vector graphics files.
@@ -20,7 +20,7 @@
 
   {# icons #}
   <section class="theme py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Sprite Map</div>
       <div class="theme__variants">
         <div class="theme__variant">

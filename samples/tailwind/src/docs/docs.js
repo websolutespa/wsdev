@@ -1,15 +1,6 @@
 import icons from 'virtual:icons';
-// import theme from 'virtual:theme';
-
-const theme = undefined;
 
 function onDOMContentLoaded() {
-  // console.log('theme', theme);
-  const dataTheme = document.querySelector('[data-theme]');
-  if (dataTheme && theme) {
-    dataTheme.innerHTML = JSON.stringify(theme, null, 2);
-  }
-
   const triggers = Array.from(document.querySelectorAll('[data-modal]'));
   triggers.forEach(trigger => {
     trigger.addEventListener('click', (event) => {
@@ -29,7 +20,6 @@ function onDOMContentLoaded() {
   });
 
   const dataIcons = document.querySelector('[data-icons]');
-  console.log(dataIcons, icons);
   if (dataIcons) {
     const items = icons.map(icon => (`
       <div class="theme__margin p-6">

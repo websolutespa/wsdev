@@ -1,8 +1,7 @@
 {% extends '/templates/layouts/layout.twig' %}
 
 {% block head %}
-<link rel="stylesheet" href="/docs/theme.scss">
-<script type="module" src="/docs/theme.js"></script>
+<link rel="stylesheet" href="/docs/docs.css">
 {% endblock %}
 
 {% block body_class %}theme{% endblock %}
@@ -11,130 +10,267 @@
 <main>
 
   <section class="hero py-20">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <h1 class="display-2 font-bold">Theme</h1>
       <div class="display-4">
-        Theme provided by <a class="link" href="#theme" data-modal="#theme">theme.json</a>
+        Theme provided by <a class="link" href="#theme" data-modal="#theme">theme.css</a>
       </div>
     </div>
   </section>
 
-  {# theme #}
-  <section class="theme__modal" id="theme">
-    <div class="theme__backdrop" data-modal="#theme"></div>
-    <div class="container mx-auto">
-      <code data-theme></code>
-    </div>
-    <button class="theme__close" data-modal="#theme">
-      <span>close</span>
-    </button>
-  </section>
-
   {# colors #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Colors</div>
       <div class="theme__variants">
-        {% for name, variant in theme.color %}
         <div class="theme__variant">
-          <div class="theme__name">{{ name }}</div>
-          <div class="theme__color">
-            {% for color in variant %}
-            <div class="theme__block" style="{{style({ backgroundColor: color })}}">
-              {{ color }}
-            </div>
-            {% endfor %}
+          <div class="theme__name">neutral</div>
+          <div class="theme__color grid grid-cols-11 gap-4">
+            <div class="theme__block bg-neutral-50 text-neutral-950">50</div>
+            <div class="theme__block bg-neutral-100 text-neutral-950">100</div>
+            <div class="theme__block bg-neutral-200 text-neutral-950">200</div>
+            <div class="theme__block bg-neutral-300 text-neutral-900">300</div>
+            <div class="theme__block bg-neutral-400 text-neutral-800">400</div>
+            <div class="theme__block bg-neutral-500 text-neutral-200">500</div>
+            <div class="theme__block bg-neutral-600 text-neutral-100">600</div>
+            <div class="theme__block bg-neutral-700 text-neutral-50">700</div>
+            <div class="theme__block bg-neutral-800 text-neutral-50">800</div>
+            <div class="theme__block bg-neutral-900 text-neutral-50">900</div>
+            <div class="theme__block bg-neutral-950 text-neutral-50">950</div>
           </div>
         </div>
-        {% endfor %}
+        <div class="theme__variant">
+          <div class="theme__name">primary</div>
+          <div class="theme__color grid grid-cols-11 gap-4">
+            <div class="theme__block bg-primary-50 text-neutral-950">50</div>
+            <div class="theme__block bg-primary-100 text-neutral-950">100</div>
+            <div class="theme__block bg-primary-200 text-neutral-950">200</div>
+            <div class="theme__block bg-primary-300 text-neutral-900">300</div>
+            <div class="theme__block bg-primary-400 text-neutral-800">400</div>
+            <div class="theme__block bg-primary-500 text-neutral-200">500</div>
+            <div class="theme__block bg-primary-600 text-neutral-100">600</div>
+            <div class="theme__block bg-primary-700 text-neutral-50">700</div>
+            <div class="theme__block bg-primary-800 text-neutral-50">800</div>
+            <div class="theme__block bg-primary-900 text-neutral-50">900</div>
+            <div class="theme__block bg-primary-950 text-neutral-50">950</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   {# typography #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Typography</div>
       <div class="theme__variants">
-        {% for name, variation in theme.typography %}
+        <!-- Display -->
         <div class="theme__variant">
-          <div class="theme__name">{{ name }}</div>
-          <div class="theme__font {{name}}" style="{{style(variation)}}">
-            {{ name }}
-          </div>
+          <div class="theme__name">display-1</div>
+          <div class="theme__font display-1">Display 1</div>
         </div>
-        {% endfor %}
+        <div class="theme__variant">
+          <div class="theme__name">display-2</div>
+          <div class="theme__font display-2">Display 2</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">display-3</div>
+          <div class="theme__font display-3">Display 3</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">display-4</div>
+          <div class="theme__font display-4">Display 4</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">display-5</div>
+          <div class="theme__font display-5">Display 5</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">display-6</div>
+          <div class="theme__font display-6">Display 6</div>
+        </div>
+        <!-- Heading -->
+        <div class="theme__variant">
+          <div class="theme__name">heading-1</div>
+          <div class="theme__font heading-1">Heading 1</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">heading-2</div>
+          <div class="theme__font heading-2">Heading 2</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">heading-3</div>
+          <div class="theme__font heading-3">Heading 3</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">heading-4</div>
+          <div class="theme__font heading-4">Heading 4</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">heading-5</div>
+          <div class="theme__font heading-5">Heading 5</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">heading-6</div>
+          <div class="theme__font heading-6">Heading 6</div>
+        </div>
+        <!-- Body -->
+        <div class="theme__variant">
+          <div class="theme__name">body-1</div>
+          <div class="theme__font body-1">Body 1</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">body-2</div>
+          <div class="theme__font body-2">Body 2</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">body-3</div>
+          <div class="theme__font body-3">Body 3</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">body-4</div>
+          <div class="theme__font body-4">Body 4</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">body-5</div>
+          <div class="theme__font body-5">Body 5</div>
+        </div>
+        <div class="theme__variant">
+          <div class="theme__name">body-6</div>
+          <div class="theme__font body-6">Body 6</div>
+        </div>
       </div>
     </div>
   </section>
 
   {# container #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Container</div>
     </div>
     <div class="theme__variants">
-      {% for name, variation in theme.container %}
       <div class="theme__variant">
-        <div class="container mx-auto">
-          <div class="theme__name">{{ name }}</div>
+        <div class="container mx-auto px-3">
+          <div class="theme__name">container</div>
         </div>
-        <div class="container{{name == 'default' ? '' : '-' ~ name }}">
+        <div class="container mx-auto px-3">
           <div class="theme__block"></div>
         </div>
       </div>
-      {% endfor %}
     </div>
   </section>
 
   {# grid #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Grid</div>
       <div class="theme__variants">
-        {% for name, variation in theme.grid %}
         <div class="theme__variant">
-          <div class="theme__name">{{ name }}</div>
-          <div class="grid{{name == 'default' ? '' : '-' ~ name }}">
-            <div class="grid-sm-6">
-              <div class="theme__block">grid-sm-6</div>
-            </div>
-            <div class="grid-sm-6">
-              <div class="theme__block">grid-sm-6</div>
-            </div>
-            <div class="grid-2 grid-sm-4">
-              <div class="theme__block">grid-2 grid-sm-4</div>
-            </div>
-            <div class="grid-2 grid-sm-4">
-              <div class="theme__block">grid-2 grid-sm-4</div>
-            </div>
-            <div class="grid-sm-4">
-              <div class="theme__block">grid-sm-4</div>
-            </div>
-            <div class="grid-2 end-4 grid-sm-6 end-sm-12">
-              <div class="theme__block">grid-2 end-4 grid-sm-6 end-sm-12</div>
-            </div>
+          <div class="theme__name">Grid</div>
+          <div class="grid grid-cols-2 md:grid-cols-12 gap-4">
+            <div class="theme__block col-span-2 md:col-span-6">col-span-2 md:col-span-4</div>
+            <div class="theme__block col-span-2 md:col-span-6">col-span-2 md:col-span-4</div>
+            <div class="theme__block md:col-span-4">md:col-span-4</div>
+            <div class="theme__block md:col-span-4">md:col-span-4</div>
+            <div class="theme__block col-span-2 md:col-span-4">col-span-2 md:col-span-4</div>
+            <div class="theme__block col-end-3 md:col-span-6 md:col-end-13">col-end-3 md:col-span-6 md:col-end-13</div>
           </div>
         </div>
-        {% endfor %}
       </div>
     </div>
   </section>
 
   {# padding #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Padding</div>
       <div class="theme__variants">
         <div class="theme__variant">
           <div class="theme__name">padding</div>
-          {% for key in ['pt', 'pr', 'pb', 'pl', 'py', 'px', 'p'] %}
           <div class="theme__list theme__list--center">
-            {% for size in ['4', '8', '12', '16', '24', '32', '40', '48', '64', '80', '96', '128', '160'] %}
-            <div class="theme__padding {{key}}-{{size}}">{{key}}-{{size}}</div>
-            {% endfor %}
+            <div class="theme__padding pt-1">pt-1</div>
+            <div class="theme__padding pt-2">pt-2</div>
+            <div class="theme__padding pt-3">pt-3</div>
+            <div class="theme__padding pt-4">pt-4</div>
+            <div class="theme__padding pt-5">pt-5</div>
+            <div class="theme__padding pt-6">pt-6</div>
+            <div class="theme__padding pt-7">pt-7</div>
+            <div class="theme__padding pt-8">pt-8</div>
+            <div class="theme__padding pt-9">pt-9</div>
+            <div class="theme__padding pt-10">pt-10</div>
+            <div class="theme__padding pt-11">pt-11</div>
+            <div class="theme__padding pt-12">pt-12</div>
           </div>
-          {% endfor %}
+          <div class="theme__list theme__list--center">
+            <div class="theme__padding pr-1">pr-1</div>
+            <div class="theme__padding pr-2">pr-2</div>
+            <div class="theme__padding pr-3">pr-3</div>
+            <div class="theme__padding pr-4">pr-4</div>
+            <div class="theme__padding pr-5">pr-5</div>
+            <div class="theme__padding pr-6">pr-6</div>
+            <div class="theme__padding pr-7">pr-7</div>
+            <div class="theme__padding pr-8">pr-8</div>
+            <div class="theme__padding pr-9">pr-9</div>
+            <div class="theme__padding pr-10">pr-10</div>
+            <div class="theme__padding pr-11">pr-11</div>
+            <div class="theme__padding pr-12">pr-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__padding pb-1">pb-1</div>
+            <div class="theme__padding pb-2">pb-2</div>
+            <div class="theme__padding pb-3">pb-3</div>
+            <div class="theme__padding pb-4">pb-4</div>
+            <div class="theme__padding pb-5">pb-5</div>
+            <div class="theme__padding pb-6">pb-6</div>
+            <div class="theme__padding pb-7">pb-7</div>
+            <div class="theme__padding pb-8">pb-8</div>
+            <div class="theme__padding pb-9">pb-9</div>
+            <div class="theme__padding pb-10">pb-10</div>
+            <div class="theme__padding pb-11">pb-11</div>
+            <div class="theme__padding pb-12">pb-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__padding pl-1">pl-1</div>
+            <div class="theme__padding pl-2">pl-2</div>
+            <div class="theme__padding pl-3">pl-3</div>
+            <div class="theme__padding pl-4">pl-4</div>
+            <div class="theme__padding pl-5">pl-5</div>
+            <div class="theme__padding pl-6">pl-6</div>
+            <div class="theme__padding pl-7">pl-7</div>
+            <div class="theme__padding pl-8">pl-8</div>
+            <div class="theme__padding pl-9">pl-9</div>
+            <div class="theme__padding pl-10">pl-10</div>
+            <div class="theme__padding pl-11">pl-11</div>
+            <div class="theme__padding pl-12">pl-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__padding py-1">py-1</div>
+            <div class="theme__padding py-2">py-2</div>
+            <div class="theme__padding py-3">py-3</div>
+            <div class="theme__padding py-4">py-4</div>
+            <div class="theme__padding py-5">py-5</div>
+            <div class="theme__padding py-6">py-6</div>
+            <div class="theme__padding py-7">py-7</div>
+            <div class="theme__padding py-8">py-8</div>
+            <div class="theme__padding py-9">py-9</div>
+            <div class="theme__padding py-10">py-10</div>
+            <div class="theme__padding py-11">py-11</div>
+            <div class="theme__padding py-12">py-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__padding px-1">px-1</div>
+            <div class="theme__padding px-2">px-2</div>
+            <div class="theme__padding px-3">px-3</div>
+            <div class="theme__padding px-4">px-4</div>
+            <div class="theme__padding px-5">px-5</div>
+            <div class="theme__padding px-6">px-6</div>
+            <div class="theme__padding px-7">px-7</div>
+            <div class="theme__padding px-8">px-8</div>
+            <div class="theme__padding px-9">px-9</div>
+            <div class="theme__padding px-10">px-10</div>
+            <div class="theme__padding px-11">px-11</div>
+            <div class="theme__padding px-12">px-12</div>
+          </div>
         </div>
       </div>
     </div>
@@ -142,20 +278,95 @@
 
   {# margin #}
   <section class="py-16">
-    <div class="container mx-auto">
+    <div class="container mx-auto px-3">
       <div class="theme__title">Margin</div>
       <div class="theme__variants">
         <div class="theme__variant">
           <div class="theme__name">margin</div>
-          {% for key in ['mt', 'mr', 'mb', 'ml', 'my', 'mx', 'm'] %}
           <div class="theme__list theme__list--center">
-            {% for size in ['4', '8', '12', '16', '24', '32', '40', '48', '64', '80', '96', '128', '160'] %}
-            <div class="theme__margin">
-              <div class="{{key}}-{{size}}">{{key}}-{{size}}</div>
-            </div>
-            {% endfor %}
+            <div class="theme__margin mt-1">mt-1</div>
+            <div class="theme__margin mt-2">mt-2</div>
+            <div class="theme__margin mt-3">mt-3</div>
+            <div class="theme__margin mt-4">mt-4</div>
+            <div class="theme__margin mt-5">mt-5</div>
+            <div class="theme__margin mt-6">mt-6</div>
+            <div class="theme__margin mt-7">mt-7</div>
+            <div class="theme__margin mt-8">mt-8</div>
+            <div class="theme__margin mt-9">mt-9</div>
+            <div class="theme__margin mt-10">mt-10</div>
+            <div class="theme__margin mt-11">mt-11</div>
+            <div class="theme__margin mt-12">mt-12</div>
           </div>
-          {% endfor %}
+          <div class="theme__list theme__list--center">
+            <div class="theme__margin mr-1">mr-1</div>
+            <div class="theme__margin mr-2">mr-2</div>
+            <div class="theme__margin mr-3">mr-3</div>
+            <div class="theme__margin mr-4">mr-4</div>
+            <div class="theme__margin mr-5">mr-5</div>
+            <div class="theme__margin mr-6">mr-6</div>
+            <div class="theme__margin mr-7">mr-7</div>
+            <div class="theme__margin mr-8">mr-8</div>
+            <div class="theme__margin mr-9">mr-9</div>
+            <div class="theme__margin mr-10">mr-10</div>
+            <div class="theme__margin mr-11">mr-11</div>
+            <div class="theme__margin mr-12">mr-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__margin mb-1">mb-1</div>
+            <div class="theme__margin mb-2">mb-2</div>
+            <div class="theme__margin mb-3">mb-3</div>
+            <div class="theme__margin mb-4">mb-4</div>
+            <div class="theme__margin mb-5">mb-5</div>
+            <div class="theme__margin mb-6">mb-6</div>
+            <div class="theme__margin mb-7">mb-7</div>
+            <div class="theme__margin mb-8">mb-8</div>
+            <div class="theme__margin mb-9">mb-9</div>
+            <div class="theme__margin mb-10">mb-10</div>
+            <div class="theme__margin mb-11">mb-11</div>
+            <div class="theme__margin mb-12">mb-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__margin ml-1">ml-1</div>
+            <div class="theme__margin ml-2">ml-2</div>
+            <div class="theme__margin ml-3">ml-3</div>
+            <div class="theme__margin ml-4">ml-4</div>
+            <div class="theme__margin ml-5">ml-5</div>
+            <div class="theme__margin ml-6">ml-6</div>
+            <div class="theme__margin ml-7">ml-7</div>
+            <div class="theme__margin ml-8">ml-8</div>
+            <div class="theme__margin ml-9">ml-9</div>
+            <div class="theme__margin ml-10">ml-10</div>
+            <div class="theme__margin ml-11">ml-11</div>
+            <div class="theme__margin ml-12">ml-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__margin my-1">my-1</div>
+            <div class="theme__margin my-2">my-2</div>
+            <div class="theme__margin my-3">my-3</div>
+            <div class="theme__margin my-4">my-4</div>
+            <div class="theme__margin my-5">my-5</div>
+            <div class="theme__margin my-6">my-6</div>
+            <div class="theme__margin my-7">my-7</div>
+            <div class="theme__margin my-8">my-8</div>
+            <div class="theme__margin my-9">my-9</div>
+            <div class="theme__margin my-10">my-10</div>
+            <div class="theme__margin my-11">my-11</div>
+            <div class="theme__margin my-12">my-12</div>
+          </div>
+          <div class="theme__list theme__list--center">
+            <div class="theme__margin mx-1">mx-1</div>
+            <div class="theme__margin mx-2">mx-2</div>
+            <div class="theme__margin mx-3">mx-3</div>
+            <div class="theme__margin mx-4">mx-4</div>
+            <div class="theme__margin mx-5">mx-5</div>
+            <div class="theme__margin mx-6">mx-6</div>
+            <div class="theme__margin mx-7">mx-7</div>
+            <div class="theme__margin mx-8">mx-8</div>
+            <div class="theme__margin mx-9">mx-9</div>
+            <div class="theme__margin mx-10">mx-10</div>
+            <div class="theme__margin mx-11">mx-11</div>
+            <div class="theme__margin mx-12">mx-12</div>
+          </div>
         </div>
       </div>
     </div>
