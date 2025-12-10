@@ -1,5 +1,11 @@
 # @websolutespa/ws-cli
 
+## 0.0.7
+
+### Patch Changes
+
+- f17d231: Added: Tailwind 4
+
 ## 0.0.6
 
 ### Patch Changes

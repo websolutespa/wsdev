@@ -1,5 +1,11 @@
 # @websolutespa/ws-vite
 
+## 0.0.12
+
+### Patch Changes
+
+- f17d231: Added: Tailwind 4
+
 ## 0.0.11
 
 ### Patch Changes

@@ -43,7 +43,7 @@
     "rimraf": "3.0.2",
     "turbo": "latest"
   },
-  "packageManager": "npm@9.5.1",
+  "packageManager": "npm@10.9.2",
   "workspaces": [
     "samples/*",
     "packages/*"

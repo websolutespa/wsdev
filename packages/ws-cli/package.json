@@ -1,6 +1,6 @@
 {
   "name": "@websolutespa/ws-cli",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Ws cli for Websolute boilerplates",
   "keywords": [
     "ws",
