@@ -30,12 +30,13 @@ The monorepo includes the following packages and samples:
 
 ## Samples
 
-|sample                                 |description                  |demo                                                    |
-|:--------------------------------------|:----------------------------|:-------------------------------------------------------|	
-|[liquid](samples/liquid/README.md)     |the basic Liquid sample      |[view demo](https://wsdev-liquid-actarian.vercel.app/)  |
-|[twig](samples/twig/README.md)         |the basic Twig sample        |[view demo](https://wsdev-twig-actarian.vercel.app/)    |
-|`shopify`                              |the basic Shopify sample     |🕣 todo                                                 |
-|`react`                                |the basic React sample       |🕣 todo                                                 |
+|sample                                 |description                  |demo                                                     |
+|:--------------------------------------|:----------------------------|:--------------------------------------------------------|
+|[liquid](samples/liquid/README.md)     |the basic Liquid sample      |[view demo](https://wsdev-liquid.vercel.app/)            |
+|[twig](samples/twig/README.md)         |the basic Twig sample        |[view demo](https://wsdev-twig.vercel.app/)              |
+|[tailwind](samples/tailwind/README.md) |the basic Tailwind sample    |[view demo](https://wsdev-tailwind.vercel.app/)          |
+|`shopify`                              |the basic Shopify sample     |🕣 todo                                                  |
+|`react`                                |the basic React sample       |🕣 todo                                                  |
 
 ## Dependencies
 
