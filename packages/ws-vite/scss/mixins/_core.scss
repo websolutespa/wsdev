@@ -192,7 +192,17 @@
 }
 
 @function minMax($min, $max) {
-  @return Max(#{$min}px, Min(#{$max}px, calc(#{$min}px + (100vw - 768px) / (1920 - 768) * (#{$max} - #{$min}))));
+  $low: 768px;
+  @if map.has-key($breakpoint, "sm") {
+    $low: map.get($breakpoint, "sm");
+  }
+  $high: 1920px;
+  @if map.has-key($breakpoint, "xl") {
+    $high: map.get($breakpoint, "xl");
+  }
+  $low-val: strip-unit($low);
+  $high-val: strip-unit($high);
+  @return Max(#{$min}px, Min(#{$max}px, calc(#{$min}px + (100vw - #{$low}) / (#{$high-val} - #{$low-val}) * (#{$max} - #{$min}))));
 }
 
 @function expandTwo($list) {
