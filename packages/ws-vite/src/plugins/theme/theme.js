@@ -128,6 +128,11 @@ function parseValue(value, breakpoint, parentKey = '', collection = { names: [],
             collection.scss.push(`$${key}: ${values};`);
             // collection.refs.push([key, values]);
             // console.log(breakpoint, value, parentKey);
+            const breakpointVarCss = Object.entries(breakpoint).map(([k, v]) => {
+              const val = (v === 0 || v === '0') ? '0px' : v;
+              return `${S}--breakpoint-${k}: ${val};`;
+            });
+            collection.css.push(...breakpointVarCss);
             const css = Object.entries(breakpoint).map(([k, v], i) => {
               if (i === 0) {
                 return `${S}--breakpoint: '${k}';`;
