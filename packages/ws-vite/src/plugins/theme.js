@@ -19,17 +19,23 @@ export const themePlugin = (userOptions) => {
   const MODULE_ID = 'virtual:theme';
   const CSS_ID = 'virtual:theme.css';
 
-  let currentConfig;
-  let renderedTheme;
+  const renderedTheme = renderTheme(options);
 
   return {
     order: 'pre',
     name: 'vite:theme',
 
-    configResolved(resolved) {
-      currentConfig = resolved;
-      renderedTheme = renderTheme(options);
-      setPreprocessorOptions(currentConfig, renderedTheme.scssVars);
+    config(config) {
+      const existingAdditionalData = config?.css?.preprocessorOptions?.scss?.additionalData || '';
+      return {
+        css: {
+          preprocessorOptions: {
+            scss: {
+              additionalData: (existingAdditionalData ? existingAdditionalData + '\n' : '') + renderedTheme.scssVars,
+            },
+          },
+        },
+      };
     },
 
     resolveId(id) {
@@ -85,15 +91,6 @@ export const themePlugin = (userOptions) => {
 
   };
 };
-
-function setPreprocessorOptions(currentConfig, scssVars) {
-  const css = currentConfig.css || (currentConfig.css = {});
-  const preprocessorOptions = css.preprocessorOptions || (css.preprocessorOptions = {});
-  const scss = preprocessorOptions.scss || (preprocessorOptions.scss = {});
-  scss.additionalData = (scss.additionalData || '') + scssVars;
-  // console.log('scssVars', scssVars);
-  // console.log('theme.useScssVars', scss.additionalData);
-}
 
 async function getTheme(filepath) {
   let json = fs.readFileSync(filepath, 'utf-8');
