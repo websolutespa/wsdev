@@ -1,0 +1,111 @@
+{#
+  Params:
+  - groups: Array<{ heading?: String, items: Array<{ label: String, value?: String, icon?: String,
+             shortcut?: String, url?: String, disabled?: Boolean }> }> — REQUIRED. One
+             command-group per entry; a separator is emitted between consecutive groups.
+             `value` is what the filter matches and what command:select reports (default: label).
+  - placeholder?: String — placeholder of command-input (default: 'Cerca un comando…')
+  - emptyText?: String — text of command-empty (default: 'Nessun risultato.')
+  - asDialog?: Boolean (default: false) — renders the palette inside base/dialog (upstream CommandDialog)
+  - shortcut?: String — single key opening the dialog with Ctrl/Cmd (e.g. 'k'); asDialog only
+  - title?: String — dialog title, visually hidden (default: 'Palette comandi'); asDialog only
+  - description?: String — dialog description, visually hidden; asDialog only
+  - triggerLabel?: String — label of the dialog trigger button; asDialog only
+  - showCloseButton?: Boolean (default: true) — asDialog only
+  - id?: String — required when the dialog is opened externally via [data-dialog-open="<id>"]
+  - class?: String — appended last on the command root; additive utilities only
+  - attrs?: String — raw extra attributes on the command root, trusted input only
+
+  JS module (data-module="command.module"):
+    emits     CustomEvent 'command:select' { value, label } (bubbles); an item with `url`
+              navigates instead. Inside a dialog it also dispatches 'dialog:close'.
+    keyboard  typing filters and re-ranks, ArrowUp/Down/Home/End move aria-activedescendant
+              (focus stays in the input), Enter runs the highlighted item; with `shortcut`
+              set, Ctrl/Cmd+<key> dispatches 'dialog:open' on the surrounding dialog root.
+
+  Port adaptation (no cmdk runtime): filtering/scoring lives in command.module.js, and the
+  active item is marked with data-selected="true" — the attribute upstream's
+  data-[selected=true]:* utilities already target. The cmdk-* attributes upstream's dialog
+  class string selects on ([cmdk-group-heading], [cmdk-group], [cmdk-input-wrapper],
+  [cmdk-input], [cmdk-item]) are emitted verbatim on the matching parts so those selectors
+  keep working.
+#}
+{% set command_base = "flex h-full w-full flex-col overflow-hidden rounded-md bg-popover text-popover-foreground" %}
+{% set command_dialog_extra = "**:data-[slot=command-input-wrapper]:h-12 [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground [&_[cmdk-group]]:px-2 [&_[cmdk-group]:not([hidden])_~[cmdk-group]]:pt-0 [&_[cmdk-input-wrapper]_svg]:h-5 [&_[cmdk-input-wrapper]_svg]:w-5 [&_[cmdk-input]]:h-12 [&_[cmdk-item]]:px-2 [&_[cmdk-item]]:py-3 [&_[cmdk-item]_svg]:h-5 [&_[cmdk-item]_svg]:w-5" %}
+
+{% macro commandBody(options) %}
+  {%- set item_classes = "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none data-[disabled=true]:pointer-events-none data-[disabled=true]:opacity-50 data-[selected=true]:bg-accent data-[selected=true]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground" %}
+  <div data-slot="command" data-module="command.module"
+    {%- if options.shortcut %} data-shortcut="{{ options.shortcut }}"{% endif %}
+    {%- if options.id %} id="{{ options.id }}"{% endif %}
+    class="{{ options.baseClasses }}" {{ options.attrs|default('')|raw }}>
+
+    <div data-slot="command-input-wrapper" cmdk-input-wrapper="" class="flex h-9 items-center gap-2 border-b px-3">
+      <svg aria-hidden="true" class="size-4 shrink-0 opacity-50"><use href="#icon-search"></use></svg>
+      <input data-slot="command-input" cmdk-input="" type="text" role="combobox" aria-expanded="true"
+        aria-autocomplete="list" autocomplete="off" spellcheck="false"
+        placeholder="{{ options.placeholder }}"
+        class="flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-hidden placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50">
+    </div>
+
+    <div data-slot="command-list" role="listbox" class="max-h-[300px] scroll-py-1 overflow-x-hidden overflow-y-auto">
+      <div data-slot="command-empty" hidden class="py-6 text-center text-sm">{{ options.emptyText }}</div>
+      {%- for group in options.groups %}
+      <div data-slot="command-group" cmdk-group="" role="group" class="overflow-hidden p-1 text-foreground [&_[cmdk-group-heading]]:px-2 [&_[cmdk-group-heading]]:py-1.5 [&_[cmdk-group-heading]]:text-xs [&_[cmdk-group-heading]]:font-medium [&_[cmdk-group-heading]]:text-muted-foreground">
+        {%- if group.heading %}<div data-slot="command-group-heading" cmdk-group-heading="">{{ group.heading }}</div>{% endif %}
+        {%- for item in group.items %}
+        <div data-slot="command-item" cmdk-item="" role="option" aria-selected="false"
+          data-value="{{ item.value|default(item.label) }}"
+          {%- if item.url %} data-url="{{ item.url }}"{% endif %}
+          {%- if item.disabled|default(false) %} data-disabled="true" aria-disabled="true"{% endif %}
+          class="{{ item_classes }}">
+          {%- if item.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>{% endif %}
+          <span>{{ item.label }}</span>
+          {%- if item.shortcut %}<span data-slot="command-shortcut" class="ml-auto text-xs tracking-widest text-muted-foreground">{{ item.shortcut }}</span>{% endif %}
+        </div>
+        {%- endfor %}
+      </div>
+      {%- if not loop.last %}<div data-slot="command-separator" class="-mx-1 h-px bg-border"></div>{% endif %}
+      {%- endfor %}
+    </div>
+  </div>
+{% endmacro %}
+{% import _self as command %}
+
+{% set command_options = {
+  groups: groups|default([]),
+  placeholder: placeholder|default('Cerca un comando…'),
+  emptyText: emptyText|default('Nessun risultato.'),
+  shortcut: asDialog|default(false) ? shortcut|default('') : '',
+  id: asDialog|default(false) ? '' : (id|default('')),
+  attrs: asDialog|default(false) ? '' : (attrs|default('')),
+  baseClasses: command_base
+    ~ (asDialog|default(false) ? ' ' ~ command_dialog_extra : '')
+    ~ (class is defined and class ? ' ' ~ class : '')
+} %}
+
+{% if asDialog|default(false) %}
+  {% embed '@components/base/dialog/dialog.twig' with {
+    id: id|default(''),
+    class: 'overflow-hidden p-0',
+    showCloseButton: showCloseButton is defined ? showCloseButton : true,
+    triggerLabel: triggerLabel|default(''),
+    attrs: attrs|default(''),
+    commandTitle: title|default('Palette comandi'),
+    commandDescription: description|default('Cerca un comando da eseguire.'),
+    commandOptions: command_options
+  } only %}
+    {% block header %}
+      <div data-slot="dialog-header" class="sr-only flex flex-col gap-2 text-center sm:text-left">
+        <h2 data-slot="dialog-title" class="text-lg leading-none font-semibold">{{ commandTitle }}</h2>
+        <p data-slot="dialog-description" class="text-sm text-muted-foreground">{{ commandDescription }}</p>
+      </div>
+    {% endblock %}
+    {% block body %}
+      {% import '@components/base/command/command.twig' as command %}
+      {{ command.commandBody(commandOptions) }}
+    {% endblock %}
+  {% endembed %}
+{% else %}
+  {{ command.commandBody(command_options) }}
+{% endif %}

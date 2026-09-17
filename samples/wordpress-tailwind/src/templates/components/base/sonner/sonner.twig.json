@@ -1,0 +1,51 @@
+{
+  "mocks": {
+    "sonner": {
+      "default": {
+        "position": "bottom-right",
+        "triggers": [
+          { "label": "Notifica", "message": "Bozza salvata" },
+          { "label": "Successo", "type": "success", "message": "Preventivo inviato", "description": "Il cliente ricevera una copia via email." },
+          { "label": "Errore", "type": "error", "message": "Salvataggio non riuscito", "description": "Controlla la connessione e riprova." }
+        ]
+      },
+      "rich-colors": {
+        "position": "bottom-center",
+        "richColors": true,
+        "triggers": [
+          { "label": "Successo", "type": "success", "message": "Pagamento confermato" },
+          { "label": "Info", "type": "info", "message": "Nuova versione disponibile" },
+          { "label": "Attenzione", "type": "warning", "message": "Spazio di archiviazione quasi esaurito" },
+          { "label": "Errore", "type": "error", "message": "Sessione scaduta" }
+        ]
+      },
+      "top-center": {
+        "position": "top-center",
+        "triggers": [
+          { "label": "Mostra in alto", "message": "Il documento e stato archiviato" }
+        ]
+      },
+      "loading": {
+        "position": "bottom-left",
+        "triggers": [
+          { "label": "Caricamento", "type": "loading", "message": "Sincronizzazione in corso" }
+        ]
+      },
+      "no-close-button": {
+        "position": "top-left",
+        "closeButton": false,
+        "duration": 10000,
+        "triggers": [
+          { "label": "Senza chiudi", "message": "Si chiude da sola dopo 10 secondi" }
+        ]
+      },
+      "expand": {
+        "position": "top-right",
+        "expand": true,
+        "triggers": [
+          { "label": "Espansa", "message": "Tre nuovi messaggi", "description": "Apri la casella per leggerli tutti." }
+        ]
+      }
+    }
+  }
+}

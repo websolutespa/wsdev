@@ -1,0 +1,115 @@
+{
+  "mocks": {
+    "sidebar": {
+      "default": {
+        "brand": { "title": "Websolute", "subtitle": "Area riservata", "icon": "websolute" },
+        "search": { "name": "sidebar-q", "placeholder": "Cerca nel menu…" },
+        "insetTitle": "Dashboard",
+        "groups": [
+          {
+            "label": "Piattaforma",
+            "action": { "icon": "plus", "ariaLabel": "Aggiungi una voce" },
+            "items": [
+              { "label": "Panoramica", "icon": "inbox", "url": "#panoramica", "active": true },
+              {
+                "label": "Progetti",
+                "icon": "file-text",
+                "url": "#progetti",
+                "badge": "12",
+                "sub": [
+                  { "label": "In corso", "url": "#progetti-in-corso", "active": true },
+                  { "label": "Archiviati", "url": "#progetti-archiviati" }
+                ]
+              },
+              { "label": "Calendario", "icon": "calendar", "url": "#calendario" },
+              { "label": "Notifiche", "icon": "bell", "url": "#notifiche", "badge": "3" }
+            ]
+          },
+          {
+            "label": "Account",
+            "items": [
+              { "label": "Profilo", "icon": "user", "url": "#profilo", "action": { "icon": "ellipsis", "ariaLabel": "Altre azioni", "showOnHover": true } },
+              { "label": "Impostazioni", "icon": "settings", "url": "#impostazioni" },
+              { "label": "Esci", "icon": "log-out", "url": "#esci" }
+            ]
+          }
+        ]
+      },
+      "collapsible-icon": {
+        "collapsible": "icon",
+        "defaultOpen": false,
+        "insetTitle": "Modalita icone",
+        "brand": { "title": "Websolute", "subtitle": "Solo icone" },
+        "groups": [
+          {
+            "label": "Piattaforma",
+            "items": [
+              { "label": "Panoramica", "icon": "inbox", "url": "#panoramica", "active": true },
+              { "label": "Progetti", "icon": "file-text", "url": "#progetti" },
+              { "label": "Calendario", "icon": "calendar", "url": "#calendario" }
+            ]
+          }
+        ]
+      },
+      "variant-floating": {
+        "variant": "floating",
+        "insetTitle": "Sidebar flottante",
+        "groups": [
+          {
+            "label": "Documenti",
+            "items": [
+              { "label": "Contratti", "icon": "file-text", "url": "#contratti", "active": true },
+              { "label": "Fatture", "icon": "credit-card", "url": "#fatture" },
+              { "label": "Allegati", "icon": "paperclip", "url": "#allegati" }
+            ]
+          }
+        ]
+      },
+      "variant-inset": {
+        "variant": "inset",
+        "insetTitle": "Sidebar inset",
+        "groups": [
+          {
+            "items": [
+              { "label": "Panoramica", "icon": "inbox", "url": "#panoramica", "active": true },
+              { "label": "Report", "icon": "file-text", "url": "#report", "variant": "outline" },
+              { "label": "Team", "icon": "user", "url": "#team", "size": "sm" }
+            ]
+          }
+        ]
+      },
+      "side-right": {
+        "side": "right",
+        "insetTitle": "Sidebar a destra",
+        "groups": [
+          {
+            "label": "Strumenti",
+            "items": [
+              { "label": "Importa", "icon": "inbox", "url": "#importa" },
+              { "label": "Esporta", "icon": "external-link", "url": "#esporta" }
+            ]
+          }
+        ]
+      },
+      "loading": {
+        "insetTitle": "Caricamento",
+        "groups": [
+          { "label": "Piattaforma", "skeletonRows": 5, "skeletonIcon": true }
+        ]
+      },
+      "collapsible-none": {
+        "collapsible": "none",
+        "insetTitle": "Sidebar fissa",
+        "groups": [
+          {
+            "label": "Sempre visibile",
+            "items": [
+              { "label": "Panoramica", "icon": "inbox", "url": "#panoramica", "active": true },
+              { "label": "Impostazioni", "icon": "settings", "url": "#impostazioni" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

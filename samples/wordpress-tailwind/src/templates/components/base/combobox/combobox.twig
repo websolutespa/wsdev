@@ -1,0 +1,173 @@
+{#
+  Params:
+  - name: String — REQUIRED; name of the hidden native <select> that carries the value on submit
+  - items: Array<{ value: String, label: String, group?: String, disabled?: Boolean }> — REQUIRED.
+           Consecutive entries sharing the same `group` are wrapped in one combobox-group with a
+           combobox-label heading; entries without `group` stay ungrouped. Values must be unique.
+  - value?: String — preselected item (single mode)
+  - values?: Array<String> — preselected items (chips mode); ignored outside chips mode
+  - chips?: Boolean (default: false) — multiple selection: the control becomes combobox-chips with a
+           removable combobox-chip per value and the native mirror becomes <select multiple>
+  - placeholder?: String — placeholder of the text input
+  - emptyText?: String — text of combobox-empty (default: 'Nessun risultato')
+  - showTrigger?: Boolean (default: true) — the chevron button that opens the list (single mode only)
+  - showClear?: Boolean (default: false) — the clear button (single mode only)
+  - disabled?: Boolean
+  - required?: Boolean — on the native <select>, so the form's own validation applies
+  - invalid?: Boolean — aria-invalid="true" on the control
+  - id?: String — id of the text input, for an external label[for]; never generated in Twig
+  - class?: String — appended last on the control; additive utilities only
+  - attrs?: String — raw extra attributes on the component root, trusted input only
+
+  JS module (data-module="combobox.module"):
+    consumes  CustomEvent 'combobox:open' / 'combobox:close' on the component root
+    emits     CustomEvent 'combobox:change' { value, label } (single) or { values, labels } (chips),
+              'combobox:opened' / 'combobox:closed' (all bubbles), plus a native 'change' on the
+              hidden <select> so form code and common/formValidation.js see the value
+    keyboard  typing filters, ArrowUp/Down/Home/End move aria-activedescendant (focus stays in the
+              input), Enter selects, ESC clears the query first and closes on the second press,
+              Backspace on an empty chips input removes the last chip
+
+  Port exception (scripts/upstream-exceptions.json "combobox", whole component): upstream is Base UI
+  (@base-ui/react), not a Radix primitive, so its class strings are not comparable 1:1 — they are
+  still copied verbatim here wherever the part exists in this port. Two deliberate divergences:
+  (a) the text input keeps data-slot="combobox-input" (the name the module and this sample use)
+      instead of input-group's data-slot="input-group-control", so input-group's focus ring
+      selector is re-stated for that slot in the `class` passed to the embed below;
+  (b) Base UI's Portal/Positioner pair has no host here: combobox-content is a sibling of the
+      control, positioned by common/floating.js (matchWidth), which writes --anchor-width,
+      --available-width, --available-height and --transform-origin (PORTING.md Adaptation table).
+#}
+{% set chips = chips is defined ? chips : false %}
+{% set showTrigger = showTrigger is defined ? showTrigger : true %}
+{% set showClear = showClear is defined ? showClear : false %}
+{% set combobox_values = chips ? values|default([]) : (value is defined and value is not empty ? [value] : []) %}
+{% set combobox_item_classes = "relative flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4" %}
+{% set combobox_label_classes = "px-2 py-1.5 text-xs text-muted-foreground pointer-coarse:px-3 pointer-coarse:py-2 pointer-coarse:text-sm" %}
+{% set combobox_input_focus = "has-[[data-slot=combobox-input]:focus-visible]:border-ring has-[[data-slot=combobox-input]:focus-visible]:ring-[3px] has-[[data-slot=combobox-input]:focus-visible]:ring-ring/50" %}
+
+{% macro comboboxChip(item, disabled) %}
+  <span data-slot="combobox-chip" data-value="{{ item.value }}" class="flex h-[calc(--spacing(5.5))] w-fit items-center justify-center gap-1 rounded-sm bg-muted px-1.5 text-xs font-medium whitespace-nowrap text-foreground has-disabled:pointer-events-none has-disabled:cursor-not-allowed has-disabled:opacity-50 has-data-[slot=combobox-chip-remove]:pr-0">
+    <span data-slot="combobox-chip-label">{{ item.label }}</span>
+    <button type="button" data-slot="combobox-chip-remove" aria-label="Rimuovi"
+      class="-ml-1 opacity-50 hover:opacity-100 inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 size-6 [&_svg:not([class*='size-'])]:size-3 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
+      {%- if disabled %} disabled{% endif %}>
+      <svg aria-hidden="true" class="pointer-events-none"><use href="#icon-x"></use></svg>
+    </button>
+  </span>
+{% endmacro %}
+
+{% macro comboboxItem(item, selectedValues, itemClasses) %}
+  {%- set selected = item.value in selectedValues %}
+  <div data-slot="combobox-item" role="option" data-value="{{ item.value }}"
+    aria-selected="{{ selected ? 'true' : 'false' }}"
+    {%- if item.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+    class="{{ itemClasses }}">
+    <span>{{ item.label }}</span>
+    <span data-slot="combobox-item-indicator" class="pointer-events-none absolute right-2 flex size-4 items-center justify-center">
+      <svg aria-hidden="true" class="pointer-events-none size-4 pointer-coarse:size-5{% if not selected %} hidden{% endif %}"><use href="#icon-check"></use></svg>
+    </span>
+  </div>
+{% endmacro %}
+{% import _self as combobox %}
+
+<div data-slot="combobox" data-module="combobox.module" data-chips="{{ chips ? 'true' : 'false' }}"
+  {%- if disabled|default(false) %} data-disabled="true"{% endif %} {{ attrs|default('')|raw }}>
+
+  {# Hidden native control: what a plain form submit posts, and what keeps
+     required/reset/autofill working — same trick as select.twig. #}
+  <select name="{{ name }}" aria-hidden="true" tabindex="-1" class="sr-only"
+    {%- if chips %} multiple{% endif %}
+    {%- if disabled|default(false) %} disabled{% endif %}
+    {%- if required|default(false) %} required{% endif %}>
+    {%- if not chips %}<option value=""{% if combobox_values is empty %} selected{% endif %}></option>{% endif %}
+    {%- for item in items %}
+    <option value="{{ item.value }}"{% if item.value in combobox_values %} selected{% endif %}>{{ item.label }}</option>
+    {%- endfor %}
+  </select>
+
+  {% if chips %}
+    <div data-slot="combobox-chips" class="flex min-h-9 flex-wrap items-center gap-1.5 rounded-md border border-input bg-transparent bg-clip-padding px-2.5 py-1.5 text-sm shadow-xs transition-[color,box-shadow] focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 has-aria-invalid:border-destructive has-aria-invalid:ring-[3px] has-aria-invalid:ring-destructive/20 has-data-[slot=combobox-chip]:px-1.5 dark:bg-input/30 dark:has-aria-invalid:border-destructive/50 dark:has-aria-invalid:ring-destructive/40{% if class is defined and class %} {{ class }}{% endif %}">
+      {%- for item in items %}
+        {%- if item.value in combobox_values %}{{ combobox.comboboxChip(item, disabled|default(false)) }}{% endif %}
+      {%- endfor %}
+      <input data-slot="combobox-chip-input" type="text" role="combobox" aria-expanded="false"
+        aria-autocomplete="list" autocomplete="off" class="min-w-16 flex-1 outline-none bg-transparent"
+        {%- if id is defined and id %} id="{{ id }}"{% endif %}
+        {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+        {%- if disabled|default(false) %} disabled{% endif %}
+        {%- if invalid|default(false) %} aria-invalid="true"{% endif %}>
+    </div>
+    {# Cloned by combobox.module when a chip is added, so the chip markup lives once. #}
+    <template data-slot="combobox-chip-template">{{ combobox.comboboxChip({ value: '', label: '' }, disabled|default(false)) }}</template>
+  {% else %}
+    {% embed '@components/base/input-group/input-group.twig' with {
+      class: 'w-auto ' ~ combobox_input_focus ~ (class is defined and class ? ' ' ~ class : ''),
+      input: { disabled: disabled|default(false) },
+      items: items,
+      selectedValue: value|default(''),
+      controlId: id|default(''),
+      placeholder: placeholder|default(''),
+      disabled: disabled|default(false),
+      invalid: invalid|default(false),
+      showTrigger: showTrigger,
+      showClear: showClear
+    } only %}
+      {% block control %}
+        <input data-slot="combobox-input" type="text" role="combobox" aria-expanded="false"
+          aria-autocomplete="list" autocomplete="off" class="{{ input_group_control_classes }}"
+          {%- if controlId %} id="{{ controlId }}"{% endif %}
+          value="{%- for item in items -%}{%- if selectedValue is not empty and item.value == selectedValue -%}{{ item.label }}{%- endif -%}{%- endfor -%}"
+          {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+          {%- if disabled %} disabled{% endif %}
+          {%- if invalid %} aria-invalid="true"{% endif %}>
+      {% endblock %}
+      {% block addon_end %}
+        <div role="group" data-slot="input-group-addon" data-align="inline-end" class="{{ input_group_addon_base }} {{ input_group_addon_aligns['inline-end'] }}">
+          {%- if showTrigger %}
+          <button type="button" data-slot="combobox-trigger" tabindex="-1" aria-label="Apri l'elenco"
+            class="{{ input_group_button_base }} {{ input_group_button_sizes['icon-xs'] }} [&_svg:not([class*='size-'])]:size-4 group-has-data-[slot=combobox-clear]/input-group:hidden data-pressed:bg-transparent"
+            {%- if disabled %} disabled{% endif %}>
+            <svg data-slot="combobox-trigger-icon" aria-hidden="true" class="pointer-events-none size-4 text-muted-foreground"><use href="#icon-chevron-down"></use></svg>
+          </button>
+          {%- endif %}
+          {%- if showClear %}
+          <button type="button" data-slot="combobox-clear" tabindex="-1" aria-label="Svuota il campo"
+            class="{{ input_group_button_base }} {{ input_group_button_sizes['icon-xs'] }}"
+            {%- if disabled %} disabled{% endif %}>
+            <svg aria-hidden="true" class="pointer-events-none"><use href="#icon-x"></use></svg>
+          </button>
+          {%- endif %}
+        </div>
+      {% endblock %}
+    {% endembed %}
+  {% endif %}
+
+  <div data-slot="combobox-content" hidden data-state="closed" data-chips="{{ chips ? 'true' : 'false' }}"
+    class="group/combobox-content relative z-50 max-h-96 w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) overflow-hidden rounded-md bg-popover text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[chips=true]:min-w-(--anchor-width) data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-8 *:data-[slot=input-group]:border-input/30 *:data-[slot=input-group]:bg-input/30 *:data-[slot=input-group]:shadow-none data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
+
+    <div data-slot="combobox-list" role="listbox" tabindex="-1"
+      {%- if chips %} aria-multiselectable="true"{% endif %}
+      class="max-h-[min(calc(--spacing(96)---spacing(9)),calc(var(--available-height)---spacing(9)))] scroll-py-1 overflow-y-auto p-1 data-empty:p-0">
+
+      <div data-slot="combobox-collection">
+        {%- for item in items %}
+          {%- set item_group = item.group|default('') %}
+          {%- set prev_group = loop.first ? '__ws_none__' : (items[loop.index0 - 1].group|default('')) %}
+          {%- set next_group = loop.last ? '__ws_none__' : (items[loop.index0 + 1].group|default('')) %}
+          {%- if item_group and item_group != prev_group %}
+          <div data-slot="combobox-group" role="group">
+            <div data-slot="combobox-label" class="{{ combobox_label_classes }}">{{ item_group }}</div>
+          {%- endif %}
+          {{ combobox.comboboxItem(item, combobox_values, combobox_item_classes) }}
+          {%- if item_group and item_group != next_group %}
+          </div>
+            {%- if not loop.last %}<div data-slot="combobox-separator" class="-mx-1 my-1 h-px bg-border"></div>{% endif %}
+          {%- endif %}
+        {%- endfor %}
+      </div>
+
+      <div data-slot="combobox-empty" class="hidden w-full justify-center py-2 text-center text-sm text-muted-foreground group-data-empty/combobox-content:flex">{{ emptyText|default('Nessun risultato') }}</div>
+    </div>
+  </div>
+</div>

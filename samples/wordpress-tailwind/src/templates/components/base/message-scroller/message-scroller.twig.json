@@ -1,0 +1,100 @@
+{
+  "mocks": {
+    "message-scroller": {
+      "default": {
+        "attrs": "style=\"height: 22rem\"",
+        "messages": [
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "header": "Assistente · 09:58",
+            "bubbles": [{ "content": "Buongiorno! Come posso aiutarti?" }]
+          },
+          {
+            "align": "end",
+            "avatar": { "fallback": "TU" },
+            "header": "Tu · 09:59",
+            "bubbles": [{ "content": "Vorrei capire lo stato della spedizione 4521.", "variant": "secondary" }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "bubbles": [{ "content": "Controllo subito: la spedizione e partita ieri sera dal magazzino di Ancona." }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "bubbles": [{ "content": "La consegna e prevista entro domani alle 18:00. Vuoi che ti avvisi quando il corriere e in zona?" }]
+          },
+          {
+            "align": "end",
+            "avatar": { "fallback": "TU" },
+            "bubbles": [{ "content": "Si, grazie. Meglio via email.", "variant": "secondary" }],
+            "footer": "Consegnato"
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "bubbles": [{ "content": "Perfetto, ho impostato la notifica sull'indirizzo del tuo account." }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "header": "Assistente · 10:04",
+            "bubbles": [{ "content": "Posso fare altro per te?" }]
+          }
+        ]
+      },
+      "short": {
+        "attrs": "style=\"height: 14rem\"",
+        "messages": [
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "header": "Assistente · 11:20",
+            "bubbles": [{ "content": "Il preventivo e pronto per la firma." }]
+          },
+          {
+            "align": "end",
+            "avatar": { "fallback": "TU" },
+            "bubbles": [{ "content": "Lo guardo entro stasera.", "variant": "secondary" }]
+          }
+        ]
+      },
+      "direction-start": {
+        "direction": "start",
+        "buttonLabel": "Torna ai primi messaggi",
+        "attrs": "style=\"height: 18rem\"",
+        "messages": [
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "header": "Assistente · 08:00",
+            "bubbles": [{ "content": "Riepilogo della settimana: 12 richieste gestite." }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "bubbles": [{ "content": "Tre pratiche sono ancora in attesa di documenti." }]
+          },
+          {
+            "align": "end",
+            "avatar": { "fallback": "TU" },
+            "bubbles": [{ "content": "Mandami l'elenco delle pratiche in attesa.", "variant": "secondary" }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "bubbles": [{ "content": "Fatto, trovi tutto nella sezione Documenti." }]
+          },
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS" },
+            "header": "Assistente · 08:15",
+            "bubbles": [{ "content": "Ti serve altro?" }]
+          }
+        ]
+      }
+    }
+  }
+}

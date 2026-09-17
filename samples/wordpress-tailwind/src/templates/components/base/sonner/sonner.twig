@@ -1,0 +1,118 @@
+{#
+  Params:
+  - position?: 'top-left'|'top-center'|'top-right'|'bottom-left'|'bottom-center'|'bottom-right'
+               as string (default: 'bottom-right')
+  - richColors?: Boolean (default: false) — tints each toast by type instead of the neutral popover surface
+  - closeButton?: Boolean (default: true) — renders the per-toast dismiss button
+  - expand?: Boolean (default: false) — false keeps the toasts in a tight stack that opens up on
+               hover, true always uses the full spacing
+  - duration?: Number — default auto-dismiss delay in ms, 0 disables it (default: 4000)
+  - label?: String — accessible name of the toaster region (default: 'Notifiche')
+  - triggers?: Array<{ label: String, message: String, type?: 'default'|'success'|'info'|'warning'|'error'|'loading'
+               as string, description?: String, duration?: Number }> — demo/host buttons wired to the
+               declarative [data-sonner-show] hook; values must not contain a double quote
+  - id?: String
+  - class?: String — appended last on the toaster root; additive utilities only
+  - attrs?: String — raw extra attributes on the toaster root, trusted input only
+
+  JS module (data-module="sonner.module"):
+    renders   the toasts published by src/js/common/toast.js (subscribe)
+    consumes  CustomEvent 'toast:show' on document — { message, type?, description?, duration? }
+    emits     CustomEvent 'sonner:shown' / 'sonner:dismissed' (bubbles) { id, type }
+    hooks     [data-sonner-show] anywhere in the page, with data-sonner-message /
+              data-sonner-type / data-sonner-description / data-sonner-duration
+    One renderer per `position`: the toast store is global, so a second toaster
+    pinned to the same corner would stack the same toasts pixel-on-pixel and only
+    the first one renders. Triggers keep working from anywhere in the page.
+
+  Port adaptation (source: "port" — upstream is the `sonner` package, not a registry
+  primitive): upstream only configures the library (theme, icon slots and the four
+  CSS custom properties below), so the toast markup itself has no upstream class
+  string to copy. The two <template> elements carry the runtime markup instead of
+  building it in JS: the class strings stay in the Twig file where the Tailwind
+  scanner and check:classes both see them. The lucide icon slots are copied verbatim
+  (size-4, and size-4 animate-spin for `loading`).
+#}
+{% set position = position|default('bottom-right') %}
+{% set duration = duration is defined ? duration : 4000 %}
+{% set richColors = richColors is defined ? richColors : false %}
+{% set closeButton = closeButton is defined ? closeButton : true %}
+{% set expand = expand is defined ? expand : false %}
+
+{# Each value is the extra positioning applied to the toast list; the newest toast is
+   appended last, so top positions reverse the column to keep it nearest the edge. #}
+{% set sonner_positions = {
+  'top-left': 'top-0 left-0 flex-col-reverse sm:items-start',
+  'top-center': 'top-0 left-1/2 -translate-x-1/2 flex-col-reverse sm:items-center',
+  'top-right': 'top-0 right-0 flex-col-reverse sm:items-end',
+  'bottom-left': 'bottom-0 left-0 flex-col sm:items-start',
+  'bottom-center': 'bottom-0 left-1/2 -translate-x-1/2 flex-col sm:items-center',
+  'bottom-right': 'bottom-0 right-0 flex-col sm:items-end'
+} %}
+
+{% set sonner_toast_classes = "group/toast pointer-events-auto relative flex w-full items-start gap-3 rounded-(--border-radius) border border-(--normal-border) bg-(--normal-bg) p-4 text-(--normal-text) shadow-lg transition-all data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[rich-colors=true]:data-[type=success]:border-emerald-600/40 data-[rich-colors=true]:data-[type=success]:bg-emerald-50 data-[rich-colors=true]:data-[type=success]:text-emerald-900 data-[rich-colors=true]:data-[type=info]:border-sky-600/40 data-[rich-colors=true]:data-[type=info]:bg-sky-50 data-[rich-colors=true]:data-[type=info]:text-sky-900 data-[rich-colors=true]:data-[type=warning]:border-amber-600/40 data-[rich-colors=true]:data-[type=warning]:bg-amber-50 data-[rich-colors=true]:data-[type=warning]:text-amber-900 data-[rich-colors=true]:data-[type=error]:border-destructive/40 data-[rich-colors=true]:data-[type=error]:bg-destructive/10 data-[rich-colors=true]:data-[type=error]:text-destructive dark:data-[rich-colors=true]:data-[type=success]:bg-emerald-950 dark:data-[rich-colors=true]:data-[type=success]:text-emerald-100 dark:data-[rich-colors=true]:data-[type=info]:bg-sky-950 dark:data-[rich-colors=true]:data-[type=info]:text-sky-100 dark:data-[rich-colors=true]:data-[type=warning]:bg-amber-950 dark:data-[rich-colors=true]:data-[type=warning]:text-amber-100" %}
+
+<section
+  data-slot="sonner"
+  data-module="sonner.module"
+  data-position="{{ position }}"
+  data-duration="{{ duration }}"
+  data-rich-colors="{{ richColors ? 'true' : 'false' }}"
+  data-close-button="{{ closeButton ? 'true' : 'false' }}"
+  data-expand="{{ expand ? 'true' : 'false' }}"
+  aria-label="{{ label|default('Notifiche') }}"
+  tabindex="-1"
+  style="--normal-bg: var(--popover); --normal-text: var(--popover-foreground); --normal-border: var(--border); --border-radius: var(--radius)"
+  class="toaster group{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+
+  {% block triggers %}
+    {%- if triggers is defined and triggers %}
+    <div data-slot="sonner-triggers" class="flex flex-wrap gap-2">
+      {%- for trigger in triggers %}
+        {%- set trigger_attrs = 'data-sonner-show data-sonner-message="' ~ trigger.message ~ '"'
+          ~ (trigger.type is defined ? ' data-sonner-type="' ~ trigger.type ~ '"' : '')
+          ~ (trigger.description is defined ? ' data-sonner-description="' ~ trigger.description ~ '"' : '')
+          ~ (trigger.duration is defined ? ' data-sonner-duration="' ~ trigger.duration ~ '"' : '') %}
+        {% include '@components/base/button/button.twig' with {
+          label: trigger.label,
+          variant: 'outline',
+          size: 'sm',
+          attrs: trigger_attrs
+        } only %}
+      {%- endfor %}
+    </div>
+    {%- endif %}
+  {% endblock %}
+
+  <ol
+    data-slot="sonner-list"
+    aria-live="polite"
+    aria-relevant="additions text"
+    class="pointer-events-none fixed z-50 flex max-h-screen w-full gap-2 p-4 transition-[gap] group-data-[expand=false]:gap-1 group-data-[expand=false]:hover:gap-2 sm:max-w-sm {{ sonner_positions[position] }}"></ol>
+
+  {# Cloned by sonner.module for every toast; kept here so the class strings stay
+     in the template the Tailwind scanner and the porting gate both read. #}
+  <template data-slot="sonner-toast-template">
+    <li data-slot="sonner-toast" data-state="open" class="{{ sonner_toast_classes }}">
+      <span data-slot="sonner-icon" class="mt-0.5 flex shrink-0 items-center justify-center empty:hidden"></span>
+      <div data-slot="sonner-content" class="flex min-w-0 flex-1 flex-col gap-1">
+        <div data-slot="sonner-title" class="text-sm leading-none font-medium"></div>
+        <div data-slot="sonner-description" hidden class="text-sm text-muted-foreground group-data-[rich-colors=true]/toast:text-current group-data-[rich-colors=true]/toast:opacity-80"></div>
+      </div>
+      <button type="button" data-slot="sonner-close" aria-label="Chiudi"
+        class="absolute top-3 right-3 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+      </button>
+    </li>
+  </template>
+
+  {# Upstream `icons` prop, one entry per sonner toast type. #}
+  <template data-slot="sonner-icons">
+    <span data-type="success"><svg aria-hidden="true" class="size-4"><use href="#icon-circle-check"></use></svg></span>
+    <span data-type="info"><svg aria-hidden="true" class="size-4"><use href="#icon-info"></use></svg></span>
+    <span data-type="warning"><svg aria-hidden="true" class="size-4"><use href="#icon-triangle-alert"></use></svg></span>
+    <span data-type="error"><svg aria-hidden="true" class="size-4"><use href="#icon-octagon-x"></use></svg></span>
+    <span data-type="loading"><svg aria-hidden="true" class="size-4 animate-spin"><use href="#icon-loader-circle"></use></svg></span>
+  </template>
+</section>

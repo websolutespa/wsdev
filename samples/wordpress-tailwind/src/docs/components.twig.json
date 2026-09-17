@@ -327,6 +327,31 @@
               "min-max",
               "dropdown-caption"
             ]
+          },
+          {
+            "name": "combobox",
+            "title": "Combobox",
+            "description": "Campo di ricerca con elenco filtrabile, selezione singola o a chip.",
+            "scenarios": [
+              "default",
+              "with-value",
+              "grouped",
+              "disabled-item",
+              "chips",
+              "disabled",
+              "invalid"
+            ]
+          },
+          {
+            "name": "command",
+            "title": "Command",
+            "description": "Palette comandi con ricerca, gruppi e scorciatoie.",
+            "scenarios": [
+              "default",
+              "with-links",
+              "disabled-item",
+              "dialog"
+            ]
           }
         ]
       },
@@ -459,6 +484,20 @@
               "no-viewport",
               "with-indicator",
               "links-only"
+            ]
+          },
+          {
+            "name": "sidebar",
+            "title": "Sidebar",
+            "description": "Navigazione laterale collassabile con sheet su mobile.",
+            "scenarios": [
+              "default",
+              "collapsible-icon",
+              "variant-floating",
+              "variant-inset",
+              "side-right",
+              "loading",
+              "collapsible-none"
             ]
           }
         ]
@@ -660,6 +699,16 @@
               "vertical",
               "group"
             ]
+          },
+          {
+            "name": "message-scroller",
+            "title": "Message Scroller",
+            "description": "Contenitore di messaggi ancorato al fondo con pulsante di ritorno.",
+            "scenarios": [
+              "default",
+              "short",
+              "direction-start"
+            ]
           }
         ]
       },
@@ -707,6 +756,19 @@
               "size-20",
               "size-24",
               "size-32"
+            ]
+          },
+          {
+            "name": "sonner",
+            "title": "Sonner",
+            "description": "Toaster con notifiche impilate, tipi e auto-dismiss.",
+            "scenarios": [
+              "default",
+              "rich-colors",
+              "top-center",
+              "loading",
+              "no-close-button",
+              "expand"
             ]
           }
         ]

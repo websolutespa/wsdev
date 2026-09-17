@@ -1,0 +1,77 @@
+{
+  "mocks": {
+    "command": {
+      "default": {
+        "placeholder": "Cerca un comando…",
+        "groups": [
+          {
+            "heading": "Suggeriti",
+            "items": [
+              { "label": "Calendario", "icon": "calendar" },
+              { "label": "Cerca emoji", "icon": "search" },
+              { "label": "Nuovo documento", "icon": "file-text" }
+            ]
+          },
+          {
+            "heading": "Impostazioni",
+            "items": [
+              { "label": "Profilo", "icon": "user", "shortcut": "⌘P" },
+              { "label": "Notifiche", "icon": "bell", "shortcut": "⌘N" },
+              { "label": "Preferenze", "icon": "settings", "shortcut": "⌘," }
+            ]
+          }
+        ]
+      },
+      "with-links": {
+        "placeholder": "Vai a…",
+        "groups": [
+          {
+            "heading": "Pagine",
+            "items": [
+              { "label": "Componenti", "icon": "inbox", "url": "/docs/components.html" },
+              { "label": "Form", "icon": "file-text", "url": "/docs/forms.html" }
+            ]
+          }
+        ]
+      },
+      "disabled-item": {
+        "placeholder": "Cerca un'azione…",
+        "emptyText": "Nessuna azione trovata.",
+        "groups": [
+          {
+            "heading": "Azioni",
+            "items": [
+              { "label": "Duplica", "icon": "copy" },
+              { "label": "Esporta", "icon": "external-link" },
+              { "label": "Archivia", "icon": "inbox", "disabled": true }
+            ]
+          }
+        ]
+      },
+      "dialog": {
+        "asDialog": true,
+        "shortcut": "k",
+        "triggerLabel": "Apri la palette (⌘K)",
+        "title": "Palette comandi",
+        "description": "Cerca un comando da eseguire.",
+        "placeholder": "Digita un comando o cerca…",
+        "groups": [
+          {
+            "heading": "Suggeriti",
+            "items": [
+              { "label": "Nuovo preventivo", "icon": "file-text", "shortcut": "⌘N" },
+              { "label": "Cerca cliente", "icon": "search" }
+            ]
+          },
+          {
+            "heading": "Account",
+            "items": [
+              { "label": "Profilo", "icon": "user", "shortcut": "⌘P" },
+              { "label": "Esci", "icon": "log-out" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

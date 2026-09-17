@@ -31,7 +31,25 @@ Use `"source": "port"` in `scripts/upstream-exceptions.json`, justified in
 `chart` (recharts → `chart.js`), `progress` (inline transform → CSS custom
 property set by the module), `combobox` (Base UI → `input-group` + `floating.js`
 + its own module), `select` (one popper-only Viewport utility dropped, see the
-Adaptation table).
+Adaptation table), `message-scroller` (`@shadcn/react`'s headless primitive → its
+own module; one `inset-s-*` token has no Tailwind 4.1 equivalent).
+
+Three more components have no registry class string to diverge from, so they
+carry no exception entry even though their runtime is re-implemented: `sonner`
+(the `sonner` package — upstream only sets the four CSS custom properties and the
+lucide icon slots, both copied verbatim; the toast markup lives in two
+`<template>`s inside `sonner.twig` so its classes stay where the scanner and the
+gate read them), `command` (cmdk — filtering/scoring in `command.module.js`, with
+the `cmdk-*` attributes upstream's dialog class string selects on emitted
+verbatim) and `sidebar` (upstream's per-item `Tooltip` would mean an `{% embed %}`
+inside a `{% for %}`, so with `collapsible="icon"` the label is carried by the
+menu button's `title` attribute).
+
+Utilities missing from the inlined `src/css/shadcn.css` (shadcn@4.21.0) but used
+by a newer registry item are defined in the component's own `<name>.css` rather
+than dropped: `scrollbar-thin` / `scrollbar-none` / `scrollbar-gutter-stable` in
+`message-scroller.css`. Promote them to `globals.css` when a second component
+needs them.
 
 **Compositions** are a second reason to skip the gate: a component the registry
 ships only as an example, never as a registry item, has no upstream to diff
@@ -111,6 +129,7 @@ table below, a Figma override, or a port exception. Do not invent or
 | `--radix-accordion-content-height` | KEPT as-is | accordion module sets it; keyframes come from `src/css/shadcn.css` |
 | `data-[state=checked]:` on native inputs | `checked:` (self) / `peer-checked:` (sibling) / `has-checked:` (ancestor wrapping the input, e.g. switch's `<label>` root) | CSS only |
 | `focus-visible:`/`disabled:` on an upstream root that becomes a non-focusable wrapper (e.g. switch's `<label>`) | `focus-within:`/`has-disabled:` | CSS only |
+| `inset-s-*` (logical inline inset) | `start-*` | Tailwind 4.1 has no `inset-s-*`; `start-*` emits the same `inset-inline-start` |
 | lucide `<XIcon />` JSX | sprite `<svg aria-hidden="true"><use href="#icon-x"></use></svg>` | icon sprite |
 | Radix Portal wrappers | none needed (top layer / DOM position) | — |
 | dialog overlay `<div>` | `backdrop:` utilities on `<dialog>` | see `dialog.twig` |
@@ -140,6 +159,14 @@ removes them. Modules import shared utilities with relative paths
 | `floating.js` | `createFloating(anchor, panel, {placement, offset, flip, shift, arrow, matchWidth, strategy}) → {update, destroy}` — writes `data-side`/`data-align`/`--transform-origin`/`--available-height`/`--available-width`/`--anchor-width`/`--anchor-height`/`--viewport-width`/`--viewport-height` |
 | `toast.js` | `toast(msg, opts)`, `toast.success/error/...`, `toast.dismiss(id)`, `subscribe(fn)` |
 
+Modules are initialized by `common/lazyLoad.js` when their root intersects the
+viewport. A root that never intersects — fixed and empty (`sonner`), or inside a
+closed `<dialog>` (`command` in its dialog variant), or whose off-canvas state is
+the point (`sidebar`) — is listed in `eagerInit(...)` in `src/js/main.js`
+instead. `eagerInit` adds the `init` class synchronously, before its chunk
+resolves, and `lazyLoad` skips any node already carrying it, so a module is never
+initialized twice.
+
 Native APIs first: `<dialog>` + `showModal` for modal overlays, native inputs
 for form controls. ARIA per WAI-ARIA APG. Set `data-state` etc. so upstream
 animation classes work.
@@ -152,9 +179,9 @@ without a `window.*` global.
 | Direction | Shape | Examples |
 |---|---|---|
 | Incoming command | `CustomEvent('<component>:<verb>')` dispatched on the component root | `dialog:open`, `dialog:close`, `sheet:open` |
-| Outgoing notification | `CustomEvent('<component>:<past-participle>', { bubbles: true, detail })` | `dialog:opened`, `dialog:closed`, `menu:select`, `tabs:change`, `select:change`, `form:submitted` (`{ native: true }` or `{ ok, status, data }`), `form:invalid` (`{ invalid: string[] }`), `form:error` (`{ error }`, fetch submission network failure) |
-| Declarative open/close hooks | attributes read by the module at init, no JS wiring needed | `[data-<comp>-open="<id>"]`, `[data-<comp>-close]` |
-| Toasts | imperative function, not an event | `toast()` from `src/js/common/toast.js` |
+| Outgoing notification | `CustomEvent('<component>:<past-participle>', { bubbles: true, detail })` | `dialog:opened`, `dialog:closed`, `menu:select`, `tabs:change`, `select:change`, `combobox:change` (`{ value, label }` or `{ values, labels }`), `command:select` (`{ value, label }`), `sidebar:changed` (`{ open, mobile }`), `sonner:shown` / `sonner:dismissed` (`{ id, type }`), `message-scroller:scrolled` (`{ atBottom }`), `form:submitted` (`{ native: true }` or `{ ok, status, data }`), `form:invalid` (`{ invalid: string[] }`), `form:error` (`{ error }`, fetch submission network failure) |
+| Declarative open/close hooks | attributes read by the module at init, no JS wiring needed | `[data-<comp>-open="<id>"]`, `[data-<comp>-close]`, `[data-sonner-show]` (+ `data-sonner-message`/`-type`/`-description`/`-duration`) |
+| Toasts | imperative function, or one document-level event for host-theme scripts that cannot import | `toast()` from `src/js/common/toast.js`; `document.dispatchEvent(new CustomEvent('toast:show', { detail: { message, type, description, duration } }))` |
 
 Every module documents in its own header which events it emits/consumes. No
 component reads or writes `window.*`.

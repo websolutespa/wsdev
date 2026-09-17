@@ -34,6 +34,11 @@ export function lazyLoad(targetNode = document, callback = () => { }) {
 
 async function load(node, cache) {
   let dispose;
+  // Already initialized elsewhere (main.js eagerInit marks the node before its
+  // chunk resolves), or no module file matched: never run a module twice.
+  if (node.classList.contains('init')) {
+    return () => { };
+  }
   const key = node.getAttribute('data-module');
   // console.log(key);
   if (cache.has(key)) {
@@ -52,7 +57,7 @@ async function load(node, cache) {
       cache.set(key, module);
     }
   }
-  return dispose;
+  return dispose || (() => { });
 }
 
 function observeIntersections(targetNode = document, callback = () => { }) {

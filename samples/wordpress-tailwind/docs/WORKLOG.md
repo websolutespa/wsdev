@@ -69,6 +69,13 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ carousel (embla), calendar (vanilla-calendar-pro, mappa classi via `styles`), date-picker (composizione popover+calendar), chart (chart.js, contratto `config`→`--color-*`), resizable (N pannelli). Cleanup eccezioni `select`. 55 componenti, gate verdi. Report: [reports/phase-4-b7a-third-party.md](reports/phase-4-b7a-third-party.md).
 - ⚠️ `chart.module` 210 kB e `calendar.module` 79 kB (librerie inlinate, lazy); `aria-orientation` sul panel group da valutare con axe.
 
+## 2026-09-18
+
+### Fase 4 — B7b ultimi componenti (agent Opus)
+
+- ✅ combobox, command (+dialog, ⌘K), sonner (`toast:show`), sidebar (cookie, ⌘B, mobile in sheet), message-scroller. Fix `eagerInit`/`lazyLoad`. **60 componenti**: libreria completa. Report: [reports/phase-4-b7b-last-components.md](reports/phase-4-b7b-last-components.md).
+- ⚠️ Per B8: gate reale per combobox, `scrollbar-*` in globals, docs page paginata per gruppo, `slot?` su button/separator/label, `composition: true` nelle eccezioni.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

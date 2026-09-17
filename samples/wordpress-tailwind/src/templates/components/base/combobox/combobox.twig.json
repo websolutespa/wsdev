@@ -1,0 +1,83 @@
+{
+  "mocks": {
+    "combobox": {
+      "default": {
+        "name": "regione",
+        "placeholder": "Cerca una regione…",
+        "items": [
+          { "value": "lombardia", "label": "Lombardia" },
+          { "value": "lazio", "label": "Lazio" },
+          { "value": "campania", "label": "Campania" },
+          { "value": "veneto", "label": "Veneto" },
+          { "value": "sicilia", "label": "Sicilia" },
+          { "value": "marche", "label": "Marche" }
+        ]
+      },
+      "with-value": {
+        "name": "regione-preselezionata",
+        "value": "veneto",
+        "showClear": true,
+        "items": [
+          { "value": "lombardia", "label": "Lombardia" },
+          { "value": "lazio", "label": "Lazio" },
+          { "value": "veneto", "label": "Veneto" },
+          { "value": "marche", "label": "Marche" }
+        ]
+      },
+      "grouped": {
+        "name": "sede",
+        "placeholder": "Seleziona una sede…",
+        "items": [
+          { "value": "mi", "label": "Milano", "group": "Nord" },
+          { "value": "to", "label": "Torino", "group": "Nord" },
+          { "value": "vr", "label": "Verona", "group": "Nord" },
+          { "value": "rm", "label": "Roma", "group": "Centro" },
+          { "value": "an", "label": "Ancona", "group": "Centro" },
+          { "value": "na", "label": "Napoli", "group": "Sud" },
+          { "value": "pa", "label": "Palermo", "group": "Sud" }
+        ]
+      },
+      "disabled-item": {
+        "name": "piano",
+        "placeholder": "Scegli un piano…",
+        "items": [
+          { "value": "base", "label": "Base" },
+          { "value": "pro", "label": "Professionale" },
+          { "value": "enterprise", "label": "Enterprise", "disabled": true }
+        ]
+      },
+      "chips": {
+        "name": "competenze",
+        "chips": true,
+        "placeholder": "Aggiungi una competenza…",
+        "values": ["twig", "css"],
+        "items": [
+          { "value": "twig", "label": "Twig" },
+          { "value": "css", "label": "CSS" },
+          { "value": "js", "label": "JavaScript" },
+          { "value": "php", "label": "PHP" },
+          { "value": "figma", "label": "Figma" }
+        ]
+      },
+      "disabled": {
+        "name": "regione-disabilitata",
+        "placeholder": "Non disponibile",
+        "disabled": true,
+        "items": [
+          { "value": "lombardia", "label": "Lombardia" },
+          { "value": "lazio", "label": "Lazio" }
+        ]
+      },
+      "invalid": {
+        "name": "regione-obbligatoria",
+        "placeholder": "Campo obbligatorio",
+        "required": true,
+        "invalid": true,
+        "items": [
+          { "value": "lombardia", "label": "Lombardia" },
+          { "value": "lazio", "label": "Lazio" }
+        ]
+      }
+    }
+  }
+}

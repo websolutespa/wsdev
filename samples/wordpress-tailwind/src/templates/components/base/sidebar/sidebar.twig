@@ -1,0 +1,269 @@
+{#
+  Params:
+  - side?: 'left'|'right' as string (default: 'left')
+  - variant?: 'sidebar'|'floating'|'inset' as string (default: 'sidebar')
+  - collapsible?: 'offcanvas'|'icon'|'none' as string (default: 'offcanvas')
+  - defaultOpen?: Boolean (default: true) — initial state when no sidebar_state cookie is set
+  - brand?: { title?: String, subtitle?: String, icon?: String } — default header content
+  - search?: { name: String, placeholder?: String, id?: String } — renders sidebar-input in the header
+  - groups?: Array<{
+      label?: String,
+      action?: { icon: String, ariaLabel: String },
+      skeletonRows?: Number — renders that many sidebar-menu-skeleton rows instead of `items`,
+      skeletonIcon?: Boolean,
+      items?: Array<{
+        label: String, url?: String, icon?: String, active?: Boolean, badge?: String,
+        size?: 'default'|'sm'|'lg' as string (default: 'default'),
+        variant?: 'default'|'outline' as string (default: 'default'),
+        disabled?: Boolean,
+        action?: { icon: String, ariaLabel: String, showOnHover?: Boolean },
+        sub?: Array<{ label: String, url?: String, active?: Boolean,
+                      size?: 'sm'|'md' as string (default: 'md') }>
+      }>
+    }>
+  - insetTitle?: String — heading shown next to the trigger in the default inset header
+  - id?: String
+  - class?: String — appended last on sidebar-wrapper; additive utilities only
+  - attrs?: String — raw extra attributes on sidebar-wrapper, trusted input only
+  - blocks: header, footer, inset — override the sidebar header/footer and the main area
+
+  JS module (data-module="sidebar.module"):
+    consumes  CustomEvent 'sidebar:toggle' / 'sidebar:open' / 'sidebar:close' on the root
+    emits     CustomEvent 'sidebar:changed' { open, mobile } (bubbles)
+    hooks     [data-slot="sidebar-trigger"] and [data-slot="sidebar-rail"] anywhere in the
+              wrapper, plus Ctrl/Cmd+B
+    state     cookie `sidebar_state` (true|false, path=/, 7 days) like upstream;
+              matchMedia('(max-width: 767px)') switches to the mobile sheet, which the module
+              fills by cloning sidebar-inner (nothing is duplicated in this template) and
+              opens with 'dialog:open'
+    Eagerly initialized from src/js/main.js: the wrapper is present at load and the mobile
+    sheet lives in a closed <dialog>, which no IntersectionObserver would ever see.
+
+  Port adaptation: upstream wraps every sidebar-menu-button in a Tooltip that only shows while
+  the sidebar is collapsed to icons. One tooltip module per menu item would mean an {% embed %}
+  inside a {% for %} (PORTING.md rule 5), so with collapsible="icon" the label is carried by the
+  button's own `title` attribute instead. React's random SidebarMenuSkeleton width becomes a
+  fixed --skeleton-width per row (no random() in Twig, PORTING.md rule 8).
+#}
+{% set side = side|default('left') %}
+{% set variant = variant|default('sidebar') %}
+{% set collapsible = collapsible|default('offcanvas') %}
+{% set defaultOpen = defaultOpen is defined ? defaultOpen : true %}
+{% set brand = brand|default({}) %}
+{% set floating_like = variant == 'floating' or variant == 'inset' %}
+
+{% set sidebar_menu_button_base = "peer/menu-button flex w-full items-center gap-2 overflow-hidden rounded-md p-2 text-left text-sm ring-sidebar-ring outline-hidden transition-[width,height,padding] group-has-data-[sidebar=menu-action]/menu-item:pr-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground data-[state=open]:hover:bg-sidebar-accent data-[state=open]:hover:text-sidebar-accent-foreground [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0" %}
+{% set sidebar_menu_button_variants = {
+  'default': "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+  'outline': "bg-background shadow-[0_0_0_1px_var(--sidebar-border)] hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:shadow-[0_0_0_1px_var(--sidebar-accent)]"
+} %}
+{% set sidebar_menu_button_sizes = {
+  'default': "h-8 text-sm",
+  'sm': "h-7 text-xs",
+  'lg': "h-12 text-sm group-data-[collapsible=icon]:p-0!"
+} %}
+{% set sidebar_menu_action_classes = "absolute top-1.5 right-1 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform peer-hover/menu-button:text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 after:absolute after:-inset-2 md:after:hidden peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden" %}
+{% set sidebar_menu_action_hover = "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 peer-data-[active=true]/menu-button:text-sidebar-accent-foreground data-[state=open]:opacity-100 md:opacity-0" %}
+{% set sidebar_menu_sub_button_classes = "flex h-7 min-w-0 -translate-x-px items-center gap-2 overflow-hidden rounded-md px-2 text-sidebar-foreground ring-sidebar-ring outline-hidden hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 active:bg-sidebar-accent active:text-sidebar-accent-foreground disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground group-data-[collapsible=icon]:hidden" %}
+{% set sidebar_menu_sub_button_sizes = { 'sm': 'text-xs', 'md': 'text-sm' } %}
+
+{% macro sidebarMenu(groups, collapsible, base, variants, sizes, actionClasses, actionHover, subClasses, subSizes) %}
+  {%- for group in groups %}
+  <div data-slot="sidebar-group" data-sidebar="group" class="relative flex w-full min-w-0 flex-col p-2">
+    {%- if group.label %}
+    <div data-slot="sidebar-group-label" data-sidebar="group-label" class="flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-sidebar-foreground/70 ring-sidebar-ring outline-hidden transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0">{{ group.label }}</div>
+    {%- endif %}
+    {%- if group.action %}
+    <button type="button" data-slot="sidebar-group-action" data-sidebar="group-action" aria-label="{{ group.action.ariaLabel }}" class="absolute top-3.5 right-3 flex aspect-square w-5 items-center justify-center rounded-md p-0 text-sidebar-foreground ring-sidebar-ring outline-hidden transition-transform hover:bg-sidebar-accent hover:text-sidebar-accent-foreground focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0 after:absolute after:-inset-2 md:after:hidden group-data-[collapsible=icon]:hidden">
+      <svg aria-hidden="true"><use href="#icon-{{ group.action.icon }}"></use></svg>
+    </button>
+    {%- endif %}
+    <div data-slot="sidebar-group-content" data-sidebar="group-content" class="w-full text-sm">
+      <ul data-slot="sidebar-menu" data-sidebar="menu" class="flex w-full min-w-0 flex-col gap-1">
+        {%- if group.skeletonRows|default(0) %}
+          {%- for row in 1..group.skeletonRows %}
+          <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+            <div data-slot="sidebar-menu-skeleton" data-sidebar="menu-skeleton" class="flex h-8 items-center gap-2 rounded-md px-2">
+              {%- if group.skeletonIcon|default(false) %}
+              <div data-slot="skeleton" data-sidebar="menu-skeleton-icon" class="animate-pulse rounded-md bg-accent size-4"></div>
+              {%- endif %}
+              <div data-slot="skeleton" data-sidebar="menu-skeleton-text" class="animate-pulse rounded-md bg-accent h-4 max-w-(--skeleton-width) flex-1" style="--skeleton-width: {{ 50 + (row * 9) % 40 }}%"></div>
+            </div>
+          </li>
+          {%- endfor %}
+        {%- else %}
+          {%- for item in group.items|default([]) %}
+          {%- set size = item.size|default('default') %}
+          {%- set button_classes = base ~ ' ' ~ variants[item.variant|default('default')] ~ ' ' ~ sizes[size] %}
+          <li data-slot="sidebar-menu-item" data-sidebar="menu-item" class="group/menu-item relative">
+            {%- if item.url %}
+            <a data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="{{ size }}"
+              data-active="{{ item.active|default(false) ? 'true' : 'false' }}" href="{{ item.url }}"
+              {%- if item.active|default(false) %} aria-current="page"{% endif %}
+              {%- if item.disabled|default(false) %} aria-disabled="true"{% endif %}
+              {%- if collapsible == 'icon' %} title="{{ item.label }}"{% endif %}
+              class="{{ button_classes }}">
+              {%- if item.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>{% endif %}
+              <span>{{ item.label }}</span>
+            </a>
+            {%- else %}
+            <button type="button" data-slot="sidebar-menu-button" data-sidebar="menu-button" data-size="{{ size }}"
+              data-active="{{ item.active|default(false) ? 'true' : 'false' }}"
+              {%- if item.disabled|default(false) %} disabled{% endif %}
+              {%- if collapsible == 'icon' %} title="{{ item.label }}"{% endif %}
+              class="{{ button_classes }}">
+              {%- if item.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>{% endif %}
+              <span>{{ item.label }}</span>
+            </button>
+            {%- endif %}
+            {%- if item.action %}
+            <button type="button" data-slot="sidebar-menu-action" data-sidebar="menu-action" aria-label="{{ item.action.ariaLabel }}"
+              class="{{ actionClasses }}{% if item.action.showOnHover|default(false) %} {{ actionHover }}{% endif %}">
+              <svg aria-hidden="true"><use href="#icon-{{ item.action.icon }}"></use></svg>
+            </button>
+            {%- endif %}
+            {%- if item.badge %}
+            <div data-slot="sidebar-menu-badge" data-sidebar="menu-badge" class="pointer-events-none absolute right-1 flex h-5 min-w-5 items-center justify-center rounded-md px-1 text-xs font-medium text-sidebar-foreground tabular-nums select-none peer-hover/menu-button:text-sidebar-accent-foreground peer-data-[active=true]/menu-button:text-sidebar-accent-foreground peer-data-[size=sm]/menu-button:top-1 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-2.5 group-data-[collapsible=icon]:hidden">{{ item.badge }}</div>
+            {%- endif %}
+            {%- if item.sub is defined and item.sub %}
+            <ul data-slot="sidebar-menu-sub" data-sidebar="menu-sub" class="mx-3.5 flex min-w-0 translate-x-px flex-col gap-1 border-l border-sidebar-border px-2.5 py-0.5 group-data-[collapsible=icon]:hidden">
+              {%- for sub in item.sub %}
+              <li data-slot="sidebar-menu-sub-item" data-sidebar="menu-sub-item" class="group/menu-sub-item relative">
+                <a data-slot="sidebar-menu-sub-button" data-sidebar="menu-sub-button" data-size="{{ sub.size|default('md') }}"
+                  data-active="{{ sub.active|default(false) ? 'true' : 'false' }}" href="{{ sub.url|default('#') }}"
+                  {%- if sub.active|default(false) %} aria-current="page"{% endif %}
+                  class="{{ subClasses }} {{ subSizes[sub.size|default('md')] }}">
+                  <span>{{ sub.label }}</span>
+                </a>
+              </li>
+              {%- endfor %}
+            </ul>
+            {%- endif %}
+          </li>
+          {%- endfor %}
+        {%- endif %}
+      </ul>
+    </div>
+  </div>
+  {%- endfor %}
+{% endmacro %}
+{% import _self as sidebar %}
+
+<div data-slot="sidebar-wrapper" data-module="sidebar.module"
+  data-default-open="{{ defaultOpen ? 'true' : 'false' }}"
+  data-collapsible="{{ collapsible }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  style="--sidebar-width: 16rem; --sidebar-width-icon: 3rem; --sidebar-width-mobile: 18rem"
+  class="group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar{% if class is defined and class %} {{ class }}{% endif %}"
+  {{ attrs|default('')|raw }}>
+
+  {% if collapsible == 'none' %}
+  <div data-slot="sidebar" data-variant="{{ variant }}" data-side="{{ side }}"
+    class="flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground">
+  {% else %}
+  <div data-slot="sidebar" class="group peer hidden text-sidebar-foreground md:block"
+    data-state="{{ defaultOpen ? 'expanded' : 'collapsed' }}"
+    data-collapsible="{{ defaultOpen ? '' : collapsible }}"
+    data-variant="{{ variant }}" data-side="{{ side }}">
+
+    {# Placeholder that holds the layout space while the fixed container slides. #}
+    <div data-slot="sidebar-gap"
+      class="relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear group-data-[collapsible=offcanvas]:w-0 group-data-[side=right]:rotate-180 {% if floating_like %}group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]{% else %}group-data-[collapsible=icon]:w-(--sidebar-width-icon){% endif %}"></div>
+
+    <div data-slot="sidebar-container"
+      class="fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear md:flex {% if side == 'left' %}left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]{% else %}right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]{% endif %} {% if floating_like %}p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]{% else %}group-data-[collapsible=icon]:w-(--sidebar-width-icon) group-data-[side=left]:border-r group-data-[side=right]:border-l{% endif %}">
+  {% endif %}
+
+      <div data-sidebar="sidebar" data-slot="sidebar-inner"
+        class="flex h-full w-full flex-col bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:border group-data-[variant=floating]:border-sidebar-border group-data-[variant=floating]:shadow-sm">
+
+        {% block header %}
+        <div data-slot="sidebar-header" data-sidebar="header" class="flex flex-col gap-2 p-2">
+          <div class="flex items-center gap-2 px-2 py-1">
+            <div class="flex aspect-square size-8 shrink-0 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <svg aria-hidden="true" class="size-4"><use href="#icon-{{ brand.icon|default('websolute') }}"></use></svg>
+            </div>
+            <div class="flex flex-col gap-0.5 leading-none">
+              <span class="font-medium">{{ brand.title|default('Websolute') }}</span>
+              <span class="text-xs text-sidebar-foreground/70">{{ brand.subtitle|default('Area riservata') }}</span>
+            </div>
+          </div>
+          {% if search %}
+          <input data-slot="sidebar-input" data-sidebar="input" type="search" name="{{ search.name }}"
+            {%- if search.id is defined and search.id %} id="{{ search.id }}"{% endif %}
+            placeholder="{{ search.placeholder|default('Cerca…') }}"
+            class="min-w-0 rounded-3xl border border-input px-3 py-1 text-base transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 md:text-sm h-8 w-full bg-background shadow-none">
+          {% endif %}
+        </div>
+        {% endblock %}
+
+        <div data-slot="sidebar-separator" data-sidebar="separator" data-orientation="horizontal" role="none"
+          class="shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px mx-2 w-auto bg-sidebar-border"></div>
+
+        <div data-slot="sidebar-content" data-sidebar="content"
+          class="flex min-h-0 flex-1 flex-col gap-2 overflow-auto group-data-[collapsible=icon]:overflow-hidden">
+          {{ sidebar.sidebarMenu(groups|default([]), collapsible, sidebar_menu_button_base, sidebar_menu_button_variants, sidebar_menu_button_sizes, sidebar_menu_action_classes, sidebar_menu_action_hover, sidebar_menu_sub_button_classes, sidebar_menu_sub_button_sizes) }}
+        </div>
+
+        {% block footer %}
+        <div data-slot="sidebar-footer" data-sidebar="footer" class="flex flex-col gap-2 p-2">
+          <div class="flex items-center gap-2 rounded-md px-2 py-1.5 text-sm">
+            <svg aria-hidden="true" class="size-4 shrink-0"><use href="#icon-user"></use></svg>
+            <span class="truncate">{{ brand.subtitle|default('Area riservata') }}</span>
+          </div>
+        </div>
+        {% endblock %}
+      </div>
+
+  {% if collapsible != 'none' %}
+      <button data-slot="sidebar-rail" data-sidebar="rail" aria-label="Attiva/disattiva la sidebar"
+        tabindex="-1" title="Attiva/disattiva la sidebar"
+        class="absolute inset-y-0 z-20 hidden w-4 -translate-x-1/2 transition-all ease-linear group-data-[side=left]:-right-4 group-data-[side=right]:left-0 after:absolute after:inset-y-0 after:left-1/2 after:w-[2px] hover:after:bg-sidebar-border sm:flex in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize [[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize group-data-[collapsible=offcanvas]:translate-x-0 group-data-[collapsible=offcanvas]:after:left-full hover:group-data-[collapsible=offcanvas]:bg-sidebar [[data-side=left][data-collapsible=offcanvas]_&]:-right-2 [[data-side=right][data-collapsible=offcanvas]_&]:-left-2"></button>
+    </div>
+  </div>
+
+  {# Mobile sheet: filled by sidebar.module with a clone of sidebar-inner, so the
+     menu markup exists exactly once in this file. #}
+  {% embed '@components/base/sheet/sheet.twig' with {
+    side: side,
+    title: 'Sidebar',
+    description: 'Menu di navigazione',
+    showCloseButton: false,
+    class: 'w-(--sidebar-width-mobile) max-w-(--sidebar-width-mobile) sm:max-w-(--sidebar-width-mobile) bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden',
+    attrs: 'data-sidebar="sidebar" data-mobile="true" style="--sidebar-width-mobile: 18rem"'
+  } only %}
+    {% block header %}
+      <div data-slot="sheet-header" class="sr-only flex flex-col gap-1.5 p-4">
+        <h2 data-slot="sheet-title" class="font-semibold text-foreground">{{ title }}</h2>
+        <p data-slot="sheet-description" class="text-sm text-muted-foreground">{{ description }}</p>
+      </div>
+    {% endblock %}
+    {% block body %}
+      <div data-slot="sidebar-mobile-body" class="flex h-full w-full flex-col"></div>
+    {% endblock %}
+  {% endembed %}
+  {% else %}
+  </div>
+  {% endif %}
+
+  <main data-slot="sidebar-inset"
+    class="relative flex w-full flex-1 flex-col bg-background md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow-sm md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ml-2">
+    {% block inset %}
+    <header class="flex h-14 shrink-0 items-center gap-2 border-b px-4">
+      <button type="button" data-slot="sidebar-trigger" data-sidebar="trigger" aria-label="Attiva/disattiva la sidebar"
+        class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-7">
+        <svg aria-hidden="true"><use href="#icon-panel-left"></use></svg>
+      </button>
+      <span class="text-sm font-medium">{{ insetTitle|default('Dashboard') }}</span>
+    </header>
+    <div class="flex flex-1 flex-col gap-4 p-4">
+      <div class="grid auto-rows-min gap-4 md:grid-cols-3">
+        <div class="aspect-video rounded-xl bg-muted/50"></div>
+        <div class="aspect-video rounded-xl bg-muted/50"></div>
+        <div class="aspect-video rounded-xl bg-muted/50"></div>
+      </div>
+      <div class="min-h-40 flex-1 rounded-xl bg-muted/50"></div>
+    </div>
+    {% endblock %}
+  </main>
+</div>

@@ -1,0 +1,59 @@
+{#
+  Params:
+  - messages: Array<message props> — REQUIRED; one message-scroller-item per entry, each
+              rendering base/message/message.twig (see that file's params: align, avatar,
+              header, bubbles, footer, group)
+  - direction?: 'end'|'start' as string (default: 'end') — which edge the scroll button jumps to
+  - buttonLabel?: String — accessible name of the scroll button (default: 'Vai agli ultimi messaggi')
+  - threshold?: Number — px of slack still counted as "stuck to the edge" (default: 24)
+  - id?: String
+  - class?: String — appended last on the message-scroller root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  JS module (data-module="message-scroller.module"):
+    emits     CustomEvent 'message-scroller:scrolled' { atBottom } (bubbles), on every
+              scroll settle and whenever new content changes the stuck state
+    consumes  CustomEvent 'message-scroller:scroll' on the root — jumps to `direction`
+    state     data-autoscrolling on the viewport while the module is scrolling it (upstream
+              hides the scrollbar then), data-pending-scroll until the first jump to the edge
+              has landed (upstream keeps the viewport invisible meanwhile), data-active on
+              the button while the viewport is away from the edge
+
+  Port adaptation (@shadcn/react's headless MessageScroller has no runtime here; stick-to-edge,
+  the MutationObserver and the button state live in message-scroller.module.js):
+  - `inset-s-1/2` has no Tailwind 4.1 equivalent (logical inline inset is `start-*`) — replaced
+    with `start-1/2`, recorded in scripts/upstream-exceptions.json ("message-scroller")
+  - `scrollbar-thin` / `scrollbar-none` / `scrollbar-gutter-stable` are not in the shadcn
+    tailwind.css this sample inlines; they are defined in message-scroller.css
+  - the scroll button is written out instead of including base/button (button.twig owns
+    data-slot="button" and there is no `slot` prop yet), so its secondary/icon-sm class
+    strings are hand-merged here — the EXTRA tokens check:classes reports are those
+#}
+{% set direction = direction|default('end') %}
+{% set message_scroller_button_base = "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-8 border shadow-xs" %}
+{% set message_scroller_button_classes = "absolute start-1/2 -translate-x-1/2 border-border bg-background text-foreground transition-[translate,scale,opacity] duration-200 hover:bg-muted hover:text-foreground data-[active=false]:pointer-events-none data-[active=false]:scale-95 data-[active=false]:opacity-0 data-[active=false]:duration-400 data-[active=false]:ease-[cubic-bezier(0.7,0,0.84,0)] data-[active=true]:translate-y-0 data-[active=true]:scale-100 data-[active=true]:opacity-100 data-[active=true]:ease-[cubic-bezier(0.23,1,0.32,1)] data-[direction=end]:bottom-4 data-[direction=end]:data-[active=false]:translate-y-full data-[direction=start]:top-4 data-[direction=start]:data-[active=false]:-translate-y-full rtl:translate-x-1/2 data-[direction=start]:[&_svg]:rotate-180" %}
+
+<div data-slot="message-scroller" data-module="message-scroller.module"
+  data-direction="{{ direction }}" data-threshold="{{ threshold|default(24) }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden{% if class is defined and class %} {{ class }}{% endif %}"
+  {{ attrs|default('')|raw }}>
+
+  <div data-slot="message-scroller-viewport" tabindex="0"
+    class="size-full min-h-0 min-w-0 scroll-fade-b scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-none data-pending-scroll:invisible">
+    <div data-slot="message-scroller-content" class="flex h-max min-h-full flex-col gap-8">
+      {%- for message in messages|default([]) %}
+      <div data-slot="message-scroller-item" class="min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]">
+        {% include '@components/base/message/message.twig' with message only %}
+      </div>
+      {%- endfor %}
+    </div>
+  </div>
+
+  <button type="button" data-slot="message-scroller-button" data-direction="{{ direction }}"
+    data-variant="secondary" data-size="icon-sm" data-active="false"
+    aria-label="{{ buttonLabel|default('Vai agli ultimi messaggi') }}"
+    class="{{ message_scroller_button_base }} {{ message_scroller_button_classes }}">
+    <svg aria-hidden="true"><use href="#icon-arrow-down"></use></svg>
+  </button>
+</div>
