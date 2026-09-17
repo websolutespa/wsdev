@@ -35,3 +35,4 @@ Decisioni prese con l'utente (sessione di grill del 2026-09-17) che governano il
 - `shadcn/tailwind.css` vendorizzato in `src/css/shadcn.css` invece di dipendere dal pacchetto npm `shadcn`.
 - Scala radius moltiplicativa xs…4xl allineata ai token del kit (2/6/8/10/14/18/22/26 px con `--radius: 10px`).
 - Primitive brand nominate `--color-brand-<hue>-<step>` per non ombreggiare la palette Tailwind (correzione fatta durante l'import).
+- Override Figma "derivati": quando un componente non presente nel kit condivide la stessa superficie visiva di un kit component (context-menu e menubar ↔ dropdown-menu), eredita gli stessi override, registrati come `source: "figma"` con nota `derived from <componente> <nodo>`. Evita tre menu visivamente diversi senza inventare misure.

@@ -54,6 +54,11 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ dialog, alert-dialog, sheet, drawer su `dialog.module.js` condiviso; popover, tooltip (override Figma `rounded-xl`), hover-card con `popover/tooltip/hover-card.module.js`. Port exceptions per overlay→`backdrop:` e `data-direction` (regola globale). 35 componenti, gate verdi. Report: [reports/phase-4-b3-b4-overlay-floating.md](reports/phase-4-b3-b4-overlay-floating.md).
 - ⛔ Checklist tastiera/a11y non eseguita: manca Playwright MCP nella sessione (a carico dell'utente). Percorsi di codice ESC/outside/focus-return presenti e citati nel report.
 
+### Fase 4 — B5 menu + select (agent Opus)
+
+- ✅ dropdown-menu, context-menu, menubar su `src/js/common/menuTree.js` condiviso; navigation-menu con viewport e `data-motion`; select come combobox select-only con `<select>` nativo nascosto. Override Figma su dropdown-menu e select. 40 componenti, gate verdi. Report: [reports/phase-4-b5-menus-select.md](reports/phase-4-b5-menus-select.md).
+- ⚠️ Decisione: context-menu e menubar ereditano gli override di dropdown-menu (stessa superficie) → eseguito in B6.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

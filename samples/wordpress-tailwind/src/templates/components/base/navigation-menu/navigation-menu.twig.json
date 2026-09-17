@@ -1,0 +1,76 @@
+{
+  "mocks": {
+    "navigation-menu": {
+      "default": {
+        "items": [
+          {
+            "label": "Prodotti",
+            "items": [
+              { "title": "Piattaforma", "url": "#piattaforma", "description": "Il cuore del prodotto: dati, automazioni e integrazioni in un unico posto.", "icon": "webhook" },
+              { "title": "Analytics", "url": "#analytics", "description": "Dashboard in tempo reale sulle metriche che contano davvero.", "icon": "file-text" },
+              { "title": "Automazioni", "url": "#automazioni", "description": "Regole e flussi che lavorano anche quando il team è offline.", "icon": "settings" },
+              { "title": "Integrazioni", "url": "#integrazioni", "description": "Oltre cento connettori pronti all'uso.", "icon": "external-link" }
+            ]
+          },
+          {
+            "label": "Risorse",
+            "items": [
+              { "title": "Documentazione", "url": "/docs/components.html", "description": "Guide, riferimento API e ricette pronte." },
+              { "title": "Casi studio", "url": "#casi-studio", "description": "Come i nostri clienti usano la piattaforma ogni giorno." }
+            ]
+          },
+          { "label": "Prezzi", "url": "#prezzi" },
+          { "label": "Contatti", "url": "#contatti", "active": true }
+        ]
+      },
+      "no-viewport": {
+        "viewport": false,
+        "items": [
+          {
+            "label": "Soluzioni",
+            "items": [
+              { "title": "Per il retail", "url": "#retail", "description": "Gestione dei punti vendita e dell'inventario." },
+              { "title": "Per i servizi", "url": "#servizi", "description": "Appuntamenti, preventivi e fatturazione." }
+            ]
+          },
+          {
+            "label": "Azienda",
+            "items": [
+              { "title": "Chi siamo", "url": "#chi-siamo" },
+              { "title": "Lavora con noi", "url": "#lavora-con-noi", "description": "Sei posizioni aperte in tutta Italia." }
+            ]
+          },
+          { "label": "Blog", "url": "#blog" }
+        ]
+      },
+      "with-indicator": {
+        "indicator": true,
+        "items": [
+          {
+            "label": "Servizi",
+            "items": [
+              { "title": "Consulenza", "url": "#consulenza", "description": "Analisi e progettazione su misura." },
+              { "title": "Formazione", "url": "#formazione", "description": "Percorsi per team di prodotto e sviluppo." }
+            ]
+          },
+          {
+            "label": "Supporto",
+            "items": [
+              { "title": "Centro assistenza", "url": "#assistenza" },
+              { "title": "Stato dei servizi", "url": "#stato", "description": "Tutti i sistemi operativi." }
+            ]
+          },
+          { "label": "Novità", "url": "#novita" }
+        ]
+      },
+      "links-only": {
+        "items": [
+          { "label": "Home", "url": "#home", "active": true },
+          { "label": "Progetti", "url": "#progetti" },
+          { "label": "Team", "url": "#team" },
+          { "label": "Contatti", "url": "#contatti" }
+        ]
+      }
+    }
+  }
+}

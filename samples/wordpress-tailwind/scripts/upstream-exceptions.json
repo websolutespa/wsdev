@@ -322,6 +322,118 @@
         "node": "17089:47311",
         "note": "Figma kit measures a 14px corner radius on every sampled side (bound token border-radius/rounded-xl); replaces upstream's rounded-md (6px). Padding (spacing/3 + spacing/1-5 = px-3 py-1.5) and text (12/16 = text-xs) already match upstream verbatim, no override needed there."
       }
+    ],
+    "dropdown-menu": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-3xl",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "Figma kit measures a 22px corner radius on the menu container (bound token border-radius/rounded-3xl); replaces upstream's rounded-md (6px) on dropdown-menu-content and dropdown-menu-sub-content (the kit has no separate submenu shape, the sub panel is the same container)."
+      },
+      {
+        "from": "shadow-md",
+        "to": "shadow-lg",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "Figma's menu container carries the two-layer drop shadow bound to the shadow/lg token (effects: \"shadow/lg/1/offset-x\"); replaces dropdown-menu-content's shadow-md. dropdown-menu-sub-content already reads shadow-lg upstream, so the two panels now agree."
+      },
+      {
+        "from": "rounded-sm",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "91:278",
+        "note": "Figma measures an 18px corner radius on every sampled item shape (bound token border-radius/rounded-2xl, consistent across Variant=Shortcut/Default/Distructive and State=Default/Disabled); replaces upstream's rounded-sm (2px) on item, checkbox-item, radio-item and sub-trigger."
+      },
+      {
+        "from": "px-2",
+        "to": "px-3",
+        "source": "figma",
+        "node": "91:278",
+        "note": "Figma measures 12px horizontal item padding (bound paddingLeft/paddingRight = spacing/3); replaces px-2 (8px) on item, sub-trigger and label."
+      },
+      {
+        "from": "py-1.5",
+        "to": "py-2",
+        "source": "figma",
+        "node": "91:278",
+        "note": "Figma measures 8px vertical item padding (bound paddingTop/paddingBottom = spacing/2), which together with the 20px text line box yields the kit's 36px item height, so no extra h-9 is added. Not applied to dropdown-menu-label, which measures 10px (node 330:28602, spacing/2-5): the gate matches tokens per component, not per owner, and the item is the dominant shape — the 2px label difference is accepted rather than split into a second EXTRA utility."
+      },
+      {
+        "from": "text-sm (dropdown-menu-label only, inherited from the shared item token)",
+        "to": "text-xs",
+        "source": "figma",
+        "node": "330:28602",
+        "note": "Documentation only — this \"from\" never matches a real upstream token, so it does not affect the gate. Figma's Label shape measures a 12/16px text (textStyle text-xs/leading-normal/medium, bound text/xs/font-size) while every item measures 14/20 (text-sm); since both share the literal token text-sm upstream, dropdown-menu.twig writes text-xs directly on the label (reported as EXTRA, expected — same convention as item's px-4/py-3.5 split). Not applied: the diff-figma-upstream.mjs proposal gap-2 -> gap-2.5, because the kit disagrees with itself (10px on nodes 91:278 / I21207:248417;...;97119, 8px on node I21207:248417;...;97011) — ambiguous, so upstream's gap-2 stands. Also not applied: an explicit h-9, already produced by py-2 + the 20px line box."
+      }
+    ],
+    "select": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-3xl",
+        "source": "figma",
+        "node": "21141:30000",
+        "note": "Figma measures a 22px corner radius on the select trigger (bound token border-radius/rounded-3xl) and the same 22px on the menu container (node 21141:29349); replaces upstream's rounded-md (6px) on select-trigger and select-content."
+      },
+      {
+        "from": "shadow-md",
+        "to": "shadow-lg",
+        "source": "figma",
+        "node": "21141:29349",
+        "note": "Figma's Select / Menu container carries the two-layer drop shadow bound to the shadow/lg token (effects: \"shadow/lg/1/offset-x\"); replaces select-content's shadow-md."
+      },
+      {
+        "from": "shadow-xs",
+        "to": null,
+        "source": "figma",
+        "node": "21141:30000",
+        "note": "Figma's trigger Default state has no effect (effects: []); dropped, same as base/input and base/textarea. The Invalid state's ring-like shadow (node 21141:30247, custom/destructive 20%) is a separate destructive effect already covered by aria-invalid:ring-destructive/20."
+      },
+      {
+        "from": "rounded-sm",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "118:2503",
+        "note": "Figma measures an 18px corner radius on Select Menu / Item in every sampled variant and state (bound token border-radius/rounded-2xl); replaces upstream's rounded-sm (2px) on select-item."
+      },
+      {
+        "from": "gap-2",
+        "to": "gap-1.5",
+        "source": "figma",
+        "node": "21141:30000",
+        "note": "Figma measures a 6px gap on both the trigger (bound itemSpacing spacing/1-5) and the item (node 118:2503, same token); replaces the bare gap-2 that select.tsx puts on those two shapes. Deliberately NOT applied to the variant forms *:data-[slot=select-value]:gap-2 and *:[span]:last:gap-2, which space the children INSIDE the value/item text (icon + text), a distance the kit never measures — those stay upstream."
+      },
+      {
+        "from": "px-2",
+        "to": "px-3",
+        "source": "figma",
+        "node": "118:2502",
+        "note": "Figma measures 12px horizontal padding on Select Menu / Label (bound paddingLeft/paddingRight = spacing/3); replaces select-label's px-2 (8px), matching the item's own 12px left padding so labels and options line up."
+      },
+      {
+        "from": "py-1.5",
+        "to": "py-2",
+        "source": "figma",
+        "node": "118:2503",
+        "note": "Figma measures 8px vertical item padding (bound paddingTop/paddingBottom = spacing/2), producing the kit's 36px item height together with the 20px text line box. Not applied to select-label, which measures 10px (node 118:2502, spacing/2-5): the gate matches tokens per component, not per owner, and the item is the dominant shape."
+      },
+      {
+        "from": "pl-2",
+        "to": "pl-3",
+        "source": "figma",
+        "node": "118:2503",
+        "from": "h-[var(--radix-select-trigger-height)]",
+        "to": null,
+        "source": "port",
+        "note": "Upstream applies this to the Viewport only in position=\"popper\", where Radix pairs it with its own item-aligned scrolling: it pins the scrollable area to the TRIGGER's height (36px), which without that runtime would show a single item at a time. The panel is sized by max-h-(--available-height) instead; --anchor-height is still written by common/floating.js and remains available to consumers. The sibling popper tokens (w-full, min-w-[var(--anchor-width)], scroll-my-1) are kept verbatim."
+      },
+      {
+        "from": "pl-2",
+        "to": "pl-3",
+        "source": "figma",
+        "node": "118:2503",
+        "note": "Figma measures 12px left item padding (bound paddingLeft = spacing/3); replaces select-item's pl-2 (8px). The 32px right padding (spacing/8) that makes room for the check indicator already matches upstream's pr-8. Not applied: the label's own 2px radius (border-radius/rounded-xs, node 118:2502) — select-label has no background or border upstream, so a radius there is invisible noise; and the kit's trigger fill (base/input) / transparent stroke, which contradicts upstream's bg-transparent + border-input and is a theme-level color decision, not a geometry measurement."
+      }
     ]
   }
 }

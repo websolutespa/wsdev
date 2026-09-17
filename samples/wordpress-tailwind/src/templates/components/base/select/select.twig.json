@@ -1,0 +1,91 @@
+{
+  "mocks": {
+    "select": {
+      "default": {
+        "name": "frutto",
+        "placeholder": "Scegli un frutto",
+        "options": [
+          { "label": "Mela", "value": "mela" },
+          { "label": "Pera", "value": "pera" },
+          { "label": "Ananas", "value": "ananas" },
+          { "label": "Mirtillo", "value": "mirtillo" }
+        ]
+      },
+      "with-value": {
+        "name": "regione",
+        "value": "marche",
+        "options": [
+          { "label": "Emilia-Romagna", "value": "emilia-romagna" },
+          { "label": "Marche", "value": "marche" },
+          { "label": "Toscana", "value": "toscana" },
+          { "label": "Umbria", "value": "umbria" }
+        ]
+      },
+      "groups": {
+        "name": "fuso-orario",
+        "placeholder": "Seleziona un fuso orario",
+        "options": [
+          {
+            "kind": "group",
+            "label": "Europa",
+            "options": [
+              { "label": "Roma (CET)", "value": "europe-rome" },
+              { "label": "Londra (GMT)", "value": "europe-london" },
+              { "label": "Helsinki (EET)", "value": "europe-helsinki" }
+            ]
+          },
+          { "kind": "separator" },
+          {
+            "kind": "group",
+            "label": "America",
+            "options": [
+              { "label": "New York (EST)", "value": "america-new-york" },
+              { "label": "Città del Messico (CST)", "value": "america-mexico-city" },
+              { "label": "Los Angeles (PST)", "value": "america-los-angeles" }
+            ]
+          }
+        ]
+      },
+      "sm": {
+        "name": "ordinamento",
+        "size": "sm",
+        "value": "recenti",
+        "options": [
+          { "label": "Più recenti", "value": "recenti" },
+          { "label": "Meno recenti", "value": "vecchi" },
+          { "label": "Ordine alfabetico", "value": "alfabetico" }
+        ]
+      },
+      "disabled-options": {
+        "name": "piano",
+        "placeholder": "Scegli un piano",
+        "options": [
+          { "kind": "label", "label": "Piani disponibili" },
+          { "label": "Base", "value": "base" },
+          { "label": "Pro", "value": "pro" },
+          { "label": "Enterprise (su richiesta)", "value": "enterprise", "disabled": true }
+        ]
+      },
+      "disabled": {
+        "name": "magazzino",
+        "value": "milano",
+        "disabled": true,
+        "options": [
+          { "label": "Milano", "value": "milano" },
+          { "label": "Napoli", "value": "napoli" }
+        ]
+      },
+      "invalid": {
+        "name": "provincia",
+        "placeholder": "Seleziona una provincia",
+        "invalid": true,
+        "required": true,
+        "options": [
+          { "label": "Ancona", "value": "an" },
+          { "label": "Pesaro e Urbino", "value": "pu" },
+          { "label": "Macerata", "value": "mc" }
+        ]
+      }
+    }
+  }
+}

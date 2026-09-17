@@ -197,6 +197,20 @@
               "vertical",
               "with-text"
             ]
+          },
+          {
+            "name": "select",
+            "title": "Select",
+            "description": "Select accessibile con listbox, gruppi, typeahead e select nativa nascosta.",
+            "scenarios": [
+              "default",
+              "with-value",
+              "groups",
+              "sm",
+              "disabled-options",
+              "disabled",
+              "invalid"
+            ]
           }
         ]
       },
@@ -284,7 +298,54 @@
       {
         "id": "navigation",
         "title": "Navigation",
-        "components": []
+        "components": [
+          {
+            "name": "dropdown-menu",
+            "title": "Dropdown Menu",
+            "description": "Menu a discesa con sottomenu, checkbox, radio, scorciatoie e voci distruttive.",
+            "scenarios": [
+              "default",
+              "groups",
+              "with-submenu",
+              "checkbox-radio",
+              "destructive",
+              "disabled-items",
+              "align-end"
+            ]
+          },
+          {
+            "name": "context-menu",
+            "title": "Context Menu",
+            "description": "Menu contestuale aperto con il tasto destro o con una pressione prolungata.",
+            "scenarios": [
+              "default",
+              "with-submenu",
+              "checkbox-radio",
+              "destructive"
+            ]
+          },
+          {
+            "name": "menubar",
+            "title": "Menubar",
+            "description": "Barra di menu orizzontale con navigazione tra i menu e sottomenu.",
+            "scenarios": [
+              "default",
+              "with-submenu",
+              "checkbox-radio"
+            ]
+          },
+          {
+            "name": "navigation-menu",
+            "title": "Navigation Menu",
+            "description": "Navigazione principale con pannelli, viewport condivisa e indicatore.",
+            "scenarios": [
+              "default",
+              "no-viewport",
+              "with-indicator",
+              "links-only"
+            ]
+          }
+        ]
       },
       {
         "id": "data-display",

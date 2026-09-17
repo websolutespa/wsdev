@@ -1,0 +1,63 @@
+{
+  "mocks": {
+    "context-menu": {
+      "default": {
+        "triggerLabel": "Clic destro sull'area per aprire il menu",
+        "items": [
+          { "label": "Indietro", "icon": "arrow-left", "shortcut": "⌘[", "value": "back" },
+          { "label": "Avanti", "icon": "arrow-right", "shortcut": "⌘]", "disabled": true, "value": "forward" },
+          { "label": "Ricarica", "icon": "arrow-down", "shortcut": "⌘R", "value": "reload" },
+          { "kind": "separator" },
+          { "label": "Salva pagina", "icon": "file-text", "shortcut": "⌘S", "value": "save" }
+        ]
+      },
+      "with-submenu": {
+        "triggerLabel": "Clic destro: menu con sottomenu",
+        "items": [
+          { "label": "Copia", "icon": "copy", "shortcut": "⌘C", "value": "copy" },
+          {
+            "kind": "sub",
+            "label": "Condividi con",
+            "items": [
+              { "label": "Email", "icon": "mail", "value": "share-email" },
+              { "label": "Link pubblico", "icon": "external-link", "value": "share-link" },
+              { "kind": "separator" },
+              { "label": "Webhook", "icon": "webhook", "value": "share-webhook" }
+            ]
+          },
+          { "kind": "separator" },
+          { "label": "Apri impostazioni", "icon": "settings", "value": "settings" }
+        ]
+      },
+      "checkbox-radio": {
+        "triggerLabel": "Clic destro: opzioni di visualizzazione",
+        "items": [
+          { "kind": "label", "label": "Colonne visibili" },
+          { "kind": "checkbox", "label": "Data di creazione", "checked": true, "value": "created" },
+          { "kind": "checkbox", "label": "Autore", "value": "author" },
+          { "kind": "separator" },
+          {
+            "kind": "group",
+            "label": "Densità",
+            "radio": true,
+            "items": [
+              { "kind": "radio", "label": "Compatta", "value": "compact" },
+              { "kind": "radio", "label": "Normale", "checked": true, "value": "normal" },
+              { "kind": "radio", "label": "Ampia", "value": "wide" }
+            ]
+          }
+        ]
+      },
+      "destructive": {
+        "triggerLabel": "Clic destro: azioni sul file",
+        "items": [
+          { "kind": "label", "label": "relazione-2026.pdf" },
+          { "label": "Rinomina", "icon": "file-text", "value": "rename" },
+          { "label": "Duplica", "icon": "copy", "value": "duplicate" },
+          { "kind": "separator" },
+          { "label": "Sposta nel cestino", "icon": "x", "variant": "destructive", "shortcut": "⌫", "value": "delete" }
+        ]
+      }
+    }
+  }
+}

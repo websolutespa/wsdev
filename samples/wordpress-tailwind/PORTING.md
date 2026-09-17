@@ -30,7 +30,8 @@ Use `"source": "port"` in `scripts/upstream-exceptions.json`, justified in
 `note`. Current cases: `calendar` (react-day-picker → `vanilla-calendar-pro`),
 `chart` (recharts → `chart.js`), `progress` (inline transform → CSS custom
 property set by the module), `combobox` (Base UI → `input-group` + `floating.js`
-+ its own module).
++ its own module), `select` (one popper-only Viewport utility dropped, see the
+Adaptation table).
 
 ## Files per component — `src/templates/components/base/<name>/`
 
@@ -97,7 +98,8 @@ table below, a Figma override, or a port exception. Do not invent or
 | `--radix-<x>-content-available-height` | `--available-height` | `common/floating.js` |
 | `--radix-<x>-content-available-width` | `--available-width` | `common/floating.js` |
 | `--radix-select-trigger-width` / `-height` | `--anchor-width` / `--anchor-height` | `common/floating.js` |
-| `--radix-navigation-menu-viewport-width` / `-height` | `--viewport-width` / `--viewport-height` | `common/floating.js` |
+| `--radix-navigation-menu-viewport-width` / `-height` | `--viewport-width` / `--viewport-height` | `common/floating.js` for anchored panels; in navigation-menu's viewport mode the module measures the active panel and writes them on the viewport itself |
+| select viewport `h-[var(--radix-select-trigger-height)]` | dropped | popper-only Radix sizing with no runtime here; see the `select` port exception |
 | `--radix-accordion-content-height` | KEPT as-is | accordion module sets it; keyframes come from `src/css/shadcn.css` |
 | `data-[state=checked]:` on native inputs | `checked:` (self) / `peer-checked:` (sibling) | CSS only |
 | lucide `<XIcon />` JSX | sprite `<svg aria-hidden="true"><use href="#icon-x"></use></svg>` | icon sprite |
@@ -125,6 +127,7 @@ removes them. Modules import shared utilities with relative paths
 | `focus.js` | `getFocusable(root)`, `focusFirst(root)`, `saveFocus() → restore()` |
 | `dismiss.js` | `pushDismissLayer({onDismiss, outsideClick, escape, exclude}) → release()` — layered ESC/outside-click |
 | `keynav.js` | `createRovingNav(container, {itemSelector, orientation, loop, mode: 'roving'\|'activedescendant', typeahead, bindKeys, onActivate, onFocusChange})` → `{setActive, focusFirst, focusLast, handleKey, getItems, getActive, clearActive, destroy}` |
+| `menuTree.js` | `createMenuTree(root, {prefix, sideOffset, subOffset, onSelect, onOpen, onClose, onHorizontal}) → {open, close, isOpen, getAnchor, focusFirst, focusLast, destroy}` — the open-panel machinery of the Radix menu families (levels, roving nav, typeahead, submenus, checkbox/radio indicators, one dismiss layer); used by dropdown-menu, context-menu and menubar |
 | `floating.js` | `createFloating(anchor, panel, {placement, offset, flip, shift, arrow, matchWidth, strategy}) → {update, destroy}` — writes `data-side`/`data-align`/`--transform-origin`/`--available-height`/`--available-width`/`--anchor-width`/`--anchor-height`/`--viewport-width`/`--viewport-height` |
 | `toast.js` | `toast(msg, opts)`, `toast.success/error/...`, `toast.dismiss(id)`, `subscribe(fn)` |
 

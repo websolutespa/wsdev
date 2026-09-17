@@ -1,0 +1,104 @@
+{
+  "mocks": {
+    "menubar": {
+      "default": {
+        "menus": [
+          {
+            "label": "File",
+            "items": [
+              { "label": "Nuovo documento", "shortcut": "⌘N", "value": "new" },
+              { "label": "Apri…", "shortcut": "⌘O", "value": "open" },
+              { "kind": "separator" },
+              { "label": "Salva", "shortcut": "⌘S", "value": "save" },
+              { "label": "Stampa", "shortcut": "⌘P", "disabled": true, "value": "print" }
+            ]
+          },
+          {
+            "label": "Modifica",
+            "items": [
+              { "label": "Annulla", "shortcut": "⌘Z", "value": "undo" },
+              { "label": "Ripristina", "shortcut": "⇧⌘Z", "value": "redo" },
+              { "kind": "separator" },
+              { "label": "Taglia", "value": "cut" },
+              { "label": "Copia", "shortcut": "⌘C", "value": "copy" },
+              { "label": "Incolla", "shortcut": "⌘V", "value": "paste" }
+            ]
+          },
+          {
+            "label": "Aiuto",
+            "items": [
+              { "label": "Documentazione", "url": "/docs/components.html", "value": "docs" },
+              { "label": "Segnala un problema", "value": "issue" }
+            ]
+          }
+        ]
+      },
+      "with-submenu": {
+        "menus": [
+          {
+            "label": "Progetto",
+            "items": [
+              { "label": "Riepilogo", "value": "summary" },
+              {
+                "kind": "sub",
+                "label": "Esporta come",
+                "items": [
+                  { "label": "PDF", "value": "export-pdf" },
+                  { "label": "CSV", "value": "export-csv" },
+                  { "kind": "separator" },
+                  {
+                    "kind": "sub",
+                    "label": "Formati avanzati",
+                    "items": [
+                      { "label": "JSON", "value": "export-json" },
+                      { "label": "XML", "value": "export-xml" }
+                    ]
+                  }
+                ]
+              },
+              { "kind": "separator" },
+              { "label": "Archivia progetto", "variant": "destructive", "value": "archive" }
+            ]
+          },
+          {
+            "label": "Team",
+            "items": [
+              { "label": "Membri", "value": "members" },
+              { "label": "Inviti in sospeso", "value": "invites" }
+            ]
+          }
+        ]
+      },
+      "checkbox-radio": {
+        "menus": [
+          {
+            "label": "Vista",
+            "items": [
+              { "kind": "checkbox", "label": "Barra laterale", "checked": true, "value": "sidebar" },
+              { "kind": "checkbox", "label": "Barra di stato", "value": "status-bar" },
+              { "kind": "separator" },
+              {
+                "kind": "group",
+                "label": "Zoom",
+                "radio": true,
+                "items": [
+                  { "kind": "radio", "label": "75%", "value": "75" },
+                  { "kind": "radio", "label": "100%", "checked": true, "value": "100" },
+                  { "kind": "radio", "label": "150%", "value": "150" }
+                ]
+              }
+            ]
+          },
+          {
+            "label": "Finestra",
+            "items": [
+              { "kind": "label", "label": "Disposizione", "inset": true },
+              { "label": "Affianca a sinistra", "inset": true, "value": "tile-left" },
+              { "label": "Affianca a destra", "inset": true, "value": "tile-right" }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

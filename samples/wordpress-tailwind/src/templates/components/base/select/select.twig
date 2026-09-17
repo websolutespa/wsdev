@@ -1,0 +1,119 @@
+{#
+  Params:
+  - name: String — REQUIRED; name of the hidden native <select> that carries the value on submit
+  - options: Array<Option|Group|Separator|Label> — list content, in order:
+      Option:    { label: String, value: String, disabled?: Boolean }
+      Group:     { kind: 'group', label?: String, options: Array<Option> }
+      Separator: { kind: 'separator' }
+      Label:     { kind: 'label', label: String } — standalone label outside a group
+      Every value must be unique within the instance: the preselection matches by equality
+      against `value`, so a duplicate resolves to whichever option is rendered first.
+  - value?: String — preselected option (checked indicator + native select value + trigger text)
+  - placeholder?: String — shown in select-value while nothing is selected
+  - size?: 'default'|'sm' as string (default: 'default')
+  - disabled?: Boolean
+  - required?: Boolean — on the native <select>, so the form's own validation applies
+  - invalid?: Boolean — sets aria-invalid="true" on the trigger
+  - id?: String — id of the trigger, for a label[for]; never generated in Twig
+  - class?: String — appended last on the trigger; additive only
+  - attrs?: String — raw extra attributes on the trigger, trusted input only
+
+  JS module (data-module="select.module"):
+    consumes  CustomEvent 'select:open', 'select:close' on the component root
+    emits     CustomEvent 'select:change' { value, label }, 'select:opened', 'select:closed'
+              (bubbles); plus a native 'change' on the hidden <select> so form code and
+              common/formValidation.js see the value like any other field
+
+  Adaptation: `--radix-select-content-transform-origin` → `--transform-origin`,
+  `--radix-select-content-available-height` → `--available-height`,
+  `--radix-select-trigger-width` / `-height` → `--anchor-width` / `--anchor-height`, all
+  written by common/floating.js (PORTING.md Adaptation table). Radix's Portal has no host here,
+  so select-content is a sibling of the trigger.
+#}
+
+{% macro option(opt, selectedValue) %}
+  {% set selected = selectedValue is not empty and opt.value == selectedValue %}
+  <div data-slot="select-item" role="option" tabindex="-1" data-value="{{ opt.value }}"
+    aria-selected="{{ selected ? 'true' : 'false' }}"
+    {%- if opt.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+    class="relative flex w-full cursor-default items-center gap-1.5 rounded-2xl py-2 pr-8 pl-3 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2 data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground">
+    <span data-slot="select-item-indicator" class="absolute right-2 flex size-3.5 items-center justify-center">
+      <svg class="size-4{% if not selected %} hidden{% endif %}" aria-hidden="true"><use href="#icon-check"></use></svg>
+    </span>
+    <span>{{ opt.label }}</span>
+  </div>
+{% endmacro %}
+
+{% import _self as select %}
+{% set select_size = size|default('default') %}
+{% set select_value = value|default('') %}
+
+<div data-slot="select" data-module="select.module" class="inline-block">
+  {# Hidden native control: the value is what a normal form submit posts, and it keeps
+     required/reset/autofill working — Radix does the same with its bubble select. #}
+  <select name="{{ name }}" aria-hidden="true" tabindex="-1" class="sr-only"
+    {%- if disabled|default(false) %} disabled{% endif %}
+    {%- if required|default(false) %} required{% endif %}>
+    <option value=""{% if select_value is empty %} selected{% endif %}></option>
+    {% for entry in options|default([]) %}
+      {% if entry.kind|default('option') == 'group' %}
+        {% for opt in entry.options|default([]) %}
+          <option value="{{ opt.value }}"{% if opt.value == select_value %} selected{% endif %}>{{ opt.label }}</option>
+        {% endfor %}
+      {% elseif entry.kind is not defined or entry.kind == 'option' %}
+        <option value="{{ entry.value }}"{% if entry.value == select_value %} selected{% endif %}>{{ entry.label }}</option>
+      {% endif %}
+    {% endfor %}
+  </select>
+
+  <button type="button" data-slot="select-trigger" data-size="{{ select_size }}"
+    role="combobox" aria-haspopup="listbox" aria-expanded="false"
+    {%- if id is defined and id %} id="{{ id }}"{% endif %}
+    {%- if disabled|default(false) %} disabled{% endif %}
+    {%- if invalid|default(false) %} aria-invalid="true"{% endif %}
+    {%- if select_value is empty %} data-placeholder{% endif %}
+    class="flex w-fit items-center justify-between gap-1.5 rounded-3xl border border-input bg-transparent px-3 py-2 text-sm whitespace-nowrap transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[placeholder]:text-muted-foreground data-[size=default]:h-9 data-[size=sm]:h-8 *:data-[slot=select-value]:line-clamp-1 *:data-[slot=select-value]:flex *:data-[slot=select-value]:items-center *:data-[slot=select-value]:gap-2 dark:bg-input/30 dark:hover:bg-input/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+    <span data-slot="select-value">
+      {%- if select_value is not empty -%}
+        {%- for entry in options|default([]) -%}
+          {%- if entry.kind|default('option') == 'group' -%}
+            {%- for opt in entry.options|default([]) -%}{%- if opt.value == select_value -%}{{ opt.label }}{%- endif -%}{%- endfor -%}
+          {%- elseif entry.kind is not defined or entry.kind == 'option' -%}
+            {%- if entry.value == select_value -%}{{ entry.label }}{%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}{{ placeholder|default('') }}{%- endif -%}
+    </span>
+    <svg class="size-4 opacity-50" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+  </button>
+
+  <div data-slot="select-content" role="listbox" tabindex="-1" hidden data-state="closed"
+    class="relative z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-3xl border bg-popover text-popover-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1">
+    <div data-slot="select-scroll-up-button" hidden class="flex cursor-default items-center justify-center py-1">
+      <svg class="size-4" aria-hidden="true"><use href="#icon-chevron-up"></use></svg>
+    </div>
+    <div class="p-1 w-full min-w-[var(--anchor-width)] scroll-my-1">
+      {% for entry in options|default([]) %}
+        {% set kind = entry.kind|default('option') %}
+        {% if kind == 'separator' %}
+          <div data-slot="select-separator" role="separator" aria-orientation="horizontal" class="pointer-events-none -mx-1 my-1 h-px bg-border"></div>
+        {% elseif kind == 'label' %}
+          <div data-slot="select-label" class="px-3 py-2 text-xs text-muted-foreground">{{ entry.label }}</div>
+        {% elseif kind == 'group' %}
+          <div data-slot="select-group" role="group">
+            {% if entry.label|default('') %}
+              <div data-slot="select-label" class="px-3 py-2 text-xs text-muted-foreground">{{ entry.label }}</div>
+            {% endif %}
+            {% for opt in entry.options|default([]) %}{{ select.option(opt, select_value) }}{% endfor %}
+          </div>
+        {% else %}
+          {{ select.option(entry, select_value) }}
+        {% endif %}
+      {% endfor %}
+    </div>
+    <div data-slot="select-scroll-down-button" hidden class="flex cursor-default items-center justify-center py-1">
+      <svg class="size-4" aria-hidden="true"><use href="#icon-chevron-down"></use></svg>
+    </div>
+  </div>
+</div>

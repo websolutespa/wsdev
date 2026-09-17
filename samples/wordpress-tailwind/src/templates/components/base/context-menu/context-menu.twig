@@ -1,0 +1,135 @@
+{#
+  Params:
+  - items: Array<MenuEntry> — menu content, in order. MenuEntry:
+      kind?: 'item'|'checkbox'|'radio'|'separator'|'label'|'group'|'sub' as string (default: 'item')
+      label?: String — visible text (unused by 'separator')
+      icon?: String — sprite icon name rendered before the label
+      shortcut?: String — keyboard hint, right-aligned (item/checkbox/radio/sub)
+      url?: String — item only: renders <a>; the module navigates via window.location.assign
+      download?: Boolean — item + url only: keeps the native click so the file downloads
+      variant?: 'default'|'destructive' as string (default: 'default') — item only
+      inset?: Boolean — extra left padding, aligns with the indicator column (item/label/sub)
+      disabled?: Boolean
+      checked?: Boolean — checkbox/radio only (default: false)
+      value?: String — echoed in the 'menu:select' detail
+      radio?: Boolean — group only: renders data-slot="context-menu-radio-group"
+      items?: Array<MenuEntry> — 'group' and 'sub' only; groups are flat (no group inside a group)
+  - triggerLabel?: String — text inside the default right-click area; override via block trigger
+                            and mark your own element with data-slot="context-menu-trigger"
+  - triggerClass?: String — classes on the default right-click area (default: a dashed 8rem box)
+  - id?: String — id on the component root
+  - class?: String — extra classes on context-menu-content; additive only
+  - attrs?: String — raw extra attributes on context-menu-content, trusted input only
+  - blocks: trigger
+
+  JS module (data-module="context-menu.module"):
+    consumes  CustomEvent 'menu:open' (detail.x / detail.y in viewport px, optional), 'menu:close'
+    emits     CustomEvent 'menu:select' { label, value, checked? }, 'menu:opened',
+              'menu:closed' (bubbles)
+    hooks     right-click / long-press (500 ms) / Shift+F10 / ContextMenu key on
+              [data-slot="context-menu-trigger"]
+
+  Adaptation: `--radix-context-menu-content-transform-origin` → `--transform-origin`,
+  `--radix-context-menu-content-available-height` → `--available-height`, both written by
+  common/floating.js against a virtual anchor built from the pointer coordinates
+  (PORTING.md Adaptation table). Radix Portal / Sub wrappers have no host here:
+  context-menu-portal and context-menu-sub are not emitted, and a sub-content panel is a DOM
+  sibling of its sub-trigger so the module can find it with nextElementSibling.
+#}
+
+{% macro menuEntries(entries) %}
+  {% import _self as menu %}
+  {% for entry in entries %}
+    {% set kind = entry.kind|default('item') %}
+    {% if kind == 'separator' %}
+      <div role="separator" aria-orientation="horizontal" data-slot="context-menu-separator" class="-mx-1 my-1 h-px bg-border"></div>
+    {% elseif kind == 'label' %}
+      <div data-slot="context-menu-label"
+        {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
+        class="px-2 py-1.5 text-sm font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
+    {% elseif kind == 'group' %}
+      <div role="group"{% if entry.radio|default(false) %} data-slot="context-menu-radio-group"{% else %} data-slot="context-menu-group"{% endif %}>
+        {% if entry.label|default('') %}
+          <div data-slot="context-menu-label"
+            {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
+            class="px-2 py-1.5 text-sm font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
+        {% endif %}
+        {{ menu.menuEntries(entry.items|default([])) }}
+      </div>
+    {% elseif kind == 'checkbox' %}
+      <div role="menuitemcheckbox" tabindex="-1" aria-checked="{{ entry.checked|default(false) ? 'true' : 'false' }}"
+        data-slot="context-menu-checkbox-item" data-state="{{ entry.checked|default(false) ? 'checked' : 'unchecked' }}"
+        {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+        {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
+        class="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+          <svg class="size-4{% if not entry.checked|default(false) %} hidden{% endif %}" aria-hidden="true"><use href="#icon-check"></use></svg>
+        </span>
+        {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
+        <span>{{ entry.label }}</span>
+        {%- if entry.shortcut|default('') %}<span data-slot="context-menu-shortcut" class="ml-auto text-xs tracking-widest text-muted-foreground">{{ entry.shortcut }}</span>{% endif %}
+      </div>
+    {% elseif kind == 'radio' %}
+      <div role="menuitemradio" tabindex="-1" aria-checked="{{ entry.checked|default(false) ? 'true' : 'false' }}"
+        data-slot="context-menu-radio-item" data-state="{{ entry.checked|default(false) ? 'checked' : 'unchecked' }}"
+        {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+        {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
+        class="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+          <svg class="size-2 fill-current{% if not entry.checked|default(false) %} hidden{% endif %}" aria-hidden="true"><use href="#icon-circle"></use></svg>
+        </span>
+        {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
+        <span>{{ entry.label }}</span>
+        {%- if entry.shortcut|default('') %}<span data-slot="context-menu-shortcut" class="ml-auto text-xs tracking-widest text-muted-foreground">{{ entry.shortcut }}</span>{% endif %}
+      </div>
+    {% elseif kind == 'sub' %}
+      <div role="menuitem" tabindex="-1" aria-haspopup="menu" aria-expanded="false"
+        data-slot="context-menu-sub-trigger" data-state="closed"
+        {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
+        {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+        {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
+        class="flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground">
+        {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
+        <span>{{ entry.label }}</span>
+        <svg class="ml-auto" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+      </div>
+      <div role="menu" aria-orientation="vertical" tabindex="-1" hidden data-state="closed"
+        data-slot="context-menu-sub-content"
+        class="z-50 min-w-[8rem] origin-(--transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
+        {{ menu.menuEntries(entry.items|default([])) }}
+      </div>
+    {% else %}
+      {% set item_tag = entry.url|default('') ? 'a' : 'div' %}
+      <{{ item_tag }}{% if entry.url|default('') %} href="{{ entry.url }}"{% if entry.download|default(false) %} download{% endif %}{% endif %} role="menuitem" tabindex="-1"
+        data-slot="context-menu-item" data-variant="{{ entry.variant|default('default') }}"
+        {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
+        {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
+        {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
+        class="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!">
+        {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
+        <span>{{ entry.label }}</span>
+        {%- if entry.shortcut|default('') %}<span data-slot="context-menu-shortcut" class="ml-auto text-xs tracking-widest text-muted-foreground">{{ entry.shortcut }}</span>{% endif %}
+      </{{ item_tag }}>
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
+
+{% import _self as menu %}
+
+<div data-slot="context-menu" data-module="context-menu.module" class="block"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    <div data-slot="context-menu-trigger" tabindex="0" role="button" aria-haspopup="menu"
+      class="{{ triggerClass|default('flex h-32 w-full select-none items-center justify-center rounded-3xl border border-dashed text-sm text-muted-foreground') }}">
+      {{ triggerLabel|default('Fai clic con il tasto destro qui') }}
+    </div>
+  {% endblock %}
+
+  <div role="menu" aria-orientation="vertical" tabindex="-1" hidden data-state="closed"
+    data-slot="context-menu-content"
+    class="z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+    {{ menu.menuEntries(items|default([])) }}
+  </div>
+</div>

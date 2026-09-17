@@ -1,0 +1,112 @@
+{
+  "mocks": {
+    "dropdown-menu": {
+      "default": {
+        "triggerLabel": "Apri menu",
+        "items": [
+          { "label": "Profilo", "icon": "user", "shortcut": "⇧⌘P", "value": "profile" },
+          { "label": "Impostazioni", "icon": "settings", "shortcut": "⌘,", "value": "settings" },
+          { "kind": "separator" },
+          { "label": "Documentazione", "icon": "file-text", "url": "/docs/components.html", "value": "docs" }
+        ]
+      },
+      "groups": {
+        "triggerLabel": "Account",
+        "items": [
+          {
+            "kind": "group",
+            "label": "Il mio account",
+            "items": [
+              { "label": "Profilo", "icon": "user", "value": "profile" },
+              { "label": "Fatturazione", "icon": "credit-card", "value": "billing" },
+              { "label": "Notifiche", "icon": "bell", "value": "notifications" }
+            ]
+          },
+          { "kind": "separator" },
+          {
+            "kind": "group",
+            "label": "Team",
+            "items": [
+              { "label": "Inviti", "icon": "mail", "value": "invites" },
+              { "label": "Nuovo membro", "icon": "plus", "shortcut": "⌘N", "value": "new-member" }
+            ]
+          }
+        ]
+      },
+      "with-submenu": {
+        "triggerLabel": "Condividi progetto",
+        "items": [
+          { "label": "Copia link", "icon": "copy", "shortcut": "⌘C", "value": "copy-link" },
+          {
+            "kind": "sub",
+            "label": "Invita persone",
+            "icon": "user",
+            "items": [
+              { "label": "Invita via email", "icon": "mail", "value": "invite-email" },
+              { "label": "Invita via messaggio", "icon": "inbox", "value": "invite-message" },
+              { "kind": "separator" },
+              {
+                "kind": "sub",
+                "label": "Altri canali",
+                "items": [
+                  { "label": "Webhook", "icon": "webhook", "value": "invite-webhook" },
+                  { "label": "GitHub", "icon": "github", "value": "invite-github" }
+                ]
+              }
+            ]
+          },
+          { "kind": "separator" },
+          { "label": "Apri nel browser", "icon": "external-link", "url": "/docs/components.html", "value": "open" }
+        ]
+      },
+      "checkbox-radio": {
+        "triggerLabel": "Vista",
+        "items": [
+          { "kind": "label", "label": "Pannelli" },
+          { "kind": "checkbox", "label": "Barra di stato", "checked": true, "value": "status-bar" },
+          { "kind": "checkbox", "label": "Barra delle attività", "value": "activity-bar" },
+          { "kind": "checkbox", "label": "Pannello laterale", "disabled": true, "value": "side-panel" },
+          { "kind": "separator" },
+          {
+            "kind": "group",
+            "label": "Ordinamento",
+            "radio": true,
+            "items": [
+              { "kind": "radio", "label": "Per nome", "checked": true, "value": "name" },
+              { "kind": "radio", "label": "Per data", "value": "date" },
+              { "kind": "radio", "label": "Per dimensione", "value": "size" }
+            ]
+          }
+        ]
+      },
+      "destructive": {
+        "triggerLabel": "Azioni documento",
+        "items": [
+          { "label": "Rinomina", "icon": "file-text", "value": "rename" },
+          { "label": "Duplica", "icon": "copy", "shortcut": "⌘D", "value": "duplicate" },
+          { "kind": "separator" },
+          { "label": "Elimina definitivamente", "icon": "x", "variant": "destructive", "shortcut": "⌫", "value": "delete" }
+        ]
+      },
+      "disabled-items": {
+        "triggerLabel": "Esportazione",
+        "items": [
+          { "kind": "label", "label": "Formati disponibili", "inset": true },
+          { "label": "Esporta in PDF", "icon": "file-text", "value": "pdf" },
+          { "label": "Esporta in CSV", "disabled": true, "inset": true, "value": "csv" },
+          { "label": "Esporta in JSON", "disabled": true, "inset": true, "value": "json" }
+        ]
+      },
+      "align-end": {
+        "triggerLabel": "Menu allineato a fine",
+        "align": "end",
+        "items": [
+          { "label": "Ricarica", "icon": "arrow-down", "value": "reload" },
+          { "label": "Cerca nel progetto", "icon": "search", "shortcut": "⌘F", "value": "search" },
+          { "kind": "separator" },
+          { "label": "Esci", "icon": "log-out", "variant": "destructive", "value": "logout" }
+        ]
+      }
+    }
+  }
+}
