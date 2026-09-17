@@ -1,0 +1,27 @@
+{
+  "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
+  "page": {
+    "id": 1,
+    "title": "WsVite WordPress + Tailwind",
+    "abstract": "shadcn/ui ported to Twig — a boilerplate built with 🖤 by Websolute",
+    "meta": {
+      "title": "Ws Vite - Home"
+    },
+    "href": "/index",
+    "alternates": [
+      {
+        "id": "/it/index",
+        "title": "Home",
+        "locale": "it",
+        "market": "ww"
+      }
+    ],
+    "components": [],
+    "breadcrumb": [
+      {
+        "href": "/index",
+        "title": "Home"
+      }
+    ]
+  }
+}

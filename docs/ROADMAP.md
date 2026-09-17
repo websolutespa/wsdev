@@ -34,6 +34,11 @@ Here you can view an operational roadmap of the actual and future functionality 
 |sample           |theme             |paddings                       |✅          |
 |sample           |twig              |                               |✅          |
 |sample           |liquid            |                               |✅          |
+|sample           |tailwind          |                               |✅          |
+|sample           |wordpress         |                               |✅          |
+|sample           |drupal            |                               |✅          |
+|sample           |wordpress-tailwind|shadcn/ui twig port            |⏳          |
+|sample           |design tokens     |figma → css                    |⏳          |
 |sample           |shopify           |                               |🕣          |
 |sample           |react             |                               |🕣          |
 |sample           |helpers           |image, icon                    |✅          |

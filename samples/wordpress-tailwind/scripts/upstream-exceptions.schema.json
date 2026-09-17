@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "shadcn-port upstream exceptions",
+  "description": "Per-component allowlist of deviations between the upstream shadcn/ui class strings and this project's Twig port, consumed by check-upstream-classes.mjs.",
+  "type": "object",
+  "required": ["components"],
+  "additionalProperties": false,
+  "properties": {
+    "components": {
+      "type": "object",
+      "description": "Keyed by component name (matches src/templates/components/base/<name>).",
+      "additionalProperties": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "required": ["from", "source"],
+          "additionalProperties": false,
+          "properties": {
+            "from": {
+              "type": "string",
+              "description": "The upstream token this exception matches, or \"*\" to exempt the whole component from the gate."
+            },
+            "to": {
+              "type": ["string", "null"],
+              "description": "The Twig-side replacement token, or null when the upstream token is intentionally dropped (not required in the Twig port)."
+            },
+            "source": {
+              "type": "string",
+              "enum": ["figma", "port"],
+              "description": "\"figma\": deviation motivated by the Figma kit measurements. \"port\": deviation forced by the platform (no React/Radix)."
+            },
+            "node": {
+              "type": "string",
+              "description": "Figma node id backing this exception (source: \"figma\" only)."
+            },
+            "note": {
+              "type": "string",
+              "description": "Why this deviation exists."
+            }
+          }
+        }
+      }
+    }
+  }
+}

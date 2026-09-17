@@ -29,6 +29,12 @@ To develop `Twig` app and `ws-vite` plugin run:
 npm run dev:twig
 ```
 
+To develop `WordPress + Tailwind + shadcn` app and `ws-vite` plugin run:
+
+```sh
+npm run dev:wordpress-tailwind
+```
+
 To develop `ws-cli` plugin run:
 
 ```sh

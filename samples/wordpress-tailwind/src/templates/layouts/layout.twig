@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="{{ layout.locale }}" xml:lang="{{ layout.locale }}">
+
+<head>
+  <base href="%BASE_URL%" />
+  {% include '@components/layout/meta/meta.twig' %}
+  {% block meta %}{% endblock %}
+  {# No-flash: applies .dark before first paint. Keep in sync with colorScheme.js. #}
+  {# No "//" comments inside the script below: the html prettifier joins it onto one line. #}
+  <script>
+    (function () {
+      var stored = null;
+      try {
+        stored = localStorage.getItem('color-scheme');
+      } catch (e) {}
+      var dark = stored ? stored === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.classList.toggle('dark', dark);
+    })();
+  </script>
+  <script type="module" src="/js/main.js"></script>
+  <link rel="stylesheet" href="/css/globals.css">
+  {% include '@components/layout/fonts/fonts.twig' %}
+  {% block head %}{% endblock %}
+</head>
+
+<body class="bg-background text-foreground font-sans antialiased {% block body_class %}{% endblock %}">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow-lg focus:outline-2 focus:outline-ring">{{ labels['skip.content'] }}</a>
+  {% include '@components/layout/header/header.twig' %}
+  {% block main %}{% endblock %}
+  {% include '@components/layout/footer/footer.twig' %}
+  {% block body %}{% endblock %}
+  <!--
+    {
+        "BASE_URL": "%BASE_URL%",
+        "DEV": %DEV%,
+        "MODE": "%MODE%",
+        "PROD": %PROD%,
+        "VITE_ORIGIN": "%VITE_ORIGIN%",
+        "WS_VITE": "%WS_VITE%",
+    }
+    -->
+</body>
+
+</html>

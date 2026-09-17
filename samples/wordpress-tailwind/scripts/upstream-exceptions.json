@@ -1,0 +1,37 @@
+{
+  "$schema": "./upstream-exceptions.schema.json",
+  "components": {
+    "progress": [
+      {
+        "from": "transition-all",
+        "to": null,
+        "source": "port",
+        "note": "Upstream drives the fill width with an inline style={{ transform: translateX(...) }} computed in React; the Twig port sets the value through the module (a CSS custom property) and animates it in progress.css instead, so this utility is not required verbatim in the twig markup. Revisit once the module lands."
+      }
+    ],
+    "calendar": [
+      {
+        "from": "*",
+        "to": null,
+        "source": "port",
+        "note": "react-day-picker (upstream) is replaced end-to-end by vanilla-calendar-pro; class strings are not comparable 1:1. See PORTING.md Adaptation table / docs/adr/0002-native-html-apis-instead-of-radix.md."
+      }
+    ],
+    "chart": [
+      {
+        "from": "*",
+        "to": null,
+        "source": "port",
+        "note": "recharts (upstream) is replaced end-to-end by chart.js; class strings are not comparable 1:1. See PORTING.md Adaptation table / docs/adr/0002-native-html-apis-instead-of-radix.md."
+      }
+    ],
+    "combobox": [
+      {
+        "from": "*",
+        "to": null,
+        "source": "port",
+        "note": "Upstream combobox is Base UI (not a new-york-v4 Radix primitive); the Twig port composes input-group + floating.js with its own module, so upstream classes are not comparable 1:1."
+      }
+    ]
+  }
+}

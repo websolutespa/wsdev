@@ -1,0 +1,415 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './shadcn.css';
+@import './mode-custom-experimental.css';
+@import './components.css';
+
+@source '../templates';
+@source '../js';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ────────────────────────────────────────────────────────────
+   Design tokens.
+
+   AUTO-GENERATED — everything between `figma:<block>` START/END markers is
+   owned by the figma-tokens importer (last sync: shadcn/ui kit for Figma, 2026-09-17); hand edits there are overwritten by the next import.
+   PROJECT-OWNED — everything outside the markers is hand-authored.
+   All values are hex (optionally 8-digit with alpha) — no oklch/hsl here.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* >>> figma:semantic-light START >>> */
+  --accent: #F5F5F5;
+  --accent-foreground: #171717;
+  --background: #FFFFFF;
+  --foreground: #0A0A0A;
+  --border: #E5E5E5;
+  --card: #FFFFFF;
+  --card-foreground: #0A0A0A;
+  --destructive: #DC2626;
+  --destructive-foreground: #FEF2F2;
+  --input: #E5E5E5;
+  --muted: #F5F5F5;
+  --muted-foreground: #737373;
+  --popover: #FFFFFF;
+  --popover-foreground: #0A0A0A;
+  --primary: #1E40AF;
+  --primary-foreground: #FAFAFA;
+  --ring: #A3A3A3;
+  --ring-offset: #FFFFFF;
+  --secondary: #FB923C;
+  --secondary-foreground: #171717;
+  --chart-1: #EA580C;
+  --chart-2: #0D9488;
+  --chart-3: #164E63;
+  --chart-4: #FBBF24;
+  --chart-5: #F59E0B;
+  --sidebar: #FAFAFA;
+  --sidebar-foreground: #0A0A0A;
+  --sidebar-primary-foreground: #FAFAFA;
+  --sidebar-primary: #171717;
+  --sidebar-accent: #F5F5F5;
+  --sidebar-accent-foreground: #171717;
+  --sidebar-border: #E5E5E5;
+  --sidebar-ring: #A3A3A3;
+  /* <<< figma:semantic-light END <<< */
+
+  /* ── PROJECT-OWNED ─────────────────────────────────────── */
+  --radius: 0.625rem;
+
+  /* figma-tokens:overrides START */
+  /* figma-tokens:overrides END */
+
+  /* >>> figma:alpha-light START >>> */
+  --ws-alpha-5: #FFFFFFF2;
+  --ws-alpha-10: #FFFFFFE6;
+  --ws-alpha-20: #FFFFFFCC;
+  --ws-alpha-30: #FFFFFFB3;
+  --ws-alpha-40: #FFFFFF99;
+  --ws-alpha-50: #FFFFFF80;
+  --ws-alpha-60: #FFFFFF66;
+  --ws-alpha-70: #FFFFFF4D;
+  --ws-alpha-80: #FFFFFF33;
+  --ws-alpha-90: #FFFFFF1A;
+  /* <<< figma:alpha-light END <<< */
+}
+
+.dark {
+  /* >>> figma:semantic-dark START >>> */
+  --accent: #404040;
+  --accent-foreground: #FAFAFA;
+  --background: #0A0A0A;
+  --foreground: #FAFAFA;
+  --border: #FFFFFF1A;
+  --card: #171717;
+  --card-foreground: #FAFAFA;
+  --destructive: #F87171;
+  --destructive-foreground: #FEF2F2;
+  --input: #FFFFFF26;
+  --muted: #262626;
+  --muted-foreground: #A3A3A3;
+  --popover: #262626;
+  --popover-foreground: #FAFAFA;
+  --primary: #E5E5E5;
+  --primary-foreground: #2563EB;
+  --ring: #737373;
+  --ring-offset: #0A0A0A;
+  --secondary: #262626;
+  --secondary-foreground: #FDBA74;
+  --chart-1: #1D4ED8;
+  --chart-2: #10B981;
+  --chart-3: #F59E0B;
+  --chart-4: #A855F7;
+  --chart-5: #F43F5E;
+  --sidebar: #171717;
+  --sidebar-foreground: #FAFAFA;
+  --sidebar-primary-foreground: #FAFAFA;
+  --sidebar-primary: #1D4ED8;
+  --sidebar-accent: #262626;
+  --sidebar-accent-foreground: #FAFAFA;
+  --sidebar-border: #FFFFFF1A;
+  --sidebar-ring: #525252;
+  /* <<< figma:semantic-dark END <<< */
+
+  /* >>> figma:alpha-dark START >>> */
+  --ws-alpha-5: #0A0A0AF2;
+  --ws-alpha-10: #0A0A0AE6;
+  --ws-alpha-20: #0A0A0ACC;
+  --ws-alpha-30: #0A0A0AB3;
+  --ws-alpha-40: #0A0A0A99;
+  --ws-alpha-50: #0A0A0A80;
+  --ws-alpha-60: #0A0A0A66;
+  --ws-alpha-70: #0A0A0A4D;
+  --ws-alpha-80: #0A0A0A33;
+  --ws-alpha-90: #0A0A0A1A;
+  /* <<< figma:alpha-dark END <<< */
+}
+
+/* ────────────────────────────────────────────────────────────
+   Primitives zone — empty seed for a future Figma DTCG import (brand color
+   palettes). NON-inline so imported values are emitted as real CSS vars and
+   generate utilities.
+   ──────────────────────────────────────────────────────────── */
+@theme {
+  /* >>> figma:primitives START >>> */
+  --color-brand-blue-50: #EFF6FF;
+  --color-brand-blue-100: #DBEAFE;
+  --color-brand-blue-200: #BFDBFE;
+  --color-brand-blue-300: #93C5FD;
+  --color-brand-blue-400: #60A5FA;
+  --color-brand-blue-500: #3B82F6;
+  --color-brand-blue-600: #2563EB;
+  --color-brand-blue-800: #1E40AF;
+  --color-brand-blue-900: #1E3A8A;
+  --color-brand-blue-950: #172554;
+  --color-brand-blue-700: #1D4ED8;
+  --color-brand-orange-50: #FFF7ED;
+  --color-brand-orange-100: #FFEDD5;
+  --color-brand-orange-200: #FED7AA;
+  --color-brand-orange-300: #FDBA74;
+  --color-brand-orange-400: #FB923C;
+  --color-brand-orange-500: #F97316;
+  --color-brand-orange-700: #C2410C;
+  --color-brand-orange-800: #9A3412;
+  --color-brand-orange-900: #7C2D12;
+  --color-brand-orange-950: #431407;
+  --color-brand-orange-600: #EA580C;
+  /* <<< figma:primitives END <<< */
+
+  /* Shadow / blur scales — populated by a Figma "Theme" collection. Defaults
+     below match shadcn/ui v4 (utilities: shadow-*, inset-shadow-*, drop-shadow-*, blur-*). */
+  /* >>> figma:shadow-blur START >>> */
+  --shadow-2xs: 0 1px 0 0 rgb(0 0 0 / 0.05);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --inset-shadow-2xs: inset 0 1px 0 0 rgb(0 0 0 / 0.05);
+  --inset-shadow-xs: inset 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  --inset-shadow-sm: inset 0 2px 4px 0 rgb(0 0 0 / 0.05);
+  --drop-shadow-xs: 0 1px 1px 0 rgb(0 0 0 / 0.05);
+  --drop-shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.15);
+  --drop-shadow-md: 0 3px 3px 0 rgb(0 0 0 / 0.12);
+  --drop-shadow-lg: 0 4px 4px 0 rgb(0 0 0 / 0.15);
+  --drop-shadow-xl: 0 9px 7px 0 rgb(0 0 0 / 0.1);
+  --drop-shadow-2xl: 0 25px 25px 0 rgb(0 0 0 / 0.15);
+  --blur-xs: 4px;
+  --blur-sm: 8px;
+  --blur-md: 12px;
+  --blur-lg: 16px;
+  --blur-xl: 24px;
+  --blur-2xl: 40px;
+  --blur-3xl: 64px;
+  /* <<< figma:shadow-blur END <<< */
+
+  /* ── PROJECT-OWNED ── typefaces (kit: DM Sans / Tenor Sans / Geist Mono) */
+  --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif,
+    'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-serif: 'Tenor Sans', ui-serif, Georgia, serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* ────────────────────────────────────────────────────────────
+   Tailwind v4 @theme inline — maps semantic tokens to utilities.
+   `inline` so utilities reference var(--token) and flip with `.dark`.
+   E.g. `bg-primary` → background-color: var(--primary).
+   ──────────────────────────────────────────────────────────── */
+@theme inline {
+  /* >>> figma:color-map START >>> */
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-background: var(--background);
+  --color-border: var(--border);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-foreground: var(--foreground);
+  --color-input: var(--input);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-ring: var(--ring);
+  --color-ring-offset: var(--ring-offset);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-ws-alpha-5: var(--ws-alpha-5);
+  --color-ws-alpha-10: var(--ws-alpha-10);
+  --color-ws-alpha-20: var(--ws-alpha-20);
+  --color-ws-alpha-30: var(--ws-alpha-30);
+  --color-ws-alpha-40: var(--ws-alpha-40);
+  --color-ws-alpha-50: var(--ws-alpha-50);
+  --color-ws-alpha-60: var(--ws-alpha-60);
+  --color-ws-alpha-70: var(--ws-alpha-70);
+  --color-ws-alpha-80: var(--ws-alpha-80);
+  --color-ws-alpha-90: var(--ws-alpha-90);
+  /* <<< figma:color-map END <<< */
+
+  /* ── PROJECT-OWNED ── radius scale, multiplicative on --radius (kit: xs 2 · sm 6 · md 8 · lg 10 · xl 14 · 2xl 18 · 3xl 22 · 4xl 26, at --radius: 10px) */
+  --radius-xs: calc(var(--radius) * 0.2);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ── PROJECT-OWNED ── type scale follows the kit's Responsive tokens (figma:responsive-*):
+     `text-2xl` renders 20/28 on mobile and 24/32 from md, exactly as in Figma. */
+  --text-xs: var(--ws-text-xs-font-size);
+  --text-xs--line-height: var(--ws-text-xs-line-height);
+  --text-sm: var(--ws-text-sm-font-size);
+  --text-sm--line-height: var(--ws-text-sm-line-height);
+  --text-base: var(--ws-text-base-font-size);
+  --text-base--line-height: var(--ws-text-base-line-height);
+  --text-lg: var(--ws-text-lg-font-size);
+  --text-lg--line-height: var(--ws-text-lg-line-height);
+  --text-xl: var(--ws-text-xl-font-size);
+  --text-xl--line-height: var(--ws-text-xl-line-height);
+  --text-2xl: var(--ws-text-2xl-font-size);
+  --text-2xl--line-height: var(--ws-text-2xl-line-height);
+  --text-3xl: var(--ws-text-3xl-font-size);
+  --text-3xl--line-height: var(--ws-text-3xl-line-height);
+  --text-4xl: var(--ws-text-4xl-font-size);
+  --text-4xl--line-height: var(--ws-text-4xl-line-height);
+  --text-5xl: var(--ws-text-5xl-font-size);
+  --text-5xl--line-height: var(--ws-text-5xl-line-height);
+  --text-6xl: var(--ws-text-6xl-font-size);
+  --text-6xl--line-height: var(--ws-text-6xl-line-height);
+  --text-7xl: var(--ws-text-7xl-font-size);
+  --text-7xl--line-height: var(--ws-text-7xl-line-height);
+  --text-8xl: var(--ws-text-8xl-font-size);
+  --text-8xl--line-height: var(--ws-text-8xl-line-height);
+  --text-9xl: var(--ws-text-9xl-font-size);
+  --text-9xl--line-height: var(--ws-text-9xl-line-height);
+
+  /* ── PROJECT-OWNED ── kit spacing steps as utilities (p-ws-xl, gap-ws-lg, …); the base
+     --spacing scale of Tailwind is untouched. */
+  --spacing-ws-xs: var(--ws-spacing-xs);
+  --spacing-ws-sm: var(--ws-spacing-sm);
+  --spacing-ws-base: var(--ws-spacing-base);
+  --spacing-ws-lg: var(--ws-spacing-lg);
+  --spacing-ws-xl: var(--ws-spacing-xl);
+  --spacing-ws-2xl: var(--ws-spacing-2xl);
+  --spacing-ws-3xl: var(--ws-spacing-3xl);
+  --spacing-ws-4xl: var(--ws-spacing-4xl);
+  --spacing-ws-5xl: var(--ws-spacing-5xl);
+  --spacing-ws-6xl: var(--ws-spacing-6xl);
+  --spacing-ws-7xl: var(--ws-spacing-7xl);
+  --spacing-ws-8xl: var(--ws-spacing-8xl);
+  --spacing-ws-9xl: var(--ws-spacing-9xl);
+}
+
+/* ────────────────────────────────────────────────────────────
+   Responsive tokens — populated by a Figma "Custom" collection (mobile base +
+   desktop md override). Empty until such a kit is imported.
+   ──────────────────────────────────────────────────────────── */
+:root {
+  /* >>> figma:responsive-base START >>> */
+    --ws-text-xs-font-size: 0.75rem;
+    --ws-text-xs-line-height: 1rem;
+    --ws-text-sm-font-size: 0.875rem;
+    --ws-text-sm-line-height: 1.25rem;
+    --ws-text-base-font-size: 1rem;
+    --ws-text-base-line-height: 1.5rem;
+    --ws-text-lg-font-size: 1rem;
+    --ws-text-lg-line-height: 1.5rem;
+    --ws-text-xl-font-size: 1.125rem;
+    --ws-text-xl-line-height: 1.75rem;
+    --ws-text-2xl-font-size: 1.25rem;
+    --ws-text-2xl-line-height: 1.75rem;
+    --ws-text-3xl-font-size: 1.5rem;
+    --ws-text-3xl-line-height: 2rem;
+    --ws-text-4xl-font-size: 1.875rem;
+    --ws-text-4xl-line-height: 2.25rem;
+    --ws-text-5xl-font-size: 2.25rem;
+    --ws-text-5xl-line-height: 2.5rem;
+    --ws-text-6xl-font-size: 3rem;
+    --ws-text-6xl-line-height: 3rem;
+    --ws-text-7xl-font-size: 3.75rem;
+    --ws-text-7xl-line-height: 3.75rem;
+    --ws-text-8xl-font-size: 4.5rem;
+    --ws-text-8xl-line-height: 4.5rem;
+    --ws-text-9xl-font-size: 6rem;
+    --ws-text-9xl-line-height: 6rem;
+    --ws-spacing-xs: 0.25rem;
+    --ws-spacing-sm: 0.5rem;
+    --ws-spacing-base: 0.75rem;
+    --ws-spacing-lg: 1rem;
+    --ws-spacing-xl: 1.5rem;
+    --ws-spacing-2xl: 2rem;
+    --ws-spacing-3xl: 2.5rem;
+    --ws-spacing-4xl: 3rem;
+    --ws-spacing-5xl: 4rem;
+    --ws-spacing-6xl: 5rem;
+    --ws-spacing-7xl: 6rem;
+    --ws-spacing-8xl: 6rem;
+    --ws-spacing-9xl: 6rem;
+  /* <<< figma:responsive-base END <<< */
+}
+
+@media (min-width: 48rem) {
+  :root {
+    /* >>> figma:responsive-md START >>> */
+    --ws-text-xs-font-size: 0.75rem;
+    --ws-text-xs-line-height: 1rem;
+    --ws-text-sm-font-size: 0.875rem;
+    --ws-text-sm-line-height: 1.25rem;
+    --ws-text-base-font-size: 1rem;
+    --ws-text-base-line-height: 1.5rem;
+    --ws-text-lg-font-size: 1.125rem;
+    --ws-text-lg-line-height: 1.75rem;
+    --ws-text-xl-font-size: 1.25rem;
+    --ws-text-xl-line-height: 1.75rem;
+    --ws-text-2xl-font-size: 1.5rem;
+    --ws-text-2xl-line-height: 2rem;
+    --ws-text-3xl-font-size: 1.875rem;
+    --ws-text-3xl-line-height: 2.25rem;
+    --ws-text-4xl-font-size: 2.25rem;
+    --ws-text-4xl-line-height: 2.5rem;
+    --ws-text-5xl-font-size: 3rem;
+    --ws-text-5xl-line-height: 3rem;
+    --ws-text-6xl-font-size: 3.75rem;
+    --ws-text-6xl-line-height: 3.75rem;
+    --ws-text-7xl-font-size: 4.5rem;
+    --ws-text-7xl-line-height: 4.5rem;
+    --ws-text-8xl-font-size: 6rem;
+    --ws-text-8xl-line-height: 6rem;
+    --ws-text-9xl-font-size: 8rem;
+    --ws-text-9xl-line-height: 8rem;
+    --ws-spacing-xs: 0.25rem;
+    --ws-spacing-sm: 0.5rem;
+    --ws-spacing-base: 0.75rem;
+    --ws-spacing-lg: 1rem;
+    --ws-spacing-xl: 1.5rem;
+    --ws-spacing-2xl: 2rem;
+    --ws-spacing-3xl: 2.5rem;
+    --ws-spacing-4xl: 3rem;
+    --ws-spacing-5xl: 4rem;
+    --ws-spacing-6xl: 5rem;
+    --ws-spacing-7xl: 6rem;
+    --ws-spacing-8xl: 8rem;
+    --ws-spacing-9xl: 10rem;
+  /* <<< figma:responsive-md END <<< */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+/* Restore UA default: Tailwind utility classes (flex, grid…) would override
+   the browser's implicit `dialog:not([open]) { display: none }` rule because
+   authored @layer styles beat UA styles. Unlayered so it wins over @layer. */
+dialog:not([open]) {
+  display: none;
+}

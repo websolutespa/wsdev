@@ -1,0 +1,9 @@
+[
+  { "from": "--radix-([a-z-]+)-content-transform-origin", "to": "--transform-origin" },
+  { "from": "--radix-([a-z-]+)-content-available-height", "to": "--available-height" },
+  { "from": "--radix-([a-z-]+)-content-available-width", "to": "--available-width" },
+  { "from": "--radix-select-trigger-width", "to": "--anchor-width" },
+  { "from": "--radix-select-trigger-height", "to": "--anchor-height" },
+  { "from": "--radix-navigation-menu-viewport-width", "to": "--viewport-width" },
+  { "from": "--radix-navigation-menu-viewport-height", "to": "--viewport-height" }
+]

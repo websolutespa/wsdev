@@ -35,6 +35,9 @@ The monorepo includes the following packages and samples:
 |[liquid](samples/liquid/README.md)     |the basic Liquid sample      |[view demo](https://wsdev-liquid.vercel.app/)            |
 |[twig](samples/twig/README.md)         |the basic Twig sample        |[view demo](https://wsdev-twig.vercel.app/)              |
 |[tailwind](samples/tailwind/README.md) |the basic Tailwind sample    |[view demo](https://wsdev-tailwind.vercel.app/)          |
+|[wordpress](samples/wordpress/README.md) |the basic WordPress sample |🕣 todo                                                  |
+|[wordpress-tailwind](samples/wordpress-tailwind/README.md) |WordPress + Tailwind v4 + shadcn/ui ported to Twig |🕣 todo                                                  |
+|[drupal](samples/drupal/README.md)     |the basic Drupal sample      |🕣 todo                                                  |
 |`shopify`                              |the basic Shopify sample     |🕣 todo                                                  |
 |`react`                                |the basic React sample       |🕣 todo                                                  |
 

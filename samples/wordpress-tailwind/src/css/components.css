@@ -1,0 +1,6 @@
+/* ════════════════════════════════════════════════════════════
+   Per-component stylesheets — aggregator, imported once by globals.css.
+   Each entry pulls a component's own <name>.css (co-located at
+   src/templates/components/<tier>/<name>/) into the Tailwind graph.
+   Plain .css only — no .scss. Path is relative to src/css/.
+   ════════════════════════════════════════════════════════════ */
