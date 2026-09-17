@@ -203,7 +203,83 @@
       {
         "id": "overlays",
         "title": "Overlays",
-        "components": []
+        "components": [
+          {
+            "name": "dialog",
+            "title": "Dialog",
+            "description": "Finestra modale con overlay, focus trap e chiusura animata.",
+            "scenarios": [
+              "default",
+              "no-close-button",
+              "static"
+            ]
+          },
+          {
+            "name": "alert-dialog",
+            "title": "Alert Dialog",
+            "description": "Finestra modale di conferma per azioni distruttive o critiche.",
+            "scenarios": [
+              "default",
+              "destructive",
+              "size-sm",
+              "with-media"
+            ]
+          },
+          {
+            "name": "sheet",
+            "title": "Sheet",
+            "description": "Pannello laterale modale che scorre da uno dei quattro lati.",
+            "scenarios": [
+              "side-right",
+              "side-left",
+              "side-top",
+              "side-bottom"
+            ]
+          },
+          {
+            "name": "drawer",
+            "title": "Drawer",
+            "description": "Pannello modale in stile bottom-sheet, con maniglia di trascinamento.",
+            "scenarios": [
+              "direction-bottom",
+              "direction-top",
+              "direction-right",
+              "direction-left"
+            ]
+          },
+          {
+            "name": "popover",
+            "title": "Popover",
+            "description": "Pannello non modale ancorato a un trigger.",
+            "scenarios": [
+              "default",
+              "align-start",
+              "align-end",
+              "side-top"
+            ]
+          },
+          {
+            "name": "tooltip",
+            "title": "Tooltip",
+            "description": "Etichetta informativa mostrata al passaggio o al focus.",
+            "scenarios": [
+              "default",
+              "side-right",
+              "side-bottom",
+              "side-left"
+            ]
+          },
+          {
+            "name": "hover-card",
+            "title": "Hover Card",
+            "description": "Anteprima ricca di contenuto mostrata al passaggio del mouse.",
+            "scenarios": [
+              "default",
+              "side-top",
+              "align-start"
+            ]
+          }
+        ]
       },
       {
         "id": "navigation",

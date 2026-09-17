@@ -1,0 +1,82 @@
+{#
+  Params:
+  - direction?: 'top'|'right'|'bottom'|'left' as string (default: 'bottom')
+  - title?: String — rendered in drawer-title (wired to aria-labelledby at module init); strongly recommended
+  - description?: String — rendered in drawer-description (aria-describedby)
+  - triggerLabel?: String — renders a default outline button trigger; override via block trigger;
+                            omit both to open externally via [data-dialog-open="<id>"]
+  - static?: Boolean (default: false) — disables backdrop-click light dismiss (ESC still closes)
+  - id?: String — required when targeted externally or when multiple drawers share a page
+  - class?: String — extra classes on drawer-content; additive only
+  - attrs?: String — raw extra attributes on the drawer-content, trusted input only
+  - blocks: trigger, header, body, footer
+    footer convention: <div data-slot="drawer-footer" class="mt-auto flex flex-col gap-2 p-4">
+                        + button includes with attrs: 'data-dialog-close'
+
+  Reuses data-module="dialog.module" (shared overlay-family module): native
+  <dialog> + showModal() provides focus trap, ESC, inert background and top
+  layer. Hooks are the dialog ones: [data-dialog-trigger], [data-dialog-close],
+  [data-dialog-open="<id>"], CustomEvents 'dialog:open'/'dialog:close'.
+
+  Documented port adaptations vs upstream drawer.tsx (vaul, no equivalent
+  drag-gesture library on this platform):
+  - `data-[vaul-drawer-direction=x]` / `group-data-[vaul-drawer-direction=x]/drawer-content`
+    selectors → `data-[direction=x]` / `group-data-[direction=x]/drawer-content`, driven by
+    the static `data-direction` attribute set here in Twig (the shared module only
+    sets data-state at runtime). See scripts/upstream-exceptions.json ("drawer").
+  - vaul's transform/drag-based motion → sheet-style tw-animate slide-in/out
+    classes per side (approximation; vaul has no enter/exit keyframes to copy).
+  - Overlay div → backdrop:bg-black/50 utilities on <dialog>.
+  - Native <dialog> UA-style resets: m-0 w-full max-w-none max-h-none border-0
+    p-0 text-foreground outline-none (side variants re-override width/max-w/
+    max-h/border) — see sheet.twig for the full UA-stylesheet rationale.
+  - No drag-to-dismiss (vaul's swipe gesture): out of scope without a drag
+    library; the drawer dismisses via backdrop click, ESC and
+    [data-dialog-close] buttons only. Documented follow-up.
+  - Grab handle rendered only when direction == 'bottom' (upstream keeps it in
+    the DOM always, hidden via a group-data display class); its class is kept
+    byte-identical modulo the data-direction adaptation.
+#}
+{% set direction = direction|default('bottom') %}
+
+{% set drawer_slide = {
+  'top': 'data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top',
+  'right': 'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right',
+  'bottom': 'data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom',
+  'left': 'data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left'
+} %}
+
+<div data-slot="drawer" data-module="dialog.module"{% if id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-dialog-trigger'
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <dialog data-slot="drawer-content" data-state="closed" data-direction="{{ direction }}"{% if static %} data-static{% endif %}
+    class="group/drawer-content fixed z-50 flex h-auto flex-col bg-background data-[direction=top]:inset-x-0 data-[direction=top]:top-0 data-[direction=top]:mb-24 data-[direction=top]:max-h-[80vh] data-[direction=top]:rounded-b-lg data-[direction=top]:border-b data-[direction=bottom]:inset-x-0 data-[direction=bottom]:bottom-0 data-[direction=bottom]:mt-24 data-[direction=bottom]:max-h-[80vh] data-[direction=bottom]:rounded-t-lg data-[direction=bottom]:border-t data-[direction=right]:inset-y-0 data-[direction=right]:right-0 data-[direction=right]:w-3/4 data-[direction=right]:border-l data-[direction=right]:sm:max-w-sm data-[direction=left]:inset-y-0 data-[direction=left]:left-0 data-[direction=left]:w-3/4 data-[direction=left]:border-r data-[direction=left]:sm:max-w-sm m-0 w-full max-w-none max-h-none border-0 p-0 text-foreground outline-none transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500 {{ drawer_slide[direction] }} backdrop:bg-black/50{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+
+    {% if direction == 'bottom' %}
+    <div class="mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[direction=bottom]/drawer-content:block"></div>
+    {% endif %}
+
+    {% block header %}
+      {% if title or description %}
+      <div data-slot="drawer-header" class="flex flex-col gap-0.5 p-4 group-data-[direction=bottom]/drawer-content:text-center group-data-[direction=top]/drawer-content:text-center md:gap-1.5 md:text-left">
+        {% if title %}<h2 data-slot="drawer-title" class="font-semibold text-foreground">{{ title }}</h2>{% endif %}
+        {% if description %}<p data-slot="drawer-description" class="text-sm text-muted-foreground">{{ description }}</p>{% endif %}
+      </div>
+      {% endif %}
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+  </dialog>
+</div>

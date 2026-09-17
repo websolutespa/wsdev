@@ -1,0 +1,25 @@
+{
+  "mocks": {
+    "tooltip": {
+      "default": {
+        "text": "Aggiungi ai preferiti",
+        "triggerLabel": "Passa qui sopra (in alto)"
+      },
+      "side-right": {
+        "text": "Duplica elemento",
+        "side": "right",
+        "triggerLabel": "Passa qui sopra (a destra)"
+      },
+      "side-bottom": {
+        "text": "Rimuovi dalla lista",
+        "side": "bottom",
+        "triggerLabel": "Passa qui sopra (in basso)"
+      },
+      "side-left": {
+        "text": "Condividi contenuto",
+        "side": "left",
+        "triggerLabel": "Passa qui sopra (a sinistra)"
+      }
+    }
+  }
+}

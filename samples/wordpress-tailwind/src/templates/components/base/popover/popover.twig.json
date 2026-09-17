@@ -1,0 +1,29 @@
+{
+  "mocks": {
+    "popover": {
+      "default": {
+        "title": "Dimensioni",
+        "text": "Imposta le dimensioni del livello per il layer selezionato.",
+        "triggerLabel": "Apri impostazioni"
+      },
+      "align-start": {
+        "title": "Filtro rapido",
+        "text": "Applica un filtro alla colonna selezionata.",
+        "align": "start",
+        "triggerLabel": "Apri filtro (allineato a inizio)"
+      },
+      "align-end": {
+        "title": "Azioni",
+        "text": "Scegli un'azione da applicare all'elemento.",
+        "align": "end",
+        "triggerLabel": "Apri azioni (allineato a fine)"
+      },
+      "side-top": {
+        "title": "Anteprima",
+        "text": "Passa il mouse per vedere un'anteprima del contenuto.",
+        "side": "top",
+        "triggerLabel": "Apri anteprima (sopra)"
+      }
+    }
+  }
+}

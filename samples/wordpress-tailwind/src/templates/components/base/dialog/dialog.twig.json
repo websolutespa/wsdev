@@ -1,0 +1,23 @@
+{
+  "mocks": {
+    "dialog": {
+      "default": {
+        "title": "Modifica profilo",
+        "description": "Aggiorna le informazioni del tuo profilo. Clicca su salva quando hai finito.",
+        "triggerLabel": "Apri finestra di dialogo"
+      },
+      "no-close-button": {
+        "title": "Operazione in corso",
+        "description": "Attendi il completamento dell'elaborazione, questa finestra si chiuderà automaticamente.",
+        "showCloseButton": false,
+        "triggerLabel": "Apri senza pulsante di chiusura"
+      },
+      "static": {
+        "title": "Conferma richiesta",
+        "description": "Il click sullo sfondo non chiude questa finestra: usa Esc o il pulsante di chiusura.",
+        "static": true,
+        "triggerLabel": "Apri finestra statica"
+      }
+    }
+  }
+}

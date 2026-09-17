@@ -1,0 +1,91 @@
+{#
+  Params:
+  - side?: 'top'|'right'|'bottom'|'left' as string (default: 'right')
+  - title?: String — rendered in sheet-title (wired to aria-labelledby at runtime); strongly recommended
+  - description?: String — rendered in sheet-description (aria-describedby)
+  - triggerLabel?: String — renders a default outline button trigger; override via block trigger;
+                            omit both to open externally via [data-dialog-open="<id>"]
+  - showCloseButton?: Boolean (default: true)
+  - static?: Boolean (default: false) — disables backdrop-click light dismiss (ESC still closes)
+  - id?: String — required when targeted externally or when multiple sheets share a page
+  - class?: String — extra classes on sheet-content; additive only
+  - attrs?: String — raw extra attributes on the sheet-content, trusted input only
+  - blocks: trigger, header, body, footer
+    footer convention: <div data-slot="sheet-footer" class="mt-auto flex flex-col gap-2 p-4">
+                        + button includes with attrs: 'data-dialog-close'
+
+  Reuses data-module="dialog.module" (native <dialog> + showModal covers sheet
+  behavior 1:1 — no separate module needed).
+
+  Port adaptation — native <dialog> UA-stylesheet resets (upstream renders a
+  plain portaled div, which has none of these constraints): the UA stylesheet
+  pins modal dialogs on every axis (inset-inline:0 + inset-block:0), sizes them
+  width/height:fit-content, caps max-width/max-height to the viewport and forces
+  color:CanvasText. `m-0 max-w-none max-h-none text-foreground` neutralize
+  centering/sizing and restore the theme text color. Each side also resets the
+  OPPOSITE UA inset to auto: with margin 0 the over-constrained abs-pos
+  resolution ignores `right` in LTR (a right sheet would pin to the LEFT edge)
+  and `h-auto` with both block insets at 0 resolves to full viewport height (a
+  top/bottom sheet would stretch over the whole screen); top/bottom also need
+  `w-auto` so inset-x-0 stretches the panel full width past the UA
+  width:fit-content. Radix overlay div → `backdrop:bg-black/50` on <dialog>
+  (see scripts/upstream-exceptions.json "sheet").
+#}
+{% set showCloseButton = showCloseButton is defined ? showCloseButton : true %}
+{% set side = side|default('right') %}
+
+{% set sheet_base = 'fixed z-50 flex flex-col gap-4 bg-background shadow-lg transition ease-in-out data-[state=closed]:animate-out data-[state=closed]:duration-300 data-[state=open]:animate-in data-[state=open]:duration-500' %}
+
+{% set sheet_sides = {
+  'right': 'inset-y-0 right-0 h-full w-3/4 border-l data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right sm:max-w-sm',
+  'left': 'inset-y-0 left-0 h-full w-3/4 border-r data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left sm:max-w-sm',
+  'top': 'inset-x-0 top-0 h-auto border-b data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top',
+  'bottom': 'inset-x-0 bottom-0 h-auto border-t data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom'
+} %}
+
+{% set sheet_dialog_reset = 'm-0 max-w-none max-h-none text-foreground' %}
+{% set sheet_side_reset = {
+  'right': 'left-auto',
+  'left': 'right-auto',
+  'top': 'bottom-auto w-auto',
+  'bottom': 'top-auto w-auto'
+} %}
+
+<div data-slot="sheet" data-module="dialog.module"{% if id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-dialog-trigger'
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <dialog data-slot="sheet-content" data-state="closed"{% if static %} data-static{% endif %}
+    class="{{ sheet_base }} {{ sheet_sides[side] }} {{ sheet_dialog_reset }} {{ sheet_side_reset[side] }} backdrop:bg-black/50{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+
+    {% block header %}
+      {% if title or description %}
+      <div data-slot="sheet-header" class="flex flex-col gap-1.5 p-4">
+        {% if title %}<h2 data-slot="sheet-title" class="font-semibold text-foreground">{{ title }}</h2>{% endif %}
+        {% if description %}<p data-slot="sheet-description" class="text-sm text-muted-foreground">{{ description }}</p>{% endif %}
+      </div>
+      {% endif %}
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+
+    {% if showCloseButton %}
+    <button type="button" data-slot="sheet-close" data-dialog-close
+      class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-secondary">
+      <svg class="size-4" aria-hidden="true"><use href="#icon-x"></use></svg>
+      <span class="sr-only">Chiudi</span>
+    </button>
+    {% endif %}
+  </dialog>
+</div>

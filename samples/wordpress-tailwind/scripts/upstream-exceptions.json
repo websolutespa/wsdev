@@ -233,6 +233,95 @@
         "source": "port",
         "note": "Upstream combobox is Base UI (not a new-york-v4 Radix primitive); the Twig port composes input-group + floating.js with its own module, so upstream classes are not comparable 1:1."
       }
+    ],
+    "dialog": [
+      {
+        "from": "inset-0",
+        "to": null,
+        "source": "port",
+        "note": "Radix's Overlay div has no host on this platform: the native <dialog> ::backdrop pseudo-element already covers the full viewport via the UA default stylesheet (position:fixed; inset:0), so the overlay's own inset-0 has nothing to attach to."
+      },
+      {
+        "from": "bg-black/50",
+        "to": "backdrop:bg-black/50",
+        "source": "port",
+        "note": "The overlay div itself does not exist (no Portal/Radix runtime); its background color becomes a `backdrop:` utility on the native <dialog>. The overlay fade classes are dropped from the backdrop — the panel keeps its own (unprefixed) fade/zoom, per PORTING.md Adaptation table (\"dialog overlay <div> -> backdrop: utilities on <dialog>\")."
+      }
+    ],
+    "alert-dialog": [
+      {
+        "from": "inset-0",
+        "to": null,
+        "source": "port",
+        "note": "Radix's Overlay div has no host on this platform: the native <dialog> ::backdrop pseudo-element already covers the full viewport via the UA default stylesheet (position:fixed; inset:0), so the overlay's own inset-0 has nothing to attach to."
+      },
+      {
+        "from": "bg-black/50",
+        "to": "backdrop:bg-black/50",
+        "source": "port",
+        "note": "The overlay div itself does not exist (no Portal/Radix runtime); its background color becomes a `backdrop:` utility on the native <dialog>. The overlay fade classes are dropped from the backdrop — the panel keeps its own (unprefixed) fade/zoom, per PORTING.md Adaptation table (\"dialog overlay <div> -> backdrop: utilities on <dialog>\")."
+      }
+    ],
+    "sheet": [
+      {
+        "from": "inset-0",
+        "to": null,
+        "source": "port",
+        "note": "Radix's Overlay div has no host on this platform: the native <dialog> ::backdrop pseudo-element already covers the full viewport via the UA default stylesheet (position:fixed; inset:0), so the overlay's own inset-0 has nothing to attach to."
+      },
+      {
+        "from": "bg-black/50",
+        "to": "backdrop:bg-black/50",
+        "source": "port",
+        "note": "The overlay div itself does not exist (no Portal/Radix runtime); its background color becomes a `backdrop:` utility on the native <dialog>. The overlay fade classes are dropped from the backdrop — the panel keeps its own (unprefixed) fade/zoom, per PORTING.md Adaptation table (\"dialog overlay <div> -> backdrop: utilities on <dialog>\")."
+      },
+      {
+        "from": "data-[state=open]:fade-in-0",
+        "to": null,
+        "source": "port",
+        "note": "The overlay div does not exist; its fade-in/out classes are dropped rather than replayed on the panel (which already animates via slide-in/out) to avoid a mismatched double-animation. Only the overlay color is kept, as backdrop:bg-black/50."
+      },
+      {
+        "from": "data-[state=closed]:fade-out-0",
+        "to": null,
+        "source": "port",
+        "note": "The overlay div does not exist; its fade-in/out classes are dropped rather than replayed on the panel (which already animates via slide-in/out) to avoid a mismatched double-animation. Only the overlay color is kept, as backdrop:bg-black/50."
+      }
+    ],
+    "drawer": [
+      {
+        "from": "inset-0",
+        "to": null,
+        "source": "port",
+        "note": "Radix's Overlay div has no host on this platform: the native <dialog> ::backdrop pseudo-element already covers the full viewport via the UA default stylesheet (position:fixed; inset:0), so the overlay's own inset-0 has nothing to attach to."
+      },
+      {
+        "from": "bg-black/50",
+        "to": "backdrop:bg-black/50",
+        "source": "port",
+        "note": "The overlay div itself does not exist (no Portal/Radix runtime); its background color becomes a `backdrop:` utility on the native <dialog>. The overlay fade classes are dropped from the backdrop — the panel keeps its own (unprefixed) fade/zoom, per PORTING.md Adaptation table (\"dialog overlay <div> -> backdrop: utilities on <dialog>\")."
+      },
+      {
+        "from": "data-[state=open]:fade-in-0",
+        "to": null,
+        "source": "port",
+        "note": "The overlay div does not exist; its fade-in/out classes are dropped rather than replayed on the panel (which already animates via slide-in/out) to avoid a mismatched double-animation. Only the overlay color is kept, as backdrop:bg-black/50."
+      },
+      {
+        "from": "data-[state=closed]:fade-out-0",
+        "to": null,
+        "source": "port",
+        "note": "The overlay div does not exist; its fade-in/out classes are dropped rather than replayed on the panel (which already animates via slide-in/out) to avoid a mismatched double-animation. Only the overlay color is kept, as backdrop:bg-black/50."
+      }
+    ],
+    "tooltip": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-xl",
+        "source": "figma",
+        "node": "17089:47311",
+        "note": "Figma kit measures a 14px corner radius on every sampled side (bound token border-radius/rounded-xl); replaces upstream's rounded-md (6px). Padding (spacing/3 + spacing/1-5 = px-3 py-1.5) and text (12/16 = text-xs) already match upstream verbatim, no override needed there."
+      }
     ]
   }
 }

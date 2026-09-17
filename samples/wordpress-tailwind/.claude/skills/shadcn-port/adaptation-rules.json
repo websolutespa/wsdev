@@ -5,5 +5,7 @@
   { "from": "--radix-select-trigger-width", "to": "--anchor-width" },
   { "from": "--radix-select-trigger-height", "to": "--anchor-height" },
   { "from": "--radix-navigation-menu-viewport-width", "to": "--viewport-width" },
-  { "from": "--radix-navigation-menu-viewport-height", "to": "--viewport-height" }
+  { "from": "--radix-navigation-menu-viewport-height", "to": "--viewport-height" },
+  { "from": "data-\\[vaul-drawer-direction=([a-z]+)\\]", "to": "data-[direction=$1]" },
+  { "from": "group-data-\\[vaul-drawer-direction=([a-z]+)\\]", "to": "group-data-[direction=$1]" }
 ]

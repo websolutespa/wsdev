@@ -1,0 +1,79 @@
+{#
+  Params:
+  - title?: String — rendered in alert-dialog-title (wired to aria-labelledby by dialog.module)
+  - description?: String — rendered in alert-dialog-description (aria-describedby)
+  - icon?: String — sprite icon name rendered in the optional alert-dialog-media slot
+  - cancelLabel?: String (default: 'Annulla') — [data-dialog-close][data-alertdialog-cancel] button label
+  - actionLabel?: String (default: 'Continua') — [data-dialog-close][data-alertdialog-action] button label
+  - destructive?: Boolean (default: false) — action button uses variant 'destructive'
+  - size?: 'default'|'sm' as string (default: 'default') — data-size on alert-dialog-content
+  - triggerLabel?: String — renders a default outline button trigger; override via block trigger;
+                            omit both to open externally via [data-dialog-open="<id>"]
+  - id?: String — required when targeted externally or when multiple alert dialogs share a page
+  - class?: String — extra classes on alert-dialog-content; additive only
+  - attrs?: String — raw extra attributes on the alert-dialog-content, trusted input only
+  - blocks: trigger, media, header, body, footer
+
+  Reuses data-module="dialog.module": `data-static` disables backdrop-click and
+  removes light dismiss (WAI-ARIA alertdialog pattern — ESC still closes). No ✕
+  close button (upstream AlertDialogContent has none); dismissal is only via the
+  footer's Cancel/Action buttons (both carry [data-dialog-close]) or ESC.
+  Consumers listen for clicks on [data-alertdialog-action] to run the confirmed
+  action before the dialog closes.
+
+  Port adaptation: same native-<dialog> resets as dialog.twig (m-0, text-foreground,
+  backdrop:bg-black/50 replacing the missing Radix overlay) — see
+  scripts/upstream-exceptions.json ("alert-dialog").
+#}
+{% set size = size|default('default') %}
+
+<div data-slot="alert-dialog" data-module="dialog.module"{% if id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-dialog-trigger'
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <dialog role="alertdialog" data-slot="alert-dialog-content" data-size="{{ size }}" data-static data-state="closed"
+    class="group/alert-dialog-content fixed top-[50%] left-[50%] z-50 m-0 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background text-foreground p-6 shadow-lg duration-200 data-[size=sm]:max-w-xs data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[size=default]:sm:max-w-lg backdrop:bg-black/50{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+
+    {% block header %}
+      {% if title or description or icon %}
+      <div data-slot="alert-dialog-header" class="grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-6 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]">
+        {% block media %}
+          {% if icon %}
+          <div data-slot="alert-dialog-media" class="mb-2 inline-flex size-16 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8">
+            <svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>
+          </div>
+          {% endif %}
+        {% endblock %}
+        {% if title %}<h2 data-slot="alert-dialog-title" class="text-lg font-semibold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2">{{ title }}</h2>{% endif %}
+        {% if description %}<p data-slot="alert-dialog-description" class="text-sm text-muted-foreground">{{ description }}</p>{% endif %}
+      </div>
+      {% endif %}
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+
+    {% block footer %}
+      <div data-slot="alert-dialog-footer" class="flex flex-col-reverse gap-2 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end">
+        {% include '@components/base/button/button.twig' with {
+          label: cancelLabel|default('Annulla'),
+          variant: 'outline',
+          attrs: 'data-dialog-close data-alertdialog-cancel'
+        } only %}
+        {% include '@components/base/button/button.twig' with {
+          label: actionLabel|default('Continua'),
+          variant: destructive|default(false) ? 'destructive' : 'default',
+          attrs: 'data-dialog-close data-alertdialog-action'
+        } only %}
+      </div>
+    {% endblock %}
+  </dialog>
+</div>

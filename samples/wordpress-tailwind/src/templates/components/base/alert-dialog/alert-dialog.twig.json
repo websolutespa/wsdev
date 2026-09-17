@@ -1,0 +1,36 @@
+{
+  "mocks": {
+    "alert-dialog": {
+      "default": {
+        "title": "Sei assolutamente sicuro?",
+        "description": "Questa azione non può essere annullata. L'account verrà eliminato definitivamente dai nostri server.",
+        "cancelLabel": "Annulla",
+        "actionLabel": "Continua",
+        "triggerLabel": "Elimina account"
+      },
+      "destructive": {
+        "title": "Elimina 3 elementi",
+        "description": "Gli elementi selezionati verranno rimossi in modo permanente e non potranno essere recuperati.",
+        "destructive": true,
+        "cancelLabel": "Annulla",
+        "actionLabel": "Elimina",
+        "triggerLabel": "Elimina elementi selezionati"
+      },
+      "size-sm": {
+        "title": "Uscire senza salvare?",
+        "size": "sm",
+        "cancelLabel": "Annulla",
+        "actionLabel": "Esci",
+        "triggerLabel": "Chiudi editor"
+      },
+      "with-media": {
+        "title": "Connessione persa",
+        "description": "Controlla la tua connessione a internet e riprova.",
+        "icon": "triangle-alert",
+        "cancelLabel": "Annulla",
+        "actionLabel": "Riprova",
+        "triggerLabel": "Apri con icona"
+      }
+    }
+  }
+}

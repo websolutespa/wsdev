@@ -1,0 +1,30 @@
+{
+  "mocks": {
+    "drawer": {
+      "direction-bottom": {
+        "direction": "bottom",
+        "title": "Sposta obiettivo",
+        "description": "Imposta il tuo obiettivo giornaliero di attività.",
+        "triggerLabel": "Apri drawer dal basso"
+      },
+      "direction-top": {
+        "direction": "top",
+        "title": "Nuovo annuncio",
+        "description": "Leggi le novità di questa versione.",
+        "triggerLabel": "Apri drawer dall'alto"
+      },
+      "direction-right": {
+        "direction": "right",
+        "title": "Dettagli ordine",
+        "description": "Riepilogo dell'ordine #4821.",
+        "triggerLabel": "Apri drawer da destra"
+      },
+      "direction-left": {
+        "direction": "left",
+        "title": "Filtri",
+        "description": "Affina la ricerca per categoria e prezzo.",
+        "triggerLabel": "Apri drawer da sinistra"
+      }
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "mocks": {
+    "hover-card": {
+      "default": {
+        "triggerLabel": "@websolute",
+        "triggerUrl": "#",
+        "title": "Websolute",
+        "text": "Digital company che progetta e sviluppa prodotti digitali dal 1996.",
+        "meta": "Iscritta a settembre 2020"
+      },
+      "side-top": {
+        "triggerLabel": "@mrossi",
+        "triggerUrl": "#",
+        "title": "Mario Rossi",
+        "text": "Front-end developer, appassionato di accessibilità e design system.",
+        "side": "top"
+      },
+      "align-start": {
+        "triggerLabel": "@redazione",
+        "triggerUrl": "#",
+        "title": "Redazione",
+        "text": "Notizie e aggiornamenti dal team editoriale.",
+        "align": "start"
+      }
+    }
+  }
+}

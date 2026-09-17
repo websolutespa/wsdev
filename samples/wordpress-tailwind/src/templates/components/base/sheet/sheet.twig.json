@@ -1,0 +1,30 @@
+{
+  "mocks": {
+    "sheet": {
+      "side-right": {
+        "side": "right",
+        "title": "Modifica profilo",
+        "description": "Aggiorna le informazioni del tuo profilo. Clicca su salva quando hai finito.",
+        "triggerLabel": "Apri pannello da destra"
+      },
+      "side-left": {
+        "side": "left",
+        "title": "Menu di navigazione",
+        "description": "Scegli una sezione del sito.",
+        "triggerLabel": "Apri pannello da sinistra"
+      },
+      "side-top": {
+        "side": "top",
+        "title": "Notifiche",
+        "description": "Hai 3 nuove notifiche da leggere.",
+        "triggerLabel": "Apri pannello dall'alto"
+      },
+      "side-bottom": {
+        "side": "bottom",
+        "title": "Filtra risultati",
+        "description": "Restringi la ricerca in base alle tue preferenze.",
+        "triggerLabel": "Apri pannello dal basso"
+      }
+    }
+  }
+}

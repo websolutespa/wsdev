@@ -103,6 +103,7 @@ table below, a Figma override, or a port exception. Do not invent or
 | lucide `<XIcon />` JSX | sprite `<svg aria-hidden="true"><use href="#icon-x"></use></svg>` | icon sprite |
 | Radix Portal wrappers | none needed (top layer / DOM position) | — |
 | dialog overlay `<div>` | `backdrop:` utilities on `<dialog>` | see `dialog.twig` |
+| `data-[vaul-drawer-direction=x]` / `group-data-[vaul-drawer-direction=x]/drawer-content` | `data-[direction=x]` / `group-data-[direction=x]/drawer-content` | `drawer.twig` sets the static `data-direction` attribute (no drag library on this platform, see ADR 0002) |
 
 Everything else — `data-state="open|closed|active|on|off|checked"`, `data-side`,
 `data-align`, `data-inset`, `data-disabled`, `group-*`, `peer-*` — stays

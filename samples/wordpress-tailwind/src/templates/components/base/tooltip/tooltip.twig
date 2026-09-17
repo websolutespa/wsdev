@@ -1,0 +1,44 @@
+{#
+  Params:
+  - text: String (required) — tooltip content
+  - side?: 'top'|'right'|'bottom'|'left' as string (default: 'top')
+  - align?: 'start'|'center'|'end' as string (default: 'center')
+  - sideOffset?: Number — distance trigger→panel in px (default: 0)
+  - delay?: Number — open delay in ms for hover/focus (default: 700, upstream delayDuration)
+  - triggerLabel?: String — renders a default outline button trigger; override via block trigger
+                            and mark your own trigger element with data-tooltip-trigger
+  - id?: String
+  - class?: String — extra classes on tooltip-content; additive only
+  - blocks: trigger
+
+  JS module (data-module="tooltip.module"): hover/focus opens after `delay`,
+  closes on leave/blur/ESC; role="tooltip", aria-describedby wired at runtime;
+  never steals focus. Emits 'tooltip:shown' / 'tooltip:hidden' (bubbles: true).
+
+  Figma kit override (tokens/figma-components/tooltip.json, node 17089:47311):
+  measured corner radius 14px (bound token border-radius/rounded-xl) → rounded-md
+  replaced with rounded-xl. Padding (spacing/3 + spacing/1-5 = px-3 py-1.5) and
+  text (text-xs) already match upstream, no override needed. See
+  scripts/upstream-exceptions.json ("tooltip").
+#}
+
+<span data-slot="tooltip" data-module="tooltip.module" class="contents"{% if id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-tooltip-trigger'
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <div role="tooltip" data-slot="tooltip-content" hidden data-state="closed"
+    data-side="{{ side|default('top') }}" data-align="{{ align|default('center') }}"
+    data-side-offset="{{ sideOffset|default(0) }}" data-delay="{{ delay|default(700) }}"
+    class="z-50 w-fit origin-(--transform-origin) animate-in rounded-xl bg-foreground px-3 py-1.5 text-xs text-balance text-background fade-in-0 zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95{% if class is defined and class %} {{ class }}{% endif %}">
+    {{ text }}
+    <span data-slot="tooltip-arrow" class="z-50 size-2.5 translate-y-[calc(-50%_-_2px)] rotate-45 rounded-[2px] bg-foreground fill-foreground"></span>
+  </div>
+</span>

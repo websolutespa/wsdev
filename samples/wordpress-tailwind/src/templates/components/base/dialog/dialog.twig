@@ -1,0 +1,70 @@
+{#
+  Params:
+  - title?: String — rendered in dialog-title (wired to aria-labelledby at runtime by dialog.module)
+  - description?: String — rendered in dialog-description (aria-describedby)
+  - triggerLabel?: String — renders a default outline button trigger; override via block trigger;
+                            omit both to open externally via [data-dialog-open="<id>"]
+  - showCloseButton?: Boolean (default: true)
+  - static?: Boolean (default: false) — disables backdrop-click light dismiss (ESC still closes)
+  - id?: String — required when targeted externally (data-dialog-open) or when multiple dialogs share a page
+  - class?: String — extra classes on dialog-content; additive only
+  - attrs?: String — raw extra attributes on the dialog-content, trusted input only
+  - blocks: trigger, header, body, footer
+    footer convention: <div data-slot="dialog-footer" class="flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                        + button includes with attrs: 'data-dialog-close'
+
+  JS module (data-module="dialog.module", shared by dialog/alert-dialog/sheet/drawer):
+    consumes  CustomEvent 'dialog:open' / 'dialog:close' dispatched on the root
+    emits     CustomEvent 'dialog:opened' / 'dialog:closed' (bubbles) on the root
+    hooks     [data-dialog-trigger] (inside root), [data-dialog-close] (inside <dialog>),
+              [data-dialog-open="<id>"] (anywhere in the page, requires id)
+
+  Port adaptation (no Radix Portal/Overlay available — see PORTING.md Adaptation table):
+  Radix's DialogOverlay div does not exist; its "bg-black/50" token becomes a
+  `backdrop:` utility on the native <dialog> itself (its "fixed inset-0 z-50" tokens
+  are redundant — the UA ::backdrop pseudo-element already covers the full viewport).
+  Native <dialog> UA-stylesheet resets: `m-0` (UA centers modal dialogs with
+  margin:auto, which fights the translate-x/-y centering) and `text-foreground`
+  (UA sets color:CanvasText on <dialog>, upstream's plain div relies on inherited
+  body color). See scripts/upstream-exceptions.json ("dialog").
+#}
+{% set showCloseButton = showCloseButton is defined ? showCloseButton : true %}
+
+<div data-slot="dialog" data-module="dialog.module"{% if id %} id="{{ id }}"{% endif %}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-dialog-trigger'
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <dialog data-slot="dialog-content" data-state="closed"{% if static %} data-static{% endif %}
+    class="fixed top-[50%] left-[50%] z-50 m-0 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border bg-background text-foreground p-6 shadow-lg duration-200 outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 sm:max-w-lg backdrop:bg-black/50{% if class is defined and class %} {{ class }}{% endif %}"
+    {{ attrs|default('')|raw }}>
+
+    {% block header %}
+      {% if title or description %}
+      <div data-slot="dialog-header" class="flex flex-col gap-2 text-center sm:text-left">
+        {% if title %}<h2 data-slot="dialog-title" class="text-lg leading-none font-semibold">{{ title }}</h2>{% endif %}
+        {% if description %}<p data-slot="dialog-description" class="text-sm text-muted-foreground">{{ description }}</p>{% endif %}
+      </div>
+      {% endif %}
+    {% endblock %}
+
+    {% block body %}{% endblock %}
+
+    {% block footer %}{% endblock %}
+
+    {% if showCloseButton %}
+    <button type="button" data-slot="dialog-close" data-dialog-close
+      class="absolute top-4 right-4 rounded-xs opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:outline-hidden disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+      <svg aria-hidden="true"><use href="#icon-x"></use></svg>
+      <span class="sr-only">Chiudi</span>
+    </button>
+    {% endif %}
+  </dialog>
+</div>

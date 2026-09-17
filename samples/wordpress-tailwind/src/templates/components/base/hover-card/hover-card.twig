@@ -1,0 +1,48 @@
+{#
+  Params:
+  - triggerLabel?: String — text of the default link trigger; omit and override block trigger for custom triggers
+  - triggerUrl?: String — href of the default link trigger (default: '#')
+  - title?: String — heading of the default content layout
+  - text?: String — body paragraph of the default content layout
+  - meta?: String — muted footnote line of the default content layout
+  - openDelay?: Number — ms before opening on hover/focus (default: 700)
+  - closeDelay?: Number — ms before closing after leaving trigger AND panel (default: 300)
+  - side?: 'top'|'right'|'bottom'|'left' as string (default: 'bottom')
+  - align?: 'start'|'center'|'end' as string (default: 'center')
+  - sideOffset?: Number — px distance trigger→panel (default: 4)
+  - id?: String
+  - class?: String — extra classes on hover-card-content; additive only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - blocks: trigger (keep data-slot="hover-card-trigger" on the interactive element), content
+
+  JS module (data-module="hover-card.module"): pointer-only open/close delays
+  (openDelay/closeDelay), no focus trap, dismiss on ESC. Keyboard reach via
+  focusin/focusout on the whole component (no aria-haspopup/aria-expanded on
+  the trigger — Radix parity: hover cards are a sighted-pointer enhancement).
+#}
+{% set openDelay = openDelay is defined ? openDelay : 700 %}
+{% set closeDelay = closeDelay is defined ? closeDelay : 300 %}
+
+<div data-slot="hover-card" data-module="hover-card.module"
+  data-open-delay="{{ openDelay }}" data-close-delay="{{ closeDelay }}"
+  data-side="{{ side|default('bottom') }}" data-align="{{ align|default('center') }}"
+  data-side-offset="{{ sideOffset|default(4) }}"
+  {%- if id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      <a data-slot="hover-card-trigger" data-state="closed" href="{{ triggerUrl|default('#') }}">{{ triggerLabel }}</a>
+    {% endif %}
+  {% endblock %}
+
+  <div data-slot="hover-card-content" data-state="closed" hidden
+    class="z-50 w-64 origin-(--transform-origin) rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95{% if class is defined and class %} {{ class }}{% endif %}">
+    {% block content %}
+      <div class="space-y-1">
+        {% if title %}<h4 class="text-sm font-semibold">{{ title }}</h4>{% endif %}
+        {% if text %}<p class="text-sm">{{ text }}</p>{% endif %}
+        {% if meta %}<div class="text-xs text-muted-foreground">{{ meta }}</div>{% endif %}
+      </div>
+    {% endblock %}
+  </div>
+</div>
