@@ -1,0 +1,90 @@
+{#
+  @composition — not a shadcn registry item: popover + button + calendar wired together,
+  the way upstream's Date Picker example composes them. No upstream class map exists,
+  so every class here comes from the three components it embeds.
+
+  Params:
+  - name?: String — when set, a hidden input mirrors the selection (comma-joined ISO dates)
+  - label?: String — visible label above the trigger
+  - placeholder?: String (default: 'Seleziona una data') — trigger text while empty
+  - mode?: 'single'|'range' as string (default: 'single')
+  - value?: String|Array<String> — preselected ISO date(s); range takes [start, end]
+  - min?: String — ISO date, earliest selectable day
+  - max?: String — ISO date, latest selectable day
+  - locale?: String — BCP 47 tag (default: 'it-IT')
+  - numberOfMonths?: Number 1..12 as int (default: 1)
+  - captionLayout?: 'label'|'dropdown' as string (default: 'label')
+  - side?: 'top'|'right'|'bottom'|'left' as string (default: 'bottom')
+  - align?: 'start'|'center'|'end' as string (default: 'start')
+  - triggerClass?: String — extra classes on the trigger button (default width lives here)
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  JS module (data-module="date-picker.module"):
+    consumes  the nested calendar's bubbling 'calendar:change'
+    emits     CustomEvent 'date-picker:change' ({ detail: { value } }, bubbles: true)
+              on the root, plus a native bubbling 'change' on the hidden input
+    hooks     [data-date-picker-trigger] (its <span> is the label),
+              [data-slot="date-picker-input"], data-config (JSON) on the root
+    The popover keeps its own data-module: lazyLoad.js observes every [data-module]
+    in the subtree, so both modules initialise.
+#}
+{% set dp_mode = mode|default('single') %}
+{% set dp_placeholder = placeholder|default('Seleziona una data') %}
+{% set dp_values = value is defined and value is not empty ? (value is iterable ? value : [value]) : [] %}
+{% set dp_label = dp_values is empty ? dp_placeholder : (dp_mode == 'range' and dp_values|length > 1
+  ? dp_values|first|date('d/m/Y') ~ ' – ' ~ dp_values|last|date('d/m/Y')
+  : dp_values|first|date('d/m/Y')) %}
+{% set dp_config = { mode: dp_mode, placeholder: dp_placeholder, locale: locale|default('it-IT') } %}
+
+<div data-slot="date-picker" data-module="date-picker.module"
+  data-config='{{ dp_config|json_encode }}'
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="flex w-fit flex-col gap-2{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+
+  {% if label is defined and label %}
+  <span data-slot="date-picker-label" class="text-sm leading-none font-medium select-none">{{ label }}</span>
+  {% endif %}
+
+  {% embed '@components/base/popover/popover.twig' with {
+    side: side|default('bottom'),
+    align: align|default('start'),
+    class: 'min-w-max',
+    dp_label: dp_label,
+    dp_empty: dp_values is empty,
+    dp_triggerClass: triggerClass|default('w-56 justify-between font-normal'),
+    dp_mode: dp_mode,
+    dp_values: dp_values,
+    dp_min: min|default(''),
+    dp_max: max|default(''),
+    dp_locale: locale|default('it-IT'),
+    dp_months: numberOfMonths|default(1),
+    dp_caption: captionLayout|default('label')
+  } only %}
+    {% block trigger %}
+      {% include '@components/base/button/button.twig' with {
+        label: dp_label,
+        variant: 'outline',
+        icon: 'calendar',
+        class: dp_triggerClass,
+        attrs: 'data-popover-trigger data-date-picker-trigger data-empty="' ~ (dp_empty ? 'true' : 'false') ~ '" aria-haspopup="dialog" aria-expanded="false"'
+      } only %}
+    {% endblock %}
+    {% block content %}
+      {% include '@components/base/calendar/calendar.twig' with {
+        mode: dp_mode,
+        selected: dp_values,
+        min: dp_min,
+        max: dp_max,
+        locale: dp_locale,
+        numberOfMonths: dp_months,
+        captionLayout: dp_caption
+      } only %}
+    {% endblock %}
+  {% endembed %}
+
+  {% if name is defined and name %}
+  <input type="hidden" data-slot="date-picker-input" name="{{ name }}" value="{{ dp_values|join(',') }}">
+  {% endif %}
+</div>

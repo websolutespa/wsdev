@@ -1,0 +1,117 @@
+{
+  "mocks": {
+    "carousel": {
+      "default": {
+        "ariaLabel": "Ultimi articoli",
+        "slides": [
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Bilancio 2025</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Nuova sede di Milano</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Premio innovazione</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Report di sostenibilità</div>"
+          }
+        ],
+        "class": "mx-12"
+      },
+      "vertical": {
+        "ariaLabel": "Tappe del progetto",
+        "orientation": "vertical",
+        "class": "my-12",
+        "slideClass": "basis-1/2",
+        "slides": [
+          {
+            "content": "<div class=\"flex h-full items-center justify-center rounded-lg border bg-muted font-medium\">Analisi</div>"
+          },
+          {
+            "content": "<div class=\"flex h-full items-center justify-center rounded-lg border bg-muted font-medium\">Progettazione</div>"
+          },
+          {
+            "content": "<div class=\"flex h-full items-center justify-center rounded-lg border bg-muted font-medium\">Sviluppo</div>"
+          },
+          {
+            "content": "<div class=\"flex h-full items-center justify-center rounded-lg border bg-muted font-medium\">Collaudo</div>"
+          }
+        ],
+        "contentClass": "h-56"
+      },
+      "loop": {
+        "ariaLabel": "Testimonianze dei clienti",
+        "loop": true,
+        "slides": [
+          {
+            "title": "Giulia Ferrari — Responsabile acquisti",
+            "content": "<blockquote class=\"rounded-lg border bg-muted p-6 text-sm\">«Tempi di consegna dimezzati già dal primo trimestre.»</blockquote>"
+          },
+          {
+            "title": "Marco Bianchi — Direttore operativo",
+            "content": "<blockquote class=\"rounded-lg border bg-muted p-6 text-sm\">«L'assistenza risponde sempre entro poche ore.»</blockquote>"
+          },
+          {
+            "title": "Sara Conti — Titolare",
+            "content": "<blockquote class=\"rounded-lg border bg-muted p-6 text-sm\">«Finalmente un unico strumento per tutta la rete vendita.»</blockquote>"
+          }
+        ],
+        "class": "mx-12"
+      },
+      "multiple": {
+        "ariaLabel": "Catalogo prodotti",
+        "align": "start",
+        "slideClass": "md:basis-1/3",
+        "slides": [
+          {
+            "content": "<div class=\"flex h-32 items-center justify-center rounded-lg border bg-muted text-sm font-medium\">Modello A</div>"
+          },
+          {
+            "content": "<div class=\"flex h-32 items-center justify-center rounded-lg border bg-muted text-sm font-medium\">Modello B</div>"
+          },
+          {
+            "content": "<div class=\"flex h-32 items-center justify-center rounded-lg border bg-muted text-sm font-medium\">Modello C</div>"
+          },
+          {
+            "content": "<div class=\"flex h-32 items-center justify-center rounded-lg border bg-muted text-sm font-medium\">Modello D</div>"
+          },
+          {
+            "content": "<div class=\"flex h-32 items-center justify-center rounded-lg border bg-muted text-sm font-medium\">Modello E</div>"
+          }
+        ],
+        "class": "mx-12"
+      },
+      "with-dots": {
+        "ariaLabel": "Promozioni in evidenza",
+        "showDots": true,
+        "loop": true,
+        "slides": [
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Spedizione gratuita</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Secondo anno di garanzia</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Ritiro dell'usato</div>"
+          }
+        ],
+        "class": "mx-12"
+      },
+      "no-arrows": {
+        "ariaLabel": "Galleria senza frecce",
+        "showArrows": false,
+        "showDots": true,
+        "slides": [
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Scorri con il dito</div>"
+          },
+          {
+            "content": "<div class=\"flex h-40 items-center justify-center rounded-lg border bg-muted text-lg font-medium\">Oppure con le frecce</div>"
+          }
+        ]
+      }
+    }
+  }
+}

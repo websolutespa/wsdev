@@ -1,0 +1,46 @@
+{
+  "mocks": {
+    "calendar": {
+      "default": {
+        "mode": "single",
+        "name": "data-appuntamento",
+        "selected": "2026-09-17"
+      },
+      "range": {
+        "mode": "range",
+        "name": "periodo-soggiorno",
+        "selected": ["2026-09-14", "2026-09-21"]
+      },
+      "multiple": {
+        "mode": "multiple",
+        "name": "giorni-presenza",
+        "selected": ["2026-09-08", "2026-09-15", "2026-09-22"]
+      },
+      "multiple-months": {
+        "mode": "range",
+        "numberOfMonths": 2,
+        "name": "periodo-cantiere",
+        "selected": ["2026-09-24", "2026-10-06"]
+      },
+      "dropdown-caption": {
+        "mode": "single",
+        "captionLayout": "dropdown",
+        "name": "data-nascita",
+        "selected": "1990-05-12"
+      },
+      "min-max": {
+        "mode": "single",
+        "name": "data-consegna",
+        "min": "2026-09-14",
+        "max": "2026-10-10",
+        "selected": "2026-09-18"
+      },
+      "disabled-days": {
+        "mode": "single",
+        "name": "data-ritiro",
+        "selected": "2026-09-17",
+        "disabled": ["2026-09-18", "2026-09-19", "2026-09-25"]
+      }
+    }
+  }
+}

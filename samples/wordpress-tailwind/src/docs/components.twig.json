@@ -300,6 +300,33 @@
               "sm",
               "disabled"
             ]
+          },
+          {
+            "name": "calendar",
+            "title": "Calendar",
+            "description": "Calendario vanilla-calendar-pro con selezione singola, multipla e a intervallo.",
+            "scenarios": [
+              "default",
+              "range",
+              "multiple",
+              "multiple-months",
+              "dropdown-caption",
+              "min-max",
+              "disabled-days"
+            ]
+          },
+          {
+            "name": "date-picker",
+            "title": "Date picker",
+            "description": "Composizione popover + calendario con etichetta formattata e input nascosto.",
+            "scenarios": [
+              "default",
+              "with-value",
+              "range",
+              "range-with-value",
+              "min-max",
+              "dropdown-caption"
+            ]
           }
         ]
       },
@@ -544,6 +571,43 @@
               "vertical",
               "manual",
               "disabled"
+            ]
+          },
+          {
+            "name": "carousel",
+            "title": "Carousel",
+            "description": "Carosello embla con frecce, puntini, orientamento e loop.",
+            "scenarios": [
+              "default",
+              "vertical",
+              "loop",
+              "multiple",
+              "with-dots",
+              "no-arrows"
+            ]
+          },
+          {
+            "name": "chart",
+            "title": "Chart",
+            "description": "Grafici chart.js con la mappa colori --color-<key> di shadcn.",
+            "scenarios": [
+              "default",
+              "bar",
+              "area",
+              "pie",
+              "donut",
+              "themed"
+            ]
+          },
+          {
+            "name": "resizable",
+            "title": "Resizable",
+            "description": "Pannelli ridimensionabili con separatori da tastiera e puntatore.",
+            "scenarios": [
+              "default",
+              "with-handle",
+              "vertical",
+              "three-panels"
             ]
           }
         ]

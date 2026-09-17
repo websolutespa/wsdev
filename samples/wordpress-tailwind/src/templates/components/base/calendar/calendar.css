@@ -1,0 +1,20 @@
+/* calendar.css — what vanilla-calendar-pro needs on top of its `styles` option.
+   layout.css lands in @layer base so every Tailwind utility the module passes
+   through `styles` still wins the cascade. The arrows are library-owned <button>s
+   with an empty ::before, so their glyph has to come from CSS: a lucide
+   chevron-down mask, which layout.css rotates ±90° into prev/next. */
+
+@import 'vanilla-calendar-pro/styles/layout.css' layer(base);
+
+[data-vc-arrow]::before {
+  background-color: currentColor;
+  background-image: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 1rem 1rem no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 1rem 1rem no-repeat;
+}
+
+/* The library hides an arrow by making it inert; upstream dims it instead. */
+[data-vc-arrow][aria-disabled='true'],
+[data-vc-arrow]:disabled {
+  opacity: 0.5;
+}

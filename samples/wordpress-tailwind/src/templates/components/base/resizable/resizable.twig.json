@@ -1,0 +1,96 @@
+{
+  "mocks": {
+    "resizable": {
+      "default": {
+        "direction": "horizontal",
+        "class": "min-h-52 rounded-lg border",
+        "panels": [
+          {
+            "defaultSize": 50,
+            "minSize": 20,
+            "maxSize": 80,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Anagrafica"
+          },
+          {
+            "defaultSize": 50,
+            "minSize": 20,
+            "maxSize": 80,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Documenti"
+          }
+        ]
+      },
+      "with-handle": {
+        "direction": "horizontal",
+        "withHandle": true,
+        "class": "min-h-52 rounded-lg border",
+        "panels": [
+          {
+            "defaultSize": 35,
+            "minSize": 20,
+            "maxSize": 60,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Elenco pratiche"
+          },
+          {
+            "defaultSize": 65,
+            "minSize": 40,
+            "maxSize": 80,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Dettaglio pratica"
+          }
+        ]
+      },
+      "vertical": {
+        "direction": "vertical",
+        "withHandle": true,
+        "class": "min-h-60 rounded-lg border",
+        "panels": [
+          {
+            "defaultSize": 40,
+            "minSize": 20,
+            "maxSize": 70,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Anteprima"
+          },
+          {
+            "defaultSize": 60,
+            "minSize": 30,
+            "maxSize": 80,
+            "class": "flex items-center justify-center p-6 text-sm font-medium",
+            "content": "Note interne"
+          }
+        ]
+      },
+      "three-panels": {
+        "direction": "horizontal",
+        "withHandle": true,
+        "class": "min-h-52 rounded-lg border",
+        "panels": [
+          {
+            "defaultSize": 25,
+            "minSize": 15,
+            "maxSize": 50,
+            "class": "flex items-center justify-center p-4 text-sm font-medium",
+            "content": "Filtri"
+          },
+          {
+            "defaultSize": 50,
+            "minSize": 25,
+            "maxSize": 70,
+            "class": "flex items-center justify-center p-4 text-sm font-medium",
+            "content": "Risultati"
+          },
+          {
+            "defaultSize": 25,
+            "minSize": 15,
+            "maxSize": 50,
+            "class": "flex items-center justify-center p-4 text-sm font-medium",
+            "content": "Riepilogo"
+          }
+        ]
+      }
+    }
+  }
+}

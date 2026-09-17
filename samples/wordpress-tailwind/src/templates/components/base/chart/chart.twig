@@ -1,0 +1,117 @@
+{#
+  Params:
+  - type?: 'line'|'bar'|'area'|'pie'|'donut' as string (default: 'line')
+  - config: Object<key, { label: String, color?: String (CSS color or var()),
+            theme?: { light: String, dark: String }, icon?: String (sprite name) }> (required)
+            — upstream's ChartConfig: every key becomes a --color-<key> custom property
+              on the container, light value plain and dark value under `.dark`
+  - data: { labels: Array<String>, series: Array<{ key: String, values: Array<Number> }>,
+            keys?: Array<String> } (required)
+          — `key` must exist in `config`; the dataset paints itself with var(--color-<key>).
+            pie/donut take ONE series and paint a slice per config key, in `config`
+            order unless `data.keys` maps each label to its own key
+  - options?: Object — merged into the Chart.js `options` object (JSON passthrough)
+  - legend?: Boolean (default: true) — render the HTML legend from `config`
+  - legendPosition?: 'top'|'bottom' as string (default: 'bottom')
+  - ariaLabel?: String — accessible name of the chart image
+  - id?: String — REQUIRED when several charts share a page: it keys the --color-* block
+  - class?: String — appended last on the container; additive utilities only
+  - attrs?: String — raw extra attributes on the container, trusted input only
+
+  JS module (data-module="chart.module"):
+    consumes  CustomEvent 'chart:update' ({ detail: { data?, options? } }) on the root
+    emits     CustomEvent 'chart:rendered' ({ detail: { type } }, bubbles: true) on the root
+    hooks     [data-slot="chart-canvas"], [data-slot="chart-config"] (JSON),
+              [data-slot="chart-tooltip"] (the external-tooltip host)
+
+  Port exception (whole component, source "port"): upstream is recharts; here
+  chart.js draws into a <canvas>. Kept from upstream: the container's own class
+  string, `data-chart`, the ChartStyle --color-<key> block (light + `.dark`), and
+  the tooltip/legend markup, which the module fills as a Chart.js external tooltip.
+  Dropped: the 13 `[&_.recharts-*]` container selectors — no element here carries a
+  recharts class, so they would only add dead CSS. Added: `flex-col` plus a sized
+  canvas wrapper, because recharts' ResponsiveContainer has no equivalent here.
+#}
+{% set chart_id = 'chart-' ~ (id is defined and id ? id : 'default') %}
+{% set chart_type = type|default('line') %}
+{% set chart_container = "flex aspect-video justify-center text-xs" %}
+{% set chart_tooltip_content = "grid min-w-[8rem] items-start gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl" %}
+{% set chart_legend_content = "flex items-center justify-center gap-4" %}
+{% set chart_legend_position = { top: "pb-3", bottom: "pt-3" } %}
+{% set chart_legend_item = "flex items-center gap-1.5 [&>svg]:h-3 [&>svg]:w-3 [&>svg]:text-muted-foreground" %}
+{% set chart_legend_swatch = "h-2 w-2 shrink-0 rounded-[2px]" %}
+{% set legendPosition = legendPosition|default('bottom') %}
+
+<div data-slot="chart" data-chart="{{ chart_id }}" data-module="chart.module"
+  role="img"
+  {%- if ariaLabel is defined and ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="{{ chart_container }} flex-col{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+
+  {# ChartStyle: one --color-<key> per config entry, light value first, `.dark` second. #}
+  <style>
+    [data-chart="{{ chart_id }}"] {
+    {%- for key, item in config %}
+      {%- if item.theme is defined and item.theme %}
+      --color-{{ key }}: {{ item.theme.light }};
+      {%- elseif item.color is defined and item.color %}
+      --color-{{ key }}: {{ item.color }};
+      {%- endif %}
+    {%- endfor %}
+    }
+    .dark [data-chart="{{ chart_id }}"] {
+    {%- for key, item in config %}
+      {%- if item.theme is defined and item.theme %}
+      --color-{{ key }}: {{ item.theme.dark }};
+      {%- elseif item.color is defined and item.color %}
+      --color-{{ key }}: {{ item.color }};
+      {%- endif %}
+    {%- endfor %}
+    }
+  </style>
+
+  {% if legendPosition == 'top' and (legend is not defined or legend) %}
+  <div data-slot="chart-legend">
+    <div data-slot="chart-legend-content" class="{{ chart_legend_content }} {{ chart_legend_position.top }}">
+      {% for key, item in config %}
+      <div class="{{ chart_legend_item }}">
+        {%- if item.icon is defined and item.icon %}
+        <svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>
+        {%- else %}
+        <div class="{{ chart_legend_swatch }}" style="background-color: var(--color-{{ key }})"></div>
+        {%- endif %}
+        {{ item.label }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  {# The canvas needs a box of its own: Chart.js sizes itself to the parent. #}
+  <div class="relative min-h-0 w-full flex-1">
+    <canvas data-slot="chart-canvas"></canvas>
+    {# External-tooltip host: the module fills the content node on every hover. #}
+    <div data-slot="chart-tooltip" hidden class="pointer-events-none absolute top-0 left-0 z-50">
+      <div data-slot="chart-tooltip-content" class="{{ chart_tooltip_content }}"></div>
+    </div>
+  </div>
+
+  {% if legendPosition == 'bottom' and (legend is not defined or legend) %}
+  <div data-slot="chart-legend">
+    <div data-slot="chart-legend-content" class="{{ chart_legend_content }} {{ chart_legend_position.bottom }}">
+      {% for key, item in config %}
+      <div class="{{ chart_legend_item }}">
+        {%- if item.icon is defined and item.icon %}
+        <svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>
+        {%- else %}
+        <div class="{{ chart_legend_swatch }}" style="background-color: var(--color-{{ key }})"></div>
+        {%- endif %}
+        {{ item.label }}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <script type="application/json" data-slot="chart-config">{{ { type: chart_type, config: config, data: data, options: options|default({}) }|json_encode|raw }}</script>
+</div>

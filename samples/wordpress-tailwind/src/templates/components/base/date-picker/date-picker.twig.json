@@ -1,0 +1,43 @@
+{
+  "mocks": {
+    "date-picker": {
+      "default": {
+        "name": "data-appuntamento",
+        "label": "Data dell'appuntamento",
+        "placeholder": "Seleziona una data"
+      },
+      "with-value": {
+        "name": "data-consegna",
+        "label": "Data di consegna",
+        "value": "2026-09-24"
+      },
+      "range": {
+        "name": "periodo-ferie",
+        "label": "Periodo di ferie",
+        "mode": "range",
+        "placeholder": "Seleziona un periodo",
+        "triggerClass": "w-64 justify-between font-normal"
+      },
+      "range-with-value": {
+        "name": "periodo-cantiere",
+        "label": "Periodo di cantiere",
+        "mode": "range",
+        "value": ["2026-09-28", "2026-10-09"],
+        "triggerClass": "w-64 justify-between font-normal"
+      },
+      "min-max": {
+        "name": "data-ritiro",
+        "label": "Data di ritiro in filiale",
+        "min": "2026-09-17",
+        "max": "2026-10-17",
+        "placeholder": "Entro un mese"
+      },
+      "dropdown-caption": {
+        "name": "data-nascita",
+        "label": "Data di nascita",
+        "captionLayout": "dropdown",
+        "value": "1988-03-04"
+      }
+    }
+  }
+}

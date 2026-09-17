@@ -468,10 +468,6 @@
         "note": "Figma measures 8px vertical item padding (bound paddingTop/paddingBottom = spacing/2), producing the kit's 36px item height together with the 20px text line box. Not applied to select-label, which measures 10px (node 118:2502, spacing/2-5): the gate matches tokens per component, not per owner, and the item is the dominant shape."
       },
       {
-        "from": "pl-2",
-        "to": "pl-3",
-        "source": "figma",
-        "node": "118:2503",
         "from": "h-[var(--radix-select-trigger-height)]",
         "to": null,
         "source": "port",
@@ -800,6 +796,14 @@
         "to": null,
         "source": "port",
         "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `transition: box-shadow 0.15s` on the pseudo-element thumb."
+      }
+    ],
+    "date-picker": [
+      {
+        "from": "*",
+        "to": null,
+        "source": "port",
+        "note": "Composition, not a registry item: shadcn/ui ships the Date Picker only as an example composing popover + button + calendar, so https://ui.shadcn.com/r/styles/new-york-v4/date-picker.json returns 404 and the gate has nothing to compare against. Every class in date-picker.twig comes from those three components, which are gated on their own. Marked with @composition in the Twig header."
       }
     ]
   }

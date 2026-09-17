@@ -64,6 +64,11 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ checkbox, radio-group, switch, slider (+css, modulo range a 2 thumb), toggle, toggle-group, input-otp, accordion, collapsible, tabs; override derivati applicati a context-menu/menubar; adapter Formidable completato per checkbox/radio. 50 componenti, gate verdi. Report: [reports/phase-4-b6-form-controls-disclosure.md](reports/phase-4-b6-form-controls-disclosure.md).
 - ⚠️ Da ripulire in B7: chiavi duplicate in un'eccezione `select`; `diff-figma-upstream` sui controlli form sceglie la riga label+controllo.
 
+### Fase 4 — B7a librerie terze (agent Opus)
+
+- ✅ carousel (embla), calendar (vanilla-calendar-pro, mappa classi via `styles`), date-picker (composizione popover+calendar), chart (chart.js, contratto `config`→`--color-*`), resizable (N pannelli). Cleanup eccezioni `select`. 55 componenti, gate verdi. Report: [reports/phase-4-b7a-third-party.md](reports/phase-4-b7a-third-party.md).
+- ⚠️ `chart.module` 210 kB e `calendar.module` 79 kB (librerie inlinate, lazy); `aria-orientation` sul panel group da valutare con axe.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

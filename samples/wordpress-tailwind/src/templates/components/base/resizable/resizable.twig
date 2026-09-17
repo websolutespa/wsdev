@@ -1,0 +1,66 @@
+{#
+  Params:
+  - direction?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - panels?: Array<{ defaultSize?: Number (percent), minSize?: Number (default: 10),
+                     maxSize?: Number (default: 90), content?: String (trusted HTML),
+                     class?: String }>
+              (default: two 50% panels) — one resizable-panel per entry, a handle between each pair
+  - withHandle?: Boolean (default: false) — grip glyph inside every handle
+  - handleLabel?: String (default: 'Ridimensiona i pannelli') — aria-label of every handle
+  - id?: String
+  - class?: String — appended last on the panel group; additive utilities only
+                     (the consumer sizes the group here, e.g. 'h-52 rounded-lg border')
+  - attrs?: String — raw extra attributes on the panel group, trusted input only
+
+  JS module (data-module="resizable.module"):
+    consumes  CustomEvent 'resizable:set' ({ detail: { sizes: Number[] } }) on the root
+    emits     CustomEvent 'resizable:change' ({ detail: { sizes } }, bubbles: true) on the root
+    hooks     data-panel-group-direction on the root, data-min-size / data-max-size and
+              the --panel-size custom property on each panel
+
+  Port notes (source: "port"): react-resizable-panels is replaced by a pointer/keyboard
+  module. Panel sizing rides `--panel-size` (flex-grow share) instead of the library's
+  own flex-basis percentages, because percentage bases plus 1px handles overflow the
+  group. The upstream aria-[orientation=…] selectors are kept verbatim: the group
+  carries aria-orientation = direction, each handle the opposite one (APG window
+  splitter: a side-by-side split is divided by a vertical separator).
+#}
+{% set direction = direction|default('horizontal') %}
+{% set panels = panels|default([{ defaultSize: 50 }, { defaultSize: 50 }]) %}
+{% set handle_orientation = direction == 'vertical' ? 'horizontal' : 'vertical' %}
+{% set resizable_panel_group = "flex h-full w-full aria-[orientation=vertical]:flex-col" %}
+{% set resizable_handle = "relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:outline-hidden aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2 [&[aria-orientation=horizontal]>div]:rotate-90" %}
+{% set resizable_handle_grip = "z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border" %}
+
+<div data-slot="resizable-panel-group" data-module="resizable.module"
+  data-panel-group-direction="{{ direction }}" aria-orientation="{{ direction }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="{{ resizable_panel_group }}{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+  {% for panel in panels %}
+    {% if not loop.first %}
+    {% set previous_panel = panels[loop.index0 - 1] %}
+    <div data-slot="resizable-handle" role="separator" tabindex="0"
+      aria-orientation="{{ handle_orientation }}"
+      aria-label="{{ handleLabel|default('Ridimensiona i pannelli') }}"
+      aria-valuenow="{{ previous_panel.defaultSize|default(50) }}"
+      aria-valuemin="{{ previous_panel.minSize|default(10) }}"
+      aria-valuemax="{{ previous_panel.maxSize|default(90) }}"
+      data-handle-index="{{ loop.index0 - 1 }}"
+      class="{{ resizable_handle }}">
+      {% if withHandle is defined and withHandle %}
+      <div class="{{ resizable_handle_grip }}">
+        <svg aria-hidden="true" class="size-2.5"><use href="#icon-grip-vertical"></use></svg>
+      </div>
+      {% endif %}
+    </div>
+    {% endif %}
+    <div data-slot="resizable-panel"
+      data-panel-index="{{ loop.index0 }}"
+      data-min-size="{{ panel.minSize|default(10) }}"
+      data-max-size="{{ panel.maxSize|default(90) }}"
+      style="--panel-size: {{ panel.defaultSize|default(50) }}; flex: var(--panel-size) 1 0px"
+      class="overflow-hidden{% if panel.class is defined and panel.class %} {{ panel.class }}{% endif %}">
+      {% if panel.content is defined and panel.content %}{{ panel.content|raw }}{% endif %}
+    </div>
+  {% endfor %}
+</div>

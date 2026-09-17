@@ -33,6 +33,14 @@ property set by the module), `combobox` (Base UI → `input-group` + `floating.j
 + its own module), `select` (one popper-only Viewport utility dropped, see the
 Adaptation table).
 
+**Compositions** are a second reason to skip the gate: a component the registry
+ships only as an example, never as a registry item, has no upstream to diff
+against (`/r/styles/new-york-v4/<name>.json` → 404). They carry `@composition`
+on the first line of their `{# params #}` header, borrow every class from the
+components they embed, and get a `"from": "*"` entry so
+`check-upstream-classes.mjs` skips them instead of failing on the fetch. Current
+case: `date-picker` (popover + button + calendar).
+
 ## Files per component — `src/templates/components/base/<name>/`
 
 | File | When |

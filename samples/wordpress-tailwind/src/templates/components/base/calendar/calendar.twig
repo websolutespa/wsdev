@@ -1,0 +1,57 @@
+{#
+  Params:
+  - mode?: 'single'|'multiple'|'range' as string (default: 'single')
+  - selected?: String|Array<String> — preselected ISO date(s); range takes [start, end]
+  - min?: String — ISO date, earliest selectable day
+  - max?: String — ISO date, latest selectable day
+  - locale?: String — BCP 47 tag (default: 'it-IT')
+  - weekStart?: Number 0..6 as int (default: 1 — Monday)
+  - disabled?: Array<String> — ISO dates that cannot be selected
+  - numberOfMonths?: Number 1..12 as int (default: 1)
+  - captionLayout?: 'label'|'dropdown' as string (default: 'label')
+  - name?: String — when set, a hidden input mirrors the selection (comma-joined ISO dates)
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  JS module (data-module="calendar.module"):
+    consumes  CustomEvent 'calendar:set' ({ detail: { selected: String[] } }) on the root
+    emits     CustomEvent 'calendar:change' ({ detail: { selected } }, bubbles: true) on the root,
+              plus a native bubbling 'change' on the hidden input so forms and
+              common/formValidation.js see the update
+    hooks     data-config (JSON) on the root, [data-slot="calendar-host"] mount point,
+              [data-slot="calendar-input"] hidden mirror
+
+  Port exception (whole component, source "port"): upstream is react-day-picker
+  driven by a `classNames` map; here vanilla-calendar-pro renders the grid and the
+  same class strings are handed to its `styles` option in calendar.module.js.
+  Only the root element below is upstream markup. The two upstream
+  `rtl:**:[.rdp-button\_next>svg]:rotate-180` utilities are dropped: they target
+  react-day-picker's own class names, which no element here carries.
+#}
+{% set calendar_root = "group/calendar w-fit bg-background p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent" %}
+{% set calendar_config = {
+  mode: mode|default('single'),
+  locale: locale|default('it-IT'),
+  weekStart: weekStart|default(1),
+  numberOfMonths: numberOfMonths|default(1),
+  captionLayout: captionLayout|default('label')
+} %}
+{% if selected is defined and selected is not empty %}
+  {% set calendar_config = calendar_config|merge({ selected: selected is iterable ? selected : [selected] }) %}
+{% endif %}
+{% if min is defined and min %}{% set calendar_config = calendar_config|merge({ min: min }) %}{% endif %}
+{% if max is defined and max %}{% set calendar_config = calendar_config|merge({ max: max }) %}{% endif %}
+{% if disabled is defined and disabled is not empty %}{% set calendar_config = calendar_config|merge({ disabled: disabled }) %}{% endif %}
+
+<div data-slot="calendar" data-module="calendar.module"
+  {# Single-quoted and unescaped on purpose: twig.js does not autoescape, Twig PHP does — both stay valid. #}
+  data-config='{{ calendar_config|json_encode }}'
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="{{ calendar_root }}{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+  <div data-slot="calendar-host"></div>
+  {% if name is defined and name %}
+  <input type="hidden" data-slot="calendar-input" name="{{ name }}"
+    value="{{ selected is defined and selected is not empty ? (selected is iterable ? selected|join(',') : selected) : '' }}">
+  {% endif %}
+</div>

@@ -5,5 +5,6 @@
    Plain .css only — no .scss. Path is relative to src/css/.
    ════════════════════════════════════════════════════════════ */
 
+@import '../templates/components/base/calendar/calendar.css';
 @import '../templates/components/base/scroll-area/scroll-area.css';
 @import '../templates/components/base/slider/slider.css';

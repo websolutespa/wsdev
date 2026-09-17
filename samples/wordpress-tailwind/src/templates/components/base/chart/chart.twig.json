@@ -1,0 +1,96 @@
+{
+  "mocks": {
+    "chart": {
+      "default": {
+        "type": "line",
+        "ariaLabel": "Andamento delle visite per mese",
+        "config": {
+          "desktop": { "label": "Desktop", "color": "var(--chart-1)" },
+          "mobile": { "label": "Mobile", "color": "var(--chart-2)" }
+        },
+        "data": {
+          "labels": ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu"],
+          "series": [
+            { "key": "desktop", "values": [186, 305, 237, 273, 209, 264] },
+            { "key": "mobile", "values": [80, 200, 120, 190, 130, 140] }
+          ]
+        }
+      },
+      "bar": {
+        "type": "bar",
+        "ariaLabel": "Ordini per trimestre e canale",
+        "config": {
+          "negozio": { "label": "Negozio", "color": "var(--chart-1)" },
+          "online": { "label": "Online", "color": "var(--chart-3)" }
+        },
+        "data": {
+          "labels": ["Q1", "Q2", "Q3", "Q4"],
+          "series": [
+            { "key": "negozio", "values": [420, 385, 510, 604] },
+            { "key": "online", "values": [310, 468, 522, 731] }
+          ]
+        }
+      },
+      "area": {
+        "type": "area",
+        "ariaLabel": "Ricavi cumulati per semestre",
+        "config": {
+          "ricavi": { "label": "Ricavi", "color": "var(--chart-2)" }
+        },
+        "data": {
+          "labels": ["Gen", "Feb", "Mar", "Apr", "Mag", "Giu"],
+          "series": [
+            { "key": "ricavi", "values": [1200, 1980, 2450, 3100, 3890, 4620] }
+          ]
+        }
+      },
+      "pie": {
+        "type": "pie",
+        "ariaLabel": "Ripartizione del traffico per browser",
+        "config": {
+          "chrome": { "label": "Chrome", "color": "var(--chart-1)" },
+          "safari": { "label": "Safari", "color": "var(--chart-2)" },
+          "firefox": { "label": "Firefox", "color": "var(--chart-3)" },
+          "edge": { "label": "Edge", "color": "var(--chart-4)" }
+        },
+        "data": {
+          "labels": ["Chrome", "Safari", "Firefox", "Edge"],
+          "series": [
+            { "key": "sessioni", "values": [275, 200, 187, 173] }
+          ]
+        }
+      },
+      "donut": {
+        "type": "donut",
+        "ariaLabel": "Stato delle pratiche aperte",
+        "config": {
+          "aperte": { "label": "Aperte", "color": "var(--chart-1)" },
+          "lavorazione": { "label": "In lavorazione", "color": "var(--chart-4)" },
+          "chiuse": { "label": "Chiuse", "color": "var(--chart-2)" }
+        },
+        "data": {
+          "labels": ["Aperte", "In lavorazione", "Chiuse"],
+          "series": [
+            { "key": "pratiche", "values": [48, 26, 132] }
+          ]
+        }
+      },
+      "themed": {
+        "type": "bar",
+        "ariaLabel": "Consumi energetici per stabilimento, con colori dedicati al tema",
+        "legendPosition": "top",
+        "config": {
+          "nord": { "label": "Stabilimento Nord", "theme": { "light": "#1E40AF", "dark": "#93C5FD" } },
+          "sud": { "label": "Stabilimento Sud", "theme": { "light": "#B45309", "dark": "#FCD34D" } }
+        },
+        "data": {
+          "labels": ["Lun", "Mar", "Mer", "Gio", "Ven"],
+          "series": [
+            { "key": "nord", "values": [320, 298, 341, 376, 312] },
+            { "key": "sud", "values": [244, 261, 255, 289, 271] }
+          ]
+        }
+      }
+    }
+  }
+}
