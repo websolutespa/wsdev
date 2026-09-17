@@ -1,0 +1,32 @@
+{
+  "mocks": {
+    "scroll-area": {
+      "default": {
+        "class": "h-48 w-full rounded-md border p-4",
+        "ariaLabel": "Elenco notifiche",
+        "items": [
+          "Nuovo messaggio da Giulia Romano",
+          "Pratica PR-2201 aggiornata",
+          "Documento caricato da Marco Villa",
+          "Promemoria: scadenza contratto il 30/09",
+          "Nuovo commento su PR-2203",
+          "Fattura Q2 2026 disponibile",
+          "Backup completato con successo",
+          "Nuova richiesta di preventivo"
+        ]
+      },
+      "horizontal": {
+        "orientation": "horizontal",
+        "class": "w-full rounded-md border p-4 whitespace-nowrap",
+        "ariaLabel": "Galleria allegati",
+        "items": [
+          "contratto.pdf",
+          "planimetria.dwg",
+          "fattura-q2.pdf",
+          "visura-camerale.pdf",
+          "perizia-tecnica.docx"
+        ]
+      }
+    }
+  }
+}

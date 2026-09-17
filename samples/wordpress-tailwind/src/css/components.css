@@ -4,3 +4,5 @@
    src/templates/components/<tier>/<name>/) into the Tailwind graph.
    Plain .css only — no .scss. Path is relative to src/css/.
    ════════════════════════════════════════════════════════════ */
+
+@import '../templates/components/base/scroll-area/scroll-area.css';

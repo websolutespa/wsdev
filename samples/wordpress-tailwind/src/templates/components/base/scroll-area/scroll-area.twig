@@ -1,0 +1,51 @@
+{#
+  Params:
+  - orientation?: 'vertical'|'horizontal'|'both' as string (default: 'vertical') — scroll axis
+  - items?: Array<String> — data-driven default content (one line per entry); ignored when
+              block content is overridden
+  - ariaLabel?: String — accessible name of the scrollable region (role="region")
+  - id?: String
+  - class?: String — consumer sizing on the root (e.g. 'h-72 w-48 rounded-md border');
+              appended last, additive only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - {% block content %} — the scrollable content; defaults to a list built from `items`
+
+  Port exception (no Radix here): scrolling is native (`overflow-auto` + native scrollbars
+  themed in scroll-area.css, an allowed CSS-only exception — see PORTING.md), not Radix's
+  custom thumb/corner. The upstream scroll-area-scrollbar/scroll-area-thumb parts are kept as
+  decorative, aria-hidden markup for slot parity; they render nothing functional (the real
+  scrollbar is the native one, styled via [data-slot=scroll-area-viewport]::-webkit-scrollbar
+  and scrollbar-width/scrollbar-color in scroll-area.css).
+#}
+{% set scroll_area_overflow = {
+  vertical: "overflow-auto overflow-x-hidden",
+  horizontal: "overflow-auto overflow-y-hidden",
+  both: "overflow-auto"
+} %}
+{% set scroll_area_scrollbar_base = "flex touch-none p-px transition-colors select-none" %}
+{% set scroll_area_scrollbar_orientations = {
+  vertical: "h-full w-2.5 border-l border-l-transparent",
+  horizontal: "h-2.5 flex-col border-t border-t-transparent"
+} %}
+{% set scroll_area_thumb_classes = "relative flex-1 rounded-full bg-border" %}
+{% set orientation = orientation|default('vertical') %}
+{% set scroll_area_bars = orientation == 'both' ? ['vertical', 'horizontal'] : [orientation] %}
+<div data-slot="scroll-area" class="relative{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <div data-slot="scroll-area-viewport" tabindex="0" role="region"
+    {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+    class="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 {{ scroll_area_overflow[orientation] }}">
+    {% block content %}
+      {%- for item in items|default([]) %}
+      <p class="py-1 text-sm">{{ item }}</p>
+      {%- endfor %}
+    {% endblock %}
+  </div>
+  {%- for bar in scroll_area_bars %}
+  {# Decorative only — real scrolling/scrollbar is native, themed in scroll-area.css; kept for
+     upstream slot parity, absolutely positioned out of flow so it never doubles the native bar. #}
+  <div data-slot="scroll-area-scrollbar" aria-hidden="true" data-orientation="{{ bar }}" class="{{ scroll_area_scrollbar_base }} {{ scroll_area_scrollbar_orientations[bar] }} pointer-events-none absolute opacity-0">
+    <div data-slot="scroll-area-thumb" aria-hidden="true" class="{{ scroll_area_thumb_classes }}"></div>
+  </div>
+  {%- endfor %}
+</div>

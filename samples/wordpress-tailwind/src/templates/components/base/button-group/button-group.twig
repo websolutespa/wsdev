@@ -1,0 +1,46 @@
+{#
+  Params:
+  - orientation?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - items?: Array<{ kind?: 'button'|'text'|'separator' as string (default: 'button'), text?, icon?
+              — for type 'text'; plus every base/button/button.twig prop for type 'button' }>
+              — data-driven default content, never embeds inside a loop
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - {% block content %} — full custom composition (buttons/inputs/native-select passed by the
+              caller); overrides `items` entirely when set
+
+  Kit component, figma diff run (scripts/upstream-exceptions.json has no "button-group" entries):
+  the tool's proposed h-9/gap-0/rounded-xs/px-0 (default variant, node 18707:209111) all confirm
+  upstream already — the group container itself carries no own height/padding/gap/radius (those
+  come from `has-[>[data-slot=button-group]]:gap-2`, a conditional, and from the children), so no
+  override was applied; upstream classes are kept byte-identical.
+#}
+{% set button_group_variants = {
+  horizontal: "[&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none",
+  vertical: "flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none"
+} %}
+{% set button_group_base = "flex w-fit items-stretch has-[>[data-slot=button-group]]:gap-2 [&>*]:focus-visible:relative [&>*]:focus-visible:z-10 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-md [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1" %}
+{% set orientation = orientation|default('horizontal') %}
+{% set button_group_classes = button_group_base ~ ' ' ~ button_group_variants[orientation] ~ (class is defined and class ? ' ' ~ class : '') %}
+<div
+  role="group"
+  data-slot="button-group"
+  data-orientation="{{ orientation }}"
+  class="{{ button_group_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {% block content %}
+    {%- for entry in items|default([]) %}
+      {%- set entry_type = entry.kind|default('button') %}
+      {%- if entry_type == 'text' %}
+      <div class="flex items-center gap-2 rounded-md border bg-muted px-4 text-sm font-medium shadow-xs [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4">
+        {%- if entry.icon %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}{{ entry.text }}
+      </div>
+      {%- elseif entry_type == 'separator' %}
+      <div data-slot="button-group-separator" data-orientation="{{ entry.orientation|default('vertical') }}" role="none" class="shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px relative m-0! self-stretch bg-input data-[orientation=vertical]:h-auto"></div>
+      {%- else %}
+      {%- include '@components/base/button/button.twig' with entry|merge({ variant: entry.variant|default('outline'), size: entry.size|default('sm') }) only %}
+      {%- endif %}
+    {%- endfor %}
+  {% endblock %}
+</div>

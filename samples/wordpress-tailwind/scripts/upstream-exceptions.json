@@ -171,6 +171,61 @@
         "note": "recharts (upstream) is replaced end-to-end by chart.js; class strings are not comparable 1:1. See PORTING.md Adaptation table / docs/adr/0002-native-html-apis-instead-of-radix.md."
       }
     ],
+    "table": [
+      {
+        "from": "h-10",
+        "to": "h-12",
+        "source": "figma",
+        "node": "324:296",
+        "note": "Figma table kit measures a 48px head row height; replaces TableHead's h-10 (40px). TableCell has no own h-* token upstream (height comes from padding) — the 44px cell height fact is applied directly in table.twig as an added h-11 utility, not an exception (EXTRA, expected, same convention as item's px-4/py-3.5 split)."
+      },
+      {
+        "from": "px-2",
+        "to": "px-3",
+        "source": "figma",
+        "node": "324:296",
+        "note": "Figma table kit measures 12px horizontal padding on both head and cell; replaces px-2 (8px) wherever it occurs in table.tsx (TableHead and TableCell)."
+      },
+      {
+        "from": "p-2",
+        "to": null,
+        "source": "figma",
+        "node": "324:296",
+        "note": "TableCell's own token is the p-2 shorthand (8px all sides); the 12px horizontal / 44px total row height facts can't be expressed as a single shorthand replacement, so table.twig writes the two explicit utilities instead (px-3, already covered by the px-2->px-3 exception above, and py-2 + an added h-11 for the 44px row height — same shorthand-split convention as item's p-4 -> px-4/py-3.5)."
+      }
+    ],
+    "input-group": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-4xl",
+        "source": "figma",
+        "node": "18677:9942",
+        "note": "Kit measures a 26px corner radius on the input-group container wrapping an <input> (pill, matching base/button's own rounded-4xl radius token); height (36px, h-9) and the container's own padding/gap already match upstream. The diff-figma-upstream.mjs proposal for this node (h-4/px-0/py-0, ~16px) was discarded as not-applied — it conflates the container with a smaller nested part (likely an icon-only addon), not the group root; the 26px radius given here follows the task brief's corrected measurement instead. A textarea-in-group measures 18px (rounded-2xl, matching base/textarea's own radius) rather than 26px: since the base string can't express two radii, this is added directly in input-group.twig as an extra has-[>textarea]:rounded-2xl utility (EXTRA, not a second exception)."
+      }
+    ],
+    "field": [
+      {
+        "from": "gap-6",
+        "to": "gap-3",
+        "source": "figma",
+        "node": "21209:127186",
+        "note": "Figma kit measures a 12px gap between stacked fields inside a field-set; replaces FieldSet's gap-6 (24px). Field's own gap (fieldVariants base) is already gap-3 (12px) upstream, matching the kit's \"field gap 12\" fact with no change needed. FieldLabel/FieldTitle text (\"label 14/20\") already matches upstream's text-sm (14px) + leading-snug (~20px) — no override needed. The diff-figma-upstream.mjs proposals h-5->h-25 (absurd 100px), px-2->px-0 and rounded-md->rounded-xs (this node's only real conditional rounded-md is FieldLabel's card-style has-[>[data-slot=field]] variant, unrelated to the measured 0-radius node) were discarded as not-applied — noise from a single-node measurement that doesn't map to any of field.tsx's own literal tokens."
+      }
+    ],
+    "pagination": [
+      {
+        "from": "hidden",
+        "to": null,
+        "source": "port",
+        "note": "Upstream wraps the Previous/Next text in a <span className=\"hidden sm:block\"> to hide it below sm; base/button/button.twig's label is a plain <span> with no per-run class hook (same limitation as item.twig/attachment noted in docs/reports/phase-4-b2a-static.md, follow-up B8), so the label is always visible here instead of hidden on mobile."
+      },
+      {
+        "from": "sm:block",
+        "to": null,
+        "source": "port",
+        "note": "See the 'hidden' exception above — same span, dropped as a pair."
+      }
+    ],
     "combobox": [
       {
         "from": "*",

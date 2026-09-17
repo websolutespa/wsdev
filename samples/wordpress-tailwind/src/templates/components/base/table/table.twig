@@ -1,0 +1,53 @@
+{#
+  Params:
+  - caption?: String — rendered in table-caption
+  - columns?: Array<{ label: String, class?: String }> — table-head cells
+  - rows?: Array<{ cells: Array<{ value: String, class?: String }>, selected?: Boolean }>
+            — table-body rows; data-driven, never embeds inside a loop
+  - footer?: Array<{ cells: Array<{ value: String, class?: String }> }> — table-footer rows
+  - id?: String
+  - class?: String — appended last on the <table>; additive utilities only
+  - attrs?: String — raw extra attributes on the <table>, trusted input only
+
+  Figma overrides (scripts/upstream-exceptions.json "table"): head/cell height 48/44px and
+  12px horizontal padding replace upstream's 40px head and 8px padding.
+#}
+<div data-slot="table-container" class="relative w-full overflow-x-auto">
+  <table
+    data-slot="table"
+    class="w-full caption-bottom text-sm{% if class is defined and class %} {{ class }}{% endif %}"
+    {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+    {%- if caption %}<caption data-slot="table-caption" class="mt-4 text-sm text-muted-foreground">{{ caption }}</caption>{% endif %}
+    {%- if columns %}
+    <thead data-slot="table-header" class="[&_tr]:border-b">
+      <tr data-slot="table-row" class="border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted">
+        {%- for column in columns %}
+        <th data-slot="table-head" class="h-12 px-3 text-left align-middle font-medium whitespace-nowrap text-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]{% if column.class %} {{ column.class }}{% endif %}">{{ column.label }}</th>
+        {%- endfor %}
+      </tr>
+    </thead>
+    {%- endif %}
+    {%- if rows %}
+    <tbody data-slot="table-body" class="[&_tr:last-child]:border-0">
+      {%- for row in rows %}
+      <tr data-slot="table-row" class="border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted"{% if row.selected %} data-state="selected"{% endif %}>
+        {%- for cell in row.cells %}
+        <td data-slot="table-cell" class="h-11 py-2 px-3 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]{% if cell.class %} {{ cell.class }}{% endif %}">{{ cell.value }}</td>
+        {%- endfor %}
+      </tr>
+      {%- endfor %}
+    </tbody>
+    {%- endif %}
+    {%- if footer %}
+    <tfoot data-slot="table-footer" class="border-t bg-muted/50 font-medium [&>tr]:last:border-b-0">
+      {%- for row in footer %}
+      <tr data-slot="table-row" class="border-b transition-colors hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted">
+        {%- for cell in row.cells %}
+        <td data-slot="table-cell" class="h-11 py-2 px-3 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]{% if cell.class %} {{ cell.class }}{% endif %}">{{ cell.value }}</td>
+        {%- endfor %}
+      </tr>
+      {%- endfor %}
+    </tfoot>
+    {%- endif %}
+  </table>
+</div>

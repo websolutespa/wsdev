@@ -1,0 +1,22 @@
+{
+  "mocks": {
+    "input-group": {
+      "default": {
+        "input": { "name": "ricerca", "placeholder": "Cerca pratica…", "ariaLabel": "Cerca pratica" },
+        "addonStart": { "icon": "search" }
+      },
+      "with-button": {
+        "input": { "name": "email", "type": "email", "placeholder": "nome@azienda.it", "ariaLabel": "Indirizzo email" },
+        "addonEnd": { "button": { "icon": "x", "ariaLabel": "Svuota campo" } }
+      },
+      "textarea": {
+        "textarea": { "name": "note", "placeholder": "Aggiungi una nota…", "rows": 3, "ariaLabel": "Note pratica" },
+        "addonEnd": { "align": "block-end", "text": "Max 500 caratteri" }
+      },
+      "invalid": {
+        "input": { "name": "codice-fiscale", "placeholder": "RSSMRA80A01H501U", "invalid": true, "ariaLabel": "Codice fiscale" },
+        "addonStart": { "icon": "triangle-alert" }
+      }
+    }
+  }
+}

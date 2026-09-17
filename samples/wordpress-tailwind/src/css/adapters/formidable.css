@@ -1,0 +1,75 @@
+/*
+ * Formidable Forms adapter — maps WordPress Formidable's own markup/classes
+ * onto this project's ported component classes via @apply, so a Formidable
+ * form styles itself as base/field + base/input + base/button without
+ * touching Formidable's templates. Disabled by default: enable by
+ * uncommenting the `@import './adapters/formidable.css';` line in
+ * src/css/globals.css (next to `./components.css`) on the sites/pages that
+ * actually render Formidable forms.
+ *
+ * Class strings below are copied verbatim from the corresponding ported
+ * component (base/input, base/textarea, base/native-select, base/button,
+ * base/label, base/field) — see PORTING.md for the source of truth rule.
+ * .frm_checkbox/.frm_radio have no ported base/checkbox or base/radio-group
+ * yet in this sample; their rule is a reasonable placeholder to replace with
+ * the real component classes once those are ported.
+ */
+@layer components {
+  .frm_forms .frm_form_field {
+    @apply mb-6 flex w-full flex-col gap-1.5;
+  }
+
+  .frm_forms .frm_primary_label {
+    @apply flex items-center gap-2 text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50;
+  }
+  .frm_forms .frm_primary_label .frm_required {
+    @apply text-destructive;
+  }
+
+  .frm_forms .frm_description {
+    @apply text-sm leading-normal font-normal text-muted-foreground;
+  }
+
+  .frm_forms .frm_error,
+  .frm_forms .frm_error_style {
+    @apply text-sm font-normal text-destructive;
+  }
+  /* .frm_error_style also wraps a whole invalid field (Formidable's inline error box) —
+     styled like an inline destructive alert rather than the plain field-error text. */
+  .frm_forms .frm_error_style {
+    @apply relative grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border bg-card px-4 py-3 text-destructive;
+  }
+
+  .frm_forms .frm_form_field input[type='text'],
+  .frm_forms .frm_form_field input[type='email'],
+  .frm_forms .frm_form_field input[type='tel'],
+  .frm_forms .frm_form_field input[type='url'],
+  .frm_forms .frm_form_field input[type='number'],
+  .frm_forms .frm_form_field input[type='password'],
+  .frm_forms .frm_form_field input[type='search'],
+  .frm_forms .frm_form_field input[type='date'] {
+    @apply h-9 w-full min-w-0 rounded-3xl border border-input bg-transparent px-3 py-1 text-base transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40;
+  }
+
+  .frm_forms .frm_form_field textarea {
+    @apply field-sizing-content flex min-h-16 w-full rounded-2xl border border-input bg-transparent px-3 py-3 text-base transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40;
+  }
+
+  .frm_forms .frm_form_field select {
+    @apply h-9 w-full min-w-0 appearance-none rounded-md border border-input bg-transparent px-3 py-2 pr-9 text-sm shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-input/30 dark:hover:bg-input/50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40;
+  }
+
+  /* Placeholder — replace with base/checkbox and base/radio-group's own classes once ported. */
+  .frm_forms .frm_checkbox,
+  .frm_forms .frm_radio {
+    @apply flex items-center gap-2 text-sm leading-none font-medium;
+  }
+  .frm_forms .frm_checkbox input,
+  .frm_forms .frm_radio input {
+    @apply size-4 shrink-0 accent-primary;
+  }
+
+  .frm_forms .frm_submit button {
+    @apply inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl bg-primary px-3 py-2 text-sm font-medium whitespace-nowrap text-primary-foreground transition-all outline-none hover:bg-primary/90 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50;
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "mocks": {
+    "spinner": {
+      "default": { "ariaLabel": "Caricamento in corso" },
+      "size-12": { "size": "12", "ariaLabel": "Caricamento" },
+      "size-20": { "size": "20", "ariaLabel": "Caricamento" },
+      "size-24": { "size": "24", "ariaLabel": "Caricamento" },
+      "size-32": { "size": "32", "ariaLabel": "Caricamento pratica" }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "mocks": {
+    "table": {
+      "default": {
+        "caption": "Elenco pratiche recenti.",
+        "columns": [
+          { "label": "Pratica" },
+          { "label": "Cliente" },
+          { "label": "Stato" }
+        ],
+        "rows": [
+          { "cells": [{ "value": "PR-2201" }, { "value": "Bianchi Costruzioni Srl" }, { "value": "In lavorazione" }] },
+          { "cells": [{ "value": "PR-2202" }, { "value": "Verdi Immobiliare" }, { "value": "Approvata" }], "selected": true },
+          { "cells": [{ "value": "PR-2203" }, { "value": "Rossi & Associati" }, { "value": "In attesa documenti" }] }
+        ]
+      },
+      "with-footer": {
+        "caption": "Riepilogo fatturato per trimestre.",
+        "columns": [
+          { "label": "Trimestre" },
+          { "label": "Fatturato" }
+        ],
+        "rows": [
+          { "cells": [{ "value": "Q1 2026" }, { "value": "€ 120.000" }] },
+          { "cells": [{ "value": "Q2 2026" }, { "value": "€ 148.500" }] }
+        ],
+        "footer": [
+          { "cells": [{ "value": "Totale" }, { "value": "€ 268.500" }] }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{#
+  Params:
+  - items: Array<{ label: String, url?: String, ellipsis?: Boolean }> — REQUIRED, data-driven,
+            never embeds inside a loop; the last item (or the first with no url) renders as the
+            current page (aria-current="page", no link); an item with ellipsis: true renders the
+            collapsed-items indicator instead of a link
+  - id?: String
+  - class?: String — appended last on the breadcrumb root; additive utilities only
+  - attrs?: String — raw extra attributes on the breadcrumb root, trusted input only
+#}
+<nav aria-label="breadcrumb" data-slot="breadcrumb"{% if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <ol data-slot="breadcrumb-list" class="flex flex-wrap items-center gap-1.5 text-sm break-words text-muted-foreground sm:gap-2.5{% if class is defined and class %} {{ class }}{% endif %}">
+    {%- for item in items %}
+    {%- if not loop.first %}
+    <li data-slot="breadcrumb-separator" role="presentation" aria-hidden="true" class="[&>svg]:size-3.5">
+      <svg aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
+    </li>
+    {%- endif %}
+    <li data-slot="breadcrumb-item" class="inline-flex items-center gap-1.5">
+      {%- if item.ellipsis %}
+      <span data-slot="breadcrumb-ellipsis" role="presentation" aria-hidden="true" class="flex size-9 items-center justify-center">
+        <svg aria-hidden="true" class="size-4"><use href="#icon-ellipsis"></use></svg>
+        <span class="sr-only">Altre pagine</span>
+      </span>
+      {%- elseif loop.last or not item.url %}
+      <span data-slot="breadcrumb-page" role="link" aria-disabled="true" aria-current="page" class="font-normal text-foreground">{{ item.label }}</span>
+      {%- else %}
+      <a data-slot="breadcrumb-link" href="{{ item.url }}" class="transition-colors hover:text-foreground">{{ item.label }}</a>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+  </ol>
+</nav>

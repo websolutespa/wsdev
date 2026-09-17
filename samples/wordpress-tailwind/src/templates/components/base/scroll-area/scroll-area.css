@@ -1,0 +1,30 @@
+/*
+ * Native scrollbar theming — allowed exception (PORTING.md): scrollbar pseudo-elements
+ * cannot carry utility classes. Mirrors the upstream scroll-area scrollbar tokens: 10px
+ * rail (w-2.5/h-2.5), transparent track, bg-border rounded-full thumb inset by 1px (p-px)
+ * via the border trick. The standard properties cover Firefox (and take over on Blink >=
+ * 121, where they disable the -webkit-* rules); ::-webkit-scrollbar covers Safari/older
+ * Blink. The decorative scroll-area-scrollbar/-thumb markup in scroll-area.twig stays
+ * invisible (opacity-0) — this is the actual, functional scrollbar.
+ */
+[data-slot='scroll-area-viewport'] {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+[data-slot='scroll-area-viewport']::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+[data-slot='scroll-area-viewport']::-webkit-scrollbar-track {
+  background: transparent;
+}
+[data-slot='scroll-area-viewport']::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background-clip: padding-box;
+}
+[data-slot='scroll-area-viewport']::-webkit-scrollbar-corner {
+  background: transparent;
+}

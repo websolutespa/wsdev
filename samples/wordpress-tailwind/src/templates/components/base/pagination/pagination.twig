@@ -1,0 +1,73 @@
+{#
+  Params:
+  - items: Array<{ page: Number|String, url?: String, ellipsis?: Boolean }> — REQUIRED,
+            data-driven page links; never embeds inside a loop
+  - current: Number|String — REQUIRED, the active item's `page` value
+  - prevUrl?: String — omit to disable the previous link
+  - nextUrl?: String — omit to disable the next link
+  - id?: String
+  - class?: String — appended last on the pagination root; additive utilities only
+  - attrs?: String — raw extra attributes on the pagination root, trusted input only
+
+  Prev/next reuse base/button/button.twig verbatim (variant ghost, upstream composition).
+  Their "Previous"/"Next" label is always visible (no responsive hidden sm:block span — see
+  scripts/upstream-exceptions.json "pagination").
+  Page links are rendered inline: button.twig always emits data-slot="button" (no slot
+  override param — see docs/reports/phase-4-b2a-static.md follow-up B8), but upstream's
+  PaginationLink needs data-slot="pagination-link" + data-active, so its buttonVariants()
+  output (outline/ghost, size icon) is duplicated here from base/button/button.twig verbatim.
+#}
+{% set pagination_link_base = "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4" %}
+{% set pagination_link_variants = {
+  outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+  ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50"
+} %}
+{% set pagination_link_size = "size-9" %}
+<nav
+  role="navigation"
+  aria-label="pagination"
+  data-slot="pagination"
+  class="mx-auto flex w-full justify-center{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <ul data-slot="pagination-content" class="flex flex-row items-center gap-1">
+    <li data-slot="pagination-item">
+      {%- include '@components/base/button/button.twig' with {
+        url: prevUrl,
+        label: 'Precedente',
+        icon: 'chevron-left',
+        variant: 'ghost',
+        size: 'default',
+        disabled: not prevUrl,
+        class: 'gap-1 px-2.5 sm:pl-2.5'
+      } only %}
+    </li>
+    {%- for item in items %}
+    <li data-slot="pagination-item">
+      {%- if item.ellipsis %}
+      <span aria-hidden="true" data-slot="pagination-ellipsis" class="flex size-9 items-center justify-center">
+        <svg aria-hidden="true" class="size-4"><use href="#icon-ellipsis"></use></svg>
+        <span class="sr-only">Altre pagine</span>
+      </span>
+      {%- else %}
+      <a
+        data-slot="pagination-link"
+        data-active="{{ item.page == current ? 'true' : 'false' }}"
+        {%- if item.page == current %} aria-current="page"{% endif %}
+        href="{{ item.url }}"
+        class="{{ pagination_link_base }} {{ item.page == current ? pagination_link_variants.outline : pagination_link_variants.ghost }} {{ pagination_link_size }}">{{ item.page }}</a>
+      {%- endif %}
+    </li>
+    {%- endfor %}
+    <li data-slot="pagination-item">
+      {%- include '@components/base/button/button.twig' with {
+        url: nextUrl,
+        label: 'Successiva',
+        iconAfter: 'chevron-right',
+        variant: 'ghost',
+        size: 'default',
+        disabled: not nextUrl,
+        class: 'gap-1 px-2.5 sm:pr-2.5'
+      } only %}
+    </li>
+  </ul>
+</nav>

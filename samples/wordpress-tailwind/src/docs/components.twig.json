@@ -153,6 +153,50 @@
               "disabled",
               "rows"
             ]
+          },
+          {
+            "name": "native-select",
+            "title": "Native Select",
+            "description": "Menu a tendina nativo con stile shadcn/ui.",
+            "scenarios": [
+              "default",
+              "size-sm",
+              "with-optgroups",
+              "disabled",
+              "invalid"
+            ]
+          },
+          {
+            "name": "input-group",
+            "title": "Input Group",
+            "description": "Input o textarea con addon inline (icone, testo, bottoni).",
+            "scenarios": [
+              "default",
+              "with-button",
+              "textarea",
+              "invalid"
+            ]
+          },
+          {
+            "name": "field",
+            "title": "Field",
+            "description": "Wrapper di campo form con etichetta, descrizione ed errore.",
+            "scenarios": [
+              "default",
+              "horizontal",
+              "invalid",
+              "disabled"
+            ]
+          },
+          {
+            "name": "button-group",
+            "title": "Button Group",
+            "description": "Gruppo di bottoni adiacenti, orizzontale o verticale.",
+            "scenarios": [
+              "default",
+              "vertical",
+              "with-text"
+            ]
           }
         ]
       },
@@ -205,6 +249,43 @@
               "size-sm",
               "as-link",
               "group"
+            ]
+          },
+          {
+            "name": "table",
+            "title": "Table",
+            "description": "Tabella dati con intestazione, righe e piè di pagina opzionale.",
+            "scenarios": [
+              "default",
+              "with-footer"
+            ]
+          },
+          {
+            "name": "breadcrumb",
+            "title": "Breadcrumb",
+            "description": "Percorso di navigazione gerarchico.",
+            "scenarios": [
+              "default",
+              "with-ellipsis"
+            ]
+          },
+          {
+            "name": "pagination",
+            "title": "Pagination",
+            "description": "Navigazione tra pagine di risultati.",
+            "scenarios": [
+              "default",
+              "with-ellipsis",
+              "first-page"
+            ]
+          },
+          {
+            "name": "scroll-area",
+            "title": "Scroll Area",
+            "description": "Area con scroll nativo e scrollbar tematizzata.",
+            "scenarios": [
+              "default",
+              "horizontal"
             ]
           }
         ]
@@ -282,6 +363,28 @@
               "default",
               "destructive",
               "no-icon"
+            ]
+          },
+          {
+            "name": "progress",
+            "title": "Progress",
+            "description": "Barra di avanzamento determinata.",
+            "scenarios": [
+              "default",
+              "empty",
+              "complete"
+            ]
+          },
+          {
+            "name": "spinner",
+            "title": "Spinner",
+            "description": "Indicatore di caricamento animato.",
+            "scenarios": [
+              "default",
+              "size-12",
+              "size-20",
+              "size-24",
+              "size-32"
             ]
           }
         ]

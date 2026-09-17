@@ -1,0 +1,24 @@
+{#
+  Params:
+  - value?: Number — 0–100 (default: 0); drives aria-valuenow and the indicator width
+  - ariaLabel?: String — accessible name for the progressbar
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+
+  Port exception (scripts/upstream-exceptions.json "progress" > "transition-all"):
+  upstream computes the indicator width from a React inline style; this port does the
+  same directly in Twig since `value` is known at render time — no module required.
+#}
+{% set value = value|default(0) %}
+<div
+  data-slot="progress"
+  role="progressbar"
+  aria-valuenow="{{ value }}"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+  class="relative h-2 w-full overflow-hidden rounded-full bg-primary/20{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <div data-slot="progress-indicator" class="h-full w-full flex-1 bg-primary transition-all" style="transform: translateX(-{{ 100 - value }}%)"></div>
+</div>

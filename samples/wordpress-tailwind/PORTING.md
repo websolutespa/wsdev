@@ -139,7 +139,7 @@ without a `window.*` global.
 | Direction | Shape | Examples |
 |---|---|---|
 | Incoming command | `CustomEvent('<component>:<verb>')` dispatched on the component root | `dialog:open`, `dialog:close`, `sheet:open` |
-| Outgoing notification | `CustomEvent('<component>:<past-participle>', { bubbles: true, detail })` | `dialog:opened`, `dialog:closed`, `menu:select`, `tabs:change`, `select:change`, `form:submitted`, `form:invalid` |
+| Outgoing notification | `CustomEvent('<component>:<past-participle>', { bubbles: true, detail })` | `dialog:opened`, `dialog:closed`, `menu:select`, `tabs:change`, `select:change`, `form:submitted` (`{ native: true }` or `{ ok, status, data }`), `form:invalid` (`{ invalid: string[] }`), `form:error` (`{ error }`, fetch submission network failure) |
 | Declarative open/close hooks | attributes read by the module at init, no JS wiring needed | `[data-<comp>-open="<id>"]`, `[data-<comp>-close]` |
 | Toasts | imperative function, not an event | `toast()` from `src/js/common/toast.js` |
 

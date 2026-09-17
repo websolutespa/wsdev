@@ -1,0 +1,21 @@
+{
+  "mocks": {
+    "breadcrumb": {
+      "default": {
+        "items": [
+          { "label": "Home", "url": "/" },
+          { "label": "Pratiche", "url": "/pratiche" },
+          { "label": "PR-2201" }
+        ]
+      },
+      "with-ellipsis": {
+        "items": [
+          { "label": "Home", "url": "/" },
+          { "label": "…", "ellipsis": true },
+          { "label": "Documenti", "url": "/pratiche/pr-2201/documenti" },
+          { "label": "Contratto firmato" }
+        ]
+      }
+    }
+  }
+}

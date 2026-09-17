@@ -1,0 +1,29 @@
+{
+  "mocks": {
+    "field": {
+      "default": {
+        "label": "Nome completo",
+        "for": "field-nome",
+        "description": "Come indicato sul documento d'identità."
+      },
+      "horizontal": {
+        "label": "Notifiche email",
+        "for": "field-notifiche",
+        "orientation": "horizontal",
+        "description": "Ricevi un riepilogo settimanale via email."
+      },
+      "invalid": {
+        "label": "Codice fiscale",
+        "for": "field-cf",
+        "invalid": true,
+        "error": "Il codice fiscale inserito non è valido."
+      },
+      "disabled": {
+        "label": "Piano tariffario",
+        "for": "field-piano",
+        "disabled": true,
+        "description": "Modificabile solo dall'amministratore."
+      }
+    }
+  }
+}

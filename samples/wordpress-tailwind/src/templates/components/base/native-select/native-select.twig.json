@@ -1,0 +1,68 @@
+{
+  "mocks": {
+    "native-select": {
+      "default": {
+        "name": "paese",
+        "id": "native-select-paese",
+        "ariaLabel": "Seleziona il paese",
+        "options": [
+          { "value": "it", "label": "Italia", "selected": true },
+          { "value": "fr", "label": "Francia" },
+          { "value": "de", "label": "Germania" }
+        ]
+      },
+      "size-sm": {
+        "name": "priorita",
+        "id": "native-select-priorita",
+        "size": "sm",
+        "ariaLabel": "Seleziona la priorità",
+        "options": [
+          { "value": "bassa", "label": "Bassa" },
+          { "value": "media", "label": "Media", "selected": true },
+          { "value": "alta", "label": "Alta" }
+        ]
+      },
+      "with-optgroups": {
+        "name": "citta",
+        "id": "native-select-citta",
+        "ariaLabel": "Seleziona la città",
+        "optgroups": [
+          {
+            "label": "Nord",
+            "options": [
+              { "value": "mi", "label": "Milano", "selected": true },
+              { "value": "to", "label": "Torino" }
+            ]
+          },
+          {
+            "label": "Centro",
+            "options": [
+              { "value": "ro", "label": "Roma" },
+              { "value": "fi", "label": "Firenze" }
+            ]
+          }
+        ]
+      },
+      "disabled": {
+        "name": "stato",
+        "id": "native-select-stato",
+        "disabled": true,
+        "ariaLabel": "Stato pratica",
+        "options": [
+          { "value": "chiusa", "label": "Pratica chiusa", "selected": true }
+        ]
+      },
+      "invalid": {
+        "name": "regione",
+        "id": "native-select-regione",
+        "invalid": true,
+        "ariaLabel": "Seleziona la regione",
+        "options": [
+          { "value": "", "label": "Seleziona…", "selected": true },
+          { "value": "lazio", "label": "Lazio" },
+          { "value": "lombardia", "label": "Lombardia" }
+        ]
+      }
+    }
+  }
+}

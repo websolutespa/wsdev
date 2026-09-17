@@ -1,0 +1,24 @@
+{#
+  Params:
+  - size?: '12'|'16'|'20'|'24'|'32' as string (default: '16') — px diameter; kit sizes
+            (tokens/figma-components/spinner.json); '16' matches upstream's fixed size-4
+  - ariaLabel?: String — accessible name (default: 'Loading', matches upstream)
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+{% set spinner_sizes = {
+  '12': 'size-3',
+  '16': 'size-4',
+  '20': 'size-5',
+  '24': 'size-6',
+  '32': 'size-8'
+} %}
+{% set size = size|default('16') %}
+<svg
+  role="status"
+  aria-label="{{ ariaLabel|default('Loading') }}"
+  class="{{ spinner_sizes[size] }} animate-spin{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <use href="#icon-loader-circle"></use>
+</svg>

@@ -1,0 +1,9 @@
+{
+  "mocks": {
+    "progress": {
+      "default": { "value": 40, "ariaLabel": "Caricamento pratica" },
+      "empty": { "value": 0, "ariaLabel": "Nessun avanzamento" },
+      "complete": { "value": 100, "ariaLabel": "Upload completato" }
+    }
+  }
+}

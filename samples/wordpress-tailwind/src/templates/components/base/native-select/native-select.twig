@@ -1,0 +1,42 @@
+{#
+  Params:
+  - options?: Array<{ value: String, label: String, selected?: Boolean, disabled?: Boolean }>
+              — flat options, rendered before optgroups
+  - optgroups?: Array<{ label: String, options: Array<{ value, label, selected?, disabled? }> }>
+              — grouped options, data-driven (never embeds inside a loop)
+  - name?: String
+  - id?: String — required when an external <label for> points at the field
+  - size?: 'default'|'sm' as string (default: 'default')
+  - disabled?: Boolean
+  - required?: Boolean
+  - invalid?: Boolean — emits aria-invalid="true" (activates the upstream aria-invalid: classes)
+  - ariaLabel?: String — accessible name when no external <label for> is wired
+  - class?: String — appended last on the wrapper; additive utilities only
+  - attrs?: String — raw extra attributes on the <select>, trusted input only
+#}
+{% set size = size|default('default') %}
+{% set native_select_classes = "h-9 w-full min-w-0 appearance-none rounded-md border border-input bg-transparent px-3 py-2 pr-9 text-sm shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed data-[size=sm]:h-8 data-[size=sm]:py-1 dark:bg-input/30 dark:hover:bg-input/50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40" %}
+<div data-slot="native-select-wrapper" class="group/native-select relative w-fit has-[select:disabled]:opacity-50{% if class is defined and class %} {{ class }}{% endif %}">
+  <select
+    data-slot="native-select"
+    data-size="{{ size }}"
+    class="{{ native_select_classes }}"
+    {%- if name %} name="{{ name }}"{% endif %}
+    {%- if id is defined and id %} id="{{ id }}"{% endif %}
+    {%- if disabled %} disabled{% endif %}
+    {%- if required %} required{% endif %}
+    {%- if invalid %} aria-invalid="true"{% endif %}
+    {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %} {{ attrs|default('')|raw }}>
+    {%- for opt in options|default([]) %}
+    <option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="{{ opt.value }}"{% if opt.selected %} selected{% endif %}{% if opt.disabled %} disabled{% endif %}>{{ opt.label }}</option>
+    {%- endfor %}
+    {%- for group in optgroups|default([]) %}
+    <optgroup data-slot="native-select-optgroup" class="bg-[Canvas] text-[CanvasText]" label="{{ group.label }}">
+      {%- for opt in group.options %}
+      <option data-slot="native-select-option" class="bg-[Canvas] text-[CanvasText]" value="{{ opt.value }}"{% if opt.selected %} selected{% endif %}{% if opt.disabled %} disabled{% endif %}>{{ opt.label }}</option>
+      {%- endfor %}
+    </optgroup>
+    {%- endfor %}
+  </select>
+  <svg data-slot="native-select-icon" aria-hidden="true" class="pointer-events-none absolute top-1/2 right-3.5 size-4 -translate-y-1/2 text-muted-foreground opacity-50 select-none"><use href="#icon-chevron-down"></use></svg>
+</div>

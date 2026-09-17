@@ -44,6 +44,11 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ alert, aspect-ratio, avatar (+modulo), badge, empty, item, kbd, marker, message, bubble, attachment. Override Figma solo su empty/item/kbd (avatar e badge già coerenti), aspect-ratio come port exception (nessuna classe upstream). Tre bug corretti in `diff-figma-upstream.mjs`. Gate verdi (18 componenti). Report: [reports/phase-4-b2a-static.md](reports/phase-4-b2a-static.md).
 - ⚠️ Follow-up B8: parametro `slot?` su button/separator per riuso dentro attachment/item.
 
+### Fase 4 — B2b statici, parte 2 + form (agent Sonnet)
+
+- ✅ native-select, progress, spinner, table, breadcrumb, pagination, button-group, input-group, field, scroll-area (+css). Override Figma su table, input-group, field. Form: `formValidation.js`, `form.module.js` (eventi `form:invalid|submitted|error`), adapter `adapters/formidable.css` (import commentato), `docs/forms.twig`. 28 componenti, gate verdi. Report: [reports/phase-4-b2b-static-forms.md](reports/phase-4-b2b-static-forms.md).
+- ⚠️ Follow-up B8: `slot?` su button/separator/label (limite emerso in 5 componenti); `.frm_checkbox`/`.frm_radio` dopo B6.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

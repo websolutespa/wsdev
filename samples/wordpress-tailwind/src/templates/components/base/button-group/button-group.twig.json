@@ -1,0 +1,27 @@
+{
+  "mocks": {
+    "button-group": {
+      "default": {
+        "items": [
+          { "label": "Giorno" },
+          { "label": "Settimana", "variant": "default" },
+          { "label": "Mese" }
+        ]
+      },
+      "vertical": {
+        "orientation": "vertical",
+        "items": [
+          { "label": "Copia", "icon": "copy" },
+          { "kind": "separator" },
+          { "label": "Elimina", "icon": "x" }
+        ]
+      },
+      "with-text": {
+        "items": [
+          { "kind": "text", "text": "https://" },
+          { "label": "websolute.it" }
+        ]
+      }
+    }
+  }
+}
