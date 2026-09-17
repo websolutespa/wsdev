@@ -1,0 +1,39 @@
+# Diario di lavoro — sample `wordpress-tailwind`
+
+Cronologia di ciò che è stato fatto, da chi (orchestratore o agent) e con quale esito. Le decisioni di progetto sono in [DECISIONS.md](DECISIONS.md) e negli [ADR](adr/); i report dettagliati per fase in [reports/](reports/). Il piano approvato vive fuori dal repo (`~/.claude/plans/questo-progetto-permette-di-prancy-lynx.md`).
+
+Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ in corso · ⛔ bloccato · ⚠️ nota aperta.
+
+## 2026-09-17
+
+### Analisi e piano
+
+- ✅ Esplorazione di wsdev (CLI `ws create`, sample `wordpress` e `tailwind`, ws-vite) e di area-broker (Tailwind v4 CSS-first + shadcn portato in Twig) con due agent Explore in parallelo.
+- ✅ Verifica del kit Figma `0vHlrWA2vzmhhZCeJQN3ZP` con `use_figma`: 6 collezioni di variabili, font DM Sans, primary `brand/blue/800`, bottoni 36/32/40 px, radius pill 26/22/14. Confronto misure vs registry `radix-vega`, `radix-nova`, `new-york-v4`: il kit è un ibrido `new-york-v4` + personalizzazioni. Dettagli in [reports/phase-0-analysis.md](reports/phase-0-analysis.md).
+- ✅ Piano scritto e sottoposto a grill (`/grill-with-docs`, 20 domande): esiti in [DECISIONS.md](DECISIONS.md). Piano approvato.
+
+### Fase 1 — Skeleton + pipeline WP + registrazione CLI (agent Sonnet)
+
+- ✅ Cartella `samples/wordpress-tailwind/` creata dal sample `wordpress` (dotfiles, asset, media, meta, lazyLoad) con `package.json` `@wordpress-tailwind/web`, `vite.config.js` (`tailwind: true`, `twig.data` per i mock), `main.json` (+ `layout.wp`, `layout.site`), `globals.css` con le nove zone marker, `shadcn.css` vendorizzato (shadcn@4.21.0), `main.js`, `colorScheme.js` (`.dark`), layout con script no-flash, partial resources dev/prod, `fonts.twig` (Google Fonts), `404.twig`.
+- ✅ Registrazione: wizard ws-cli (`wordpress-tailwind`), script root `dev/build/preview:wordpress-tailwind`, README (tabella Samples: aggiunte anche le righe mancanti `wordpress` e `drupal`), ROADMAP, CONTRIBUTING.
+- ✅ Gate: `npm install` (ws-vite risolto dal workspace), build → `dist/css/globals.min.css` + `dist/js/globals.min.js`, dev server 200, eslint (solo i 2 errori `turbo/no-undeclared-env-vars` preesistenti in tutti i sample).
+- ⚠️ Scoperte tecniche: il nome del bundle segue il CSS linkato nel layout solo con ≥ 2 pagine e con `<script>` prima di `<link>` (da qui `404.twig`); il prettifier HTML di ws-vite unisce le righe degli script inline (mai commenti `//` inline); in build Vite collassa i `..` dell'URL Google Fonts (`9..40` → `9.40`), il font carica ma senza range variabile — da indagare in Fase 5. Report: [reports/phase-1-skeleton.md](reports/phase-1-skeleton.md).
+
+### Fase 2 — Token da Figma (agent Sonnet per skill ed export, orchestratore per apply)
+
+- ✅ Skill `figma-tokens` copiata da area-broker e generalizzata (root discovery generico, routing `Brand`/`Responsive`, gruppi tipografici a 3 livelli, `reverse.mjs` riallineato), 49 test verdi. Report: [reports/phase-2-tokens.md](reports/phase-2-tokens.md).
+- ✅ Export DTCG del kit con `use_figma` (874 variabili, 0 alias irrisolti) in `tokens/figma-export/` (git-ignored).
+- ✅ Import: report-only 992/992 classificati → `--apply` → `globals.css` aggiornato solo dentro i marker. Due bug trovati e corretti dall'orchestratore: doppio suffisso alpha (`#FFFFFFF2F2`) → guardia sugli hex a 8 cifre in `toCssColor`; primitive nominate `--color-blue-*` (collisione con Tailwind) → famiglia = segmenti intermedi del path (`--color-brand-blue-*`) con il file Brand avvolto nella root di collezione. +2 test. Rimappatura `--text-*` sui token responsive e `--spacing-ws-*` aggiunte in `@theme inline`.
+- ✅ Misure Figma dei 22 kit component esportate in `tokens/figma-components/*.json` (agent Sonnet, `use_figma`).
+
+### Fase 2b — Skill `shadcn-port`
+
+- ✅ `SKILL.md` scritto dall'orchestratore via `/prompt-master`; script (probe, fetch, check-classes, scaffold, register-docs, normalize/diff Figma) implementati da un agent Sonnet e testati su rete reale (registry: 61/63 disponibili, mancano `toast` e `questionnaire`). Report: [reports/phase-2b-shadcn-port.md](reports/phase-2b-shadcn-port.md).
+
+### Commit
+
+- ✅ `c5e599a` — fasi 1, 2, 2b (97 file nuovi, 6 modificati) su `feat/wordpress-tailwind`.
+
+### Fase 3 — B1 fondamenta (agent Sonnet)
+
+- ⏳ Utility JS comuni, `PORTING.md`, icone lucide, docs page minima, componenti àncora button/separator/label/input/textarea/card/skeleton con override Figma.
