@@ -1,0 +1,73 @@
+{#
+  Slider — upstream track/range div structure (registry/new-york-v4/ui/slider.tsx:
+  Slider, SliderTrack, SliderRange, SliderThumb) with one native <input type="range">
+  per thumb overlaid on top, so pointer drag, keyboard (arrows/Home/End/PageUp/PageDown)
+  and form submission come from the platform for free. slider.module.js paints the
+  filled `slider-range` div and clamps a 2-thumb range so the thumbs cannot cross.
+
+  Params:
+  - name: String — REQUIRED, native input name (2-thumb range: name[] on both inputs)
+  - id?: String — set on the first thumb input (SSR label[for] wiring)
+  - min?: Number (default: 0)
+  - max?: Number (default: 100)
+  - step?: Number (default: 1)
+  - values?: Array<Number> — 1 entry = single thumb, 2 entries = range (default: [50])
+  - value?: Number — shorthand for values: [value] (ignored when `values` is given)
+  - labels?: Array<String> — accessible name per thumb (default: 'Valore' for a single
+              thumb, 'Valore minimo'/'Valore massimo' for a range)
+  - label?: String — renders a label row above the slider
+  - showValue?: Boolean — renders the live value readout next to the label
+  - orientation?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - disabled?: Boolean
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  Adaptations vs upstream (PORTING.md Adaptation table):
+  - SliderPrimitive.Thumb (styled div, one of possibly two) -> native
+    <input type="range"> stacked absolutely over the track, one per value; visual
+    thumb painted via slider.css ::-webkit-slider-thumb/::-moz-range-thumb (native
+    range pseudo-elements cannot carry utility classes, same rationale as the
+    progress/combobox port exceptions).
+  - `data-[disabled]` stays literal: the root is a plain <div>, so it can carry the
+    same bare boolean `data-disabled` attribute Radix would (no native-input
+    constraint here, unlike checkbox/radio-group/switch).
+
+  Figma override (scripts/upstream-exceptions.json "slider"): kit measures an 8px
+  track thickness (h-2/w-2, was upstream's h-1.5/w-1.5) inside the same 16px-tall
+  wrapper; thumb stays size-4 (16px) and rounded-full, already matching the kit.
+#}
+{% set orientation = orientation|default('horizontal') %}
+{% set min = min is defined ? min : 0 %}
+{% set max = max is defined ? max : 100 %}
+{% set step = step is defined ? step : 1 %}
+{% set values = values is defined and values ? values : [value is defined ? value : 50] %}
+{% set default_labels = values|length > 1 ? ['Valore minimo', 'Valore massimo'] : ['Valore'] %}
+{% set labels = labels is defined and labels ? labels : default_labels %}
+{% set slider_classes = "relative flex w-full touch-none items-center select-none data-[disabled]:opacity-50 data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col" ~ (class is defined and class ? ' ' ~ class : '') %}
+
+{% if label or showValue %}
+<div class="grid w-full gap-3">
+  <div class="flex items-center justify-between gap-2">
+    {%- if label %}<span class="flex items-center gap-2 text-sm leading-none font-medium select-none">{{ label }}</span>{% endif %}
+    {%- if showValue %}<span data-slot="slider-value" class="text-muted-foreground text-sm">{{ values|join(' – ') }}</span>{% endif %}
+  </div>
+{% endif %}
+  <div data-slot="slider" data-module="slider.module" data-orientation="{{ orientation }}"
+    {%- if disabled %} data-disabled{% endif %}
+    class="{{ slider_classes }}" {{ attrs|default('')|raw }}>
+    <div data-slot="slider-track" data-orientation="{{ orientation }}" class="relative grow overflow-hidden rounded-full bg-muted data-[orientation=horizontal]:h-2 data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-2">
+      <div data-slot="slider-range" data-orientation="{{ orientation }}" class="absolute bg-primary data-[orientation=horizontal]:h-full data-[orientation=vertical]:w-full"></div>
+    </div>
+    {%- for v in values %}
+    <input type="range" data-slot="slider-thumb" data-orientation="{{ orientation }}"
+      name="{{ name }}{% if values|length > 1 %}[]{% endif %}"
+      min="{{ min }}" max="{{ max }}" step="{{ step }}" value="{{ v }}"
+      aria-label="{{ labels[loop.index0]|default('Valore') }}"
+      {%- if loop.first and id %} id="{{ id }}"{% endif %}
+      {%- if disabled %} disabled{% endif %}
+      class="absolute inset-0 h-full w-full cursor-pointer appearance-none bg-transparent disabled:pointer-events-none disabled:cursor-default">
+    {%- endfor %}
+  </div>
+{% if label or showValue %}
+</div>
+{% endif %}

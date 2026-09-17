@@ -1,0 +1,66 @@
+{#
+  RadioGroup — native <fieldset role="radiogroup"> of radio inputs, restyled as the
+  upstream Radix indicator (registry/new-york-v4/ui/radio-group.tsx: RadioGroup,
+  RadioGroupItem, RadioGroupIndicator).
+
+  Params:
+  - name: String — REQUIRED, shared native input name, also used to derive option ids
+  - options: Array<{label: String, value: String, id?: String, checked?: Boolean,
+              disabled?: Boolean, description?: String}> — option id defaults to
+              "<id>-<name>-<value>" when the group's own `id` is set, else
+              "<name>-<value>" (deterministic, never random)
+  - legend?: String — when set, rendered as <legend>; the fieldset always carries
+              role="radiogroup" (upstream RadioGroupPrimitive.Root semantics)
+  - orientation?: 'vertical'|'horizontal' as string (default: 'vertical') — not an
+              upstream prop; this platform's own layout axis, exposed as data-orientation
+  - invalid?: Boolean — sets aria-invalid="true" on every radio input
+  - id?: String
+  - class?: String — appended last on the group root; additive utilities only
+  - attrs?: String — raw extra attributes on the group root, trusted input only
+
+  Adaptations vs upstream (PORTING.md Adaptation table):
+  - RadioGroupPrimitive.Item (button) -> native <input type="radio">.
+  - RadioGroupPrimitive.Indicator, normally mounted INSIDE the item only when checked,
+    becomes an absolutely-positioned sibling <span> (native input is a void element)
+    shown via peer-checked: instead of Radix's own mount/unmount (same structural
+    necessity as checkbox's indicator and switch's thumb).
+  - Figma truth: kit measures a 16x16 control (size-4, unchanged) and a 12px gap
+    between rows (spacing/3), already matching upstream's own "grid gap-3" byte for
+    byte — no override needed for this component.
+#}
+{% set radio_item_classes = "peer appearance-none aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40" %}
+{% set orientation = orientation|default('vertical') %}
+{% set radio_group_orientations = {
+  'vertical': '',
+  'horizontal': 'grid-flow-col auto-cols-max'
+} %}
+{% set radio_group_classes = ("grid gap-3 " ~ radio_group_orientations[orientation])|trim ~ (class is defined and class ? ' ' ~ class : '') %}
+
+<fieldset data-slot="radio-group" role="radiogroup" data-orientation="{{ orientation }}"
+  class="{{ radio_group_classes }}"
+  {%- if id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- if legend %}<legend class="mb-3 text-sm leading-none font-medium select-none">{{ legend }}</legend>{% endif %}
+  {%- for option in options %}
+  {%- set optionId = option.id|default((id ? id ~ '-' : '') ~ name ~ '-' ~ option.value) %}
+  <div class="group flex {{ option.description ? 'items-start' : 'items-center' }} gap-3"{% if option.disabled %} data-disabled="true"{% endif %}>
+    <span class="relative inline-flex size-4 shrink-0">
+      <input type="radio" data-slot="radio-group-item" class="{{ radio_item_classes }}"
+        id="{{ optionId }}" name="{{ name }}" value="{{ option.value }}"
+        {%- if option.checked %} checked{% endif %}
+        {%- if option.disabled %} disabled{% endif %}
+        {%- if invalid %} aria-invalid="true"{% endif %}>
+      <span data-slot="radio-group-indicator" class="pointer-events-none absolute inset-0 hidden items-center justify-center peer-checked:flex">
+        <svg aria-hidden="true" class="absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 fill-primary"><use href="#icon-circle"></use></svg>
+      </span>
+    </span>
+    {%- if option.description %}
+    <div class="grid gap-1.5">
+      {% include '@components/base/label/label.twig' with { text: option.label, for: optionId } only %}
+      <p class="text-sm text-muted-foreground">{{ option.description }}</p>
+    </div>
+    {%- else %}
+      {% include '@components/base/label/label.twig' with { text: option.label, for: optionId } only %}
+    {%- endif %}
+  </div>
+  {%- endfor %}
+</fieldset>

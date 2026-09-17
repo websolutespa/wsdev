@@ -59,6 +59,11 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ dropdown-menu, context-menu, menubar su `src/js/common/menuTree.js` condiviso; navigation-menu con viewport e `data-motion`; select come combobox select-only con `<select>` nativo nascosto. Override Figma su dropdown-menu e select. 40 componenti, gate verdi. Report: [reports/phase-4-b5-menus-select.md](reports/phase-4-b5-menus-select.md).
 - ⚠️ Decisione: context-menu e menubar ereditano gli override di dropdown-menu (stessa superficie) → eseguito in B6.
 
+### Fase 4 — B6 controlli form + disclosure (agent Sonnet)
+
+- ✅ checkbox, radio-group, switch, slider (+css, modulo range a 2 thumb), toggle, toggle-group, input-otp, accordion, collapsible, tabs; override derivati applicati a context-menu/menubar; adapter Formidable completato per checkbox/radio. 50 componenti, gate verdi. Report: [reports/phase-4-b6-form-controls-disclosure.md](reports/phase-4-b6-form-controls-disclosure.md).
+- ⚠️ Da ripulire in B7: chiavi duplicate in un'eccezione `select`; `diff-figma-upstream` sui controlli form sceglie la riga label+controllo.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

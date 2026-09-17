@@ -46,13 +46,13 @@
     {% elseif kind == 'label' %}
       <div data-slot="context-menu-label"
         {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
-        class="px-2 py-1.5 text-sm font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
+        class="px-3 py-2 text-xs font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
     {% elseif kind == 'group' %}
       <div role="group"{% if entry.radio|default(false) %} data-slot="context-menu-radio-group"{% else %} data-slot="context-menu-group"{% endif %}>
         {% if entry.label|default('') %}
           <div data-slot="context-menu-label"
             {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
-            class="px-2 py-1.5 text-sm font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
+            class="px-3 py-2 text-xs font-medium text-foreground data-[inset]:pl-8">{{ entry.label }}</div>
         {% endif %}
         {{ menu.menuEntries(entry.items|default([])) }}
       </div>
@@ -61,7 +61,7 @@
         data-slot="context-menu-checkbox-item" data-state="{{ entry.checked|default(false) ? 'checked' : 'unchecked' }}"
         {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
         {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
-        class="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        class="relative flex cursor-default items-center gap-2 rounded-2xl py-2 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
         <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
           <svg class="size-4{% if not entry.checked|default(false) %} hidden{% endif %}" aria-hidden="true"><use href="#icon-check"></use></svg>
         </span>
@@ -74,7 +74,7 @@
         data-slot="context-menu-radio-item" data-state="{{ entry.checked|default(false) ? 'checked' : 'unchecked' }}"
         {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
         {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
-        class="relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
+        class="relative flex cursor-default items-center gap-2 rounded-2xl py-2 pr-2 pl-8 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4">
         <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
           <svg class="size-2 fill-current{% if not entry.checked|default(false) %} hidden{% endif %}" aria-hidden="true"><use href="#icon-circle"></use></svg>
         </span>
@@ -88,14 +88,14 @@
         {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
         {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
         {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
-        class="flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground">
+        class="flex cursor-default items-center rounded-2xl px-3 py-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[inset]:pl-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground">
         {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
         <span>{{ entry.label }}</span>
         <svg class="ml-auto" aria-hidden="true"><use href="#icon-chevron-right"></use></svg>
       </div>
       <div role="menu" aria-orientation="vertical" tabindex="-1" hidden data-state="closed"
         data-slot="context-menu-sub-content"
-        class="z-50 min-w-[8rem] origin-(--transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
+        class="z-50 min-w-[8rem] origin-(--transform-origin) overflow-hidden rounded-3xl border bg-popover p-1 text-popover-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95">
         {{ menu.menuEntries(entry.items|default([])) }}
       </div>
     {% else %}
@@ -105,7 +105,7 @@
         {%- if entry.inset|default(false) %} data-inset="true"{% endif %}
         {%- if entry.disabled|default(false) %} data-disabled aria-disabled="true"{% endif %}
         {%- if entry.value is defined %} data-value="{{ entry.value }}"{% endif %}
-        class="relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!">
+        class="relative flex cursor-default items-center gap-2 rounded-2xl px-3 py-2 text-sm outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 data-[inset]:pl-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 [&_svg:not([class*='text-'])]:text-muted-foreground data-[variant=destructive]:*:[svg]:text-destructive!">
         {%- if entry.icon|default('') %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}
         <span>{{ entry.label }}</span>
         {%- if entry.shortcut|default('') %}<span data-slot="context-menu-shortcut" class="ml-auto text-xs tracking-widest text-muted-foreground">{{ entry.shortcut }}</span>{% endif %}
@@ -128,7 +128,7 @@
 
   <div role="menu" aria-orientation="vertical" tabindex="-1" hidden data-state="closed"
     data-slot="context-menu-content"
-    class="z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95{% if class is defined and class %} {{ class }}{% endif %}"
+    class="z-50 max-h-(--available-height) min-w-[8rem] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-3xl border bg-popover p-1 text-popover-foreground shadow-lg data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95{% if class is defined and class %} {{ class }}{% endif %}"
     {{ attrs|default('')|raw }}>
     {{ menu.menuEntries(items|default([])) }}
   </div>

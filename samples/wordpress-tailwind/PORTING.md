@@ -101,7 +101,8 @@ table below, a Figma override, or a port exception. Do not invent or
 | `--radix-navigation-menu-viewport-width` / `-height` | `--viewport-width` / `--viewport-height` | `common/floating.js` for anchored panels; in navigation-menu's viewport mode the module measures the active panel and writes them on the viewport itself |
 | select viewport `h-[var(--radix-select-trigger-height)]` | dropped | popper-only Radix sizing with no runtime here; see the `select` port exception |
 | `--radix-accordion-content-height` | KEPT as-is | accordion module sets it; keyframes come from `src/css/shadcn.css` |
-| `data-[state=checked]:` on native inputs | `checked:` (self) / `peer-checked:` (sibling) | CSS only |
+| `data-[state=checked]:` on native inputs | `checked:` (self) / `peer-checked:` (sibling) / `has-checked:` (ancestor wrapping the input, e.g. switch's `<label>` root) | CSS only |
+| `focus-visible:`/`disabled:` on an upstream root that becomes a non-focusable wrapper (e.g. switch's `<label>`) | `focus-within:`/`has-disabled:` | CSS only |
 | lucide `<XIcon />` JSX | sprite `<svg aria-hidden="true"><use href="#icon-x"></use></svg>` | icon sprite |
 | Radix Portal wrappers | none needed (top layer / DOM position) | — |
 | dialog overlay `<div>` | `backdrop:` utilities on `<dialog>` | see `dialog.twig` |

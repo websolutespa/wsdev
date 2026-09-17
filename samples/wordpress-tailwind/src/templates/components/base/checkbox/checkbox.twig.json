@@ -1,0 +1,45 @@
+{
+  "mocks": {
+    "checkbox": {
+      "default": {
+        "name": "terms",
+        "id": "checkbox-terms",
+        "label": "Accetto i termini e le condizioni"
+      },
+      "checked": {
+        "name": "newsletter",
+        "id": "checkbox-newsletter",
+        "label": "Iscrivimi alla newsletter",
+        "checked": true
+      },
+      "description": {
+        "name": "privacy",
+        "id": "checkbox-privacy",
+        "description": "Acconsento al trattamento dei dati personali secondo la privacy policy."
+      },
+      "disabled": {
+        "name": "beta",
+        "id": "checkbox-beta",
+        "label": "Attiva le funzionalità beta",
+        "disabled": true
+      },
+      "disabled-checked": {
+        "name": "auto-renew",
+        "id": "checkbox-auto-renew",
+        "label": "Rinnovo automatico",
+        "checked": true,
+        "disabled": true
+      },
+      "invalid": {
+        "name": "consent",
+        "id": "checkbox-consent",
+        "label": "Devo accettare per proseguire",
+        "invalid": true
+      },
+      "bare": {
+        "name": "select-row",
+        "value": "row-1"
+      }
+    }
+  }
+}

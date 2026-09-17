@@ -211,6 +211,95 @@
               "disabled",
               "invalid"
             ]
+          },
+          {
+            "name": "checkbox",
+            "title": "Checkbox",
+            "description": "",
+            "scenarios": [
+              "default",
+              "checked",
+              "description",
+              "disabled",
+              "disabled-checked",
+              "invalid",
+              "bare"
+            ]
+          },
+          {
+            "name": "radio-group",
+            "title": "Radio Group",
+            "description": "",
+            "scenarios": [
+              "default",
+              "horizontal",
+              "description",
+              "disabled",
+              "invalid"
+            ]
+          },
+          {
+            "name": "switch",
+            "title": "Switch",
+            "description": "",
+            "scenarios": [
+              "default",
+              "checked",
+              "description",
+              "sm",
+              "disabled",
+              "disabled-checked",
+              "bare"
+            ]
+          },
+          {
+            "name": "slider",
+            "title": "Slider",
+            "description": "",
+            "scenarios": [
+              "default",
+              "showValue",
+              "range",
+              "vertical",
+              "disabled"
+            ]
+          },
+          {
+            "name": "input-otp",
+            "title": "Input Otp",
+            "description": "",
+            "scenarios": [
+              "default",
+              "four",
+              "alphanumeric",
+              "disabled",
+              "invalid"
+            ]
+          },
+          {
+            "name": "toggle",
+            "title": "Toggle",
+            "description": "",
+            "scenarios": [
+              "default",
+              "outline",
+              "sm",
+              "lg",
+              "pressed",
+              "disabled"
+            ]
+          },
+          {
+            "name": "toggle-group",
+            "title": "Toggle Group",
+            "description": "",
+            "scenarios": [
+              "default",
+              "multiple",
+              "outline",
+              "sm",
+              "disabled"
+            ]
           }
         ]
       },
@@ -423,6 +512,38 @@
             "scenarios": [
               "default",
               "horizontal"
+            ]
+          },
+          {
+            "name": "accordion",
+            "title": "Accordion",
+            "description": "",
+            "scenarios": [
+              "default",
+              "multiple",
+              "not-collapsible",
+              "disabled"
+            ]
+          },
+          {
+            "name": "collapsible",
+            "title": "Collapsible",
+            "description": "",
+            "scenarios": [
+              "default",
+              "open"
+            ]
+          },
+          {
+            "name": "tabs",
+            "title": "Tabs",
+            "description": "",
+            "scenarios": [
+              "default",
+              "line",
+              "vertical",
+              "manual",
+              "disabled"
             ]
           }
         ]

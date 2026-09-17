@@ -1,0 +1,42 @@
+{
+  "mocks": {
+    "slider": {
+      "default": {
+        "name": "volume",
+        "id": "slider-volume",
+        "label": "Volume",
+        "values": [40]
+      },
+      "showValue": {
+        "name": "brightness",
+        "id": "slider-brightness",
+        "label": "Luminosità",
+        "showValue": true,
+        "values": [65]
+      },
+      "range": {
+        "name": "price",
+        "id": "slider-price",
+        "label": "Fascia di prezzo (€)",
+        "showValue": true,
+        "min": 0,
+        "max": 500,
+        "step": 10,
+        "values": [100, 350]
+      },
+      "vertical": {
+        "name": "level",
+        "id": "slider-level",
+        "orientation": "vertical",
+        "values": [30]
+      },
+      "disabled": {
+        "name": "locked",
+        "id": "slider-locked",
+        "label": "Non modificabile",
+        "disabled": true,
+        "values": [50]
+      }
+    }
+  }
+}

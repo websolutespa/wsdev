@@ -1,0 +1,70 @@
+{#
+  Switch — native <label> wrapping a hidden checkbox (role="switch"), restyled as the
+  upstream Radix track/thumb (registry/new-york-v4/ui/switch.tsx: Switch, SwitchThumb).
+
+  Params:
+  - name?: String — input name attribute
+  - id?: String — REQUIRED when `label` is set (SSR label[for] wiring)
+  - value?: String — input value attribute (default: 'on')
+  - checked?: Boolean (default: false) — initial checked/on state
+  - size?: 'default'|'sm' as string (default: 'default')
+  - disabled?: Boolean (default: false)
+  - required?: Boolean (default: false)
+  - ariaLabel?: String — accessible name when no `label` is given (default: 'Interruttore')
+  - label?: String — visible label text; rendered via base/label/label.twig, requires `id`
+  - description?: String — muted helper text under the label; requires `label` + `id`
+  - class?: String — appended last on the track (label); additive utilities only
+  - attrs?: String — raw extra attributes on the input, trusted input only
+
+  No JS module needed: the root is a <label> wrapping a native sr-only checkbox with
+  role="switch" — clicking the track toggles it, CSS variants restyle it, forms submit it.
+
+  Adaptations vs upstream (PORTING.md Adaptation table, `data-[state=checked]:` row):
+  - SwitchPrimitive.Root (button) -> <label data-slot="switch"> + hidden
+    <input type="checkbox" role="switch" class="peer sr-only"> (`peer` moves from the
+    root to this input — it is the actual toggle control the CSS reacts to).
+  - data-[state=checked]: (root)   -> has-checked: (root contains the input)
+  - data-[state=unchecked]: (root) -> dropped; the unchecked look is the plain/default
+    classes (no state prefix needed for the resting state).
+  - disabled:*  (root, upstream root is a button) -> has-disabled:* (root contains the
+    disabled input); focus-visible: (root) -> focus-within: (root is not itself focusable).
+  - data-[state=checked]: (thumb) -> peer-checked: (thumb is the input's following sibling).
+  - data-[size=*]: stays as `data-size` on the root, consumed via `group-data-[size=*]/switch:`
+    on the thumb, exactly as upstream already does via `group/switch`.
+
+  Figma override (scripts/upstream-exceptions.json "switch"): kit measures a 44x20 default
+  track (h-5 w-11, was upstream's h-[1.15rem] w-8) and a 28x16 sm track (h-4 w-7, was
+  h-3.5 w-6). Thumb size is unchanged (size-4 / size-3): with the new track sizes the
+  single shared `calc(100%-2px)` checked-translate no longer reaches the far edge (it is
+  a percentage of the THUMB's own width, which upstream deliberately sized at exactly
+  half the track width so the formula produced a 2px inset on both ends — that 2x ratio
+  no longer holds at the new dimensions). Recomputed per size, flush against the 1px
+  border on both ends: default 44-16-1-1=26px -> translate-x-6.5; sm 28-12-1-1=14px ->
+  translate-x-3.5. See the exception note for the full derivation.
+#}
+{% set size = size|default('default') %}
+{% set switch_root_classes = "group/switch inline-flex shrink-0 cursor-pointer items-center rounded-full border border-transparent shadow-xs transition-all outline-none focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50 has-disabled:cursor-not-allowed has-disabled:opacity-50 data-[size=default]:h-5 data-[size=default]:w-11 data-[size=sm]:h-4 data-[size=sm]:w-7 bg-input dark:bg-input/80 has-checked:bg-primary dark:has-checked:bg-primary" ~ (class is defined and class ? ' ' ~ class : '') %}
+{% set switch_thumb_classes = "pointer-events-none block rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:peer-checked:translate-x-6.5 group-data-[size=sm]/switch:peer-checked:translate-x-3.5 dark:peer-checked:bg-primary-foreground dark:bg-foreground" %}
+
+{% if label %}
+<div class="group flex items-start gap-3"{% if disabled %} data-disabled="true"{% endif %}>
+{% endif %}
+  <label data-slot="switch" data-size="{{ size }}" class="{{ switch_root_classes }}">
+    <input type="checkbox" role="switch" class="peer sr-only"
+      {%- if name %} name="{{ name }}"{% endif %}
+      {%- if id %} id="{{ id }}"{% endif %}
+      value="{{ value|default('on') }}"
+      {%- if checked %} checked{% endif %}
+      {%- if disabled %} disabled{% endif %}
+      {%- if required %} required{% endif %}
+      {%- if not label %} aria-label="{{ ariaLabel|default('Interruttore') }}"{% endif %}
+      {%- if description and id %} aria-describedby="{{ id }}-description"{% endif %} {{ attrs|default('')|raw }}>
+    <span data-slot="switch-thumb" class="{{ switch_thumb_classes }}"></span>
+  </label>
+{% if label %}
+  <div class="grid gap-1.5">
+    {% include '@components/base/label/label.twig' with { text: label, for: id } only %}
+    {%- if description %}<p id="{{ id }}-description" class="text-muted-foreground text-sm">{{ description }}</p>{% endif %}
+  </div>
+</div>
+{% endif %}

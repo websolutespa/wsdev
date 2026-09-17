@@ -9,10 +9,8 @@
  *
  * Class strings below are copied verbatim from the corresponding ported
  * component (base/input, base/textarea, base/native-select, base/button,
- * base/label, base/field) — see PORTING.md for the source of truth rule.
- * .frm_checkbox/.frm_radio have no ported base/checkbox or base/radio-group
- * yet in this sample; their rule is a reasonable placeholder to replace with
- * the real component classes once those are ported.
+ * base/label, base/field, base/checkbox, base/radio-group) — see PORTING.md
+ * for the source of truth rule.
  */
 @layer components {
   .frm_forms .frm_form_field {
@@ -59,14 +57,46 @@
     @apply h-9 w-full min-w-0 appearance-none rounded-md border border-input bg-transparent px-3 py-2 pr-9 text-sm shadow-xs transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground disabled:pointer-events-none disabled:cursor-not-allowed dark:bg-input/30 dark:hover:bg-input/50 focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40;
   }
 
-  /* Placeholder — replace with base/checkbox and base/radio-group's own classes once ported. */
+  /*
+   * Checkbox/radio classes copied verbatim from base/checkbox/checkbox.twig and
+   * base/radio-group/radio-group.twig's own input classes (checked_classes /
+   * radio_item_classes). Formidable emits a native <input> directly inside a
+   * <label> with no extra wrapper element, so the ported components' separate
+   * `[data-slot=checkbox-indicator]` / `[data-slot=radio-group-indicator]`
+   * overlay span (PORTING.md Adaptation table, data-[state=checked]: row) has
+   * no host here — the check/dot icon is instead painted as a `:checked`
+   * background-image data URI directly on the input (CSS-only, no markup
+   * change needed), sized to match each component's own indicator icon.
+   */
   .frm_forms .frm_checkbox,
   .frm_forms .frm_radio {
-    @apply flex items-center gap-2 text-sm leading-none font-medium;
+    @apply flex items-center gap-3 text-sm leading-none font-medium;
   }
-  .frm_forms .frm_checkbox input,
-  .frm_forms .frm_radio input {
-    @apply size-4 shrink-0 accent-primary;
+
+  .frm_forms .frm_checkbox input[type='checkbox'] {
+    @apply appearance-none size-4 shrink-0 rounded-[5px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary checked:text-primary-foreground dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:checked:bg-primary;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  /* Check icon (base/checkbox's own size-3.5 indicator svg, in a size-4/16px box) —
+     fill: currentColor resolves against the input's own `color`, i.e. checked:text-primary-foreground above. */
+  .frm_forms .frm_checkbox input[type='checkbox']:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
+    background-size: 0.625rem 0.625rem;
+  }
+
+  .frm_forms .frm_radio input[type='radio'] {
+    @apply appearance-none aspect-square size-4 shrink-0 rounded-full border border-input text-primary shadow-xs transition-[color,box-shadow] outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:bg-input/30 dark:aria-invalid:ring-destructive/40;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  /* Dot (base/radio-group's own size-2 indicator svg, in a size-4/16px box) — the radio
+     control keeps a transparent background even when checked, so fill: currentColor
+     resolves against the input's own `text-primary` above (unconditional, matches
+     upstream's CircleIcon fill-primary), not a checked-only color switch. */
+  .frm_forms .frm_radio input[type='radio']:checked {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='currentColor'/%3E%3C/svg%3E");
+    background-size: 0.5rem 0.5rem;
   }
 
   .frm_forms .frm_submit button {

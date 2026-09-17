@@ -1,0 +1,54 @@
+{#
+  ToggleGroup — group of Toggle buttons (registry/new-york-v4/ui/toggle-group.tsx:
+  ToggleGroup, ToggleGroupItem, reusing toggleVariants from toggle.tsx). Upstream-only
+  component: classes follow the registry byte-identical. `spacing` is fixed at 0 (no
+  spacing prop exposed) since this platform has no runtime `style={{ '--gap': n }}`
+  wiring — the `data-[spacing=0]` merged-border/radius variant is the only one used.
+
+  Params:
+  - type?: 'single'|'multiple' as string (default: 'single') — single unpresses siblings
+  - items: Array<{label?: String, icon?: String, ariaLabel?: String, value: String,
+            pressed?: Boolean, disabled?: Boolean}> — icon is a sprite icon name;
+            provide ariaLabel for icon-only items
+  - variant?: 'default'|'outline' as string (default: 'default')
+  - size?: 'default'|'sm'|'lg' as string (default: 'default')
+  - ariaLabel: String — REQUIRED, accessible name for the group
+  - id?: String
+  - class?: String — appended last on the group; additive utilities only
+  - attrs?: String — raw extra attributes on the group, trusted input only
+#}
+{% set toggle_base = "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none hover:bg-muted hover:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4" %}
+{% set toggle_variants = {
+  default: "bg-transparent",
+  outline: "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground"
+} %}
+{% set toggle_sizes = {
+  default: "h-9 min-w-9 px-2",
+  sm: "h-8 min-w-8 px-1.5",
+  lg: "h-10 min-w-10 px-2.5"
+} %}
+{% set group_base = "group/toggle-group flex w-fit items-center gap-[--spacing(var(--gap))] rounded-md data-[spacing=default]:data-[variant=outline]:shadow-xs" %}
+{% set item_extra = "w-auto min-w-0 shrink-0 px-3 focus:z-10 focus-visible:z-10 data-[spacing=0]:rounded-none data-[spacing=0]:shadow-none data-[spacing=0]:first:rounded-l-md data-[spacing=0]:last:rounded-r-md data-[spacing=0]:data-[variant=outline]:border-l-0 data-[spacing=0]:data-[variant=outline]:first:border-l" %}
+{% set type = type|default('single') %}
+{% set variant = variant|default('default') %}
+{% set size = size|default('default') %}
+{% set item_classes = toggle_base ~ ' ' ~ toggle_variants[variant] ~ ' ' ~ toggle_sizes[size] ~ ' ' ~ item_extra %}
+
+<div role="group" data-slot="toggle-group" data-module="toggle-group.module"
+  data-type="{{ type }}" data-variant="{{ variant }}" data-size="{{ size }}" data-spacing="0" style="--gap: 0"
+  aria-label="{{ ariaLabel }}"
+  {%- if id %} id="{{ id }}"{% endif %}
+  class="{{ group_base }}{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+  {%- for item in items %}
+  <button type="button" data-slot="toggle-group-item"
+    data-variant="{{ variant }}" data-size="{{ size }}" data-spacing="0"
+    data-state="{{ item.pressed ? 'on' : 'off' }}" aria-pressed="{{ item.pressed ? 'true' : 'false' }}"
+    value="{{ item.value }}"
+    {%- if item.ariaLabel %} aria-label="{{ item.ariaLabel }}"{% endif %}
+    {%- if item.disabled %} disabled{% endif %}
+    class="{{ item_classes }}">
+    {%- if item.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>{% endif %}
+    {%- if item.label %}<span>{{ item.label }}</span>{% endif %}
+  </button>
+  {%- endfor %}
+</div>

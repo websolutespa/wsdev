@@ -1,0 +1,31 @@
+{
+  "mocks": {
+    "toggle": {
+      "default": {
+        "label": "Grassetto",
+        "icon": "check"
+      },
+      "outline": {
+        "label": "Corsivo",
+        "variant": "outline"
+      },
+      "sm": {
+        "ariaLabel": "Sottolineato",
+        "icon": "check",
+        "size": "sm"
+      },
+      "lg": {
+        "label": "Evidenzia",
+        "size": "lg"
+      },
+      "pressed": {
+        "label": "Grassetto",
+        "pressed": true
+      },
+      "disabled": {
+        "label": "Non disponibile",
+        "disabled": true
+      }
+    }
+  }
+}

@@ -1,0 +1,88 @@
+/*
+ * Slider native-range styling — allowed exception (PORTING.md): range
+ * pseudo-elements cannot carry utility classes. Mirrors upstream slider.tsx's
+ * SliderThumb classes (size-4 rounded-full border-primary bg-white shadow-sm,
+ * ring-ring/50 on hover/focus-visible). The track/range fill are real divs
+ * (slider-track/slider-range in slider.twig); the native <input> itself is
+ * transparent and only paints its thumb.
+ *
+ * slider.module.js writes --slider-from / --slider-to (percentages) on
+ * [data-slot="slider-range"]; --slider-value is the single-thumb shorthand
+ * for --slider-to (--slider-from stays 0%).
+ */
+[data-slot='slider-range'] {
+  --slider-value: 0%;
+  inset-inline-start: var(--slider-from, 0%);
+  inset-inline-end: calc(100% - var(--slider-to, var(--slider-value)));
+}
+[data-slot='slider'][data-orientation='vertical'] [data-slot='slider-range'] {
+  inset-inline-start: 0;
+  inset-inline-end: 0;
+  inset-block-end: var(--slider-from, 0%);
+  inset-block-start: calc(100% - var(--slider-to, var(--slider-value)));
+}
+
+input[type='range'][data-slot='slider-thumb'] {
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+}
+input[type='range'][data-slot='slider-thumb']:disabled {
+  cursor: default;
+}
+/* Two stacked thumbs (range mode): only the thumb itself is clickable, so
+   the top input never blocks pointer events meant for the one underneath. */
+[data-slot='slider']:has(input[data-slot='slider-thumb']:nth-of-type(2)) input[data-slot='slider-thumb'] {
+  pointer-events: none;
+}
+
+input[type='range'][data-slot='slider-thumb']::-webkit-slider-runnable-track {
+  appearance: none;
+  background: transparent;
+}
+input[type='range'][data-slot='slider-thumb']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  pointer-events: auto;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--primary);
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  transition: box-shadow 0.15s;
+}
+input[type='range'][data-slot='slider-thumb']:hover::-webkit-slider-thumb,
+input[type='range'][data-slot='slider-thumb']:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+input[type='range'][data-slot='slider-thumb']:disabled::-webkit-slider-thumb {
+  pointer-events: none;
+  opacity: 0.5;
+}
+input[type='range'][data-slot='slider-thumb']:focus-visible {
+  outline: none;
+}
+
+input[type='range'][data-slot='slider-thumb']::-moz-range-track {
+  appearance: none;
+  background: transparent;
+}
+input[type='range'][data-slot='slider-thumb']::-moz-range-thumb {
+  pointer-events: auto;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 9999px;
+  border: 1px solid var(--primary);
+  background: #fff;
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+input[type='range'][data-slot='slider-thumb']:hover::-moz-range-thumb,
+input[type='range'][data-slot='slider-thumb']:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--ring) 50%, transparent);
+}
+input[type='range'][data-slot='slider-thumb']:disabled::-moz-range-thumb {
+  pointer-events: none;
+  opacity: 0.5;
+}

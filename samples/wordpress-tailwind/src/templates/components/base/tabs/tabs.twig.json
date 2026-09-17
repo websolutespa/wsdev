@@ -1,0 +1,40 @@
+{
+  "mocks": {
+    "tabs": {
+      "default": {
+        "items": [
+          { "value": "account", "label": "Account", "content": "<p class=\"text-sm text-muted-foreground\">Gestisci le informazioni del tuo account.</p>" },
+          { "value": "password", "label": "Password", "content": "<p class=\"text-sm text-muted-foreground\">Aggiorna la tua password di accesso.</p>" },
+          { "value": "billing", "label": "Fatturazione", "content": "<p class=\"text-sm text-muted-foreground\">Visualizza lo storico dei pagamenti.</p>" }
+        ]
+      },
+      "line": {
+        "variant": "line",
+        "items": [
+          { "value": "overview", "label": "Panoramica", "content": "<p class=\"text-sm text-muted-foreground\">Riepilogo generale del progetto.</p>" },
+          { "value": "activity", "label": "Attività", "content": "<p class=\"text-sm text-muted-foreground\">Cronologia delle attività recenti.</p>" }
+        ]
+      },
+      "vertical": {
+        "orientation": "vertical",
+        "items": [
+          { "value": "general", "label": "Generale", "icon": "settings", "content": "<p class=\"text-sm text-muted-foreground\">Impostazioni generali.</p>" },
+          { "value": "security", "label": "Sicurezza", "icon": "check", "content": "<p class=\"text-sm text-muted-foreground\">Impostazioni di sicurezza.</p>" }
+        ]
+      },
+      "manual": {
+        "activationMode": "manual",
+        "items": [
+          { "value": "one", "label": "Uno", "content": "<p class=\"text-sm text-muted-foreground\">Contenuto uno.</p>" },
+          { "value": "two", "label": "Due", "content": "<p class=\"text-sm text-muted-foreground\">Contenuto due.</p>" }
+        ]
+      },
+      "disabled": {
+        "items": [
+          { "value": "active-tab", "label": "Disponibile", "content": "<p class=\"text-sm text-muted-foreground\">Contenuto disponibile.</p>" },
+          { "value": "locked", "label": "Bloccato", "disabled": true, "content": "<p class=\"text-sm text-muted-foreground\">Contenuto non disponibile.</p>" }
+        ]
+      }
+    }
+  }
+}

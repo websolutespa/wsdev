@@ -1,0 +1,47 @@
+{
+  "mocks": {
+    "switch": {
+      "default": {
+        "name": "notifications",
+        "id": "switch-notifications",
+        "label": "Notifiche push"
+      },
+      "checked": {
+        "name": "airplane-mode",
+        "id": "switch-airplane-mode",
+        "label": "Modalità aereo",
+        "checked": true
+      },
+      "description": {
+        "name": "marketing",
+        "id": "switch-marketing",
+        "label": "Comunicazioni di marketing",
+        "description": "Ricevi offerte e novità via email.",
+        "checked": true
+      },
+      "sm": {
+        "name": "compact-mode",
+        "id": "switch-compact-mode",
+        "size": "sm",
+        "label": "Modalità compatta"
+      },
+      "disabled": {
+        "name": "beta-features",
+        "id": "switch-beta-features",
+        "label": "Funzionalità beta",
+        "disabled": true
+      },
+      "disabled-checked": {
+        "name": "auto-sync",
+        "id": "switch-auto-sync",
+        "label": "Sincronizzazione automatica",
+        "checked": true,
+        "disabled": true
+      },
+      "bare": {
+        "name": "quick-toggle",
+        "ariaLabel": "Attiva modalità rapida"
+      }
+    }
+  }
+}

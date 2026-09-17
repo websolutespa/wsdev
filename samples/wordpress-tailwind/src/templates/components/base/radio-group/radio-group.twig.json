@@ -1,0 +1,50 @@
+{
+  "mocks": {
+    "radio-group": {
+      "default": {
+        "name": "delivery",
+        "legend": "Metodo di spedizione",
+        "options": [
+          { "value": "standard", "label": "Standard (3-5 giorni)", "checked": true },
+          { "value": "express", "label": "Espressa (1-2 giorni)" },
+          { "value": "pickup", "label": "Ritiro in negozio" }
+        ]
+      },
+      "horizontal": {
+        "name": "size",
+        "legend": "Taglia",
+        "orientation": "horizontal",
+        "options": [
+          { "value": "s", "label": "S" },
+          { "value": "m", "label": "M", "checked": true },
+          { "value": "l", "label": "L" }
+        ]
+      },
+      "description": {
+        "name": "plan",
+        "legend": "Piano di abbonamento",
+        "options": [
+          { "value": "free", "label": "Gratuito", "description": "Funzionalità di base, per sempre.", "checked": true },
+          { "value": "pro", "label": "Pro", "description": "Tutte le funzionalità, fatturazione mensile." }
+        ]
+      },
+      "disabled": {
+        "name": "region",
+        "legend": "Regione",
+        "options": [
+          { "value": "eu", "label": "Europa", "checked": true },
+          { "value": "us", "label": "Stati Uniti", "disabled": true }
+        ]
+      },
+      "invalid": {
+        "name": "contact",
+        "legend": "Preferenza di contatto",
+        "invalid": true,
+        "options": [
+          { "value": "email", "label": "Solo email" },
+          { "value": "sms", "label": "Solo SMS" }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{#
+  Toggle — two-state button (registry/new-york-v4/ui/toggle.tsx: Toggle, toggleVariants).
+  Upstream-only component (no tokens/figma-components/toggle.json): classes follow the
+  registry byte-identical.
+
+  Params:
+  - label?: String — visible text; omit for icon-only sizes and provide ariaLabel instead
+  - icon?: String — sprite icon name rendered before the label
+  - ariaLabel?: String — REQUIRED when no label (icon-only toggles)
+  - variant?: 'default'|'outline' as string (default: 'default')
+  - size?: 'default'|'sm'|'lg' as string (default: 'default')
+  - pressed?: Boolean (default: false) — initial pressed state
+  - disabled?: Boolean
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+
+  A native <button> carries data-state/aria-pressed directly (no adaptation needed,
+  unlike checkbox/radio-group/switch's native-input constraint); toggle.module.js
+  flips both on click.
+#}
+{% set toggle_base = "inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium whitespace-nowrap transition-[color,box-shadow] outline-none hover:bg-muted hover:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 data-[state=on]:bg-accent data-[state=on]:text-accent-foreground dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4" %}
+{% set toggle_variants = {
+  default: "bg-transparent",
+  outline: "border border-input bg-transparent shadow-xs hover:bg-accent hover:text-accent-foreground"
+} %}
+{% set toggle_sizes = {
+  default: "h-9 min-w-9 px-2",
+  sm: "h-8 min-w-8 px-1.5",
+  lg: "h-10 min-w-10 px-2.5"
+} %}
+{% set variant = variant|default('default') %}
+{% set size = size|default('default') %}
+{% set toggle_classes = toggle_base ~ ' ' ~ toggle_variants[variant] ~ ' ' ~ toggle_sizes[size] ~ (class is defined and class ? ' ' ~ class : '') %}
+
+<button data-slot="toggle" data-module="toggle.module" type="button" class="{{ toggle_classes }}"
+  aria-pressed="{{ pressed ? 'true' : 'false' }}" data-state="{{ pressed ? 'on' : 'off' }}"
+  {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- if icon %}<svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>{% endif %}
+  {%- if label %}<span>{{ label }}</span>{% endif %}
+</button>

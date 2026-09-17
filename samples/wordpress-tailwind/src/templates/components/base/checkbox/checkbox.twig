@@ -1,0 +1,66 @@
+{#
+  Checkbox — native <input type="checkbox"> restyled as the upstream Radix indicator
+  (registry/new-york-v4/ui/checkbox.tsx: Checkbox, CheckboxIndicator).
+
+  Params:
+  - name?: String — input name attribute
+  - id?: String — REQUIRED when `label` or `description` is set (SSR label[for] wiring)
+  - value?: String — input value attribute
+  - checked?: Boolean (default: false)
+  - disabled?: Boolean (default: false)
+  - required?: Boolean (default: false)
+  - invalid?: Boolean — sets aria-invalid="true" on the input (default: false)
+  - label?: String — visible label text; rendered via base/label/label.twig, requires `id`
+  - description?: String — muted helper text under the label; requires `id`
+  - class?: String — appended last on the input; additive utilities only
+  - attrs?: String — raw extra attributes on the input, trusted input only
+
+  Adaptations vs upstream (PORTING.md Adaptation table):
+  - CheckboxPrimitive.Root (span) -> native <input type="checkbox"> + `appearance-none`
+    (native control reset, not an upstream token) so the custom border/background paint.
+  - data-[state=checked]: -> checked: (self, native input has no data-state).
+  - CheckboxPrimitive.Indicator or a data-driven <span> would normally live INSIDE the
+    control; a native <input> is a void element, so the indicator is instead an
+    absolutely-positioned sibling <span> shown via peer-checked: (structural necessity,
+    same pattern as switch's thumb sibling) — upstream's own "grid place-content-center"
+    display value is kept, gated by "hidden ... peer-checked:grid" instead of Radix
+    mounting/unmounting the indicator.
+  - indeterminate is OUT OF SCOPE: no HTML attribute expresses it; setting the DOM
+    `.indeterminate` property requires a JS module, which this component intentionally
+    does not ship (native checkbox + CSS only, per the task brief). Wire it externally
+    via a page-level script targeting `[data-slot=checkbox]` if ever needed.
+
+  Figma override (scripts/upstream-exceptions.json "checkbox"): rounded-[4px] -> rounded-[5px].
+#}
+{% set checkbox_classes = "peer appearance-none size-4 shrink-0 rounded-[5px] border border-input shadow-xs transition-shadow outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 checked:border-primary checked:bg-primary checked:text-primary-foreground dark:bg-input/30 dark:aria-invalid:ring-destructive/40 dark:checked:bg-primary" ~ (class is defined and class ? ' ' ~ class : '') %}
+{% set hasText = label or description %}
+
+{% if hasText %}
+<div class="group flex items-start gap-3"{% if disabled %} data-disabled="true"{% endif %}>
+{% endif %}
+  <span class="relative inline-flex size-4 shrink-0">
+    <input type="checkbox" data-slot="checkbox" class="{{ checkbox_classes }}"
+      {%- if name %} name="{{ name }}"{% endif %}
+      {%- if id %} id="{{ id }}"{% endif %}
+      {%- if value %} value="{{ value }}"{% endif %}
+      {%- if checked %} checked{% endif %}
+      {%- if disabled %} disabled{% endif %}
+      {%- if required %} required{% endif %}
+      {%- if invalid %} aria-invalid="true"{% endif %}
+      {%- if label and description and id %} aria-describedby="{{ id }}-description"{% endif %} {{ attrs|default('')|raw }}>
+    <span data-slot="checkbox-indicator" class="pointer-events-none absolute inset-0 hidden place-content-center text-current transition-none peer-checked:grid">
+      <svg aria-hidden="true" class="size-3.5"><use href="#icon-check"></use></svg>
+    </span>
+  </span>
+{% if hasText %}
+  <div class="grid gap-1.5">
+    {%- if label %}
+      {% include '@components/base/label/label.twig' with { text: label, for: id } only %}
+      {%- if description %}<p id="{{ id }}-description" class="text-muted-foreground text-sm">{{ description }}</p>{% endif %}
+    {%- elseif description %}
+      {# description-only: acts as the semantic label (consent/ToS style checkboxes) #}
+      {% include '@components/base/label/label.twig' with { text: description, for: id, class: 'text-muted-foreground font-normal' } only %}
+    {%- endif %}
+  </div>
+</div>
+{% endif %}

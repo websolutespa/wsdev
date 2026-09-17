@@ -1,0 +1,47 @@
+{
+  "mocks": {
+    "toggle-group": {
+      "default": {
+        "ariaLabel": "Allineamento testo",
+        "items": [
+          { "value": "left", "label": "Sinistra", "pressed": true },
+          { "value": "center", "label": "Centro" },
+          { "value": "right", "label": "Destra" }
+        ]
+      },
+      "multiple": {
+        "ariaLabel": "Stile testo",
+        "type": "multiple",
+        "items": [
+          { "value": "bold", "label": "Grassetto", "pressed": true },
+          { "value": "italic", "label": "Corsivo" },
+          { "value": "underline", "label": "Sottolineato" }
+        ]
+      },
+      "outline": {
+        "ariaLabel": "Vista",
+        "variant": "outline",
+        "items": [
+          { "value": "grid", "label": "Griglia", "pressed": true },
+          { "value": "list", "label": "Elenco" }
+        ]
+      },
+      "sm": {
+        "ariaLabel": "Dimensione icona",
+        "size": "sm",
+        "items": [
+          { "value": "s", "label": "S" },
+          { "value": "m", "label": "M", "pressed": true },
+          { "value": "l", "label": "L" }
+        ]
+      },
+      "disabled": {
+        "ariaLabel": "Opzioni",
+        "items": [
+          { "value": "a", "label": "A", "pressed": true },
+          { "value": "b", "label": "B", "disabled": true }
+        ]
+      }
+    }
+  }
+}

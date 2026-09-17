@@ -1,0 +1,30 @@
+{
+  "mocks": {
+    "input-otp": {
+      "default": {
+        "name": "otp"
+      },
+      "four": {
+        "name": "otp-short",
+        "maxLength": 4,
+        "groups": [4],
+        "separator": false
+      },
+      "alphanumeric": {
+        "name": "otp-alnum",
+        "maxLength": 6,
+        "groups": [6],
+        "pattern": "alphanumeric",
+        "separator": false
+      },
+      "disabled": {
+        "name": "otp-disabled",
+        "disabled": true
+      },
+      "invalid": {
+        "name": "otp-invalid",
+        "invalid": true
+      }
+    }
+  }
+}

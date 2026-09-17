@@ -1,0 +1,17 @@
+{
+  "mocks": {
+    "collapsible": {
+      "default": {
+        "id": "collapsible-changelog",
+        "triggerLabel": "Mostra le note di rilascio",
+        "content": "<div class=\"mt-2 grid gap-1 text-sm text-muted-foreground\"><p>v2.3.0 — Aggiunto il supporto multi-valuta.</p><p>v2.2.1 — Corretti alcuni bug minori.</p></div>"
+      },
+      "open": {
+        "id": "collapsible-details",
+        "triggerLabel": "Nascondi i dettagli",
+        "open": true,
+        "content": "<p class=\"mt-2 text-sm text-muted-foreground\">Ordine #4821 — spedito il 12 marzo, consegna prevista il 15 marzo.</p>"
+      }
+    }
+  }
+}

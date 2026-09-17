@@ -1,0 +1,46 @@
+{#
+  Collapsible — disclosure widget (registry/new-york-v4/ui/collapsible.tsx: Collapsible,
+  CollapsibleTrigger, CollapsibleContent). Upstream-only component; upstream itself
+  ships NO Tailwind classes on any of the three parts (purely behavioural primitives,
+  styled entirely by the consumer in every shadcn example) — check:classes has nothing
+  to compare, this port's own classes below are this platform's own default look, not
+  upstream tokens.
+
+  Params:
+  - triggerLabel?: String — renders a default outline button trigger; override via
+              {% block trigger %}
+  - content?: String — trusted HTML panel content; override via {% block content %}
+  - open?: Boolean — initial state (default: false)
+  - id?: String — when set, the panel gets id="<id>-content" and the trigger
+              aria-controls at render time; otherwise the module wires them via uid()
+  - class?: String — extra classes on collapsible-content (additive only)
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  No baked-in open/close animation: upstream ships none for this component (unlike
+  accordion's animate-accordion-down/up) and no --radix-collapsible-content-height
+  keyframe exists in src/css/shadcn.css, so the module does a plain hidden toggle
+  (closeWithAnimation degrades to instant when no animation/transition is present —
+  add your own transition classes via `class` and it plays automatically).
+#}
+{% set state = open|default(false) ? 'open' : 'closed' %}
+
+<div data-slot="collapsible" data-module="collapsible.module" data-state="{{ state }}"
+  {%- if id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+
+  {% block trigger %}
+    {% if triggerLabel %}
+      {% include '@components/base/button/button.twig' with {
+        label: triggerLabel,
+        variant: 'outline',
+        attrs: 'data-collapsible-trigger data-state="' ~ state ~ '" aria-expanded="' ~ (state == 'open' ? 'true' : 'false') ~ '"' ~ (id ? ' aria-controls="' ~ id ~ '-content"' : '')
+      } only %}
+    {% endif %}
+  {% endblock %}
+
+  <div data-slot="collapsible-content" data-state="{{ state }}"
+    {%- if id %} id="{{ id }}-content"{% endif %}
+    {%- if state == 'closed' %} hidden{% endif %}
+    {%- if class is defined and class %} class="{{ class }}"{% endif %}>
+    {% block content %}{% if content %}{{ content|raw }}{% endif %}{% endblock %}
+  </div>
+</div>

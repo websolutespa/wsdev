@@ -1,0 +1,66 @@
+{#
+  InputOTP — one-time-password field (registry/new-york-v4/ui/input-otp.tsx: InputOTP,
+  InputOTPGroup, InputOTPSlot, InputOTPSeparator). Upstream-only component: classes
+  follow the registry byte-identical.
+
+  Params:
+  - name: String — REQUIRED, name of the hidden input carrying the combined value
+  - id?: String — id on the root element
+  - maxLength?: Number — total number of slots (default: 6)
+  - groups?: Array<Number> — slots per group, MUST sum to maxLength (default: [3, 3]
+              when maxLength is 6, otherwise [maxLength]; pass [maxLength] for one group)
+  - pattern?: 'digits'|'alphanumeric' as string (default: 'digits') — allowed characters;
+              drives inputmode="numeric"|"text"
+  - separator?: Boolean (default: true) — minus separator rendered between groups
+  - invalid?: Boolean — emits aria-invalid="true" on every slot
+  - disabled?: Boolean — disables every slot + hidden input; root has-disabled:opacity-50
+              dims the field
+  - ariaLabel?: String — accessible label for the group role (default: 'Codice di verifica')
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  Adaptation vs upstream (documented, not a class-rename): upstream's `input-otp` npm
+  library renders one invisible input over fake character divs sharing a React
+  context (char/hasFakeCaret/isActive per slot). With no such library here, each slot
+  is instead a REAL native <input maxlength="1"> (more robust than reimplementing
+  focus/selection/WebOTP on plain spans) and input-otp.module.js reproduces the
+  single-field semantics (typing/backspace/paste/arrow-key focus movement). Slot
+  classes are copied verbatim from InputOTPSlot; two additions not in upstream, needed
+  because this is a native input rather than a div: `disabled:cursor-not-allowed`
+  (upstream applies it on the hidden OTPInput input) and `caret-transparent text-center
+  selection:bg-transparent` (upstream hides the caret via its own fake-caret div,
+  omitted here in favor of a transparent native caret).
+#}
+{% set maxLength = maxLength|default(6) %}
+{% set groups = groups is defined and groups ? groups : (maxLength == 6 ? [3, 3] : [maxLength]) %}
+{% set pattern = pattern|default('digits') %}
+{% set separator = separator is defined ? separator : true %}
+{% set slot_classes = "relative flex h-9 w-9 items-center justify-center border-y border-r border-input text-sm shadow-xs transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md aria-invalid:border-destructive data-[active=true]:z-10 data-[active=true]:border-ring data-[active=true]:ring-[3px] data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:border-destructive data-[active=true]:aria-invalid:ring-destructive/20 dark:bg-input/30 dark:data-[active=true]:aria-invalid:ring-destructive/40 disabled:cursor-not-allowed caret-transparent text-center selection:bg-transparent" %}
+
+<div data-slot="input-otp" data-module="input-otp.module" data-pattern="{{ pattern }}"
+  role="group" aria-label="{{ ariaLabel|default('Codice di verifica') }}"
+  class="flex items-center gap-2 has-disabled:opacity-50{{ class is defined and class ? ' ' ~ class : '' }}"
+  {%- if id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+
+  <input type="hidden" name="{{ name }}" value=""{% if disabled %} disabled{% endif %}>
+
+  {%- set slotIndex = 0 %}
+  {%- for groupSize in groups %}
+  <div data-slot="input-otp-group" class="flex items-center">
+    {%- for i in 1..groupSize %}
+    {%- set slotIndex = slotIndex + 1 %}
+    <input data-slot="input-otp-slot" data-active="false" type="text" maxlength="1"
+      inputmode="{{ pattern == 'digits' ? 'numeric' : 'text' }}"
+      aria-label="Carattere {{ slotIndex }}" class="{{ slot_classes }}"
+      {%- if slotIndex == 1 %} autocomplete="one-time-code"{% endif %}
+      {%- if disabled %} disabled{% endif %}
+      {%- if invalid %} aria-invalid="true"{% endif %}>
+    {%- endfor %}
+  </div>
+  {%- if separator and not loop.last %}
+  <div data-slot="input-otp-separator" role="separator" aria-hidden="true">
+    <svg class="size-4" aria-hidden="true"><use href="#icon-minus"></use></svg>
+  </div>
+  {%- endif %}
+  {%- endfor %}
+</div>

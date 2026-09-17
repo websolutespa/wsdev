@@ -171,6 +171,56 @@
         "note": "recharts (upstream) is replaced end-to-end by chart.js; class strings are not comparable 1:1. See PORTING.md Adaptation table / docs/adr/0002-native-html-apis-instead-of-radix.md."
       }
     ],
+    "input-otp": [
+      {
+        "from": "pointer-events-none",
+        "to": null,
+        "source": "port",
+        "note": "Belongs to InputOTPSlot's fake-caret div (className=\"pointer-events-none absolute inset-0 flex items-center justify-center\"), needed upstream because the library renders one invisible input over fake character divs. This port uses a real native <input> per slot instead (input-otp.twig header), which has its own real caret — hidden via `caret-transparent` (a documented addition, not an upstream token) rather than reproducing the fake-caret div. flex/items-center/justify-center from that same wrapper are already covered elsewhere in input-otp.twig (the group/slot classes)."
+      },
+      {
+        "from": "absolute",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret wrapper div, omitted — see pointer-events-none above."
+      },
+      {
+        "from": "inset-0",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret wrapper div, omitted — see pointer-events-none above."
+      },
+      {
+        "from": "h-4",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret bar div (className=\"h-4 w-px animate-caret-blink bg-foreground duration-1000\"), omitted — see pointer-events-none above."
+      },
+      {
+        "from": "w-px",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret bar div, omitted — see pointer-events-none above."
+      },
+      {
+        "from": "animate-caret-blink",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret bar div, omitted — see pointer-events-none above."
+      },
+      {
+        "from": "bg-foreground",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret bar div, omitted — see pointer-events-none above."
+      },
+      {
+        "from": "duration-1000",
+        "to": null,
+        "source": "port",
+        "note": "Fake-caret bar div, omitted — see pointer-events-none above."
+      }
+    ],
     "table": [
       {
         "from": "h-10",
@@ -433,6 +483,323 @@
         "source": "figma",
         "node": "118:2503",
         "note": "Figma measures 12px left item padding (bound paddingLeft = spacing/3); replaces select-item's pl-2 (8px). The 32px right padding (spacing/8) that makes room for the check indicator already matches upstream's pr-8. Not applied: the label's own 2px radius (border-radius/rounded-xs, node 118:2502) — select-label has no background or border upstream, so a radius there is invisible noise; and the kit's trigger fill (base/input) / transparent stroke, which contradicts upstream's bg-transparent + border-input and is a theme-level color decision, not a geometry measurement."
+      }
+    ],
+    "context-menu": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-3xl",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "derived from dropdown-menu 336:4988 (same menu surface): context-menu-content and context-menu-sub-content share dropdown-menu's own container shape (orchestrator decision, B6 Task 0, phase-4-b5-menus-select.md)."
+      },
+      {
+        "from": "shadow-md",
+        "to": "shadow-lg",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "derived from dropdown-menu 336:4988 (same menu surface); context-menu-sub-content already reads shadow-lg upstream (unaffected), context-menu-content's shadow-md is replaced so the two panels agree, exactly as dropdown-menu's own pair does."
+      },
+      {
+        "from": "rounded-sm",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): context-menu-item, context-menu-checkbox-item, context-menu-radio-item and context-menu-sub-trigger share dropdown-menu's own item shape."
+      },
+      {
+        "from": "px-2",
+        "to": "px-3",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): applies to context-menu-item, context-menu-sub-trigger and context-menu-label. context-menu-checkbox-item/radio-item keep their own pr-2 (a different literal token from px-2, reserved for the left icon column via pl-8) unchanged, exactly as dropdown-menu's own checkbox/radio items do."
+      },
+      {
+        "from": "py-1.5",
+        "to": "py-2",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): applies to context-menu-item, context-menu-checkbox-item, context-menu-radio-item, context-menu-sub-trigger and context-menu-label (dropdown-menu's own py-1.5 -> py-2 rewrite is a literal per-component token match, so it lands on the label too there as well — see dropdown-menu's exception note)."
+      }
+    ],
+    "menubar": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-3xl",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "derived from dropdown-menu 336:4988 (same menu surface): menubar-content and menubar-sub-content share dropdown-menu's own container shape (orchestrator decision, B6 Task 0, phase-4-b5-menus-select.md). The menubar root toolbar (data-slot=menubar, its own rounded-md) and menubar-trigger button are NOT part of this surface and keep upstream's classes verbatim."
+      },
+      {
+        "from": "shadow-md",
+        "to": "shadow-lg",
+        "source": "figma",
+        "node": "336:4988",
+        "note": "derived from dropdown-menu 336:4988 (same menu surface); menubar-sub-content already reads shadow-lg upstream (unaffected), menubar-content's shadow-md is replaced so the two panels agree."
+      },
+      {
+        "from": "rounded-sm",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): menubar-item and menubar-sub-trigger share dropdown-menu's own item shape."
+      },
+      {
+        "from": "rounded-xs",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "91:278",
+        "note": "extension of the dropdown-menu 91:278 derivation: menubar's own upstream tokens for menubar-checkbox-item/menubar-radio-item use rounded-xs (2px), a different literal token from dropdown-menu's rounded-sm, but the same shared-surface rationale applies — left at 2px they would visibly mismatch the 18px radius every other item on this menu surface now has."
+      },
+      {
+        "from": "px-2",
+        "to": "px-3",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): applies to menubar-item, menubar-sub-trigger and menubar-label. menubar-checkbox-item/radio-item keep their own pr-2 unchanged (different literal token, reserved for the left icon column via pl-8), and menubar-trigger's own px-2 (the top-level bar button, not this menu surface) is left untouched."
+      },
+      {
+        "from": "py-1.5",
+        "to": "py-2",
+        "source": "figma",
+        "node": "91:278",
+        "note": "derived from dropdown-menu 91:278 (same menu surface): applies to menubar-item, menubar-checkbox-item, menubar-radio-item, menubar-sub-trigger and menubar-label. menubar-trigger's own py-1 (a different literal token) is untouched."
+      }
+    ],
+    "checkbox": [
+      {
+        "from": "rounded-[4px]",
+        "to": "rounded-[5px]",
+        "source": "figma",
+        "node": "17085:197594",
+        "note": "Figma kit measures a 5px corner radius on the nested 16x16 'Checkbox' control frame (consistent across Checked=Yes/No x State=Default/Invalid/Disabled); replaces upstream's rounded-[4px]. The control's own 16x16 size (size-4) already matches the kit verbatim."
+      },
+      {
+        "from": "data-[state=checked]:border-primary",
+        "to": "checked:border-primary",
+        "source": "port",
+        "note": "PORTING.md Adaptation table: data-[state=checked]: on a native input has no data-state to select — CheckboxPrimitive.Root becomes a native <input type=\"checkbox\">, so the checked look is driven by the :checked pseudo-class instead."
+      },
+      {
+        "from": "data-[state=checked]:bg-primary",
+        "to": "checked:bg-primary",
+        "source": "port",
+        "note": "Same native-input adaptation as border-primary above."
+      },
+      {
+        "from": "data-[state=checked]:text-primary-foreground",
+        "to": "checked:text-primary-foreground",
+        "source": "port",
+        "note": "Same native-input adaptation as border-primary above."
+      },
+      {
+        "from": "dark:data-[state=checked]:bg-primary",
+        "to": "dark:checked:bg-primary",
+        "source": "port",
+        "note": "Same native-input adaptation as border-primary above (dark variant)."
+      },
+      {
+        "from": "grid",
+        "to": "peer-checked:grid",
+        "source": "port",
+        "note": "CheckboxPrimitive.Indicator is normally mounted/unmounted by Radix based on checked state, so it can use a plain 'grid' display value. A native <input> is a void element, so the indicator is instead an always-present sibling <span> shown via peer-checked: (same structural necessity as the checked: renames above); 'grid' itself is kept, just gated behind the sibling-selector instead of Radix's mount/unmount."
+      }
+    ],
+    "switch": [
+      {
+        "from": "focus-visible:border-ring",
+        "to": "focus-within:border-ring",
+        "source": "port",
+        "note": "SwitchPrimitive.Root (the focusable button) becomes a <label data-slot=\"switch\"> wrapping the actual focusable element (a hidden checkbox); the label itself is never focused, so its focus ring reacts to focus-within: instead of focus-visible:."
+      },
+      {
+        "from": "focus-visible:ring-ring/50",
+        "to": "focus-within:ring-ring/50",
+        "source": "port",
+        "note": "Same label/focus-within adaptation as border-ring above."
+      },
+      {
+        "from": "focus-visible:ring-[3px]",
+        "to": "focus-within:ring-[3px]",
+        "source": "port",
+        "note": "Same label/focus-within adaptation as border-ring above (ring width, not color)."
+      },
+      {
+        "from": "disabled:cursor-not-allowed",
+        "to": "has-disabled:cursor-not-allowed",
+        "source": "port",
+        "note": "The disabled state lives on the hidden input, not the label root; has-disabled: reaches through to it (PORTING.md Adaptation table)."
+      },
+      {
+        "from": "disabled:opacity-50",
+        "to": "has-disabled:opacity-50",
+        "source": "port",
+        "note": "Same has-disabled: adaptation as cursor-not-allowed above."
+      },
+      {
+        "from": "data-[size=default]:h-[1.15rem]",
+        "to": "data-[size=default]:h-5",
+        "source": "figma",
+        "node": "18684:180423",
+        "note": "Figma kit measures a 44x20 default track (18684:180423); replaces upstream's h-[1.15rem] (18.4px) with h-5 (20px)."
+      },
+      {
+        "from": "data-[size=default]:w-8",
+        "to": "data-[size=default]:w-11",
+        "source": "figma",
+        "node": "18684:180423",
+        "note": "Same node as h-5 above: 44px measured width replaces upstream's w-8 (32px)."
+      },
+      {
+        "from": "data-[size=sm]:h-3.5",
+        "to": "data-[size=sm]:h-4",
+        "source": "figma",
+        "node": "21141:15125",
+        "note": "Figma kit measures a 28x16 sm track (21141:15125, notesInline: 'Size=sm track shrinks to 28x16 vs default 44x20'); replaces upstream's h-3.5 (14px) with h-4 (16px)."
+      },
+      {
+        "from": "data-[size=sm]:w-6",
+        "to": "data-[size=sm]:w-7",
+        "source": "figma",
+        "node": "21141:15125",
+        "note": "Same node as h-4 above: 28px measured width replaces upstream's w-6 (24px)."
+      },
+      {
+        "from": "data-[state=checked]:bg-primary",
+        "to": "has-checked:bg-primary",
+        "source": "port",
+        "note": "Root is a <label> containing the checked input; has-checked: reaches through to it (PORTING.md Adaptation table, data-[state=checked]: row)."
+      },
+      {
+        "from": "data-[state=unchecked]:bg-input",
+        "to": "bg-input",
+        "source": "port",
+        "note": "Unchecked is simply the absence of has-checked:, so the resting-state color is the plain/default class (no state prefix needed) per the PORTING.md Adaptation table."
+      },
+      {
+        "from": "dark:data-[state=unchecked]:bg-input/80",
+        "to": "dark:bg-input/80",
+        "source": "port",
+        "note": "Same plain/default adaptation as bg-input above (dark variant)."
+      },
+      {
+        "from": "data-[state=checked]:translate-x-[calc(100%-2px)]",
+        "to": null,
+        "source": "figma",
+        "node": "18684:180423",
+        "note": "Upstream's single shared formula worked only because track width was always exactly 2x the thumb width (32px track / 16px thumb, 24px sm track / 12px thumb) — calc(100% - 2px) is a percentage of the THUMB's own width, so it produced a flush-to-border position on both ends by construction. The kit's new track sizes (44x20 default, 28x16 sm) no longer hold that 2x ratio, so a single formula can't serve both sizes; dropped in favor of two size-scoped utilities added directly in switch.twig ('group-data-[size=default]/switch:peer-checked:translate-x-6.5' = 26px, 'group-data-[size=sm]/switch:peer-checked:translate-x-3.5' = 14px — both recomputed to flush the thumb against the track's 1px border on both ends, thumb size unchanged at size-4/size-3), reported as EXTRA (expected, same convention as item's px-4/py-3.5 split)."
+      },
+      {
+        "from": "data-[state=unchecked]:translate-x-0",
+        "to": null,
+        "source": "port",
+        "note": "The unchecked/resting position needs no transform utility at all (translateX(0) is the browser default); dropped rather than kept as a no-op class."
+      },
+      {
+        "from": "dark:data-[state=checked]:bg-primary-foreground",
+        "to": "dark:peer-checked:bg-primary-foreground",
+        "source": "port",
+        "note": "Thumb's data-[state=checked]: -> peer-checked: (thumb is the input's sibling), per the PORTING.md Adaptation table."
+      },
+      {
+        "from": "dark:data-[state=unchecked]:bg-foreground",
+        "to": "dark:bg-foreground",
+        "source": "port",
+        "note": "Unchecked/resting thumb color needs no state prefix (plain/default class), same rationale as the root's bg-input above."
+      }
+    ],
+    "slider": [
+      {
+        "from": "data-[orientation=horizontal]:h-1.5",
+        "to": "data-[orientation=horizontal]:h-2",
+        "source": "figma",
+        "node": "17089:43880",
+        "note": "Figma kit measures an 8px track thickness inside the same 16px-tall padded wrapper (padding 4/0/4/0, node 17089:43880/17382:13196); replaces upstream's h-1.5 (6px) with h-2 (8px)."
+      },
+      {
+        "from": "data-[orientation=vertical]:w-1.5",
+        "to": "data-[orientation=vertical]:w-2",
+        "source": "figma",
+        "node": "17089:43880",
+        "note": "Same 8px thickness fact applied to the vertical-orientation track width, for symmetry (the kit only exports the horizontal slider, but the track's own thickness is orientation-independent)."
+      },
+      {
+        "from": "bg-white",
+        "to": null,
+        "source": "port",
+        "note": "SliderPrimitive.Thumb (styled div) becomes a native <input type=\"range\">; native range thumb pseudo-elements (::-webkit-slider-thumb / ::-moz-range-thumb) cannot carry Tailwind utility classes, so the whole thumb look is reproduced in slider.css instead (background: #fff, matching this literal white token) — same precedent as base/progress's transition-all exception."
+      },
+      {
+        "from": "block",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); the native <input> element is already block-level by the browser's UA stylesheet override for range inputs, no utility needed."
+      },
+      {
+        "from": "border",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `border: 1px solid var(--primary)`."
+      },
+      {
+        "from": "border-primary",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `border: 1px solid var(--primary)`."
+      },
+      {
+        "from": "disabled:opacity-50",
+        "to": null,
+        "source": "port",
+        "note": "Thumb-only token (the root's own disabled state uses the separate data-[disabled]:opacity-50 token, kept verbatim in slider.twig); moved to slider.css as `:disabled::-webkit-slider-thumb / ::-moz-range-thumb { opacity: 0.5 }` (see bg-white above)."
+      },
+      {
+        "from": "focus-visible:outline-hidden",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `:focus-visible { outline: none }` on the input."
+      },
+      {
+        "from": "focus-visible:ring-4",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as a 4px box-shadow glow on :focus-visible::-webkit-slider-thumb / ::-moz-range-thumb."
+      },
+      {
+        "from": "hover:ring-4",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as the same 4px box-shadow glow on :hover."
+      },
+      {
+        "from": "ring-ring/50",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `color-mix(in oklab, var(--ring) 50%, transparent)` in the hover/focus-visible box-shadow."
+      },
+      {
+        "from": "shadow-sm",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as the thumb's box-shadow base layer."
+      },
+      {
+        "from": "shrink-0",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); a native range thumb has no flex/grid layout context to shrink within."
+      },
+      {
+        "from": "size-4",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `width/height: 1rem` on the pseudo-element thumb (still 16px, unchanged from upstream — the kit only overrides the track thickness, not the thumb size)."
+      },
+      {
+        "from": "transition-[color,box-shadow]",
+        "to": null,
+        "source": "port",
+        "note": "Thumb class moved to slider.css (see bg-white above); reproduced as `transition: box-shadow 0.15s` on the pseudo-element thumb."
       }
     ]
   }

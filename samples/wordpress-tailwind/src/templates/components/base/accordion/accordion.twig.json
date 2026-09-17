@@ -1,0 +1,33 @@
+{
+  "mocks": {
+    "accordion": {
+      "default": {
+        "items": [
+          { "value": "shipping", "title": "Quali sono i tempi di spedizione?", "content": "<p>Le spedizioni standard arrivano in 3-5 giorni lavorativi.</p>", "open": true },
+          { "value": "returns", "title": "Come funzionano i resi?", "content": "<p>Puoi restituire un prodotto entro 30 giorni dall'acquisto.</p>" },
+          { "value": "payment", "title": "Quali metodi di pagamento accettate?", "content": "<p>Carta di credito, PayPal e bonifico bancario.</p>" }
+        ]
+      },
+      "multiple": {
+        "type": "multiple",
+        "items": [
+          { "value": "faq-1", "title": "Posso modificare il mio ordine?", "content": "<p>Sì, entro un'ora dall'acquisto contattando l'assistenza.</p>", "open": true },
+          { "value": "faq-2", "title": "Offrite spedizione internazionale?", "content": "<p>Sì, in tutta Europa con tempi di 5-7 giorni.</p>", "open": true }
+        ]
+      },
+      "not-collapsible": {
+        "collapsible": false,
+        "items": [
+          { "value": "a", "title": "Sezione sempre con una voce aperta", "content": "<p>Contenuto della prima sezione.</p>", "open": true },
+          { "value": "b", "title": "Seconda sezione", "content": "<p>Contenuto della seconda sezione.</p>" }
+        ]
+      },
+      "disabled": {
+        "items": [
+          { "value": "a", "title": "Sezione disponibile", "content": "<p>Contenuto disponibile.</p>" },
+          { "value": "b", "title": "Sezione non disponibile", "content": "<p>Contenuto non disponibile.</p>", "disabled": true }
+        ]
+      }
+    }
+  }
+}

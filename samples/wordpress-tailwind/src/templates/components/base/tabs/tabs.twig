@@ -1,0 +1,73 @@
+{#
+  Tabs — WAI-ARIA APG Tabs pattern (registry/new-york-v4/ui/tabs.tsx: Tabs, TabsList,
+  TabsTrigger, TabsContent, tabsListVariants). Classes follow the registry
+  byte-identical (upstream-only component, no tokens/figma-components/tabs.json).
+
+  Params:
+  - items: Array<{value: String, label: String, content?: String (trusted HTML),
+            icon?: String, disabled?: Boolean}> — icon is a sprite icon name rendered
+            before the label; value must be unique within the instance
+  - defaultValue?: String — value of the initially active tab (default: first item;
+              when it resolves to a disabled or missing tab, the module activates the
+              first enabled one at init)
+  - orientation?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - activationMode?: 'automatic'|'manual' as string (default: 'automatic') — matches
+              Radix's own TabsPrimitive.Root prop/values; automatic activates the tab
+              that receives arrow-key focus, manual requires Enter/Space or click
+  - variant?: 'default'|'line' as string (default: 'default') — tabsListVariants
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - {% block content_<value> %} is NOT supported — lists are data-driven, never embeds
+    inside loops (PORTING.md #5); pass pre-rendered HTML per item's `content`
+
+  a11y: tabs.module wires aria-controls/aria-labelledby via uid(), roving tabindex +
+  arrow keys (orientation-aware), Home/End.
+#}
+{% set tabs_list_variants = {
+  default: "bg-muted",
+  line: "gap-1 bg-transparent"
+} %}
+{% set tabs_trigger_classes = "relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md border border-transparent px-2 py-1 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
+  ~ " " ~ "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:border-transparent dark:group-data-[variant=line]/tabs-list:data-[state=active]:bg-transparent"
+  ~ " " ~ "data-[state=active]:bg-background data-[state=active]:text-foreground dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30 dark:data-[state=active]:text-foreground"
+  ~ " " ~ "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-[orientation=horizontal]/tabs:after:inset-x-0 group-data-[orientation=horizontal]/tabs:after:bottom-[-5px] group-data-[orientation=horizontal]/tabs:after:h-0.5 group-data-[orientation=vertical]/tabs:after:inset-y-0 group-data-[orientation=vertical]/tabs:after:-right-1 group-data-[orientation=vertical]/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100" %}
+
+{% set orientation = orientation|default('horizontal') %}
+{% set activationMode = activationMode|default('automatic') %}
+{% set variant = variant|default('default') %}
+{% set first_item = items is not empty ? items|first : {} %}
+{% set active_value = defaultValue|default(first_item.value|default('')) %}
+
+<div data-slot="tabs" data-module="tabs.module"
+  data-orientation="{{ orientation }}" data-activation-mode="{{ activationMode }}"
+  {%- if id %} id="{{ id }}"{% endif %}
+  class="group/tabs flex gap-2 data-[orientation=horizontal]:flex-col{% if class is defined and class %} {{ class }}{% endif %}" {{ attrs|default('')|raw }}>
+
+  <div role="tablist" data-slot="tabs-list" data-variant="{{ variant }}"
+    data-orientation="{{ orientation }}" aria-orientation="{{ orientation }}"
+    class="group/tabs-list inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground group-data-[orientation=horizontal]/tabs:h-9 group-data-[orientation=vertical]/tabs:h-fit group-data-[orientation=vertical]/tabs:flex-col data-[variant=line]:rounded-none {{ tabs_list_variants[variant] }}">
+    {%- for item in items %}
+    {%- set is_active = item.value == active_value %}
+    <button type="button" role="tab" data-slot="tabs-trigger"
+      data-value="{{ item.value }}" data-orientation="{{ orientation }}"
+      data-state="{{ is_active ? 'active' : 'inactive' }}"
+      aria-selected="{{ is_active ? 'true' : 'false' }}"
+      tabindex="{{ is_active ? '0' : '-1' }}"
+      {%- if item.disabled %} disabled data-disabled{% endif %}
+      class="{{ tabs_trigger_classes }}">
+      {%- if item.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg>{% endif %}
+      <span>{{ item.label }}</span>
+    </button>
+    {%- endfor %}
+  </div>
+
+  {%- for item in items %}
+  {%- set is_active = item.value == active_value %}
+  <div role="tabpanel" data-slot="tabs-content" tabindex="0"
+    data-value="{{ item.value }}" data-orientation="{{ orientation }}"
+    data-state="{{ is_active ? 'active' : 'inactive' }}"
+    {%- if not is_active %} hidden{% endif %}
+    class="flex-1 outline-none">{{ item.content|default('')|raw }}</div>
+  {%- endfor %}
+</div>
