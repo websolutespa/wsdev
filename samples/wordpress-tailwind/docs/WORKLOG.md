@@ -39,6 +39,11 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ Utility JS comuni (8 file da area-broker, `floating.js` + `--viewport-*`), `PORTING.md`, 34 icone lucide, docs page `src/docs/components.twig` (light + dark per scenario), componenti àncora button/separator/label/input/textarea/card/skeleton. 10 override Figma registrati (button pill + gap/padding, input/textarea radius e niente shadow), 3 disaccordi non applicati con motivo. Due bug di tooling corretti (`diff-figma-upstream` padding array; glob `twig.data` assoluti). Gate tutti verdi. Report: [reports/phase-3-b1-foundations.md](reports/phase-3-b1-foundations.md).
 - ⚠️ Follow-up: radius dei bottoni icon-only (un solo campione Figma); forma `padding` da riconciliare tra normalizzatore e JSON esportati.
 
+### Fase 4 — B2a statici, parte 1 (agent Sonnet)
+
+- ✅ alert, aspect-ratio, avatar (+modulo), badge, empty, item, kbd, marker, message, bubble, attachment. Override Figma solo su empty/item/kbd (avatar e badge già coerenti), aspect-ratio come port exception (nessuna classe upstream). Tre bug corretti in `diff-figma-upstream.mjs`. Gate verdi (18 componenti). Report: [reports/phase-4-b2a-static.md](reports/phase-4-b2a-static.md).
+- ⚠️ Follow-up B8: parametro `slot?` su button/separator per riuso dentro attachment/item.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

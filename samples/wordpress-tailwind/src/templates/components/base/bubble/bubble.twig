@@ -1,0 +1,59 @@
+{#
+  Params:
+  - content: String — text rendered inside bubble-content
+  - variant?: 'default'|'secondary'|'muted'|'tinted'|'outline'|'ghost'|'destructive' as string (default: 'default')
+  - align?: 'start'|'end' as string (default: 'start')
+  - url?: String — when set renders bubble-content as <a> instead of <div> (upstream asChild pattern)
+  - reactions?: { content: String, side?: 'top'|'bottom' as string (default: 'bottom'), align?: 'start'|'end' as string (default: 'end') }
+              — renders a bubble-reactions pill (e.g. an emoji + count summary)
+  - group?: Array<bubble props above> — renders a BubbleGroup of these entries instead
+            (all other top-level props are ignored)
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+#}
+{% macro bubbleBody(item) %}
+  {%- if item.url %}
+  <a data-slot="bubble-content" href="{{ item.url }}" class="w-fit max-w-full min-w-0 overflow-hidden rounded-xl border border-transparent px-3 py-2 text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-none [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50">{{ item.content }}</a>
+  {%- else %}
+  <div data-slot="bubble-content" class="w-fit max-w-full min-w-0 overflow-hidden rounded-xl border border-transparent px-3 py-2 text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-none [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50">{{ item.content }}</div>
+  {%- endif %}
+  {%- if item.reactions is defined %}
+  {%- set r_side = item.reactions.side|default('bottom') %}
+  {%- set r_align = item.reactions.align|default('end') %}
+  {%- set r_side_classes = { top: "top-0 -translate-y-3/4", bottom: "bottom-0 translate-y-3/4" } %}
+  {%- set r_align_classes = { start: "left-3", end: "right-3" } %}
+  <div data-slot="bubble-reactions" data-align="{{ r_align }}" data-side="{{ r_side }}" class="absolute z-10 flex w-fit shrink-0 items-center justify-center gap-1 rounded-full bg-muted px-1.5 py-0.5 text-sm ring-3 ring-card has-[button]:p-0 {{ r_side_classes[r_side] }} {{ r_align_classes[r_align] }}">{{ item.reactions.content }}</div>
+  {%- endif %}
+{% endmacro %}
+{% import _self as self %}
+{% set bubble_variants = {
+  default: "*:data-[slot=bubble-content]:bg-primary *:data-[slot=bubble-content]:text-primary-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-primary/80",
+  secondary: "*:data-[slot=bubble-content]:bg-secondary *:data-[slot=bubble-content]:text-secondary-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)]",
+  muted: "*:data-[slot=bubble-content]:bg-muted [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklch,var(--muted),var(--foreground)_5%)]",
+  tinted: "*:data-[slot=bubble-content]:bg-[oklch(from_var(--primary)_0.93_calc(c*0.4)_h)] *:data-[slot=bubble-content]:text-foreground dark:*:data-[slot=bubble-content]:bg-[oklch(from_var(--primary)_0.3_calc(c*0.4)_h)] [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[oklch(from_var(--primary)_0.88_calc(c*0.5)_h)] dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-[oklch(from_var(--primary)_0.35_calc(c*0.5)_h)]",
+  outline: "*:data-[slot=bubble-content]:border-border *:data-[slot=bubble-content]:bg-background [&>[data-slot=bubble-content]:is(button,a):hover]:bg-muted [&>[data-slot=bubble-content]:is(button,a):hover]:text-foreground dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-input/30",
+  ghost: "border-none *:data-[slot=bubble-content]:rounded-none *:data-[slot=bubble-content]:bg-transparent *:data-[slot=bubble-content]:p-0 [&>[data-slot=bubble-content]:is(button,a):hover]:bg-muted [&>[data-slot=bubble-content]:is(button,a):hover]:text-foreground dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-muted/50",
+  destructive: "*:data-[slot=bubble-content]:bg-destructive/10 *:data-[slot=bubble-content]:text-destructive dark:*:data-[slot=bubble-content]:bg-destructive/20 [&>[data-slot=bubble-content]:is(button,a):hover]:bg-destructive/20 dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-destructive/30"
+} %}
+{% set bubble_base = "group/bubble relative flex w-fit max-w-[80%] min-w-0 flex-col gap-1 group-data-[align=end]/message:self-end data-[align=end]:self-end data-[variant=ghost]:max-w-full" %}
+{% if group %}
+<div data-slot="bubble-group" class="flex min-w-0 flex-col gap-2{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for entry in group %}
+    {%- set entry_variant = entry.variant|default('default') %}
+    {%- set entry_align = entry.align|default('start') %}
+  <div data-slot="bubble" data-variant="{{ entry_variant }}" data-align="{{ entry_align }}" class="{{ bubble_base }} {{ bubble_variants[entry_variant] }}">
+    {{- self.bubbleBody(entry) }}
+  </div>
+  {%- endfor %}
+</div>
+{% else %}
+{% set variant = variant|default('default') %}
+{% set align = align|default('start') %}
+{% set bubble_classes = bubble_base ~ ' ' ~ bubble_variants[variant] ~ (class is defined and class ? ' ' ~ class : '') %}
+<div data-slot="bubble" data-variant="{{ variant }}" data-align="{{ align }}" class="{{ bubble_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {{- self.bubbleBody({ content: content, url: url, reactions: reactions }) }}
+</div>
+{% endif %}

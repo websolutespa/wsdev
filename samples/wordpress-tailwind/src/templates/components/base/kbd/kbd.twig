@@ -1,0 +1,29 @@
+{#
+  Params:
+  - label?: String — single key label (e.g. "⌘", "Ctrl", "S"); ignored when `keys` is set
+  - icon?: String — sprite icon name instead of/alongside a text label
+  - keys?: Array<{ label?: String, icon?: String }> — when set renders a KbdGroup of Kbd
+           entries separated by "+" (list children are data-driven, never a loop of embeds)
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+{% set kbd_classes = "pointer-events-none inline-flex h-5.5 w-fit min-w-5.5 items-center justify-center gap-1 rounded-sm bg-muted px-1.5 font-sans text-xs font-medium text-muted-foreground select-none [&_svg:not([class*='size-'])]:size-3 [[data-slot=tooltip-content]_&]:bg-background/20 [[data-slot=tooltip-content]_&]:text-background dark:[[data-slot=tooltip-content]_&]:bg-background/10" %}
+{% if keys %}
+<kbd data-slot="kbd-group" class="inline-flex items-center gap-1{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for key in keys %}
+    {%- if not loop.first %}<span aria-hidden="true">+</span>{% endif %}
+  <kbd data-slot="kbd" class="{{ kbd_classes }}">
+    {%- if key.icon is defined %}<svg aria-hidden="true"><use href="#icon-{{ key.icon }}"></use></svg>{% endif %}
+    {%- if key.label is defined %}{{ key.label }}{% endif %}
+  </kbd>
+  {%- endfor %}
+</kbd>
+{% else %}
+<kbd data-slot="kbd" class="{{ kbd_classes }}{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- if icon %}<svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>{% endif %}
+  {{- label }}
+</kbd>
+{% endif %}

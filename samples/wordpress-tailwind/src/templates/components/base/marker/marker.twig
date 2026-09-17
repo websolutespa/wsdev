@@ -1,0 +1,43 @@
+{#
+  Params:
+  - content: String — rendered in marker-content
+  - icon?: String — sprite icon name rendered in marker-icon before the content
+  - variant?: 'default'|'separator'|'border' as string (default: 'default')
+  - url?: String — when set renders <a> instead of <div> (upstream asChild pattern)
+  - items?: Array<{ content, icon?, variant? }> — when set renders one marker per entry,
+            stacked (list children are data-driven, never embeds inside a loop)
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+#}
+{% macro markerBody(item) %}
+  {%- if item.icon %}<span data-slot="marker-icon" aria-hidden="true" class="size-4 shrink-0 [&_svg:not([class*='size-'])]:size-4"><svg aria-hidden="true"><use href="#icon-{{ item.icon }}"></use></svg></span>{% endif %}
+  <span data-slot="marker-content" class="min-w-0 wrap-break-word group-data-[variant=separator]/marker:flex-none group-data-[variant=separator]/marker:text-center *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground">{{ item.content }}</span>
+{% endmacro %}
+{% import _self as self %}
+{% set marker_variants = {
+  default: "",
+  separator: "before:mr-1 before:h-px before:min-w-0 before:flex-1 before:bg-border after:ml-1 after:h-px after:min-w-0 after:flex-1 after:bg-border",
+  border: "border-b border-border pb-2"
+} %}
+{% set marker_base = "group/marker relative flex min-h-4 w-full items-center gap-2 text-left text-sm text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [a]:underline [a]:underline-offset-3 [a]:hover:text-foreground" %}
+{% if items %}
+{%- for item in items %}
+  {%- set item_variant = item.variant|default('default') %}
+<div data-slot="marker" data-variant="{{ item_variant }}" class="{{ marker_base }} {{ marker_variants[item_variant] }}{% if class is defined and class %} {{ class }}{% endif %}">
+  {{- self.markerBody(item) }}
+</div>
+{%- endfor %}
+{% else %}
+{% set variant = variant|default('default') %}
+{% set marker_classes = marker_base ~ ' ' ~ marker_variants[variant] ~ (class is defined and class ? ' ' ~ class : '') %}
+{% if url %}
+<a data-slot="marker" data-variant="{{ variant }}" href="{{ url }}" class="{{ marker_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+{% else %}
+<div data-slot="marker" data-variant="{{ variant }}" class="{{ marker_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+{% endif %}
+  {{- self.markerBody({ content: content, icon: icon }) }}
+{% if url %}</a>{% else %}</div>{% endif %}
+{% endif %}

@@ -1,0 +1,58 @@
+{
+  "mocks": {
+    "item": {
+      "default": {
+        "title": "Titolo elemento",
+        "description": "Breve descrizione dell'elemento selezionato.",
+        "variant": "outline",
+        "media": { "variant": "icon", "icon": "settings" }
+      },
+      "muted": {
+        "title": "Il tuo profilo è stato verificato",
+        "description": "Ora puoi accedere a tutte le funzionalità riservate.",
+        "variant": "muted",
+        "media": { "variant": "icon", "icon": "circle-check" }
+      },
+      "with-image": {
+        "title": "Report vendite Q3",
+        "description": "Aggiornato 3 minuti fa",
+        "variant": "outline",
+        "media": { "variant": "image", "src": "https://picsum.photos/seed/report/80/80", "alt": "Anteprima report" },
+        "actions": [
+          { "icon": "chevron-right", "ariaLabel": "Apri" }
+        ]
+      },
+      "with-actions": {
+        "title": "Notifiche push",
+        "description": "Ricevi un avviso per ogni nuovo messaggio.",
+        "variant": "outline",
+        "media": { "variant": "icon", "icon": "bell" },
+        "actions": [
+          { "icon": "settings", "ariaLabel": "Impostazioni" },
+          { "icon": "x", "ariaLabel": "Rimuovi" }
+        ]
+      },
+      "size-sm": {
+        "title": "Fattura #2024-0091",
+        "description": "Emessa il 12 marzo",
+        "variant": "outline",
+        "size": "sm",
+        "media": { "variant": "icon", "icon": "credit-card" }
+      },
+      "as-link": {
+        "title": "Documentazione API",
+        "description": "Consulta la guida completa agli endpoint disponibili.",
+        "variant": "outline",
+        "url": "#",
+        "media": { "variant": "icon", "icon": "external-link" }
+      },
+      "group": {
+        "group": [
+          { "title": "Aggiornamento disponibile", "description": "Versione 2.4.0 pronta all'installazione.", "media": { "variant": "icon", "icon": "arrow-down" } },
+          { "title": "Backup completato", "description": "Ultimo backup: oggi alle 03:00.", "media": { "variant": "icon", "icon": "circle-check" } },
+          { "title": "Spazio di archiviazione quasi esaurito", "description": "Hai utilizzato il 92% dello spazio disponibile.", "media": { "variant": "icon", "icon": "triangle-alert" } }
+        ]
+      }
+    }
+  }
+}

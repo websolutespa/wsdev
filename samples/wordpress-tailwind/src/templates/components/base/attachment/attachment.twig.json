@@ -1,0 +1,66 @@
+{
+  "mocks": {
+    "attachment": {
+      "default": {
+        "title": "contratto-fornitura.pdf",
+        "description": "2,4 MB",
+        "media": { "variant": "icon", "icon": "file-text" },
+        "actions": [{ "icon": "x", "ariaLabel": "Rimuovi allegato" }]
+      },
+      "image": {
+        "title": "foto-sopralluogo.jpg",
+        "description": "1,1 MB",
+        "media": { "variant": "image", "src": "https://picsum.photos/seed/attach/100/100", "alt": "Foto sopralluogo" },
+        "actions": [{ "icon": "x", "ariaLabel": "Rimuovi allegato" }]
+      },
+      "uploading": {
+        "title": "presentazione.pptx",
+        "description": "Caricamento in corso...",
+        "state": "uploading",
+        "media": { "variant": "icon" },
+        "actions": [{ "icon": "x", "ariaLabel": "Annulla caricamento" }]
+      },
+      "processing": {
+        "title": "video-promo.mp4",
+        "description": "Elaborazione anteprima...",
+        "state": "processing",
+        "media": { "variant": "icon", "icon": "image" }
+      },
+      "error": {
+        "title": "documento-scaduto.zip",
+        "description": "Caricamento non riuscito",
+        "state": "error",
+        "media": { "variant": "icon", "icon": "octagon-x" },
+        "actions": [{ "icon": "arrow-down", "ariaLabel": "Riprova" }]
+      },
+      "idle": {
+        "title": "Trascina qui il file",
+        "description": "oppure clicca per selezionare",
+        "state": "idle",
+        "media": { "variant": "icon", "icon": "paperclip" },
+        "trigger": { "ariaLabel": "Seleziona file da caricare" }
+      },
+      "size-xs": {
+        "title": "logo.svg",
+        "description": "12 KB",
+        "size": "xs",
+        "media": { "variant": "icon", "icon": "image" }
+      },
+      "vertical": {
+        "title": "brochure.pdf",
+        "description": "890 KB",
+        "orientation": "vertical",
+        "media": { "variant": "icon", "icon": "file-text" },
+        "actions": [{ "icon": "x", "ariaLabel": "Rimuovi allegato" }]
+      },
+      "group": {
+        "items": [
+          { "title": "fattura.pdf", "description": "310 KB", "media": { "variant": "icon", "icon": "file-text" } },
+          { "title": "foto1.jpg", "description": "2,0 MB", "media": { "variant": "image", "src": "https://picsum.photos/seed/g1/100/100", "alt": "Foto 1" } },
+          { "title": "foto2.jpg", "description": "1,8 MB", "media": { "variant": "image", "src": "https://picsum.photos/seed/g2/100/100", "alt": "Foto 2" } },
+          { "title": "note.txt", "description": "4 KB", "media": { "variant": "icon", "icon": "paperclip" } }
+        ]
+      }
+    }
+  }
+}

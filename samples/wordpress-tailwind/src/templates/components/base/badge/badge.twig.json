@@ -1,0 +1,14 @@
+{
+  "mocks": {
+    "badge": {
+      "default": { "label": "Nuovo" },
+      "secondary": { "label": "In bozza", "variant": "secondary" },
+      "destructive": { "label": "Scaduto", "variant": "destructive" },
+      "outline": { "label": "Beta", "variant": "outline" },
+      "ghost": { "label": "Archiviato", "variant": "ghost" },
+      "link": { "label": "Vedi dettagli", "variant": "link", "url": "#" },
+      "with-icon": { "label": "Verificato", "icon": "circle-check", "variant": "secondary" },
+      "as-link": { "label": "Promo -20%", "url": "https://www.websolute.it", "target": "_blank" }
+    }
+  }
+}

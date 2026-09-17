@@ -1,0 +1,31 @@
+{
+  "mocks": {
+    "bubble": {
+      "default": { "content": "Ciao! Come posso aiutarti oggi?" },
+      "secondary": { "content": "Vorrei informazioni sul mio ordine.", "variant": "secondary", "align": "end" },
+      "muted": { "content": "L'operatore si sta connettendo...", "variant": "muted" },
+      "tinted": { "content": "Il tuo ordine #4521 è stato spedito.", "variant": "tinted" },
+      "outline": { "content": "Posso allegare una fattura?", "variant": "outline", "align": "end" },
+      "ghost": { "content": "Digitando...", "variant": "ghost" },
+      "destructive": { "content": "Il pagamento non è andato a buon fine.", "variant": "destructive" },
+      "with-reactions": {
+        "content": "Perfetto, grazie mille per la rapidità!",
+        "variant": "secondary",
+        "align": "end",
+        "reactions": { "content": "👍 2" }
+      },
+      "as-link": {
+        "content": "Scarica la ricevuta in PDF",
+        "variant": "outline",
+        "url": "#"
+      },
+      "group": {
+        "group": [
+          { "content": "Salve, ho un problema con l'accesso al mio account.", "align": "start" },
+          { "content": "Mi dispiace per il disagio, può indicarmi l'indirizzo email associato?", "variant": "secondary", "align": "end" },
+          { "content": "Certo, è mario.rossi@esempio.it", "align": "start" }
+        ]
+      }
+    }
+  }
+}

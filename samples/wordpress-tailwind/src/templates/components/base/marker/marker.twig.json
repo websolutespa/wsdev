@@ -1,0 +1,19 @@
+{
+  "mocks": {
+    "marker": {
+      "default": { "content": "Passo 1: crea il progetto" },
+      "with-icon": { "content": "Ordine confermato", "icon": "circle-check" },
+      "separator": { "content": "oppure", "variant": "separator" },
+      "border": { "content": "Cronologia attività", "variant": "border" },
+      "as-link": { "content": "Vai alle impostazioni account", "icon": "settings", "url": "#" },
+      "steps": {
+        "items": [
+          { "content": "Ordine ricevuto", "icon": "circle-check" },
+          { "content": "In preparazione", "icon": "circle-check" },
+          { "content": "Spedito", "icon": "circle" },
+          { "content": "Consegnato", "icon": "circle" }
+        ]
+      }
+    }
+  }
+}

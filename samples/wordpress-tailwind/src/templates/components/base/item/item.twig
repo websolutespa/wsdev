@@ -1,0 +1,86 @@
+{#
+  Params:
+  - variant?: 'default'|'outline'|'muted' as string (default: 'default')
+  - size?: 'default'|'sm' as string (default: 'default')
+  - title?: String — rendered in item-title
+  - description?: String — rendered in item-description
+  - media?: { variant?: 'default'|'icon'|'image' as string (default: 'default'), icon?: String,
+              src?: String, alt?: String } — renders item-media before item-content
+  - actions?: Array<{ label?, icon?, iconAfter?, variant?, size?, url?, ariaLabel? }> — rendered
+              as Button components (see base/button) inside item-actions; data-driven, never
+              embeds inside a loop
+  - url?: String — when set renders <a> instead of <div> (upstream asChild pattern)
+  - group?: Array<item props above, minus group> — renders an ItemGroup of these entries
+            instead (all other top-level props are ignored); a Separator is inserted between
+            consecutive entries
+  - id?: String
+  - class?: String — appended last on the item root; additive utilities only
+  - attrs?: String — raw extra attributes on the item root, trusted input only
+  - blocks: content, header, footer — override the corresponding parts for a SINGLE item
+            (ignored when `group` is set). content's default already wraps title/description;
+            header/footer render nothing by default. Exact wrappers to copy into an override:
+    content: <div data-slot="item-content" class="flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none">...</div>
+    header:  <div data-slot="item-header" class="flex basis-full items-center justify-between gap-2">...</div>
+    footer:  <div data-slot="item-footer" class="flex basis-full items-center justify-between gap-2">...</div>
+#}
+{% macro itemMedia(media) %}
+  {%- set media_variant = media.variant|default('default') %}
+  {%- set item_media_variants = {
+    default: "bg-transparent",
+    icon: "size-8 rounded-sm border bg-muted [&_svg:not([class*='size-'])]:size-4",
+    image: "size-10 overflow-hidden rounded-sm [&_img]:size-full [&_img]:object-cover"
+  } %}
+  <div data-slot="item-media" data-variant="{{ media_variant }}" class="flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:translate-y-0.5 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none {{ item_media_variants[media_variant] }}">
+    {%- if media.icon %}<svg aria-hidden="true"><use href="#icon-{{ media.icon }}"></use></svg>{% endif %}
+    {%- if media.src %}<img src="{{ media.src }}" alt="{{ media.alt|default('') }}">{% endif %}
+  </div>
+{% endmacro %}
+{% macro itemContent(title, description) %}
+  <div data-slot="item-content" class="flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none">
+    {%- if title %}<div data-slot="item-title" class="flex w-fit items-center gap-2 text-sm leading-snug font-medium">{{ title }}</div>{% endif %}
+    {%- if description %}<p data-slot="item-description" class="line-clamp-2 text-sm leading-normal font-normal text-balance text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary">{{ description }}</p>{% endif %}
+  </div>
+{% endmacro %}
+{% macro itemActions(actions) %}
+  <div data-slot="item-actions" class="flex items-center gap-2">
+    {%- for action in actions %}
+    {%- include '@components/base/button/button.twig' with action|merge({ variant: action.variant|default('ghost'), size: action.size|default('icon-sm') }) only %}
+    {%- endfor %}
+  </div>
+{% endmacro %}
+{% import _self as self %}
+{% set item_variants = { default: "bg-transparent", outline: "border-border", muted: "bg-muted/50" } %}
+{% set item_sizes = { default: "gap-2.5 px-4 py-3.5", sm: "gap-2.5 px-4 py-3" } %}
+{% set item_base = "group/item flex flex-wrap items-center rounded-2xl border border-transparent text-sm transition-colors duration-100 outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 [a]:transition-colors [a]:hover:bg-accent/50" %}
+{% if group %}
+<div role="list" data-slot="item-group" class="group/item-group flex flex-col{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for entry in group %}
+    {%- set entry_variant = entry.variant|default('default') %}
+    {%- set entry_size = entry.size|default('default') %}
+  <div data-slot="item" data-variant="{{ entry_variant }}" data-size="{{ entry_size }}" class="{{ item_base }} {{ item_variants[entry_variant] }} {{ item_sizes[entry_size] }}">
+    {%- if entry.media is defined %}{{ self.itemMedia(entry.media) }}{% endif %}
+    {{- self.itemContent(entry.title, entry.description) }}
+    {%- if entry.actions %}{{ self.itemActions(entry.actions) }}{% endif %}
+  </div>
+    {%- if not loop.last %}<div data-slot="item-separator" data-orientation="horizontal" role="none" class="shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-0"></div>{% endif %}
+  {%- endfor %}
+</div>
+{% else %}
+{% set variant = variant|default('default') %}
+{% set size = size|default('default') %}
+{% set item_classes = item_base ~ ' ' ~ item_variants[variant] ~ ' ' ~ item_sizes[size] ~ (class is defined and class ? ' ' ~ class : '') %}
+{% if url %}
+<a data-slot="item" data-variant="{{ variant }}" data-size="{{ size }}" href="{{ url }}" class="{{ item_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+{% else %}
+<div data-slot="item" data-variant="{{ variant }}" data-size="{{ size }}" class="{{ item_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+{% endif %}
+  {% block header %}{% endblock %}
+  {%- if media is defined %}{{ self.itemMedia(media) }}{% endif %}
+  {% block content %}{{ self.itemContent(title, description) }}{% endblock %}
+  {%- if actions %}{{ self.itemActions(actions) }}{% endif %}
+  {% block footer %}{% endblock %}
+{% if url %}</a>{% else %}</div>{% endif %}
+{% endif %}

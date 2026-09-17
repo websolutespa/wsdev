@@ -1,0 +1,30 @@
+{
+  "mocks": {
+    "aspect-ratio": {
+      "default": {
+        "src": "https://picsum.photos/id/1015/800/450",
+        "alt": "Fiume tra le montagne al tramonto"
+      },
+      "square": {
+        "ratio": "1_1",
+        "src": "https://picsum.photos/id/1025/600/600",
+        "alt": "Cane in primo piano su prato verde"
+      },
+      "classic": {
+        "ratio": "4_3",
+        "src": "https://picsum.photos/id/1039/800/600",
+        "alt": "Sentiero di montagna innevato"
+      },
+      "photo": {
+        "ratio": "3_2",
+        "src": "https://picsum.photos/id/1043/900/600",
+        "alt": "Spiaggia rocciosa vista dall'alto"
+      },
+      "cinematic": {
+        "ratio": "21_9",
+        "src": "https://picsum.photos/id/1050/1050/450",
+        "alt": "Panorama urbano al tramonto"
+      }
+    }
+  }
+}

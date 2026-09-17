@@ -85,6 +85,76 @@
         "note": "Upstream drives the fill width with an inline style={{ transform: translateX(...) }} computed in React; the Twig port sets the value through the module (a CSS custom property) and animates it in progress.css instead, so this utility is not required verbatim in the twig markup. Revisit once the module lands."
       }
     ],
+    "aspect-ratio": [
+      {
+        "from": "*",
+        "to": null,
+        "source": "port",
+        "note": "Upstream (Radix AspectRatioPrimitive.Root) renders no Tailwind classes at all — the ratio is a runtime inline style computed by Radix, not a class string. With no Radix runtime here, the box uses Tailwind's native aspect-* utilities instead (aspect-video/aspect-square/aspect-[4/3]/aspect-[3/2]/aspect-[21/9]), selected from a literal enum map so the class scanner sees them; not comparable 1:1 to upstream."
+      }
+    ],
+    "kbd": [
+      {
+        "from": "h-5",
+        "to": "h-5.5",
+        "source": "figma",
+        "node": "18665:800",
+        "note": "Figma measures a 22px key height (bound.height = \"height/h-5,5\"); replaces upstream's h-5 (20px)."
+      },
+      {
+        "from": "px-1",
+        "to": "px-1.5",
+        "source": "figma",
+        "node": "18665:800",
+        "note": "Figma measures 6px horizontal padding; replaces upstream's px-1 (4px)."
+      },
+      {
+        "from": "min-w-5",
+        "to": "min-w-5.5",
+        "source": "figma",
+        "node": "18665:800",
+        "note": "Figma's own bound.minWidth token is \"width/w-5,5\" (22px), matching the measured height so single-character keys render as a 22x22 square; replaces upstream's min-w-5 (20px)."
+      }
+    ],
+    "item": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "18672:218681",
+        "note": "Figma's main/default kit instance is the Outline card, which measures an 18px corner radius (rounded-2xl); replaces the shared base string's rounded-md (8px), applied to every color variant since itemVariants only varies background/border per variant, not radius. The plain 'Default' (no-border) sample measures a different 10px radius (node 18709:106332) — kept as a documented conflict, not applied, since the base string cannot express two radii and the kit's main component (Outline) wins."
+      },
+      {
+        "from": "gap-4",
+        "to": "gap-2.5",
+        "source": "figma",
+        "node": "18709:106332",
+        "note": "Figma measures a 10px gap on both the Outline (node 18672:218681) and Default (node 18709:106332) samples of size=default; replaces the default size's gap-4 (16px)."
+      },
+      {
+        "from": "p-4",
+        "to": null,
+        "source": "figma",
+        "node": "18709:106332",
+        "note": "Figma measures asymmetric padding on size=default (16px horizontal / 14px vertical, consistent across the Outline and Default samples): the p-4 shorthand is dropped and item.twig writes the two explicit utilities instead (px-4, unchanged at 16px, and py-3.5 = 14px). The check:classes gate can only express a 1:1 token swap, not a shorthand split, so px-4/py-3.5 show as EXTRA (expected) rather than matched against this exception."
+      }
+    ],
+    "empty": [
+      {
+        "from": "rounded-lg",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "18679:26096",
+        "note": "Figma measures an 18px corner radius on the Empty root; replaces rounded-lg (10px in this kit's radius scale). The emptyMediaVariants icon variant also uses the literal token rounded-lg upstream but measures a different 14px radius there (node I18679:26096;18672:1850, -> rounded-xl); check:classes only tracks de-duplicated tokens per component (not per owner), so that second, distinct rounded-lg->rounded-xl swap is applied directly in empty.twig without its own exception entry and shows as an EXTRA (expected) token instead."
+      },
+      {
+        "from": "gap-6",
+        "to": "gap-4",
+        "source": "figma",
+        "node": "18679:26096",
+        "note": "Figma measures a 16px gap between empty-header and empty-content; replaces gap-6 (24px)."
+      }
+    ],
     "calendar": [
       {
         "from": "*",

@@ -1,0 +1,33 @@
+{#
+  Params:
+  - ratio?: '16_9'|'1_1'|'4_3'|'3_2'|'21_9' as string (default: '16_9') — mapped to a
+            literal Tailwind aspect-* utility (never string-built, so the class scanner sees it)
+  - src?: String — image URL; when set renders an <img> filling the box
+  - alt?: String — REQUIRED when src is set
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+  - block content — overrides the default <img>; custom content should fill the box
+                    with `absolute inset-0 size-full`, matching the default <img>
+
+  Port exception: upstream (Radix AspectRatioPrimitive.Root) renders no Tailwind
+  classes of its own — the ratio comes from a runtime inline style. With no Radix
+  runtime here, the box uses Tailwind's native aspect-* utilities instead; see
+  scripts/upstream-exceptions.json ("source": "port").
+#}
+{% set aspect_ratio_classes = {
+  '16_9': 'aspect-video',
+  '1_1': 'aspect-square',
+  '4_3': 'aspect-[4/3]',
+  '3_2': 'aspect-[3/2]',
+  '21_9': 'aspect-[21/9]'
+} %}
+{% set ratio = ratio|default('16_9') %}
+<div
+  data-slot="aspect-ratio"
+  class="relative w-full overflow-hidden {{ aspect_ratio_classes[ratio] }}{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {% block content %}
+    {% if src %}<img src="{{ src }}" alt="{{ alt|default('') }}" class="absolute inset-0 size-full object-cover">{% endif %}
+  {% endblock %}
+</div>

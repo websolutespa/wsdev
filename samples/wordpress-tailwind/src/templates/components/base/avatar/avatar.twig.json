@@ -1,0 +1,51 @@
+{
+  "mocks": {
+    "avatar": {
+      "default": {
+        "src": "https://i.pravatar.cc/150?img=12",
+        "alt": "Foto profilo di Giulia Romano",
+        "fallback": "GR"
+      },
+      "fallback-only": {
+        "fallback": "MC"
+      },
+      "broken-image": {
+        "src": "https://example.invalid/non-esistente.jpg",
+        "alt": "Immagine non disponibile",
+        "fallback": "AB"
+      },
+      "size-sm": {
+        "size": "sm",
+        "src": "https://i.pravatar.cc/150?img=5",
+        "alt": "Foto profilo di Luca Ferri",
+        "fallback": "LF"
+      },
+      "size-lg": {
+        "size": "lg",
+        "src": "https://i.pravatar.cc/150?img=32",
+        "alt": "Foto profilo di Sara Conti",
+        "fallback": "SC"
+      },
+      "with-badge": {
+        "src": "https://i.pravatar.cc/150?img=48",
+        "alt": "Foto profilo di Marco Villa",
+        "fallback": "MV",
+        "badge": ""
+      },
+      "with-badge-icon": {
+        "src": "https://i.pravatar.cc/150?img=15",
+        "alt": "Foto profilo di Elena Bianchi",
+        "fallback": "EB",
+        "badge": "check"
+      },
+      "group": {
+        "group": [
+          { "src": "https://i.pravatar.cc/150?img=12", "alt": "Giulia Romano", "fallback": "GR" },
+          { "src": "https://i.pravatar.cc/150?img=5", "alt": "Luca Ferri", "fallback": "LF" },
+          { "src": "https://i.pravatar.cc/150?img=32", "alt": "Sara Conti", "fallback": "SC" },
+          { "count": "+4" }
+        ]
+      }
+    }
+  }
+}

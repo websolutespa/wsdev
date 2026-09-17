@@ -74,12 +74,16 @@ function spacingToPx(n) {
   return n * 4;
 }
 
-/** px -> the closest Tailwind spacing-scale numeric suffix (searches 0..96 plus the fractional exceptions). */
+/**
+ * px -> the closest Tailwind spacing-scale numeric suffix. Tailwind v4 generates
+ * spacing utilities functionally (calc(var(--spacing) * N)) for any N, so half-steps
+ * beyond the legacy v3 named set (0.5/1.5/2.5/3.5) are valid too (e.g. h-5.5 = 22px);
+ * candidates therefore cover every 0.5 step from 0 to 96, not just integers.
+ */
 function pxToSpacing(px) {
   let best = 0;
   let bestDiff = Infinity;
-  const candidates = [...Object.keys(SPACING_FRACTIONS_PX).map(Number), ...Array.from({ length: 97 }, (_, n) => n)];
-  for (const n of candidates) {
+  for (let n = 0; n <= 96; n += 0.5) {
     const diff = Math.abs(spacingToPx(n) - px);
     if (diff < bestDiff) {
       bestDiff = diff;
@@ -117,9 +121,25 @@ function pxToTextSizeKey(fontSizePx) {
   return best;
 }
 
-/** Concatenates the base class plus each axis's default-variant classes, so single-utility regexes can scan it. */
+/**
+ * Concatenates the base class plus each axis's default-variant classes, so single-utility
+ * regexes can scan it. summary.classStrings is a flat dump of every literal string in the
+ * file (including non-default cva variant values, e.g. item's sm-size "px-4 py-3"); those
+ * non-default strings are excluded here so they cannot leak a false "current" match into
+ * the default-variant comparison (e.g. sm's "py-3" being read as the default size's own
+ * vertical padding, when the default size only ever sets the "p-4" shorthand).
+ */
 function combinedDefaultClasses(summary) {
-  const parts = summary.classStrings.map((c) => c.value);
+  const nonDefaultValues = new Set();
+  for (const cva of summary.cvaVariants) {
+    for (const [axis, values] of Object.entries(cva.variants ?? {})) {
+      const def = cva.defaultVariants?.[axis];
+      for (const [key, value] of Object.entries(values)) {
+        if (key !== def) nonDefaultValues.add(value);
+      }
+    }
+  }
+  const parts = summary.classStrings.map((c) => c.value).filter((value) => !nonDefaultValues.has(value));
   for (const cva of summary.cvaVariants) {
     if (cva.base) parts.push(cva.base);
     for (const [axis, values] of Object.entries(cva.variants ?? {})) {
@@ -146,10 +166,20 @@ function paddingOf(variant) {
   return p;
 }
 
-/** Picks the Figma variant that looks like "default" (all variant props matching /default/i), else the first one. */
+/**
+ * Picks the Figma variant that looks like "default" (a non-empty props map whose every
+ * value matches /default/i), else the first one. A variant with no props (e.g. a group/
+ * wrapper sub-component exported alongside the main one) must NOT satisfy this check:
+ * Object.values({}).every(...) is vacuously true, which previously caused wrapper
+ * variants — like avatar's "Avatar Group" (props: null) — to be picked over the real
+ * default image/size variant.
+ */
 function pickDefaultVariant(figmaFile) {
   if (!figmaFile?.variants?.length) return null;
-  const isDefaultish = (v) => Object.values(v.props ?? {}).every((val) => /default/i.test(String(val)));
+  const isDefaultish = (v) => {
+    const values = Object.values(v.props ?? {});
+    return values.length > 0 && values.every((val) => /default/i.test(String(val)));
+  };
   return figmaFile.variants.find(isDefaultish) ?? figmaFile.variants[0];
 }
 

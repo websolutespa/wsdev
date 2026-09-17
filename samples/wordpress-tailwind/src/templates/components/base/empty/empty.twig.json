@@ -1,0 +1,23 @@
+{
+  "mocks": {
+    "empty": {
+      "default": {
+        "icon": "inbox",
+        "title": "Nessun progetto",
+        "description": "Crea il tuo primo progetto per iniziare a lavorare con il team."
+      },
+      "search": {
+        "icon": "search",
+        "title": "Nessun risultato",
+        "description": "Prova a modificare i filtri di ricerca o usa termini diversi."
+      },
+      "title-only": {
+        "title": "Nessun elemento da mostrare"
+      },
+      "no-icon": {
+        "title": "Casella di posta vuota",
+        "description": "Tutti i messaggi sono stati letti e archiviati."
+      }
+    }
+  }
+}

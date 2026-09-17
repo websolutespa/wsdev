@@ -1,0 +1,55 @@
+{
+  "mocks": {
+    "message": {
+      "default": {
+        "align": "start",
+        "avatar": { "fallback": "AS", "src": "https://i.pravatar.cc/150?img=8", "alt": "Assistente" },
+        "header": "Assistente · 10:32",
+        "bubbles": [
+          { "content": "Ciao! Come posso aiutarti oggi?" }
+        ]
+      },
+      "reply": {
+        "align": "end",
+        "avatar": { "fallback": "TU", "src": "https://i.pravatar.cc/150?img=25", "alt": "Tu" },
+        "header": "Tu · 10:33",
+        "bubbles": [
+          { "content": "Vorrei sapere lo stato del mio ordine #4521.", "variant": "secondary" }
+        ]
+      },
+      "with-footer": {
+        "align": "end",
+        "avatar": { "fallback": "TU" },
+        "bubbles": [
+          { "content": "Grazie per l'aiuto!", "variant": "secondary" }
+        ],
+        "footer": "Consegnato"
+      },
+      "no-avatar": {
+        "align": "start",
+        "header": "Assistente · 10:34",
+        "bubbles": [
+          { "content": "L'ordine è stato spedito ieri sera." }
+        ]
+      },
+      "group": {
+        "group": [
+          {
+            "align": "start",
+            "avatar": { "fallback": "AS", "src": "https://i.pravatar.cc/150?img=8", "alt": "Assistente" },
+            "header": "Assistente · 10:32",
+            "bubbles": [
+              { "content": "Salve, come posso aiutarla?" }
+            ]
+          },
+          {
+            "align": "start",
+            "bubbles": [
+              { "content": "Il suo pacco è in transito e arriverà domani." }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

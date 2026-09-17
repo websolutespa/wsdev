@@ -3,7 +3,9 @@
     "id": 900,
     "title": "Componenti",
     "abstract": "Showcase dei componenti shadcn/ui portati in Twig, in chiaro e in scuro.",
-    "meta": { "title": "Ws Vite - Componenti" },
+    "meta": {
+      "title": "Ws Vite - Componenti"
+    },
     "href": "/docs/components"
   },
   "docs": {
@@ -54,6 +56,60 @@
               "default",
               "title-only",
               "no-header"
+            ]
+          },
+          {
+            "name": "avatar",
+            "title": "Avatar",
+            "description": "Immagine profilo con fallback automatico, badge di stato e raggruppamento.",
+            "scenarios": [
+              "default",
+              "fallback-only",
+              "broken-image",
+              "size-sm",
+              "size-lg",
+              "with-badge",
+              "with-badge-icon",
+              "group"
+            ]
+          },
+          {
+            "name": "badge",
+            "title": "Badge",
+            "description": "Etichetta compatta per stati, conteggi e categorie.",
+            "scenarios": [
+              "default",
+              "secondary",
+              "destructive",
+              "outline",
+              "ghost",
+              "link",
+              "with-icon",
+              "as-link"
+            ]
+          },
+          {
+            "name": "kbd",
+            "title": "Kbd",
+            "description": "Rappresentazione visiva di tasti e scorciatoie da tastiera.",
+            "scenarios": [
+              "default",
+              "letter",
+              "group-separated",
+              "group-with-icon"
+            ]
+          },
+          {
+            "name": "marker",
+            "title": "Marker",
+            "description": "Indicatore di passaggio per timeline, elenchi puntati e step.",
+            "scenarios": [
+              "default",
+              "with-icon",
+              "separator",
+              "border",
+              "as-link",
+              "steps"
             ]
           }
         ]
@@ -113,12 +169,96 @@
       {
         "id": "data-display",
         "title": "Data display",
-        "components": []
+        "components": [
+          {
+            "name": "aspect-ratio",
+            "title": "Aspect Ratio",
+            "description": "Contenitore che mantiene un rapporto larghezza/altezza costante.",
+            "scenarios": [
+              "default",
+              "square",
+              "classic",
+              "photo",
+              "cinematic"
+            ]
+          },
+          {
+            "name": "empty",
+            "title": "Empty",
+            "description": "Stato vuoto con icona, titolo e descrizione per liste o sezioni senza contenuto.",
+            "scenarios": [
+              "default",
+              "search",
+              "title-only",
+              "no-icon"
+            ]
+          },
+          {
+            "name": "item",
+            "title": "Item",
+            "description": "Riga di elenco componibile con media, contenuto e azioni.",
+            "scenarios": [
+              "default",
+              "muted",
+              "with-image",
+              "with-actions",
+              "size-sm",
+              "as-link",
+              "group"
+            ]
+          }
+        ]
       },
       {
         "id": "chat",
         "title": "Chat",
-        "components": []
+        "components": [
+          {
+            "name": "message",
+            "title": "Message",
+            "description": "Messaggio di una chat con avatar, intestazione e bolle di contenuto.",
+            "scenarios": [
+              "default",
+              "reply",
+              "with-footer",
+              "no-avatar",
+              "group"
+            ]
+          },
+          {
+            "name": "bubble",
+            "title": "Bubble",
+            "description": "Bolla di testo di una conversazione, con varianti e reazioni.",
+            "scenarios": [
+              "default",
+              "secondary",
+              "muted",
+              "tinted",
+              "outline",
+              "ghost",
+              "destructive",
+              "with-reactions",
+              "as-link",
+              "group"
+            ]
+          },
+          {
+            "name": "attachment",
+            "title": "Attachment",
+            "description": "Allegato di file con anteprima, stato di caricamento e azioni.",
+            "scenarios": [
+              "default",
+              "image",
+              "uploading",
+              "processing",
+              "error",
+              "idle",
+              "size-xs",
+              "vertical",
+              "group"
+            ]
+          }
+        ]
       },
       {
         "id": "feedback",
@@ -132,6 +272,16 @@
               "default",
               "avatar",
               "card"
+            ]
+          },
+          {
+            "name": "alert",
+            "title": "Alert",
+            "description": "Messaggio di avviso in evidenza con icona, titolo e descrizione.",
+            "scenarios": [
+              "default",
+              "destructive",
+              "no-icon"
             ]
           }
         ]

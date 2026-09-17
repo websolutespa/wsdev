@@ -1,0 +1,21 @@
+{
+  "mocks": {
+    "alert": {
+      "default": {
+        "icon": "info",
+        "title": "Aggiornamento disponibile",
+        "description": "È disponibile una nuova versione dell'app. Ricarica la pagina per applicarla."
+      },
+      "destructive": {
+        "variant": "destructive",
+        "icon": "octagon-x",
+        "title": "Impossibile salvare le modifiche",
+        "description": "Controlla la connessione e riprova. Se il problema persiste contatta l'assistenza."
+      },
+      "no-icon": {
+        "title": "Manutenzione programmata",
+        "description": "Il servizio sarà sospeso domenica dalle 2:00 alle 4:00 per manutenzione."
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{#
+  Params:
+  - title?: String — rendered in attachment-title
+  - description?: String — rendered in attachment-description
+  - media?: { variant?: 'icon'|'image' as string (default: 'icon'), icon?: String, src?: String, alt?: String }
+  - state?: 'idle'|'uploading'|'processing'|'error'|'done' as string (default: 'done')
+  - size?: 'default'|'sm'|'xs' as string (default: 'default')
+  - orientation?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - actions?: Array<{ icon: String, ariaLabel: String }> — rendered as attachment-action
+              icon buttons inside attachment-actions; data-driven, never embeds in a loop
+  - trigger?: { url?: String, ariaLabel: String } — renders attachment-trigger, an
+              invisible full-card link/button (e.g. to open a preview or download)
+  - items?: Array<attachment props above> — when set renders an AttachmentGroup (a
+            horizontally scrollable strip) of these entries instead
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+#}
+{% macro attachmentBody(item) %}
+  {%- set media_variant = item.media.variant|default('icon') %}
+  {%- set attachment_media_base = "relative flex aspect-square w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-muted text-foreground group-data-[orientation=vertical]/attachment:w-full group-data-[size=sm]/attachment:w-8 group-data-[size=xs]/attachment:w-7 group-data-[size=xs]/attachment:rounded-md group-data-[state=error]/attachment:bg-destructive/10 group-data-[state=error]/attachment:text-destructive group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-6! [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-6 group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5" %}
+  {%- set attachment_media_variants = {
+    icon: "",
+    image: "opacity-60 group-data-[state=done]/attachment:opacity-100 group-data-[state=idle]/attachment:opacity-100 *:[img]:aspect-square *:[img]:w-full *:[img]:object-cover"
+  } %}
+  {%- if item.media is defined %}
+  <div data-slot="attachment-media" data-variant="{{ media_variant }}" class="{{ attachment_media_base }} {{ attachment_media_variants[media_variant] }}">
+    {%- if item.state == 'uploading' or item.state == 'processing' %}<svg data-slot="spinner" aria-hidden="true" class="animate-spin"><use href="#icon-loader-circle"></use></svg>
+    {%- elseif item.media.src %}<img src="{{ item.media.src }}" alt="{{ item.media.alt|default('') }}">
+    {%- elseif item.media.icon %}<svg aria-hidden="true"><use href="#icon-{{ item.media.icon }}"></use></svg>{% endif %}
+  </div>
+  {%- endif %}
+  {%- if item.title or item.description %}
+  <div data-slot="attachment-content" class="max-w-full min-w-0 flex-1 leading-tight group-data-[orientation=vertical]/attachment:px-1">
+    {%- if item.title %}<span data-slot="attachment-title" class="block max-w-full min-w-0 truncate font-medium group-data-[state=processing]/attachment:shimmer group-data-[state=uploading]/attachment:shimmer">{{ item.title }}</span>{% endif %}
+    {%- if item.description %}<span data-slot="attachment-description" class="mt-0.5 block min-w-0 truncate text-xs text-muted-foreground group-data-[state=error]/attachment:text-destructive/80 max-w-full">{{ item.description }}</span>{% endif %}
+  </div>
+  {%- endif %}
+  {%- if item.actions %}
+  <div data-slot="attachment-actions" class="relative z-20 flex shrink-0 items-center group-data-[orientation=vertical]/attachment:absolute group-data-[orientation=vertical]/attachment:top-3 group-data-[orientation=vertical]/attachment:right-3 group-data-[orientation=vertical]/attachment:gap-1">
+    {%- for action in item.actions %}
+    <button data-slot="attachment-action" type="button" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-6 [&_svg:not([class*='size-'])]:size-3" aria-label="{{ action.ariaLabel }}">
+      <svg aria-hidden="true"><use href="#icon-{{ action.icon }}"></use></svg>
+    </button>
+    {%- endfor %}
+  </div>
+  {%- endif %}
+  {%- if item.trigger is defined %}
+  <a data-slot="attachment-trigger" href="{{ item.trigger.url|default('#') }}" aria-label="{{ item.trigger.ariaLabel }}" class="absolute inset-0 z-10 outline-none"></a>
+  {%- endif %}
+{% endmacro %}
+{% import _self as self %}
+{% set attachment_sizes = {
+  default: "gap-2 text-sm has-data-[slot=attachment-content]:px-2.5 has-data-[slot=attachment-content]:py-2 has-data-[slot=attachment-media]:p-2",
+  sm: "gap-2.5 text-xs has-data-[slot=attachment-content]:px-2 has-data-[slot=attachment-content]:py-1.5 has-data-[slot=attachment-media]:p-1.5",
+  xs: "gap-1.5 rounded-lg text-xs has-data-[slot=attachment-content]:px-1.5 has-data-[slot=attachment-content]:py-1 has-data-[slot=attachment-media]:p-1"
+} %}
+{% set attachment_orientations = {
+  horizontal: "min-w-40 items-center",
+  vertical: "w-24 flex-col has-data-[slot=attachment-content]:w-30"
+} %}
+{% set attachment_base = "group/attachment relative flex w-fit max-w-full min-w-0 shrink-0 flex-wrap rounded-xl border bg-card text-card-foreground transition-colors focus-within:ring-1 focus-within:ring-ring/50 has-[>a,>button]:hover:bg-muted/50 data-[state=error]:border-destructive/30 data-[state=idle]:border-dashed" %}
+{% if items %}
+<div data-slot="attachment-group" class="flex min-w-0 scroll-fade-x snap-x snap-mandatory scroll-px-1 scrollbar-none gap-3 overflow-x-auto overscroll-x-contain py-1 *:data-[slot=attachment]:flex-none *:data-[slot=attachment]:snap-start{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for entry in items %}
+    {%- set entry_state = entry.state|default('done') %}
+    {%- set entry_size = entry.size|default('default') %}
+    {%- set entry_orientation = entry.orientation|default('horizontal') %}
+  <div data-slot="attachment" data-state="{{ entry_state }}" data-size="{{ entry_size }}" data-orientation="{{ entry_orientation }}" class="{{ attachment_base }} {{ attachment_sizes[entry_size] }} {{ attachment_orientations[entry_orientation] }}">
+    {{- self.attachmentBody(entry) }}
+  </div>
+  {%- endfor %}
+</div>
+{% else %}
+{% set state = state|default('done') %}
+{% set size = size|default('default') %}
+{% set orientation = orientation|default('horizontal') %}
+{% set attachment_classes = attachment_base ~ ' ' ~ attachment_sizes[size] ~ ' ' ~ attachment_orientations[orientation] ~ (class is defined and class ? ' ' ~ class : '') %}
+<div data-slot="attachment" data-state="{{ state }}" data-size="{{ size }}" data-orientation="{{ orientation }}" class="{{ attachment_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {{- self.attachmentBody({ title: title, description: description, media: media, state: state, actions: actions, trigger: trigger }) }}
+</div>
+{% endif %}

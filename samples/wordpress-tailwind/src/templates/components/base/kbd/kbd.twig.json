@@ -1,0 +1,21 @@
+{
+  "mocks": {
+    "kbd": {
+      "default": { "label": "⌘" },
+      "letter": { "label": "S" },
+      "group-separated": {
+        "keys": [
+          { "label": "Ctrl" },
+          { "label": "Maiusc" },
+          { "label": "S" }
+        ]
+      },
+      "group-with-icon": {
+        "keys": [
+          { "icon": "chevron-up" },
+          { "label": "K" }
+        ]
+      }
+    }
+  }
+}

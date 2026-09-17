@@ -1,0 +1,27 @@
+{#
+  Params:
+  - icon?: String — sprite icon name shown in the empty-icon media swatch
+  - title: String — rendered in empty-title
+  - description?: String — rendered in empty-description
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - block content — extra content below the description (e.g. action buttons); the wrapper
+                    div lives inside the block, so an override must include it:
+    content: <div data-slot="empty-content" class="flex w-full max-w-sm min-w-0 flex-col items-center gap-4 text-sm text-balance">...</div>
+#}
+<div
+  data-slot="empty"
+  class="flex min-w-0 flex-1 flex-col items-center justify-center gap-4 rounded-2xl border-dashed p-6 text-center text-balance md:p-12{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  <div data-slot="empty-header" class="flex max-w-sm flex-col items-center gap-2 text-center">
+    {%- if icon %}
+    <div data-slot="empty-icon" data-variant="icon" class="mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0 flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground [&_svg:not([class*='size-'])]:size-6">
+      <svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>
+    </div>
+    {%- endif %}
+    <div data-slot="empty-title" class="text-lg font-medium tracking-tight">{{ title }}</div>
+    {%- if description %}<p data-slot="empty-description" class="text-sm/relaxed text-muted-foreground [&>a]:underline [&>a]:underline-offset-4 [&>a:hover]:text-primary">{{ description }}</p>{% endif %}
+  </div>
+  {% block content %}{% endblock %}
+</div>

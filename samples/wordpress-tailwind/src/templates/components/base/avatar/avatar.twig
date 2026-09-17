@@ -1,0 +1,51 @@
+{#
+  Params:
+  - src?: String — image URL; when set renders avatar-image before the fallback
+  - alt?: String — REQUIRED when src is set
+  - fallback: String — initials/text shown while the image loads, on error, or when no src
+  - size?: 'default'|'sm'|'lg' as string (default: 'default')
+  - badge?: String — sprite icon name for an AvatarBadge status overlay; pass an
+            empty string for a plain dot with no icon
+  - group?: Array<{src?, alt?, fallback, size?, badge?, count?}> — renders an AvatarGroup
+            of these entries instead (top-level src/fallback/badge are ignored); each
+            entry may override `size`. An entry with `count` (e.g. '+3') renders an
+            AvatarGroupCount instead of an avatar.
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+
+  Module: avatar.module.js listens for the <img>'s load/error and reveals it
+  (hiding the fallback) only once it has actually loaded, mirroring Radix's
+  async image status instead of showing a broken-image flash.
+#}
+{% macro avatarBody(src, alt, fallback, badge) %}
+  {%- if src %}<img data-slot="avatar-image" data-state="loading" class="aspect-square size-full" hidden src="{{ src }}" alt="{{ alt|default('') }}">{% endif %}
+  <span data-slot="avatar-fallback" class="flex size-full items-center justify-center rounded-full bg-muted text-sm text-muted-foreground group-data-[size=sm]/avatar:text-xs">{{ fallback }}</span>
+  {%- if badge is defined %}
+  <span data-slot="avatar-badge" class="absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground ring-2 ring-background select-none group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2">
+    {%- if badge %}<svg aria-hidden="true"><use href="#icon-{{ badge }}"></use></svg>{% endif %}
+  </span>
+  {%- endif %}
+{% endmacro %}
+{% import _self as self %}
+{% set size = size|default('default') %}
+{% if group %}
+<div data-slot="avatar-group" class="group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for member in group %}
+    {%- if member.count is defined %}
+  <div data-slot="avatar-group-count" class="relative flex size-8 shrink-0 items-center justify-center rounded-full bg-muted text-sm text-muted-foreground ring-2 ring-background group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3">{{ member.count }}</div>
+    {%- else %}
+  <span data-slot="avatar" data-size="{{ member.size|default(size) }}" data-module="avatar.module" class="group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6">
+    {{- self.avatarBody(member.src, member.alt, member.fallback, member.badge) }}
+  </span>
+    {%- endif %}
+  {%- endfor %}
+</div>
+{% else %}
+<span data-slot="avatar" data-size="{{ size }}" data-module="avatar.module"
+  class="group/avatar relative flex size-8 shrink-0 overflow-hidden rounded-full select-none data-[size=lg]:size-10 data-[size=sm]:size-6{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {{- self.avatarBody(src, alt, fallback, badge) }}
+</span>
+{% endif %}

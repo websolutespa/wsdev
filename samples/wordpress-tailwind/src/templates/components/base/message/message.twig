@@ -1,0 +1,65 @@
+{#
+  Params:
+  - align?: 'start'|'end' as string (default: 'start')
+  - avatar?: { src?: String, alt?: String, fallback?: String } — renders message-avatar;
+             omit to leave the message unavatared (e.g. a consecutive message in a group)
+  - header?: String — rendered in message-header (e.g. sender name + time)
+  - footer?: String — rendered in message-footer (e.g. delivery status)
+  - bubbles?: Array<{ variant?, align?, content }> — one base/bubble per entry inside
+              message-content (list children are data-driven, never embeds inside a loop)
+  - group?: Array<message props above> — renders a MessageGroup of these entries instead
+            (all other top-level props are ignored)
+  - id?: String
+  - class?: String — appended last on the root; additive utilities only
+  - attrs?: String — raw extra attributes on the root, trusted input only
+  - block content — overrides the default bubbles list inside message-content; the wrapper
+                    div lives inside the block, so an override must include it:
+    content: <div data-slot="message-content" class="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">...</div>
+#}
+{% macro messageBody(item) %}
+  {%- set align = item.align|default('start') %}
+  {%- if item.avatar is defined %}
+  <div data-slot="message-avatar" class="flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8">
+    {%- if item.avatar.src %}<img src="{{ item.avatar.src }}" alt="{{ item.avatar.alt|default('') }}" class="aspect-square size-full">
+    {%- else %}<span class="flex size-full items-center justify-center text-xs text-muted-foreground">{{ item.avatar.fallback }}</span>{% endif %}
+  </div>
+  {%- endif %}
+  <div data-slot="message-content" class="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">
+    {%- if item.header %}<div data-slot="message-header" class="flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0">{{ item.header }}</div>{% endif %}
+    {%- for bubble in item.bubbles %}
+    {%- include '@components/base/bubble/bubble.twig' with bubble|merge({ align: bubble.align|default(align) }) only %}
+    {%- endfor %}
+    {%- if item.footer %}<div data-slot="message-footer" class="flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end">{{ item.footer }}</div>{% endif %}
+  </div>
+{% endmacro %}
+{% import _self as self %}
+{% if group %}
+<div data-slot="message-group" class="flex min-w-0 flex-col gap-2{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- for entry in group %}
+  <div data-slot="message" data-align="{{ entry.align|default('start') }}" class="group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse">
+    {{- self.messageBody(entry) }}
+  </div>
+  {%- endfor %}
+</div>
+{% else %}
+{% set align = align|default('start') %}
+<div data-slot="message" data-align="{{ align }}" class="group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {%- if avatar is defined %}
+  <div data-slot="message-avatar" class="flex w-fit min-w-8 shrink-0 items-center justify-center self-end overflow-hidden rounded-full bg-muted group-has-data-[slot=message-footer]/message:-translate-y-8">
+    {%- if avatar.src %}<img src="{{ avatar.src }}" alt="{{ avatar.alt|default('') }}" class="aspect-square size-full">
+    {%- else %}<span class="flex size-full items-center justify-center text-xs text-muted-foreground">{{ avatar.fallback }}</span>{% endif %}
+  </div>
+  {%- endif %}
+  {% block content %}
+  <div data-slot="message-content" class="flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end">
+    {%- if header %}<div data-slot="message-header" class="flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0">{{ header }}</div>{% endif %}
+    {%- for bubble in bubbles %}
+    {%- include '@components/base/bubble/bubble.twig' with bubble|merge({ align: bubble.align|default(align) }) only %}
+    {%- endfor %}
+    {%- if footer %}<div data-slot="message-footer" class="flex max-w-full min-w-0 items-center px-3 text-xs font-medium text-muted-foreground group-has-data-[variant=ghost]/message:px-0 group-data-[align=end]/message:justify-end">{{ footer }}</div>{% endif %}
+  </div>
+  {% endblock %}
+</div>
+{% endif %}
