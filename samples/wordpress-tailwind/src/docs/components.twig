@@ -1,0 +1,50 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block main %}
+<main id="main" class="mx-auto max-w-6xl px-4 py-16">
+  <div class="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-6">
+    <div>
+      <h1 class="text-4xl font-serif">Componenti</h1>
+      <p class="mt-2 text-muted-foreground">Showcase dei componenti shadcn/ui portati in Twig, in chiaro e in scuro.</p>
+    </div>
+    <button type="button" data-toggle="color-scheme" class="rounded-md border border-border px-3 py-1.5 text-sm">
+      <span class="dark:hidden">☀︎ Chiaro</span>
+      <span class="hidden dark:inline">☾ Scuro</span>
+    </button>
+  </div>
+
+  <nav class="sticky top-0 z-10 -mx-4 mb-12 flex flex-wrap gap-2 border-b border-border bg-background/95 px-4 py-3 backdrop-blur">
+    {% for group in docs.groups %}
+      {% if group.components|length %}
+      <a href="#{{ group.id }}" class="rounded-md px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground">{{ group.title }}</a>
+      {% endif %}
+    {% endfor %}
+  </nav>
+
+  {% for group in docs.groups %}
+    {% if group.components|length %}
+    <section id="{{ group.id }}" class="mb-16 scroll-mt-20">
+      <h2 class="text-2xl font-serif">{{ group.title }}</h2>
+      {% for component in group.components %}
+      <div class="mt-8">
+        <h3 class="text-lg font-medium">{{ component.title }}</h3>
+        {% if component.description %}<p class="text-sm text-muted-foreground">{{ component.description }}</p>{% endif %}
+        {% for scenario in component.scenarios %}
+        <div class="mt-4">
+          <p class="mb-2 font-mono text-xs text-muted-foreground">{{ scenario }}</p>
+          <div class="grid gap-4 md:grid-cols-2">
+            {% for scheme in ['light', 'dark'] %}
+            <div class="{% if scheme == 'dark' %}dark {% endif %}bg-background text-foreground rounded-lg border p-6">
+              {% include '@components/base/' ~ component.name ~ '/' ~ component.name ~ '.twig' with mocks[component.name][scenario]|merge({ id: component.name ~ '-' ~ scenario ~ '-' ~ scheme }) only %}
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </section>
+    {% endif %}
+  {% endfor %}
+</main>
+{% endblock %}

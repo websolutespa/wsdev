@@ -1,0 +1,35 @@
+{#
+  Params:
+  - title?: String — rendered in card-title; the card-header wrapper is emitted only when
+                     title or description is set (or block header is overridden)
+  - description?: String — rendered in card-description (same header rule as title)
+  - id?: String
+  - class?: String — appended last on the card root; additive utilities only
+  - attrs?: String — raw extra attributes on the card root, trusted input only
+  - blocks: header, action (nested inside header's default), content, footer
+            content/footer/action defaults are EMPTY: the wrapper div lives inside the block, so
+            embed overrides MUST include the upstream wrapper with its data-slot and classes.
+            Exact snippets to copy into the override:
+    header:  <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">...</div>
+    action:  <div data-slot="card-action" class="col-start-2 row-span-2 row-start-1 self-start justify-self-end">...</div>
+             (the action block renders only when title/description is set — its slot lives in the
+             default header grid; otherwise override the whole header block)
+    content: <div data-slot="card-content" class="px-6">...</div>
+    footer:  <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">...</div>
+#}
+<div
+  data-slot="card"
+  class="flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
+  {% block header %}
+    {% if title or description %}
+    <div data-slot="card-header" class="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
+      {% if title %}<div data-slot="card-title" class="leading-none font-semibold">{{ title }}</div>{% endif %}
+      {% if description %}<div data-slot="card-description" class="text-sm text-muted-foreground">{{ description }}</div>{% endif %}
+      {% block action %}{% endblock %}
+    </div>
+    {% endif %}
+  {% endblock %}
+  {% block content %}{% endblock %}
+  {% block footer %}{% endblock %}
+</div>

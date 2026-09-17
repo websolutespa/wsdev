@@ -1,0 +1,146 @@
+{
+  "page": {
+    "id": 900,
+    "title": "Componenti",
+    "abstract": "Showcase dei componenti shadcn/ui portati in Twig, in chiaro e in scuro.",
+    "meta": { "title": "Ws Vite - Componenti" },
+    "href": "/docs/components"
+  },
+  "docs": {
+    "groups": [
+      {
+        "id": "primitives",
+        "title": "Primitives",
+        "components": [
+          {
+            "name": "button",
+            "title": "Button",
+            "description": "Bottone con varianti, dimensioni e stato icon-only.",
+            "scenarios": [
+              "default",
+              "destructive",
+              "outline",
+              "secondary",
+              "ghost",
+              "link",
+              "size-xs",
+              "size-sm",
+              "size-lg",
+              "size-icon",
+              "size-icon-xs",
+              "size-icon-sm",
+              "size-icon-lg",
+              "with-icon",
+              "with-icon-after",
+              "disabled",
+              "as-link"
+            ]
+          },
+          {
+            "name": "separator",
+            "title": "Separator",
+            "description": "Divisore orizzontale o verticale.",
+            "scenarios": [
+              "default",
+              "vertical",
+              "semantic"
+            ]
+          },
+          {
+            "name": "card",
+            "title": "Card",
+            "description": "Contenitore con header, contenuto e footer opzionali.",
+            "scenarios": [
+              "default",
+              "title-only",
+              "no-header"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "forms",
+        "title": "Forms",
+        "components": [
+          {
+            "name": "label",
+            "title": "Label",
+            "description": "Etichetta accessibile per i controlli di form.",
+            "scenarios": [
+              "default",
+              "disabled"
+            ]
+          },
+          {
+            "name": "input",
+            "title": "Input",
+            "description": "Campo di testo a riga singola.",
+            "scenarios": [
+              "default",
+              "email",
+              "password",
+              "value",
+              "invalid",
+              "disabled",
+              "readonly",
+              "file"
+            ]
+          },
+          {
+            "name": "textarea",
+            "title": "Textarea",
+            "description": "Campo di testo multilinea.",
+            "scenarios": [
+              "default",
+              "value",
+              "invalid",
+              "disabled",
+              "rows"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "overlays",
+        "title": "Overlays",
+        "components": []
+      },
+      {
+        "id": "navigation",
+        "title": "Navigation",
+        "components": []
+      },
+      {
+        "id": "data-display",
+        "title": "Data display",
+        "components": []
+      },
+      {
+        "id": "chat",
+        "title": "Chat",
+        "components": []
+      },
+      {
+        "id": "feedback",
+        "title": "Feedback",
+        "components": [
+          {
+            "name": "skeleton",
+            "title": "Skeleton",
+            "description": "Placeholder di caricamento animato.",
+            "scenarios": [
+              "default",
+              "avatar",
+              "card"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "composites",
+        "title": "Composites",
+        "components": []
+      }
+    ]
+  }
+}

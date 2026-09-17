@@ -1,0 +1,23 @@
+{
+  "mocks": {
+    "button": {
+      "default": { "label": "Continua" },
+      "destructive": { "label": "Elimina account", "variant": "destructive" },
+      "outline": { "label": "Annulla", "variant": "outline" },
+      "secondary": { "label": "Salva come bozza", "variant": "secondary" },
+      "ghost": { "label": "Ignora", "variant": "ghost" },
+      "link": { "label": "Scopri di più", "variant": "link" },
+      "size-xs": { "label": "Filtra", "size": "xs" },
+      "size-sm": { "label": "Modifica", "size": "sm" },
+      "size-lg": { "label": "Richiedi preventivo", "size": "lg" },
+      "size-icon": { "size": "icon", "icon": "search", "ariaLabel": "Cerca" },
+      "size-icon-xs": { "size": "icon-xs", "icon": "x", "ariaLabel": "Chiudi" },
+      "size-icon-sm": { "size": "icon-sm", "icon": "plus", "ariaLabel": "Aggiungi" },
+      "size-icon-lg": { "size": "icon-lg", "icon": "settings", "ariaLabel": "Impostazioni" },
+      "with-icon": { "label": "Scarica brochure", "icon": "arrow-down" },
+      "with-icon-after": { "label": "Vai al prossimo passo", "iconAfter": "arrow-right" },
+      "disabled": { "label": "Invio in corso", "disabled": true },
+      "as-link": { "label": "Vai al sito", "url": "https://www.websolute.it", "target": "_blank" }
+    }
+  }
+}

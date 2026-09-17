@@ -1,0 +1,9 @@
+{
+  "mocks": {
+    "separator": {
+      "default": {},
+      "vertical": { "orientation": "vertical" },
+      "semantic": { "decorative": false }
+    }
+  }
+}

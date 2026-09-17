@@ -1,0 +1,11 @@
+{#
+  Params:
+  - class?: String — appended last; additive utilities only. The consumer provides
+    sizing/shape, e.g. 'h-4 w-48' or 'size-12 rounded-full'
+  - id?: String
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+<div
+  data-slot="skeleton"
+  class="animate-pulse rounded-md bg-accent{% if class is defined and class %} {{ class }}{% endif %}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}></div>

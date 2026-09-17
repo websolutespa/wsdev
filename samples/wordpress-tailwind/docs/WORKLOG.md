@@ -36,4 +36,9 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 
 ### Fase 3 — B1 fondamenta (agent Sonnet)
 
-- ⏳ Utility JS comuni, `PORTING.md`, icone lucide, docs page minima, componenti àncora button/separator/label/input/textarea/card/skeleton con override Figma.
+- ✅ Utility JS comuni (8 file da area-broker, `floating.js` + `--viewport-*`), `PORTING.md`, 34 icone lucide, docs page `src/docs/components.twig` (light + dark per scenario), componenti àncora button/separator/label/input/textarea/card/skeleton. 10 override Figma registrati (button pill + gap/padding, input/textarea radius e niente shadow), 3 disaccordi non applicati con motivo. Due bug di tooling corretti (`diff-figma-upstream` padding array; glob `twig.data` assoluti). Gate tutti verdi. Report: [reports/phase-3-b1-foundations.md](reports/phase-3-b1-foundations.md).
+- ⚠️ Follow-up: radius dei bottoni icon-only (un solo campione Figma); forma `padding` da riconciliare tra normalizzatore e JSON esportati.
+
+### Documentazione di processo
+
+- ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

@@ -1,6 +1,82 @@
 {
   "$schema": "./upstream-exceptions.schema.json",
   "components": {
+    "button": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-4xl",
+        "source": "figma",
+        "node": "17085:177642",
+        "note": "Figma kit measures a 26px corner radius across every sampled size (default/sm/lg x default/outline/ghost/destructive/secondary/link); replaces the shared base string's rounded-md (8px)."
+      },
+      {
+        "from": "gap-2",
+        "to": "gap-1.5",
+        "source": "figma",
+        "node": "17085:177642",
+        "note": "Figma measures a 6px icon-label gap on the default and lg sizes (itemSpacing spacing/1-5); replaces the shared base string's gap-2 (8px)."
+      },
+      {
+        "from": "gap-1.5",
+        "to": "gap-1",
+        "source": "figma",
+        "node": "17380:57341",
+        "note": "Figma sm size measures a 4px gap (itemSpacing spacing/1); replaces the sm size's own literal gap-1.5 (6px). Distinct from the base gap-2 rewrite above: this matches the raw upstream token that already reads \"gap-1.5\" in the sm size string."
+      },
+      {
+        "from": "px-4",
+        "to": "px-3",
+        "source": "figma",
+        "node": "17085:177642",
+        "note": "Figma default size measures 12px horizontal padding; replaces the default size's px-4 (16px)."
+      },
+      {
+        "from": "text-sm (default size, inherited from the base string)",
+        "to": "text-xs",
+        "source": "figma",
+        "node": "17380:57341",
+        "note": "Documentation only — this \"from\" never matches a real upstream token, so it does not affect the gate (text-xs is already required from size=xs). Figma sm size measures a 12/16px label (text-xs) vs the shared base's text-sm (14/20); button.twig adds an explicit text-xs to the sm size map alongside the inherited text-sm, mirroring how upstream's own xs size already layers text-xs over the base text-sm."
+      }
+    ],
+    "input": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-3xl",
+        "source": "figma",
+        "node": "21147:310021",
+        "note": "Figma measures a 22px corner radius."
+      },
+      {
+        "from": "shadow-xs",
+        "to": null,
+        "source": "figma",
+        "node": "21147:310021",
+        "note": "Figma's Default state has no effect (effects: []); dropped. The Invalid state's ring-like shadow is a separate destructive effect already covered by aria-invalid:ring-destructive/20."
+      }
+    ],
+    "textarea": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-2xl",
+        "source": "figma",
+        "node": "17089:46140",
+        "note": "Figma measures an 18px corner radius."
+      },
+      {
+        "from": "py-2",
+        "to": "py-3",
+        "source": "figma",
+        "node": "17089:46140",
+        "note": "Figma measures 12px vertical padding; replaces py-2 (8px)."
+      },
+      {
+        "from": "shadow-xs",
+        "to": null,
+        "source": "figma",
+        "node": "17089:46140",
+        "note": "Figma's Default state has no effect (effects: []); dropped. The Invalid state's ring-like shadow is a separate destructive effect already covered by aria-invalid:ring-destructive/20."
+      }
+    ],
     "progress": [
       {
         "from": "transition-all",

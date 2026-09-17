@@ -1,0 +1,11 @@
+{
+  "mocks": {
+    "textarea": {
+      "default": { "name": "message", "id": "demo-textarea-message", "placeholder": "Scrivi qui il tuo messaggio" },
+      "value": { "name": "notes", "id": "demo-textarea-notes", "value": "Cliente contattato il 12/09, richiamare la prossima settimana." },
+      "invalid": { "name": "feedback", "id": "demo-textarea-feedback", "value": "Testo troppo breve", "invalid": true },
+      "disabled": { "name": "readonly-notes", "id": "demo-textarea-disabled", "value": "Campo non modificabile", "disabled": true },
+      "rows": { "name": "long-message", "id": "demo-textarea-rows", "rows": 6, "placeholder": "Descrivi la tua richiesta in dettaglio" }
+    }
+  }
+}

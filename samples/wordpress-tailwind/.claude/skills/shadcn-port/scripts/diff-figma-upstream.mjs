@@ -130,6 +130,22 @@ function combinedDefaultClasses(summary) {
   return parts.join(' ');
 }
 
+/**
+ * Reads a variant's padding regardless of the two shapes seen in
+ * tokens/figma-components/*.json: normalize-figma-measure.mjs's own
+ * `{top,right,bottom,left}` object, and the `[top,right,bottom,left]` array
+ * some hand-exported files use.
+ */
+function paddingOf(variant) {
+  const p = variant.padding;
+  if (!p) return {};
+  if (Array.isArray(p)) {
+    const [top, right, bottom, left] = p;
+    return { top, right, bottom, left };
+  }
+  return p;
+}
+
 /** Picks the Figma variant that looks like "default" (all variant props matching /default/i), else the first one. */
 function pickDefaultVariant(figmaFile) {
   if (!figmaFile?.variants?.length) return null;
@@ -221,10 +237,11 @@ async function main() {
 
   const classes = combinedDefaultClasses(summary);
   const node = variant.node;
+  const padding = paddingOf(variant);
   const overrides = [
     proposeSpacingOverride({ classes, prefix: 'h', measuredPx: variant.box?.height, node, label: 'height' }),
-    proposeSpacingOverride({ classes, prefix: 'px', measuredPx: variant.padding?.left, node, label: 'padding-x' }),
-    proposeSpacingOverride({ classes, prefix: 'py', measuredPx: variant.padding?.top, node, label: 'padding-y' }),
+    proposeSpacingOverride({ classes, prefix: 'px', measuredPx: padding.left, node, label: 'padding-x' }),
+    proposeSpacingOverride({ classes, prefix: 'py', measuredPx: padding.top, node, label: 'padding-y' }),
     proposeSpacingOverride({ classes, prefix: 'gap', measuredPx: variant.gap, node, label: 'gap' }),
     proposeRadiusOverride({ classes, measuredPx: variant.radius, node }),
     proposeTextOverride({ classes, fontSizePx: variant.text?.fontSize, node }),

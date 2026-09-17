@@ -1,0 +1,29 @@
+{#
+  Params:
+  - name?: String — form field name; required for form submission
+  - id?: String — required for SSR label[for] wiring; never generated in Twig
+  - value?: String — initial content
+  - placeholder?: String
+  - rows?: Number — native rows fallback where field-sizing-content is unsupported
+  - disabled?: Boolean
+  - required?: Boolean
+  - readonly?: Boolean
+  - invalid?: Boolean — sets aria-invalid="true" (drives the aria-invalid: classes)
+  - ariaLabel?: String — accessible name when no visible <label for> is wired
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+{% set textarea_base = "flex field-sizing-content min-h-16 w-full rounded-2xl border border-input bg-transparent px-3 py-3 text-base transition-[color,box-shadow] outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:ring-destructive/40" %}
+{% set textarea_classes = textarea_base ~ (class is defined and class ? ' ' ~ class : '') %}
+<textarea
+  data-slot="textarea"
+  class="{{ textarea_classes }}"
+  {%- if name %} name="{{ name }}"{% endif %}
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+  {%- if rows %} rows="{{ rows }}"{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if required %} required{% endif %}
+  {%- if readonly %} readonly{% endif %}
+  {%- if invalid %} aria-invalid="true"{% endif %}
+  {%- if ariaLabel %} aria-label="{{ ariaLabel }}"{% endif %} {{ attrs|default('')|raw }}>{%- if value %}{{ value }}{% endif %}</textarea>

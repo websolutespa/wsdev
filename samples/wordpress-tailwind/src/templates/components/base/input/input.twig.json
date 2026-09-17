@@ -1,0 +1,14 @@
+{
+  "mocks": {
+    "input": {
+      "default": { "name": "full-name", "id": "demo-input-name", "placeholder": "Mario Rossi" },
+      "email": { "name": "email", "id": "demo-input-email", "type": "email", "placeholder": "mario.rossi@email.it", "autocomplete": "email" },
+      "password": { "name": "password", "id": "demo-input-password", "type": "password", "placeholder": "Password", "autocomplete": "new-password" },
+      "value": { "name": "city", "id": "demo-input-city", "value": "Ancona" },
+      "invalid": { "name": "vat", "id": "demo-input-vat", "value": "IT0000000000", "invalid": true },
+      "disabled": { "name": "plan", "id": "demo-input-plan", "value": "Piano Premium", "disabled": true },
+      "readonly": { "name": "code", "id": "demo-input-code", "value": "WS-2026-001", "readonly": true },
+      "file": { "name": "attachment", "id": "demo-input-file", "type": "file" }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "mocks": {
+    "label": {
+      "default": { "text": "Indirizzo email", "for": "demo-label-email" },
+      "disabled": { "text": "Codice fiscale", "for": "demo-label-cf", "class": "group-data-[disabled=true]:opacity-50" }
+    }
+  }
+}

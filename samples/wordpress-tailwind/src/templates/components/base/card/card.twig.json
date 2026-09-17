@@ -1,0 +1,12 @@
+{
+  "mocks": {
+    "card": {
+      "default": {
+        "title": "Piano Business",
+        "description": "Per team che gestiscono più progetti contemporaneamente."
+      },
+      "title-only": { "title": "Riepilogo ordine" },
+      "no-header": {}
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "mocks": {
+    "skeleton": {
+      "default": { "class": "h-4 w-48" },
+      "avatar": { "class": "size-12 rounded-full" },
+      "card": { "class": "h-32 w-full rounded-xl" }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{#
+  Params:
+  - orientation?: 'horizontal'|'vertical' as string (default: 'horizontal')
+  - decorative?: Boolean (default: true) — true renders role="none" (purely visual); false renders role="separator" + aria-orientation
+  - id?: String
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+{% set separator_base = "shrink-0 bg-border data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px" %}
+{% set orientation = orientation|default('horizontal') %}
+{% set decorative = decorative is defined ? decorative : true %}
+<div
+  data-slot="separator"
+  data-orientation="{{ orientation }}"
+  {%- if decorative %} role="none"{% else %} role="separator" aria-orientation="{{ orientation }}"{% endif %}
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  class="{{ separator_base }}{% if class is defined and class %} {{ class }}{% endif %}"
+  {% if attrs is defined and attrs %}{{ attrs|raw }}{% endif %}
+></div>

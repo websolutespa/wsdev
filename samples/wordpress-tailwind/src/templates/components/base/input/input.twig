@@ -1,0 +1,38 @@
+{#
+  Params:
+  - type?: 'text'|'email'|'password'|'number'|'search'|'tel'|'url'|'file'|'date'|'time' as string (default: 'text')
+  - name: String — REQUIRED, input name attribute
+  - id?: String — required when an external <label for> points at the field (never generated in Twig)
+  - placeholder?: String
+  - value?: String
+  - disabled?: Boolean
+  - required?: Boolean
+  - readonly?: Boolean
+  - invalid?: Boolean — emits aria-invalid="true" (activates the upstream aria-invalid: classes)
+  - autocomplete?: String — autocomplete hint, e.g. 'email'|'name'|'new-password'|'off'
+  - min?: Number|String — for number/date/time types
+  - max?: Number|String — for number/date/time types
+  - step?: Number|String — for number/date/time types
+  - class?: String — appended last; additive utilities only
+  - attrs?: String — raw extra attributes, trusted input only
+#}
+{% set input_base = "h-9 w-full min-w-0 rounded-3xl border border-input bg-transparent px-3 py-1 text-base transition-[color,box-shadow] outline-none selection:bg-primary selection:text-primary-foreground file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm dark:bg-input/30" %}
+{% set input_focus = "focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50" %}
+{% set input_invalid = "aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40" %}
+{% set input_classes = input_base ~ ' ' ~ input_focus ~ ' ' ~ input_invalid ~ (class is defined and class ? ' ' ~ class : '') %}
+<input
+  data-slot="input"
+  type="{{ type|default('text') }}"
+  name="{{ name }}"
+  class="{{ input_classes }}"
+  {%- if id is defined and id %} id="{{ id }}"{% endif %}
+  {%- if value is defined %} value="{{ value }}"{% endif %}
+  {%- if placeholder %} placeholder="{{ placeholder }}"{% endif %}
+  {%- if autocomplete %} autocomplete="{{ autocomplete }}"{% endif %}
+  {%- if min is defined %} min="{{ min }}"{% endif %}
+  {%- if max is defined %} max="{{ max }}"{% endif %}
+  {%- if step is defined %} step="{{ step }}"{% endif %}
+  {%- if disabled %} disabled{% endif %}
+  {%- if required %} required{% endif %}
+  {%- if readonly %} readonly{% endif %}
+  {%- if invalid %} aria-invalid="true"{% endif %} {{ attrs|default('')|raw }}>
