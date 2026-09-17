@@ -39,9 +39,13 @@
   {%- if item.actions %}
   <div data-slot="attachment-actions" class="relative z-20 flex shrink-0 items-center group-data-[orientation=vertical]/attachment:absolute group-data-[orientation=vertical]/attachment:top-3 group-data-[orientation=vertical]/attachment:right-3 group-data-[orientation=vertical]/attachment:gap-1">
     {%- for action in item.actions %}
-    <button data-slot="attachment-action" type="button" class="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-6 [&_svg:not([class*='size-'])]:size-3" aria-label="{{ action.ariaLabel }}">
-      <svg aria-hidden="true"><use href="#icon-{{ action.icon }}"></use></svg>
-    </button>
+    {%- include '@components/base/button/button.twig' with {
+      variant: 'ghost',
+      size: 'icon-xs',
+      icon: action.icon,
+      ariaLabel: action.ariaLabel,
+      slot: 'attachment-action'
+    } only %}
     {%- endfor %}
   </div>
   {%- endif %}

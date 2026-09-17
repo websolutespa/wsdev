@@ -24,9 +24,8 @@
     hooks     data-orientation / data-loop / data-align on the root → embla options;
               [data-carousel-prev], [data-carousel-next], [data-carousel-dot][data-index]
 
-  Port notes: the carousel-previous / carousel-next data-slots are not emitted —
-  button.twig owns its own data-slot="button" and HTML forbids a second one
-  (known limitation, B8 follow-up). `carousel-dots` is project-owned (no upstream
+  Port notes: the carousel-previous / carousel-next data-slots are restored via
+  button.twig's slot param. `carousel-dots` is project-owned (no upstream
   equivalent): it reports as EXTRA in the gate, by design.
 #}
 {# `loop` is only Twig's loop object inside {% for %}; read the prop before the first loop. #}
@@ -81,6 +80,7 @@
       size: 'icon',
       icon: 'arrow-left',
       ariaLabel: labelPrev|default('Slide precedente'),
+      slot: 'carousel-previous',
       class: carousel_nav ~ ' ' ~ carousel_previous_orientation[orientation],
       attrs: 'data-carousel-prev'
     } only %}
@@ -89,6 +89,7 @@
       size: 'icon',
       icon: 'arrow-right',
       ariaLabel: labelNext|default('Slide successiva'),
+      slot: 'carousel-next',
       class: carousel_nav ~ ' ' ~ carousel_next_orientation[orientation],
       attrs: 'data-carousel-next'
     } only %}

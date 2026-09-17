@@ -2,13 +2,15 @@
   Params:
   - text: String — REQUIRED, visible label text
   - for: String — REQUIRED, id of the form control this label is bound to
+  - slot?: String — data-slot value (default: 'label'); override when this include fills
+            another component's named part (e.g. 'field-label')
   - id?: String
   - class?: String — appended last; additive utilities only
   - attrs?: String — raw extra attributes, trusted input only
 #}
 {% set label_base = "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50" %}
 <label
-  data-slot="label"
+  data-slot="{{ slot|default('label') }}"
   for="{{ for }}"
   {%- if id is defined and id %} id="{{ id }}"{% endif %}
   class="{{ label_base }}{% if class is defined and class %} {{ class }}{% endif %}"

@@ -40,7 +40,9 @@ src/templates/components/base/) by comparing its upstream Tailwind class
 tokens against its Twig file, after applying:
   1. global rewrites from adaptation-rules.json (regex "from" -> "to")
   2. per-component exceptions from scripts/upstream-exceptions.json
-     ("to": null drops the token; "from": "*" skips the whole component)
+     ("to": null drops the token; "from": "*" skips the whole component;
+     "composition": true skips it too, without fetching upstream at all —
+     for a component with no registry item to diff against)
 
 Exit code is non-zero if any component has unjustified MISSING tokens, or a
 named/default component has no <name>.twig file.
@@ -98,6 +100,10 @@ function rewriteToken(token, rules, componentExceptions) {
  */
 async function checkComponent(sampleRoot, name, opts, rules, exceptionsByComponent) {
   const componentExceptions = exceptionsByComponent[name] ?? [];
+  const compositionEntry = componentExceptions.find((e) => e.composition === true);
+  if (compositionEntry) {
+    return { name, composition: true, note: compositionEntry.note ?? '(no note)', missing: [], extra: [], missingSlots: [] };
+  }
   if (componentExceptions.some((e) => e.from === '*')) {
     const note = componentExceptions.find((e) => e.from === '*')?.note ?? '(no note)';
     return { name, skipped: true, note, missing: [], extra: [], missingSlots: [] };
@@ -161,7 +167,7 @@ async function main() {
     reports.push(await checkComponent(sampleRoot, name, opts, rules, exceptionsByComponent));
   }
 
-  const hasFailure = reports.some((r) => r.error || (!r.skipped && r.missing.length > 0));
+  const hasFailure = reports.some((r) => r.error || (!r.skipped && !r.composition && r.missing.length > 0));
 
   if (opts.json) {
     console.log(JSON.stringify({ ok: !hasFailure, components: reports }, null, 2));
@@ -172,6 +178,10 @@ async function main() {
   for (const r of reports) {
     if (r.error) {
       console.log(`✗ ${r.name}: ${r.error}`);
+      continue;
+    }
+    if (r.composition) {
+      console.log(`○ ${r.name}: composition — ${r.note}`);
       continue;
     }
     if (r.skipped) {

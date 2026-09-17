@@ -414,3 +414,25 @@
 dialog:not([open]) {
   display: none;
 }
+
+/* ════════════════════════════════════════════════════════════
+   Utilities missing from shadcn@4.21.0 tailwind.css, used by upstream
+   class strings. Promoted from message-scroller.css (B8a) now that a
+   second consumer (attachment-group's scrollbar-none) needs them too.
+   ════════════════════════════════════════════════════════════ */
+
+@utility scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}

@@ -37,7 +37,11 @@
         {%- if entry.icon %}<svg aria-hidden="true"><use href="#icon-{{ entry.icon }}"></use></svg>{% endif %}{{ entry.text }}
       </div>
       {%- elseif entry_type == 'separator' %}
-      <div data-slot="button-group-separator" data-orientation="{{ entry.orientation|default('vertical') }}" role="none" class="shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px relative m-0! self-stretch bg-input data-[orientation=vertical]:h-auto"></div>
+      {%- include '@components/base/separator/separator.twig' with {
+        slot: 'button-group-separator',
+        orientation: entry.orientation|default('vertical'),
+        class: 'relative m-0! self-stretch bg-input data-[orientation=vertical]:h-auto'
+      } only %}
       {%- else %}
       {%- include '@components/base/button/button.twig' with entry|merge({ variant: entry.variant|default('outline'), size: entry.size|default('sm') }) only %}
       {%- endif %}

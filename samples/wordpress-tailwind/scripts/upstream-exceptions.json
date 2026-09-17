@@ -262,28 +262,6 @@
         "note": "Figma kit measures a 12px gap between stacked fields inside a field-set; replaces FieldSet's gap-6 (24px). Field's own gap (fieldVariants base) is already gap-3 (12px) upstream, matching the kit's \"field gap 12\" fact with no change needed. FieldLabel/FieldTitle text (\"label 14/20\") already matches upstream's text-sm (14px) + leading-snug (~20px) — no override needed. The diff-figma-upstream.mjs proposals h-5->h-25 (absurd 100px), px-2->px-0 and rounded-md->rounded-xs (this node's only real conditional rounded-md is FieldLabel's card-style has-[>[data-slot=field]] variant, unrelated to the measured 0-radius node) were discarded as not-applied — noise from a single-node measurement that doesn't map to any of field.tsx's own literal tokens."
       }
     ],
-    "pagination": [
-      {
-        "from": "hidden",
-        "to": null,
-        "source": "port",
-        "note": "Upstream wraps the Previous/Next text in a <span className=\"hidden sm:block\"> to hide it below sm; base/button/button.twig's label is a plain <span> with no per-run class hook (same limitation as item.twig/attachment noted in docs/reports/phase-4-b2a-static.md, follow-up B8), so the label is always visible here instead of hidden on mobile."
-      },
-      {
-        "from": "sm:block",
-        "to": null,
-        "source": "port",
-        "note": "See the 'hidden' exception above — same span, dropped as a pair."
-      }
-    ],
-    "combobox": [
-      {
-        "from": "*",
-        "to": null,
-        "source": "port",
-        "note": "Upstream combobox is Base UI (not a new-york-v4 Radix primitive); the Twig port composes input-group + floating.js with its own module, so upstream classes are not comparable 1:1."
-      }
-    ],
     "dialog": [
       {
         "from": "inset-0",
@@ -800,9 +778,7 @@
     ],
     "date-picker": [
       {
-        "from": "*",
-        "to": null,
-        "source": "port",
+        "composition": true,
         "note": "Composition, not a registry item: shadcn/ui ships the Date Picker only as an example composing popover + button + calendar, so https://ui.shadcn.com/r/styles/new-york-v4/date-picker.json returns 404 and the gate has nothing to compare against. Every class in date-picker.twig comes from those three components, which are gated on their own. Marked with @composition in the Twig header."
       }
     ],

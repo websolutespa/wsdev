@@ -13,7 +13,6 @@
         "type": "array",
         "items": {
           "type": "object",
-          "required": ["from", "source"],
           "additionalProperties": false,
           "properties": {
             "from": {
@@ -36,8 +35,17 @@
             "note": {
               "type": "string",
               "description": "Why this deviation exists."
+            },
+            "composition": {
+              "type": "boolean",
+              "const": true,
+              "description": "Marks the WHOLE component as a composition: a demo the shadcn registry ships only as an example (no `/r/styles/<style>/<name>.json` registry item to diff against), borrowing every class from the components it embeds. When present, check-upstream-classes.mjs prints '○ <name>: composition' and skips the component without fetching upstream — no `from`/`to`/`source` needed on this entry, only `composition` and `note`."
             }
-          }
+          },
+          "anyOf": [
+            { "required": ["from", "source"] },
+            { "required": ["composition"] }
+          ]
         }
       }
     }

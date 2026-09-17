@@ -1,3 +1,12 @@
+{#
+  The Google Fonts URL's variable-font ranges (`9..40`, `100..1000`) are written
+  as `%2E%2E` and read from src/theme/main.json ("fonts.googleFontsUrl") instead
+  of hardcoded here with literal dots: Vite's build-time HTML asset pipeline
+  collapses a literal ".." in an href to a single "." (see
+  docs/reports/phase-1-skeleton.md), silently truncating the variable range.
+  Percent-encoding survives that pass untouched — fonts.googleapis.com decodes
+  %2E back to "." itself — and `|raw` keeps Twig from re-escaping the "&"s.
+#}
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Geist+Mono:wght@100..900&family=Tenor+Sans&display=swap" rel="stylesheet">
+<link href="{{ fonts.googleFontsUrl|raw }}" rel="stylesheet">

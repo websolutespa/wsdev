@@ -29,35 +29,41 @@ different dependency; their class strings are not comparable 1:1 to upstream.
 Use `"source": "port"` in `scripts/upstream-exceptions.json`, justified in
 `note`. Current cases: `calendar` (react-day-picker → `vanilla-calendar-pro`),
 `chart` (recharts → `chart.js`), `progress` (inline transform → CSS custom
-property set by the module), `combobox` (Base UI → `input-group` + `floating.js`
-+ its own module), `select` (one popper-only Viewport utility dropped, see the
+property set by the module), `select` (one popper-only Viewport utility dropped, see the
 Adaptation table), `message-scroller` (`@shadcn/react`'s headless primitive → its
 own module; one `inset-s-*` token has no Tailwind 4.1 equivalent).
 
-Three more components have no registry class string to diverge from, so they
+Four more components have no registry class string to diverge from, so they
 carry no exception entry even though their runtime is re-implemented: `sonner`
 (the `sonner` package — upstream only sets the four CSS custom properties and the
 lucide icon slots, both copied verbatim; the toast markup lives in two
 `<template>`s inside `sonner.twig` so its classes stay where the scanner and the
 gate read them), `command` (cmdk — filtering/scoring in `command.module.js`, with
 the `cmdk-*` attributes upstream's dialog class string selects on emitted
-verbatim) and `sidebar` (upstream's per-item `Tooltip` would mean an `{% embed %}`
+verbatim), `sidebar` (upstream's per-item `Tooltip` would mean an `{% embed %}`
 inside a `{% for %}`, so with `collapsible="icon"` the label is carried by the
-menu button's `title` attribute).
+menu button's `title` attribute) and `combobox` (Base UI → `input-group` +
+`floating.js` + its own module — gated for real, zero exceptions needed: every
+upstream token that has a class already matches verbatim; `combobox-value` and
+`input-group-button` are Base UI parts with no host here and show up as
+`missing data-slot` warnings only, not MISSING failures).
 
 Utilities missing from the inlined `src/css/shadcn.css` (shadcn@4.21.0) but used
-by a newer registry item are defined in the component's own `<name>.css` rather
-than dropped: `scrollbar-thin` / `scrollbar-none` / `scrollbar-gutter-stable` in
-`message-scroller.css`. Promote them to `globals.css` when a second component
-needs them.
+by a registry item are defined rather than dropped. A one-off stays in the
+component's own `<name>.css`; once a SECOND component needs it, it moves to a
+project-owned block at the end of `globals.css` — `scrollbar-thin` /
+`scrollbar-none` / `scrollbar-gutter-stable` (needed by both message-scroller
+and attachment) made that move in B8a.
 
 **Compositions** are a second reason to skip the gate: a component the registry
 ships only as an example, never as a registry item, has no upstream to diff
 against (`/r/styles/new-york-v4/<name>.json` → 404). They carry `@composition`
 on the first line of their `{# params #}` header, borrow every class from the
-components they embed, and get a `"from": "*"` entry so
-`check-upstream-classes.mjs` skips them instead of failing on the fetch. Current
-case: `date-picker` (popover + button + calendar).
+components they embed, and get a `"composition": true` entry (schema:
+`scripts/upstream-exceptions.schema.json`) in `scripts/upstream-exceptions.json`
+so `check-upstream-classes.mjs` prints `○ <name>: composition` and skips them
+without fetching upstream at all. Current case: `date-picker` (popover +
+button + calendar).
 
 ## Files per component — `src/templates/components/base/<name>/`
 

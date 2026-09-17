@@ -24,10 +24,10 @@
   - `inset-s-1/2` has no Tailwind 4.1 equivalent (logical inline inset is `start-*`) — replaced
     with `start-1/2`, recorded in scripts/upstream-exceptions.json ("message-scroller")
   - `scrollbar-thin` / `scrollbar-none` / `scrollbar-gutter-stable` are not in the shadcn
-    tailwind.css this sample inlines; they are defined in message-scroller.css
-  - the scroll button is written out instead of including base/button (button.twig owns
-    data-slot="button" and there is no `slot` prop yet), so its secondary/icon-sm class
-    strings are hand-merged here — the EXTRA tokens check:classes reports are those
+    tailwind.css this sample inlines; they are defined in src/css/globals.css (project-owned
+    utilities, promoted there once a second consumer needed them — see PORTING.md)
+  - the scroll button is written out instead of including base/button, so its secondary/icon-sm
+    class strings are hand-merged here — the EXTRA tokens check:classes reports are those
 #}
 {% set direction = direction|default('end') %}
 {% set message_scroller_button_base = "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 bg-secondary text-secondary-foreground hover:bg-secondary/80 size-8 border shadow-xs" %}

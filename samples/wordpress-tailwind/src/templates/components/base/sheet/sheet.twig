@@ -58,6 +58,7 @@
       {% include '@components/base/button/button.twig' with {
         label: triggerLabel,
         variant: 'outline',
+        slot: 'sheet-trigger',
         attrs: 'data-dialog-trigger'
       } only %}
     {% endif %}

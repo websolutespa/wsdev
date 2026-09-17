@@ -33,6 +33,7 @@
       {% include '@components/base/button/button.twig' with {
         label: triggerLabel,
         variant: 'outline',
+        slot: 'popover-trigger',
         attrs: 'data-popover-trigger aria-haspopup="dialog" aria-expanded="false"'
       } only %}
     {% endif %}

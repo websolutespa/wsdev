@@ -1,5 +1,8 @@
 {
   "$schema": "../../../../node_modules/@websolutespa/ws-vite/schema/main.schema.json",
+  "fonts": {
+    "googleFontsUrl": "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9%2E%2E40,100%2E%2E1000;1,9%2E%2E40,100%2E%2E1000&family=Geist+Mono:wght@100%2E%2E900&family=Tenor+Sans&display=swap"
+  },
   "layout": {
     "labels": [
       {

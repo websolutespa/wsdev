@@ -9,13 +9,15 @@
   - class?: String — appended last on the pagination root; additive utilities only
   - attrs?: String — raw extra attributes on the pagination root, trusted input only
 
-  Prev/next reuse base/button/button.twig verbatim (variant ghost, upstream composition).
-  Their "Previous"/"Next" label is always visible (no responsive hidden sm:block span — see
-  scripts/upstream-exceptions.json "pagination").
-  Page links are rendered inline: button.twig always emits data-slot="button" (no slot
-  override param — see docs/reports/phase-4-b2a-static.md follow-up B8), but upstream's
-  PaginationLink needs data-slot="pagination-link" + data-active, so its buttonVariants()
-  output (outline/ghost, size icon) is duplicated here from base/button/button.twig verbatim.
+  Prev/next reuse base/button/button.twig verbatim (variant ghost, upstream composition) via
+  its slot/labelClass params: upstream's PaginationPrevious/Next both render as a
+  PaginationLink (data-slot="pagination-link"), so slot: 'pagination-link' restores that
+  data-slot here too, and labelClass 'hidden sm:block' restores the responsive label
+  visibility.
+  Page links are rendered inline: upstream's PaginationLink also needs data-active on the
+  <a>, which button.twig's url mode has no per-consumer data-attribute hook for (besides the
+  raw `attrs`), so its buttonVariants() output (outline/ghost, size icon) is duplicated here
+  from base/button/button.twig verbatim.
 #}
 {% set pagination_link_base = "inline-flex shrink-0 items-center justify-center gap-1.5 rounded-4xl text-sm font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4" %}
 {% set pagination_link_variants = {
@@ -34,9 +36,11 @@
       {%- include '@components/base/button/button.twig' with {
         url: prevUrl,
         label: 'Precedente',
+        labelClass: 'hidden sm:block',
         icon: 'chevron-left',
         variant: 'ghost',
         size: 'default',
+        slot: 'pagination-link',
         disabled: not prevUrl,
         class: 'gap-1 px-2.5 sm:pl-2.5'
       } only %}
@@ -62,9 +66,11 @@
       {%- include '@components/base/button/button.twig' with {
         url: nextUrl,
         label: 'Successiva',
+        labelClass: 'hidden sm:block',
         iconAfter: 'chevron-right',
         variant: 'ghost',
         size: 'default',
+        slot: 'pagination-link',
         disabled: not nextUrl,
         class: 'gap-1 px-2.5 sm:pr-2.5'
       } only %}

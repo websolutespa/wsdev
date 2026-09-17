@@ -34,6 +34,7 @@
       {% include '@components/base/button/button.twig' with {
         label: triggerLabel,
         variant: 'outline',
+        slot: 'alert-dialog-trigger',
         attrs: 'data-dialog-trigger'
       } only %}
     {% endif %}

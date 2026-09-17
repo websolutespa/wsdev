@@ -29,12 +29,8 @@
     field.fieldSeparator(text)                 <div data-slot="field-separator">
     field.fieldError(message|messages)         <div data-slot="field-error">
 
-  Note: FieldLabel is NOT rendered via base/label/label.twig's include — label.twig hardcodes
-  data-slot="label" with no slot-override param (same limitation noted in
-  docs/reports/phase-4-b2a-static.md, follow-up B8, for button.twig/separator.twig), and upstream
-  relies on `[data-slot=field-label]` selectors (peer/group scoping) landing on the <label>
-  itself. FieldLabel is rendered inline here instead, reusing label.twig's own base string
-  verbatim plus the field-label overrides.
+  FieldLabel is rendered via base/label/label.twig's include (slot: 'field-label'), matching
+  upstream's own composition (FieldLabel wraps <Label> — see field.tsx's registryDependencies).
 
   Figma override (scripts/upstream-exceptions.json "field"): FieldSet's own gap is 12px (gap-3),
   not upstream's gap-6 (24px). Field's own gap already matches the kit's "field gap 12" fact
@@ -114,7 +110,12 @@
   {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
 
   {%- if label %}
-  <label data-slot="field-label" {%- if for %} for="{{ for }}"{% endif %} class="flex items-center gap-2 text-sm leading-none font-medium select-none peer-disabled:cursor-not-allowed peer-disabled:opacity-50 group/field-label peer/field-label w-fit leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 dark:has-data-[state=checked]:bg-primary/10">{{ label }}</label>
+  {% include '@components/base/label/label.twig' with {
+    text: label,
+    for: for,
+    slot: 'field-label',
+    class: 'w-fit leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border [&>*]:data-[slot=field]:p-4 has-data-[state=checked]:border-primary has-data-[state=checked]:bg-primary/5 dark:has-data-[state=checked]:bg-primary/10 group/field-label peer/field-label'
+  } only %}
   {%- endif %}
 
   {% block control %}{% endblock %}

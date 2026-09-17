@@ -29,6 +29,7 @@
       {% include '@components/base/button/button.twig' with {
         label: triggerLabel,
         variant: 'outline',
+        slot: 'tooltip-trigger',
         attrs: 'data-tooltip-trigger'
       } only %}
     {% endif %}

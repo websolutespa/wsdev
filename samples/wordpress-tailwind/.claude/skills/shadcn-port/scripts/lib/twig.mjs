@@ -62,11 +62,26 @@ export function extractTwigClassTokens(source) {
   return tokens;
 }
 
-/** @param {string} source @returns {string[]} distinct `data-slot="..."` values found in the Twig source */
+/**
+ * Extracts the full set of `data-slot` values a Twig component source
+ * accounts for: literal `data-slot="..."` attributes, PLUS the two ways
+ * `slot?` params (button.twig/separator.twig/label.twig, PORTING.md §slot
+ * override) resolve to one at render time — a `slot: '<value>'` key passed
+ * into an `{% include %}`/`{% embed %}` hash, and the `slot|default('<value>')`
+ * fallback literal inside the anchor component's own `data-slot="{{ ... }}"`.
+ * @param {string} source @returns {string[]} distinct values, sorted
+ */
 export function extractTwigDataSlots(source) {
   const slots = new Set();
-  const re = /data-slot=["']([^"']+)["']/g;
+  const literalRe = /data-slot=["']([^"']+)["']/g;
   let m;
-  while ((m = re.exec(source))) slots.add(m[1]);
+  while ((m = literalRe.exec(source))) slots.add(m[1]);
+
+  const slotParamRe = /\bslot\s*:\s*(["'])([^"']+)\1/g;
+  while ((m = slotParamRe.exec(source))) slots.add(m[2]);
+
+  const slotDefaultRe = /slot\s*\|\s*default\(\s*(["'])([^"']+)\1\s*\)/g;
+  while ((m = slotDefaultRe.exec(source))) slots.add(m[2]);
+
   return [...slots].sort();
 }

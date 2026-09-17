@@ -125,6 +125,7 @@
       {% include '@components/base/button/button.twig' with {
         label: triggerLabel,
         variant: 'outline',
+        slot: 'dropdown-menu-trigger',
         attrs: 'data-menu-trigger aria-haspopup="menu" aria-expanded="false" data-state="closed"'
       } only %}
     {% endif %}

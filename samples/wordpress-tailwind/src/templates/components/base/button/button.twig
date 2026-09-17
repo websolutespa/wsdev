@@ -10,6 +10,10 @@
   - icon?: String — sprite icon name rendered before the label
   - iconAfter?: String — sprite icon name rendered after the label
   - ariaLabel?: String — REQUIRED when no label (icon-only sizes)
+  - slot?: String — data-slot value (default: 'button'); override when this include fills
+            another component's named part (e.g. 'dialog-trigger', 'pagination-previous')
+  - labelClass?: String — extra classes on the label <span>, additive (e.g. upstream
+            pagination's responsive 'hidden sm:block')
   - id?: String
   - class?: String — appended last; additive utilities only
   - attrs?: String — raw extra attributes, trusted input only
@@ -38,7 +42,7 @@
 {% set button_classes = button_base ~ ' ' ~ button_variants[variant] ~ ' ' ~ button_sizes[size] ~ (class is defined and class ? ' ' ~ class : '') %}
 {% if url %}
 <a
-  data-slot="button"
+  data-slot="{{ slot|default('button') }}"
   data-variant="{{ variant }}"
   data-size="{{ size }}"
   href="{{ url }}"
@@ -49,7 +53,7 @@
   {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
 {% else %}
 <button
-  data-slot="button"
+  data-slot="{{ slot|default('button') }}"
   data-variant="{{ variant }}"
   data-size="{{ size }}"
   type="{{ type|default('button') }}"
@@ -59,6 +63,6 @@
   {%- if id is defined and id %} id="{{ id }}"{% endif %} {{ attrs|default('')|raw }}>
 {% endif %}
   {%- if icon %}<svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>{% endif %}
-  {%- if label %}<span>{{ label }}</span>{% endif %}
+  {%- if label %}<span{% if labelClass %} class="{{ labelClass }}"{% endif %}>{{ label }}</span>{% endif %}
   {%- if iconAfter %}<svg aria-hidden="true"><use href="#icon-{{ iconAfter }}"></use></svg>{% endif %}
 {% if url %}</a>{% else %}</button>{% endif %}

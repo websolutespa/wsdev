@@ -76,6 +76,10 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ combobox, command (+dialog, ⌘K), sonner (`toast:show`), sidebar (cookie, ⌘B, mobile in sheet), message-scroller. Fix `eagerInit`/`lazyLoad`. **60 componenti**: libreria completa. Report: [reports/phase-4-b7b-last-components.md](reports/phase-4-b7b-last-components.md).
 - ⚠️ Per B8: gate reale per combobox, `scrollbar-*` in globals, docs page paginata per gruppo, `slot?` su button/separator/label, `composition: true` nelle eccezioni.
 
+### Fase 5 — B8a follow-up tecnici + docs page per gruppo (agent Sonnet)
+
+- ✅ `slot?`/`labelClass?` su button/separator/label e consumer riallineati (slot mancanti 30 → 23, tutti fuori portata); `composition: true` per date-picker; combobox gated per davvero (MISSING 0, eccezione rimossa); `scrollbar-*` in `globals.css`; URL Google Fonts salvato con `%2E%2E`; docs page divisa in indice + 8 pagine gruppo (max 1,8 MB). Report: [reports/phase-5-b8a-followups-docs.md](reports/phase-5-b8a-followups-docs.md).
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

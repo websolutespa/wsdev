@@ -1,0 +1,12 @@
+{
+  "page": {
+    "id": 906,
+    "title": "Componenti — Data display",
+    "abstract": "Showcase dei componenti shadcn/ui portati in Twig, gruppo Data display, in chiaro e in scuro.",
+    "meta": {
+      "title": "Ws Vite - Componenti - Data display"
+    },
+    "href": "/docs/components/data-display"
+  },
+  "group": "data-display"
+}

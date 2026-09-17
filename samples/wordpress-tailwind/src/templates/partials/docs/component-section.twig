@@ -1,0 +1,40 @@
+{#
+  component-section — shared docs rendering for one manifest group (src/docs/components.twig.json
+  "docs.groups[]" entries), used by both the components index page (all groups on one page,
+  pre-split) and each src/docs/components/<group>.twig page (its own single group).
+
+  Params:
+  - group: { id: String, title: String, components: Array<{ name, title, description?,
+            scenarios: Array<String> }> } — REQUIRED, one manifest group entry
+  - mocks: Object — REQUIRED, the global mocks map (component name -> scenario -> field data),
+            merged from every src/templates/components/**/*.twig.json ("mocks.<name>")
+
+  Renders each component's scenarios in light AND `.dark`, same as the pre-split
+  components.twig: {% include %} the component's own base/<name>/<name>.twig with its mock
+  merged with a scenario/scheme-scoped id (never embeds inside a loop, per PORTING.md rule 5).
+#}
+{% if group.components|length %}
+<section id="{{ group.id }}" class="mb-16 scroll-mt-20">
+  <h2 class="text-2xl font-serif">{{ group.title }}</h2>
+  {% for component in group.components %}
+  <div class="mt-8">
+    <h3 class="text-lg font-medium">{{ component.title }}</h3>
+    {% if component.description %}<p class="text-sm text-muted-foreground">{{ component.description }}</p>{% endif %}
+    {% for scenario in component.scenarios %}
+    <div class="mt-4">
+      <p class="mb-2 font-mono text-xs text-muted-foreground">{{ scenario }}</p>
+      <div class="grid gap-4 md:grid-cols-2">
+        {% for scheme in ['light', 'dark'] %}
+        <div class="{% if scheme == 'dark' %}dark {% endif %}bg-background text-foreground rounded-lg border p-6">
+          {% include '@components/base/' ~ component.name ~ '/' ~ component.name ~ '.twig' with mocks[component.name][scenario]|merge({ id: component.name ~ '-' ~ scenario ~ '-' ~ scheme }) only %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</section>
+{% else %}
+<p class="mt-8 text-sm text-muted-foreground">Nessun componente in questo gruppo.</p>
+{% endif %}
