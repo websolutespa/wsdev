@@ -436,3 +436,52 @@ dialog:not([open]) {
 @utility scrollbar-gutter-stable {
   scrollbar-gutter: stable;
 }
+
+/* Hand-written typography utility for CMS-authored rich text (blocks/text-only): shadcn/ui
+   ships no prose plugin, so headings/links/lists get readable defaults without pulling in
+   @tailwindcss/typography. */
+@utility prose-ws {
+  color: var(--foreground);
+
+  & :where(h2, h3, h4) {
+    margin-top: var(--spacing-ws-xl);
+    margin-bottom: var(--spacing-ws-sm);
+    font-family: var(--font-serif);
+    color: var(--foreground);
+  }
+
+  & :where(p, ul, ol) {
+    margin-top: var(--spacing-ws-base);
+    margin-bottom: var(--spacing-ws-base);
+  }
+
+  & :where(ul, ol) {
+    padding-inline-start: var(--spacing-ws-lg);
+  }
+
+  & :where(ul) {
+    list-style: disc;
+  }
+
+  & :where(ol) {
+    list-style: decimal;
+  }
+
+  & :where(a) {
+    color: var(--primary);
+    text-underline-offset: 4px;
+    text-decoration-line: underline;
+  }
+
+  & :where(strong) {
+    font-weight: 600;
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 0;
+  }
+}

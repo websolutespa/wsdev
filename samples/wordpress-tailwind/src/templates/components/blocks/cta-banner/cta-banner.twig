@@ -1,0 +1,45 @@
+{# @schema cta-banner
+
+  Params (CMS-shaped, dispatched by components.twig via page.components[].schema):
+  - title: String
+  - abstract?: String
+  - cta?: { label: String, url: String, variant?: String }
+  - secondaryCta?: { label: String, url: String, variant?: String }
+  - variant?: 'primary'|'muted' as string (default: 'primary') — full-width band color
+  - id?: String
+  - class?: String — appended last on the section root; additive utilities only
+
+  The inner band mirrors base/card's data-slot structure (card/card-header/card-title/
+  card-description/card-footer) rather than including/embedding it: card's own bg-card
+  utility would compete with the band's bg-primary/bg-muted at equal specificity, with the
+  winner decided by Tailwind's generated stylesheet order rather than markup order — see
+  PORTING.md rule 4 (`class` is additive-only, no tailwind-merge in Twig).
+#}
+{% set variant = variant|default('primary') %}
+{% set band_variants = {
+  primary: 'bg-primary text-primary-foreground',
+  muted: 'bg-muted text-foreground'
+} %}
+{% set cta_variant_defaults = { primary: 'secondary', muted: 'default' } %}
+{% set abstract_classes = variant == 'primary' ? 'text-primary-foreground/85' : 'text-muted-foreground' %}
+
+<section data-slot="cta-banner" class="py-ws-3xl{% if class is defined and class %} {{ class }}{% endif %}"{% if id is defined and id %} id="{{ id }}"{% endif %}>
+  <div class="mx-auto max-w-6xl px-4">
+    <div data-slot="card" class="flex flex-col items-center gap-6 rounded-2xl px-8 py-12 text-center shadow-sm {{ band_variants[variant] }}">
+      <div data-slot="card-header" class="flex flex-col gap-2">
+        <div data-slot="card-title" class="text-balance text-3xl font-serif">{{ title }}</div>
+        {% if abstract %}<div data-slot="card-description" class="max-w-2xl text-balance {{ abstract_classes }}">{{ abstract }}</div>{% endif %}
+      </div>
+      {% if cta or secondaryCta %}
+      <div data-slot="card-footer" class="flex flex-wrap items-center justify-center gap-3">
+        {% if cta %}
+        {% include '@components/base/button/button.twig' with { label: cta.label, url: cta.url, variant: cta.variant|default(cta_variant_defaults[variant]), size: 'lg' } only %}
+        {% endif %}
+        {% if secondaryCta %}
+        {% include '@components/base/button/button.twig' with { label: secondaryCta.label, url: secondaryCta.url, variant: secondaryCta.variant|default('outline'), size: 'lg' } only %}
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>

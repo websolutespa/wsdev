@@ -1,30 +1,25 @@
 {
-  "$schema": "../../../node_modules/@websolutespa/ws-vite/schema/page.schema.json",
   "page": {
-    "id": 1,
-    "title": "WsVite WordPress + Tailwind",
-    "abstract": "shadcn/ui ported to Twig — a boilerplate built with 🖤 by Websolute",
+    "id": 901,
+    "title": "Componenti — Blocks",
+    "abstract": "Sezioni di pagina composte dai componenti base, dispatchate da components.twig via page.components[].schema.",
     "meta": {
-      "title": "Ws Vite - Home"
+      "title": "Ws Vite - Componenti - Blocks"
     },
-    "href": "/index",
-    "alternates": [
-      {
-        "id": "/it/index",
-        "title": "Home",
-        "locale": "it",
-        "market": "ww"
-      }
-    ],
-    "components": [
-      {
-        "schema": "text-only",
+    "href": "/docs/blocks"
+  },
+  "blocks": [
+    {
+      "schema": "text-only",
+      "mock": {
         "title": "Perché scegliere la nostra piattaforma",
         "content": "<p>Costruita per team che vogliono muoversi velocemente senza perdere il controllo su dati e processi.</p><p>Ogni funzione nasce da richieste reali dei clienti, non da roadmap astratte.</p><ul><li>Setup guidato in meno di un giorno</li><li>Nessun vincolo di fornitore: esporti i dati quando vuoi</li><li>Supporto dedicato in italiano</li></ul>",
         "cta": { "label": "Scopri di più", "url": "#" }
-      },
-      {
-        "schema": "card-grid",
+      }
+    },
+    {
+      "schema": "card-grid",
+      "mock": {
         "title": "Cosa puoi costruire",
         "columns": 3,
         "collection": [
@@ -47,9 +42,11 @@
             "cta": { "label": "Scopri", "url": "#" }
           }
         ]
-      },
-      {
-        "schema": "faq",
+      }
+    },
+    {
+      "schema": "faq",
+      "mock": {
         "title": "Domande frequenti",
         "items": [
           { "value": "item-1", "title": "Come funziona il periodo di prova?", "content": "<p>14 giorni gratuiti, nessuna carta di credito richiesta. Alla fine del periodo puoi scegliere un piano o continuare con la versione gratuita.</p>" },
@@ -57,21 +54,16 @@
           { "value": "item-3", "title": "I miei dati sono al sicuro?", "content": "<p>I dati sono cifrati in transito e a riposo, con backup giornalieri e infrastruttura ospitata in Unione Europea.</p>" },
           { "value": "item-4", "title": "Offrite supporto in italiano?", "content": "<p>Sì, il team di supporto risponde in italiano e in inglese via chat ed email nei giorni lavorativi.</p>" }
         ]
-      },
-      {
-        "schema": "cta-banner",
-        "id": "cta-banner",
+      }
+    },
+    {
+      "schema": "cta-banner",
+      "mock": {
         "title": "Pronto a iniziare?",
         "abstract": "Attiva la prova gratuita in due minuti, senza carta di credito.",
         "cta": { "label": "Inizia ora", "url": "#" },
         "secondaryCta": { "label": "Parla con noi", "url": "#contatti" }
       }
-    ],
-    "breadcrumb": [
-      {
-        "href": "/index",
-        "title": "Home"
-      }
-    ]
-  }
+    }
+  ]
 }

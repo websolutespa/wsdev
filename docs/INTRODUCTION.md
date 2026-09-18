@@ -36,6 +36,7 @@ npm run preview
 #### What's next
 [Customization Guide](CUSTOMIZATION.md)  
 [Theme Guide](THEMING.md)  
+[Tailwind v4 + shadcn/ui](SHADCN.md)  
 [Templating Guide](TEMPLATING.md)   
 [Icons Guide](ICONS.md)  
 [Images Guide](IMAGES.md)  

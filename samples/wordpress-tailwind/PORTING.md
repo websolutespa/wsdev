@@ -218,6 +218,34 @@ via `src/css/components.css`. No `.scss` anywhere in this sample.
 - Visual configuration (variants, sizes) stays a Twig param — never a mock
   field pretending to be CMS content.
 
+## Blocks and layout
+
+Above the `base/` tier (shadcn/ui components, gated by `check:classes`) sit two more
+tiers, neither gated and neither listed in the components docs manifest:
+
+- **`layout/`** — `meta`, `fonts`, `header`, `main-menu`, `footer`, `hero`. Rendered
+  once per page from `layouts/layout.twig` (meta/fonts/header/footer) or included
+  explicitly by a page template (`hero`). Data comes from `layout.*` in
+  `src/theme/main.json` (menu, footer columns, header CTA) — not from `page.*`.
+- **`blocks/`** — `text-only`, `card-grid`, `faq`, `cta-banner`. Dispatched generically
+  by `src/templates/components/components.twig`, which loops `page.components[]` and
+  includes `blocks/<schema>/<schema>.twig with component` for each entry:
+
+  ```twig
+  {% include '@components/blocks/' ~ component.schema ~ '/' ~ component.schema ~ '.twig' with component only %}
+  ```
+
+  A block's own `{# params #}` header documents its CMS-shaped fields (title,
+  content/abstract, collection[], items[], cta…) — these are page authoring fields,
+  not component variant props, so they follow the site's content model rather than
+  a upstream registry.
+
+Both tiers compose `base/` components via `{% include %}`/`{% embed %}` exactly like
+any other consumer (rules 5–6 above still apply: data-driven lists never embed inside
+a `{% for %}`). Mocks for standalone review live in `src/docs/blocks.twig.json`,
+rendered once each (no light/dark grid) at `/docs/blocks.html` — see the [Mock data
+rules](#mock-data-rules) above for copy conventions.
+
 ## Definition of done per component
 
 1. `npm run check:classes -- <name>` exits 0 (MISSING = 0; review EXTRA).

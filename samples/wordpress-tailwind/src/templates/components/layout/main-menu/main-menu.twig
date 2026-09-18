@@ -1,0 +1,28 @@
+{#
+  Params:
+  - variant?: 'desktop'|'mobile' as string (default: 'desktop') — desktop renders base/navigation-menu;
+              mobile renders a flat vertical list (used inside header's sheet, where a mega-menu
+              popover has no room)
+  - items?: Array — same shape as base/navigation-menu `items` (default: layout.menu)
+  - class?: String — extra classes on the root; additive only
+#}
+{% set variant = variant|default('desktop') %}
+{% set menu_items = items|default(layout.menu) %}
+
+{% if variant == 'mobile' %}
+<nav aria-label="Menu di navigazione" class="flex flex-col gap-1{% if class is defined and class %} {{ class }}{% endif %}">
+  {% for item in menu_items %}
+  <a href="{{ item.url|default('#') }}"
+    class="rounded-md px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent hover:text-accent-foreground{% if item.active|default(false) %} bg-accent/50{% endif %}">{{ item.label }}</a>
+  {% if item.items is defined and item.items %}
+  <div class="ml-3 flex flex-col gap-1 border-l border-border pl-3">
+    {% for sub in item.items %}
+    <a href="{{ sub.url }}" class="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground">{{ sub.title }}</a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endfor %}
+</nav>
+{% else %}
+{% include '@components/base/navigation-menu/navigation-menu.twig' with { items: menu_items, class: class|default('') } only %}
+{% endif %}

@@ -80,6 +80,10 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 
 - ✅ `slot?`/`labelClass?` su button/separator/label e consumer riallineati (slot mancanti 30 → 23, tutti fuori portata); `composition: true` per date-picker; combobox gated per davvero (MISSING 0, eccezione rimossa); `scrollbar-*` in `globals.css`; URL Google Fonts salvato con `%2E%2E`; docs page divisa in indice + 8 pagine gruppo (max 1,8 MB). Report: [reports/phase-5-b8a-followups-docs.md](reports/phase-5-b8a-followups-docs.md).
 
+### Fase 5 — B8b layout, blocks, index, documentazione (agent Sonnet)
+
+- ✅ header/main-menu/footer/hero su componenti base, 4 blocks (text-only, card-grid, faq, cta-banner) + `docs/blocks.twig`, index WP-like, README finale, `docs/SHADCN.md` nel monorepo, dry run `build:wp` verde. Report: [reports/phase-5-b8b-layout-blocks-docs.md](reports/phase-5-b8b-layout-blocks-docs.md).
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.

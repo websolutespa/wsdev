@@ -1,0 +1,46 @@
+{# @schema card-grid
+
+  Params (CMS-shaped, dispatched by components.twig via page.components[].schema):
+  - title?: String — section heading
+  - collection: Array<{ title: String, abstract?: String, media?: { src: String, alt?: String },
+              cta?: { label: String, url: String, variant?: String } }> — data-driven; per-card
+              markup mirrors base/card's data-slot structure but is composed with a local macro
+              rather than an {% embed %} inside the loop (PORTING.md rule 5: lists are
+              data-driven, never embeds inside loops)
+  - columns?: 2|3 as integer (default: 3) — grid columns from md up (always 1 on mobile)
+  - id?: String
+  - class?: String — appended last on the section root; additive utilities only
+#}
+{% macro collectionCard(entry) %}
+  <div data-slot="card" class="flex flex-col gap-4 overflow-hidden rounded-xl border bg-card pb-6 text-card-foreground shadow-sm">
+    {% if entry.media %}
+    <div class="aspect-video w-full overflow-hidden bg-muted">
+      <img src="{{ entry.media.src }}" alt="{{ entry.media.alt|default('') }}" class="h-full w-full object-cover" loading="lazy">
+    </div>
+    {% endif %}
+    <div data-slot="card-header" class="flex flex-col gap-2 px-6{% if not entry.media %} pt-6{% endif %}">
+      <div data-slot="card-title" class="leading-none font-semibold">{{ entry.title }}</div>
+      {% if entry.abstract %}<div data-slot="card-description" class="text-sm text-muted-foreground">{{ entry.abstract }}</div>{% endif %}
+    </div>
+    {% if entry.cta %}
+    <div data-slot="card-footer" class="px-6">
+      {% include '@components/base/button/button.twig' with { label: entry.cta.label, url: entry.cta.url, variant: entry.cta.variant|default('outline'), size: 'sm' } only %}
+    </div>
+    {% endif %}
+  </div>
+{% endmacro %}
+{% import _self as self %}
+
+{% set columns = columns|default(3) %}
+{% set grid_columns = { 2: 'md:grid-cols-2', 3: 'md:grid-cols-2 lg:grid-cols-3' } %}
+
+<section data-slot="card-grid" class="py-ws-4xl{% if class is defined and class %} {{ class }}{% endif %}"{% if id is defined and id %} id="{{ id }}"{% endif %}>
+  <div class="mx-auto max-w-6xl px-4">
+    {% if title %}<h2 class="text-3xl font-serif text-foreground">{{ title }}</h2>{% endif %}
+    <div class="grid grid-cols-1 gap-6{% if title %} mt-8{% endif %} {{ grid_columns[columns]|default(grid_columns[3]) }}">
+      {% for entry in collection %}
+      {{ self.collectionCard(entry) }}
+      {% endfor %}
+    </div>
+  </div>
+</section>

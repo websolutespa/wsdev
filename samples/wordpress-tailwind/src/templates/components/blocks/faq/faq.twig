@@ -1,0 +1,17 @@
+{# @schema faq
+
+  Params (CMS-shaped, dispatched by components.twig via page.components[].schema):
+  - title?: String — section heading
+  - items: Array<{ value: String, title: String, content: String (trusted HTML, rendered raw) }>
+            — passed straight through to base/accordion
+  - id?: String
+  - class?: String — appended last on the section root; additive utilities only
+#}
+<section data-slot="faq" class="py-ws-4xl{% if class is defined and class %} {{ class }}{% endif %}"{% if id is defined and id %} id="{{ id }}"{% endif %}>
+  <div class="mx-auto max-w-3xl px-4">
+    {% if title %}<h2 class="text-3xl font-serif text-foreground">{{ title }}</h2>{% endif %}
+    <div class="{% if title %}mt-8{% endif %}">
+      {% include '@components/base/accordion/accordion.twig' with { items: items, type: 'single', collapsible: true } only %}
+    </div>
+  </div>
+</section>

@@ -61,6 +61,13 @@ This monorepo uses some additional tools already setup for you:
 - [Rollup](https://rollupjs.org/configuration-options/) module bundler used on build step
 - [Turborepo](https://turbo.build/) a high-performance build system for monorepo
 
+### Docs
+
+- [Introduction](docs/INTRODUCTION.md)
+- [Theming](docs/THEMING.md)
+- [Tailwind v4 + shadcn/ui](docs/SHADCN.md) — the `wordpress-tailwind` sample: Tailwind v4 CSS-first, Figma token sync and the shadcn/ui-to-Twig porting method
+- [Roadmap](docs/ROADMAP.md)
+
 ## In detail
 
 Vite bundler consists of two major parts:

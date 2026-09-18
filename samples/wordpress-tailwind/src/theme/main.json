@@ -40,6 +40,10 @@
       {
         "id": "theme.toggle",
         "text": "Toggle theme"
+      },
+      {
+        "id": "menu.open",
+        "text": "Open menu"
       }
     ],
     "locale": "en",
@@ -75,8 +79,70 @@
         "defaultLanguage": "en"
       }
     ],
-    "menu": {
-
+    "menu": [
+      {
+        "label": "Prodotto",
+        "items": [
+          { "title": "Piattaforma", "url": "#piattaforma", "description": "Il cuore del prodotto: dati, automazioni e integrazioni in un unico posto.", "icon": "webhook" },
+          { "title": "Analytics", "url": "#analytics", "description": "Dashboard in tempo reale sulle metriche che contano davvero.", "icon": "file-text" },
+          { "title": "Integrazioni", "url": "#integrazioni", "description": "Oltre cento connettori pronti all'uso.", "icon": "external-link" }
+        ]
+      },
+      {
+        "label": "Soluzioni",
+        "url": "#soluzioni"
+      },
+      {
+        "label": "Risorse",
+        "items": [
+          { "title": "Documentazione", "url": "/docs/components.html", "description": "Guide, riferimento API e libreria componenti." },
+          { "title": "Blog", "url": "#blog", "description": "Novità di prodotto e casi studio." }
+        ]
+      },
+      {
+        "label": "Prezzi",
+        "url": "#prezzi"
+      },
+      {
+        "label": "Contatti",
+        "url": "#contatti"
+      }
+    ],
+    "header": {
+      "cta": {
+        "label": "Inizia ora",
+        "url": "#cta-banner"
+      }
+    },
+    "footer": {
+      "columns": [
+        {
+          "title": "Prodotto",
+          "links": [
+            { "label": "Piattaforma", "url": "#piattaforma" },
+            { "label": "Analytics", "url": "#analytics" },
+            { "label": "Integrazioni", "url": "#integrazioni" },
+            { "label": "Prezzi", "url": "#prezzi" }
+          ]
+        },
+        {
+          "title": "Risorse",
+          "links": [
+            { "label": "Documentazione", "url": "/docs/components.html" },
+            { "label": "Blocks", "url": "/docs/blocks.html" },
+            { "label": "Form", "url": "/docs/forms.html" },
+            { "label": "Blog", "url": "#blog" }
+          ]
+        },
+        {
+          "title": "Azienda",
+          "links": [
+            { "label": "Chi siamo", "url": "#chi-siamo" },
+            { "label": "Lavora con noi", "url": "#lavora-con-noi" },
+            { "label": "Contatti", "url": "#contatti" }
+          ]
+        }
+      ]
     },
     "site": {
       "name": "WsVite WordPress + Tailwind",

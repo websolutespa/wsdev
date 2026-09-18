@@ -1,0 +1,24 @@
+{# @schema text-only
+
+  Params (CMS-shaped, dispatched by components.twig via page.components[].schema):
+  - title?: String — section heading
+  - heading?: 'h2'|'h3' as string (default: 'h2')
+  - content: String — rich HTML content (CMS-authored, trusted), rendered raw with the
+             `prose-ws` project-owned typography utility (see src/css/globals.css)
+  - cta?: { label: String, url: String, variant?: String (default: 'outline') }
+  - id?: String
+  - class?: String — appended last on the section root; additive utilities only
+#}
+{% set heading_tag = heading|default('h2') == 'h3' ? 'h3' : 'h2' %}
+
+<section data-slot="text-only" class="py-ws-4xl{% if class is defined and class %} {{ class }}{% endif %}"{% if id is defined and id %} id="{{ id }}"{% endif %}>
+  <div class="mx-auto max-w-3xl px-4">
+    {% if title %}<{{ heading_tag }} class="text-3xl font-serif text-foreground">{{ title }}</{{ heading_tag }}>{% endif %}
+    {% if content %}<div class="prose-ws{% if title %} mt-4{% endif %}">{{ content|raw }}</div>{% endif %}
+    {% if cta %}
+    <div class="mt-6">
+      {% include '@components/base/button/button.twig' with { label: cta.label, url: cta.url, variant: cta.variant|default('outline') } only %}
+    </div>
+    {% endif %}
+  </div>
+</section>

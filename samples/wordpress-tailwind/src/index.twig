@@ -2,12 +2,53 @@
 
 {% block main %}
 
+{% set hero_options = {
+  eyebrow: 'Novità',
+  title: page.title,
+  heading: 'h1',
+  abstract: page.abstract,
+  cta: { label: 'Inizia ora', url: '#cta-banner' },
+  navs: [ { label: 'Scopri i componenti', url: '/docs/components.html' } ],
+  media: { src: '/media/images/mountains.jpg', alt: 'Panorama di montagna al tramonto' }
+} %}
+
 <main id="main">
-  <div class="mx-auto max-w-6xl px-4 py-16">
-    <h1 class="text-4xl font-serif">{{ page.title }}</h1>
-    <p class="mt-4 text-lg text-muted-foreground">{{ page.abstract }}</p>
-  </div>
+  {% include '@components/layout/hero/hero.twig' with hero_options only %}
   {% include '@components/components.twig' %}
+
+  <section class="py-ws-4xl">
+    <div class="mx-auto max-w-6xl px-4">
+      <h2 class="text-3xl font-serif text-foreground">Component library</h2>
+      <p class="mt-2 max-w-2xl text-muted-foreground">Tutta la libreria shadcn/ui portata in Twig per questo boilerplate, pronta da esplorare.</p>
+      <div class="mt-8 grid gap-6 sm:grid-cols-3">
+
+        {% embed '@components/base/card/card.twig' with { title: 'Componenti', description: 'I 60 componenti base, in chiaro e in scuro, divisi per gruppo.' } only %}
+          {% block footer %}
+          <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
+            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/components.html', variant: 'outline', size: 'sm' } only %}
+          </div>
+          {% endblock %}
+        {% endembed %}
+
+        {% embed '@components/base/card/card.twig' with { title: 'Form', description: 'Field, validazione nativa e adapter Formidable.' } only %}
+          {% block footer %}
+          <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
+            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/forms.html', variant: 'outline', size: 'sm' } only %}
+          </div>
+          {% endblock %}
+        {% endembed %}
+
+        {% embed '@components/base/card/card.twig' with { title: 'Blocks', description: 'Le sezioni di pagina pronte per page.components[].' } only %}
+          {% block footer %}
+          <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
+            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/blocks.html', variant: 'outline', size: 'sm' } only %}
+          </div>
+          {% endblock %}
+        {% endembed %}
+
+      </div>
+    </div>
+  </section>
 </main>
 
 {% endblock %}

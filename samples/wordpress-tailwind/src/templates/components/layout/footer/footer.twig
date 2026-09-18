@@ -1,6 +1,28 @@
-{# Placeholder — replaced by the full footer block in Phase 5. #}
-<footer class="border-t border-border">
-  <div class="mx-auto max-w-6xl px-4 py-8 text-sm text-muted-foreground">
-    <p>{{ layout.site.payoff }}</p>
+{#
+  Site footer: brand + payoff, up to 3 link columns, copyright line. No params —
+  reads layout.site (name, payoff) and layout.footer.columns[] from globals (main.json).
+#}
+<footer data-slot="site-footer" class="border-t border-border">
+  <div class="mx-auto max-w-6xl px-4 py-ws-2xl">
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="lg:col-span-1">
+        <p class="font-serif text-lg font-medium text-foreground">{{ layout.site.name }}</p>
+        <p class="mt-2 text-sm text-muted-foreground">{{ layout.site.payoff }}</p>
+      </div>
+      {% for column in layout.footer.columns|default([]) %}
+      <div>
+        <h3 class="text-sm font-semibold text-foreground">{{ column.title }}</h3>
+        <ul class="mt-3 flex flex-col gap-2">
+          {% for link in column.links %}
+          <li><a href="{{ link.url }}" class="text-sm text-muted-foreground transition-colors hover:text-foreground hover:underline">{{ link.label }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% include '@components/base/separator/separator.twig' with { class: 'my-8' } only %}
+
+    <p class="text-sm text-muted-foreground">&copy; {{ "now"|date("Y") }} {{ layout.site.name }} — {{ layout.site.payoff }}</p>
   </div>
 </footer>
