@@ -84,6 +84,17 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 
 - ✅ header/main-menu/footer/hero su componenti base, 4 blocks (text-only, card-grid, faq, cta-banner) + `docs/blocks.twig`, index WP-like, README finale, `docs/SHADCN.md` nel monorepo, dry run `build:wp` verde. Report: [reports/phase-5-b8b-layout-blocks-docs.md](reports/phase-5-b8b-layout-blocks-docs.md).
 
+### Fase 6 — verifica end-to-end (agent Sonnet)
+
+- ✅ Otto verifiche del piano tutte PASS, nessun fix necessario: install, build, gate, dev server, scaffold CLI con build del progetto generato (ws-vite 0.0.12 pubblicato supporta `tailwind: true`), lint, igiene repo, docs. Report: [reports/phase-6-verification.md](reports/phase-6-verification.md).
+- ⛔ Sospeso: checklist tastiera/a11y (serve Playwright MCP).
+- ⚠️ Follow-up CLI: `ts-node --esm` rotto su Node 22 per gli script dev della CLI; `copyDirectory` copia anche `tokens/` e `.cache/` se presenti su disco.
+
+### Stato finale
+
+- Branch `feat/wordpress-tailwind`, 13 commit su `main`, working tree pulito. **60 componenti** (`base/`), 4 blocks, 5 layout, 3 skill/tooling (`figma-tokens`, `shadcn-port`, `check:classes`), docs page per gruppo, README, `docs/SHADCN.md`, ADR 0001–0003, `CONTEXT.md`.
+- In attesa dell'utente: push del branch e apertura PR; configurazione Playwright MCP per la verifica a11y.
+
 ### Documentazione di processo
 
 - ✅ Creati `docs/WORKLOG.md`, `docs/DECISIONS.md`, `docs/adr/0001–0003`, `docs/reports/*`, `CONTEXT.md` (commit `7bd18f0`). Regola: aggiornati a ogni batch prima del commit.
