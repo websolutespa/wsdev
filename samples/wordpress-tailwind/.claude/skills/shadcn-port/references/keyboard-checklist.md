@@ -1,6 +1,6 @@
 # Keyboard checklist (WAI-ARIA APG)
 
-Per-component keyboard behaviour to verify on the docs page (`/docs/components.html`) before closing step 7 of the porting pipeline. One line per key behaviour; check every scenario in the component's mocks, not just "default".
+Per-component keyboard behaviour to verify on the component's Storybook stories (`npm run storybook`, `Base/<Name>`) before closing step 7 of the porting pipeline. One line per key behaviour; check every scenario story, not just "Default".
 
 ## dialog / alert-dialog / sheet / drawer
 

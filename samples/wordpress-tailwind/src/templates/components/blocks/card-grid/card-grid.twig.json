@@ -1,0 +1,48 @@
+{
+  "mocks": {
+    "card-grid": {
+      "default": {
+        "title": "Cosa puoi costruire",
+        "columns": 3,
+        "collection": [
+          {
+            "title": "Dashboard in tempo reale",
+            "abstract": "Monitora ogni metrica che conta, aggiornata al secondo, senza fogli di calcolo.",
+            "media": {
+              "src": "/media/images/mountains-01.jpg",
+              "alt": "Dashboard su un monitor con vista panoramica sullo sfondo"
+            },
+            "cta": {
+              "label": "Scopri",
+              "url": "#"
+            }
+          },
+          {
+            "title": "Automazioni senza codice",
+            "abstract": "Regole e flussi che lavorano anche quando il team è offline.",
+            "media": {
+              "src": "/media/images/mountains-02.jpg",
+              "alt": "Vista panoramica di montagne al tramonto"
+            },
+            "cta": {
+              "label": "Scopri",
+              "url": "#"
+            }
+          },
+          {
+            "title": "Integrazioni pronte all'uso",
+            "abstract": "Oltre cento connettori pronti, dal CRM alla fatturazione.",
+            "media": {
+              "src": "/media/images/mountains-03.jpg",
+              "alt": "Catena montuosa vista dall'alto"
+            },
+            "cta": {
+              "label": "Scopri",
+              "url": "#"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

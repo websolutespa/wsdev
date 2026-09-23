@@ -15,13 +15,13 @@ You port ONE component at a time through a fixed 9-step pipeline. Every step is 
 - **Platform exceptions** (no React/Radix available) use `"source": "port"` and MUST be justified in `note`.
 - **Behaviour**: native APIs first (`<dialog>`, native inputs), `@floating-ui/dom` for anchored panels, shared utilities in `src/js/common/`. Copy and audit the matching module from the reference project when one exists (see `PORTING.md` §Reference implementation); never rewrite from scratch what already works.
 - **Stop and ask** before: adding an npm dependency, editing `src/css/globals.css` outside a component `.css`, deleting a component folder, or writing an exception with `"from": "*"`.
-- No Storybook, no React, no SCSS. Code, comments and identifiers in English; mock copy in Italian.
+- No React and no SCSS inside components. Storybook (`.storybook/`, `<name>.stories.js`) is the verification vehicle only: a component MUST never depend on it at runtime. Code, comments and identifiers in English; mock copy in Italian.
 
 ## Roles (multi-agent sessions)
 
-- **Orchestrator** (most capable model): runs the pipeline, reads Figma with `use_figma`, approves every exception, merges the shared files (`src/css/components.css`, `src/docs/components.twig.json`, `scripts/upstream-exceptions.json`, `src/assets/icons/`).
+- **Orchestrator** (most capable model): runs the pipeline, reads Figma with `use_figma`, approves every exception, merges the shared files (`src/css/components.css`, `scripts/upstream-exceptions.json`, `src/assets/icons/`).
 - **Implementer** (Sonnet for static components and simple modules; Opus for multi-level menus, select, combobox, command, sidebar, resizable, calendar, chart): steps 3–6 and 8.
-- **Verifier** (Haiku): step 7 — runs the gate, renders the docs page, executes `references/keyboard-checklist.md` in the browser tool, re-reads the diff against the upstream summary. Reports pass/fail per line; never fixes code.
+- **Verifier** (Haiku): step 7 — runs the gate, starts `npm run storybook` (or reuses the running instance on :6006), opens every `Base/<Name>` story in the browser tool, executes `references/keyboard-checklist.md` on the interactive story, reads the Accessibility panel, re-reads the diff against the upstream summary. Reports pass/fail per line; never fixes code.
 
 ## Pipeline (per component)
 
@@ -33,9 +33,9 @@ Run from the sample root. After each step output `✅ <step> — <one-line resul
 4. **Mocks** — `<name>.twig.json` as `{ "mocks": { "<name>": { "default": {…}, "<variant>": {…}, "<state>": {…} } } }`: one scenario per variant and per state (disabled, invalid, open, checked…). Realistic Italian copy.
 5. **Module** (only if upstream is stateful/interactive) — `<name>.module.js`: `export default function <Name>Module(node) { …; return dispose }`, loaded via `data-module="<name>.module"` on the root. Write `data-state` only through `dataState.js`; ARIA per WAI-ARIA APG; complete keyboard support; `dispose()` removes every listener. Emit/consume events per `PORTING.md` §Integration API (`<component>:<verb>` in, `<component>:<past-participle>` out, `bubbles: true`).
 6. **Local CSS** (only if needed) — `<name>.css` for keyframes/scoped rules, registered by the orchestrator in `src/css/components.css`. Tokens and reusable utilities stay in `globals.css`.
-7. **Gate** — `npm run check:classes -- <name>` MUST exit 0 (MISSING = 0; review EXTRA). Render `/docs/components.html` in light and dark with zero Twig errors and zero console errors; interactive components pass their `references/keyboard-checklist.md` section; axe reports 0 violations for the component section.
+7. **Gate** — `npm run check:classes -- <name>` MUST exit 0 (MISSING = 0; review EXTRA). In Storybook every `Base/<Name>` story renders in light and dark (themes toolbar) with zero Twig errors and zero console errors; the `play` of the interactive story completes; the Accessibility panel (`@storybook/addon-a11y`) reports 0 violations; interactive components pass their `references/keyboard-checklist.md` section on the open story.
 8. **Optimise** — compare with the reference project's implementation of the same component (exit animations, focus return, scroll lock, typeahead, edge cases) and with the upstream React behaviour; close gaps; re-run step 7.
-9. **Register** — `node .claude/skills/shadcn-port/scripts/register-docs.mjs <name> --group <id>`; add any new Adaptation rows or exceptions to `PORTING.md`. Report the final exception list for the component.
+9. **Stories** — `npm run scaffold:stories -- <name>` writes `<name>.stories.js` with one export per mock scenario (idempotent: an existing file is skipped; `--force` regenerates it and discards hand edits). If the component has a module, add one story whose `play` does `await initModules(canvasElement)` (import from `~sb/modules`) plus the minimal interaction that opens/activates it (click the trigger, dispatch the key). Set `parameters.layout` (`centered` default, `padded` for wide components, `fullscreen` for shells such as sidebar). Add any new Adaptation rows or exceptions to `PORTING.md`. Report the final exception list for the component.
 
 `--audit <name>`: run steps 1, 2 (dry), 7 only and report drift against upstream. `--batch`: run the pipeline per component, sequentially, sharing nothing but the reports; the orchestrator merges shared files once at the end.
 
@@ -46,8 +46,8 @@ Run from the sample root. After each step output `✅ <step> — <one-line resul
 - All upstream `data-slot` parts present; `class` last; `attrs` raw; no class concatenation.
 - Mock per variant/state; renders in light and dark without Twig/console errors.
 - Module (if any): returns a working `dispose`, APG-compliant, keyboard checklist passed.
-- Entry present in `src/docs/components.twig.json`.
+- `<name>.stories.js` present with one story per mock scenario, all rendering in Storybook; a `play` story for every component with a module.
 
 ## Files
 
-`scripts/probe-registry.mjs` · `scripts/fetch-upstream.mjs` · `scripts/check-upstream-classes.mjs` · `scripts/scaffold-component.mjs` · `scripts/register-docs.mjs` · `scripts/normalize-figma-measure.mjs` · `scripts/diff-figma-upstream.mjs` · `adaptation-rules.json` · `registry-index.json` · `upstream/*.summary.json` (cache, git-ignored) · `references/keyboard-checklist.md`. Decisions: `docs/adr/0003-new-york-v4-base-figma-wins.md`, `docs/adr/0002-native-html-apis-instead-of-radix.md`.
+`scripts/probe-registry.mjs` · `scripts/fetch-upstream.mjs` · `scripts/check-upstream-classes.mjs` · `scripts/scaffold-component.mjs` · `scripts/scaffold-stories.mjs` · `scripts/normalize-figma-measure.mjs` · `scripts/diff-figma-upstream.mjs` · `adaptation-rules.json` · `registry-index.json` · `upstream/*.summary.json` (cache, git-ignored) · `references/keyboard-checklist.md`. Decisions: `docs/adr/0003-new-york-v4-base-figma-wins.md`, `docs/adr/0002-native-html-apis-instead-of-radix.md`, `docs/adr/0004-storybook-twigjs.md`.

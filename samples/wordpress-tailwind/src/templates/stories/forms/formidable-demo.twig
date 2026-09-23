@@ -1,0 +1,27 @@
+{#
+  Storybook-only demo: static Formidable Forms markup, styled only because
+  .storybook/preview.css imports the formidable.css adapter. Not shipped to
+  the WordPress theme — build:copy:twig only copies components/**.
+#}
+<div class="frm_forms mt-6 rounded-xl border bg-card p-6">
+  <fieldset>
+    <div class="frm_form_field form-field">
+      <label class="frm_primary_label" for="frm_field_nome">
+        Nome e cognome
+        <span class="frm_required">*</span>
+      </label>
+      <input type="text" id="frm_field_nome" name="item_meta[100]" required>
+      <div class="frm_description">Come indicato sul documento d'identità.</div>
+    </div>
+
+    <div class="frm_form_field form-field frm_error_style">
+      <label class="frm_primary_label" for="frm_field_email">Email</label>
+      <input type="email" id="frm_field_email" name="item_meta[101]" required aria-invalid="true">
+      <div class="frm_error">Il formato dell'email non è valido.</div>
+    </div>
+
+    <div class="frm_submit">
+      <button type="submit">Invia</button>
+    </div>
+  </fieldset>
+</div>

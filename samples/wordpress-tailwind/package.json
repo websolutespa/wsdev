@@ -8,6 +8,9 @@
     "dev:wp": "vite dev --host --no-open",
     "build": "vite build",
     "preview": "vite preview",
+    "storybook": "storybook dev -p 6006",
+    "build:storybook": "storybook build --output-dir dist/storybook",
+    "build:vercel": "npm-run-all --serial build build:storybook",
     "build:copy:twig": "cpx \"src/templates/components/**/*.twig\" ../views/components -v",
     "build:copy:assets": "cpx \"dist/assets/**/*.*\" ../static/assets -v",
     "build:copy:css": "cpx \"dist/css/**/*.*\" ../static/css -v",
@@ -20,6 +23,8 @@
     "watch:reload": "livereload ../templates -e 'twig'",
     "watch:wp": "npm-run-all build:wp watch:set:resources --parallel watch:reload dev:wp watch:copy:twig",
     "check:classes": "node scripts/check-upstream-classes.mjs",
+    "scaffold:stories": "node scripts/scaffold-stories.mjs",
+    "check:types": "tsc --noEmit",
     "start": "npm run dev"
   },
   "dependencies": {
@@ -29,13 +34,26 @@
     "vanilla-calendar-pro": "^3.1.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "^10.4.3",
+    "@storybook/addon-docs": "^10.4.3",
+    "@storybook/addon-themes": "^10.4.3",
+    "@storybook/html-vite": "^10.4.3",
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/twig": "^1.12.16",
     "@websolutespa/ws-vite": "*",
     "cpx2": "^7.0.1",
     "eslint": "^8.46.0",
     "eslint-config-websolute": "*",
     "livereload": "^0.9.3",
     "npm-run-all": "^4.1.5",
-    "tw-animate-css": "^1.3.0"
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "storybook": "^10.4.3",
+    "tailwindcss": "^4.1.17",
+    "tw-animate-css": "^1.3.0",
+    "twig": "^1.17.1",
+    "typescript": "^5.9.0",
+    "vite": "^6.4.1"
   },
   "browserslist": [
     "chrome >= 111",

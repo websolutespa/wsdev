@@ -28,8 +28,8 @@
           {
             "heading": "Pagine",
             "items": [
-              { "label": "Componenti", "icon": "inbox", "url": "/docs/components.html" },
-              { "label": "Form", "icon": "file-text", "url": "/docs/forms.html" }
+              { "label": "Storybook", "icon": "inbox", "url": "/storybook/" },
+              { "label": "Form", "icon": "file-text", "url": "/storybook/" }
             ]
           }
         ]

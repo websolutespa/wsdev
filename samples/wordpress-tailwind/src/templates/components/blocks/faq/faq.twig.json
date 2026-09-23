@@ -1,0 +1,31 @@
+{
+  "mocks": {
+    "faq": {
+      "default": {
+        "title": "Domande frequenti",
+        "items": [
+          {
+            "value": "item-1",
+            "title": "Come funziona il periodo di prova?",
+            "content": "<p>14 giorni gratuiti, nessuna carta di credito richiesta. Alla fine del periodo puoi scegliere un piano o continuare con la versione gratuita.</p>"
+          },
+          {
+            "value": "item-2",
+            "title": "Posso cambiare piano in qualsiasi momento?",
+            "content": "<p>Sì, puoi passare a un piano superiore o inferiore quando vuoi: la differenza viene calcolata in automatico al rinnovo successivo.</p>"
+          },
+          {
+            "value": "item-3",
+            "title": "I miei dati sono al sicuro?",
+            "content": "<p>I dati sono cifrati in transito e a riposo, con backup giornalieri e infrastruttura ospitata in Unione Europea.</p>"
+          },
+          {
+            "value": "item-4",
+            "title": "Offrite supporto in italiano?",
+            "content": "<p>Sì, il team di supporto risponde in italiano e in inglese via chat ed email nei giorni lavorativi.</p>"
+          }
+        ]
+      }
+    }
+  }
+}

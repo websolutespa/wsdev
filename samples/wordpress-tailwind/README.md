@@ -18,20 +18,21 @@ contract as the `wordpress` (SCSS) sample — see [WordPress integration](#wordp
 ### Folder tree (short)
 
 ```
+.storybook/                  Storybook config — main.ts, preview.ts, twig.ts (runtime Twig render), spritemap.ts, fonts.ts
 src/
   css/                     globals.css (entry point), shadcn.css (vendored), components.css
-  docs/                    docs pages — components.html, forms.html, blocks.html (never shipped to the host theme)
   js/                      main.js entry, common/ utilities (floating, dismiss, keynav, menuTree…)
   templates/
     components/
-      base/<name>/         the ~60 ported shadcn/ui components (<name>.twig[.json], .module.js, .css)
+      base/<name>/         the ~60 ported shadcn/ui components (<name>.twig[.json], .stories.js, .module.js, .css)
       layout/               meta, fonts, header, main-menu, footer, hero
       blocks/               text-only, card-grid, faq, cta-banner
+    stories/                Storybook-only demo templates (e.g. forms/form-demo.twig), never a WP page
     layouts/layout.twig     shared page shell
   theme/main.json           layout/labels/menu/footer globals + page defaults
   index.twig[.json]         homepage
   404.twig
-scripts/                    check:classes gate (thin wrapper, see .claude/skills/shadcn-port)
+scripts/                    check:classes gate + scaffold-stories wrapper (see .claude/skills/shadcn-port)
 .claude/skills/              shadcn-port, figma-tokens
 docs/                        WORKLOG.md, DECISIONS.md, adr/, reports/ (process tracking)
 PORTING.md                   porting conventions (read this first)
@@ -84,6 +85,14 @@ npm run build:wp
   strings against its upstream shadcn/ui registry entry (`new-york-v4`). Exits non-zero on
   any MISSING class; EXTRA/composition/derived-override cases print as warnings. See
   [Porting workflow](#porting-workflow).
+- `npm run storybook` — dev server on `:6006` for the component/blocks/forms showcase. See
+  [Storybook](#storybook).
+- `npm run build:storybook` — static build into `dist/storybook`.
+- `npm run build:vercel` — `build` then `build:storybook`, in that order (see
+  [Storybook](#storybook)); this is the Vercel project's build command.
+- `npm run scaffold:stories -- <name>` — generates `<name>.stories.js` from an existing
+  `<name>.twig.json`'s mock scenarios (`--all` for every component).
+- `npm run check:types` — `tsc --noEmit` on `.storybook/**/*.ts`.
 - `npx eslint src --ext .js` — lints the JS modules.
 
 ### Dependencies
@@ -118,7 +127,7 @@ npm run build:wp
 
 [Accessibility](#accessibility)
 
-[Docs pages](#docs-pages)
+[Storybook](#storybook)
 
 [WordPress integration](#wordpress-integration)
 
@@ -183,7 +192,7 @@ Two extra template tiers sit above the base components, dispatched by `page.comp
 - **Layout** (`src/templates/components/layout/`) — `meta`, `fonts`, `header` (sticky, desktop `navigation-menu` + mobile `sheet`), `main-menu` (desktop/mobile variants, data from `layout.menu`), `footer` (link columns from `layout.footer.columns`), `hero`.
 - **Blocks** (`src/templates/components/blocks/`) — `text-only`, `card-grid`, `faq`, `cta-banner`; each is composed from base components and section spacing utilities (`py-ws-*`).
 
-Neither tier is gated by `check:classes` (they are not shadcn/ui components) or listed in the components docs manifest; see the dedicated [`/docs/blocks.html`](#docs-pages) page instead.
+Neither tier is gated by `check:classes` (they are not shadcn/ui components); see the dedicated `Blocks/*` stories in [Storybook](#storybook) instead.
 
 ## Forms
 
@@ -193,7 +202,7 @@ There is no ported `form` component (see [shadcn/ui components](#shadcnui-compon
 - `src/js/common/form.module.js` (loaded via `data-module="form.module"`) drives validation with the native Constraint Validation API — at blur and at submit — and dispatches `form:invalid`, `form:submitted` and `form:error` (see the [Integration API](#integration-api)). It supports native submission and `data-submit="fetch"`.
 - `src/css/adapters/formidable.css` is an optional stylesheet that reskins Formidable Forms' own markup with the kit's component classes, for WP projects where forms are authored in Formidable rather than hand-built with `field`. Import is commented out by default in `globals.css`.
 
-See it live at `/docs/forms.html`.
+See it live under `Forms/*` in [Storybook](#storybook).
 
 ## Integration API
 
@@ -217,13 +226,24 @@ With [AxeCore](https://www.deque.com/axe/) accessibility testing tools.
 
 See [Accessibility Guide](https://github.com/websolutespa/wsdev/blob/main/docs/ACCESSIBILITY.md)
 
-## Docs pages
+## Storybook
 
-Showcase pages under `src/docs/` — never copied to the host theme:
+The component/blocks/forms showcase — never shipped to the host theme:
 
-- `/docs/components.html` — index of 8 grouped pages (`primitives`, `forms`, `navigation`, `overlays`, `feedback`, `data-display`, `composites`, `chat`), each scenario rendered in light and dark.
-- `/docs/forms.html` — `field` + `form.module.js` live example, plus the Formidable adapter.
-- `/docs/blocks.html` — every block rendered once from `src/docs/blocks.twig.json` mocks.
+- `npm run storybook` — dev server on `http://localhost:6006`, one story per component
+  mock scenario under `Base/*` and `Blocks/*`, plus the form demos under `Forms/*`.
+  Interactive components (anything with a `.module.js`) get an extra `play` story
+  that drives the real DOM trigger — see [PORTING.md § Story shape](PORTING.md#story-shape).
+- `npm run build:storybook` — static build into `dist/storybook`; `npm run build:vercel`
+  runs `build` then `build:storybook` in that order (`vite build` empties `dist/` first,
+  so the reverse order would delete the Storybook output) — **this must be the Vercel
+  project's build command**, not `build` alone.
+- Stories are compiled from Twig **at runtime** with the same `twig ^1.17` engine the
+  production build uses (`.storybook/twig.ts`), so there is no separate rendering path
+  to keep in sync — see [ADR 0004](docs/adr/0004-storybook-twigjs.md).
+- `npm run scaffold:stories -- <name>` (or `--all`) generates `<name>.stories.js` for a
+  new or updated component from its `<name>.twig.json` mock scenarios.
+- `npm run check:types` type-checks `.storybook/**/*.ts`.
 
 ## WordPress integration
 

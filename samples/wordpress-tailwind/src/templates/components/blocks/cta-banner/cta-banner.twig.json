@@ -1,0 +1,18 @@
+{
+  "mocks": {
+    "cta-banner": {
+      "default": {
+        "title": "Pronto a iniziare?",
+        "abstract": "Attiva la prova gratuita in due minuti, senza carta di credito.",
+        "cta": {
+          "label": "Inizia ora",
+          "url": "#"
+        },
+        "secondaryCta": {
+          "label": "Parla con noi",
+          "url": "#contatti"
+        }
+      }
+    }
+  }
+}

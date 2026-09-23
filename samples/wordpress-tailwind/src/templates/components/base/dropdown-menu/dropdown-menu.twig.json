@@ -7,7 +7,7 @@
           { "label": "Profilo", "icon": "user", "shortcut": "⇧⌘P", "value": "profile" },
           { "label": "Impostazioni", "icon": "settings", "shortcut": "⌘,", "value": "settings" },
           { "kind": "separator" },
-          { "label": "Documentazione", "icon": "file-text", "url": "/docs/components.html", "value": "docs" }
+          { "label": "Storybook", "icon": "file-text", "url": "/storybook/", "value": "docs" }
         ]
       },
       "groups": {
@@ -56,7 +56,7 @@
             ]
           },
           { "kind": "separator" },
-          { "label": "Apri nel browser", "icon": "external-link", "url": "/docs/components.html", "value": "open" }
+          { "label": "Apri nel browser", "icon": "external-link", "url": "/storybook/", "value": "open" }
         ]
       },
       "checkbox-radio": {

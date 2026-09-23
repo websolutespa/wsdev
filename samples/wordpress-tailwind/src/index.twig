@@ -8,7 +8,7 @@
   heading: 'h1',
   abstract: page.abstract,
   cta: { label: 'Inizia ora', url: '#cta-banner' },
-  navs: [ { label: 'Scopri i componenti', url: '/docs/components.html' } ],
+  navs: [ { label: 'Scopri i componenti', url: '/storybook/' } ],
   media: { src: '/media/images/mountains.jpg', alt: 'Panorama di montagna al tramonto' }
 } %}
 
@@ -22,26 +22,10 @@
       <p class="mt-2 max-w-2xl text-muted-foreground">Tutta la libreria shadcn/ui portata in Twig per questo boilerplate, pronta da esplorare.</p>
       <div class="mt-8 grid gap-6 sm:grid-cols-3">
 
-        {% embed '@components/base/card/card.twig' with { title: 'Componenti', description: 'I 60 componenti base, in chiaro e in scuro, divisi per gruppo.' } only %}
+        {% embed '@components/base/card/card.twig' with { title: 'Storybook', description: 'Tutti i componenti, i blocks e la demo dei form. In sviluppo si lancia con npm run storybook.' } only %}
           {% block footer %}
           <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
-            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/components.html', variant: 'outline', size: 'sm' } only %}
-          </div>
-          {% endblock %}
-        {% endembed %}
-
-        {% embed '@components/base/card/card.twig' with { title: 'Form', description: 'Field, validazione nativa e adapter Formidable.' } only %}
-          {% block footer %}
-          <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
-            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/forms.html', variant: 'outline', size: 'sm' } only %}
-          </div>
-          {% endblock %}
-        {% endembed %}
-
-        {% embed '@components/base/card/card.twig' with { title: 'Blocks', description: 'Le sezioni di pagina pronte per page.components[].' } only %}
-          {% block footer %}
-          <div data-slot="card-footer" class="flex items-center px-6 [.border-t]:pt-6">
-            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/docs/blocks.html', variant: 'outline', size: 'sm' } only %}
+            {% include '@components/base/button/button.twig' with { label: 'Apri', url: '/storybook/', variant: 'outline', size: 'sm' } only %}
           </div>
           {% endblock %}
         {% endembed %}

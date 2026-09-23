@@ -12,6 +12,7 @@
     "dev:twig": "turbo run dev --filter=@twig/web",
     "dev:wordpress": "turbo run dev --filter=@wordpress/web",
     "dev:wordpress-tailwind": "turbo run dev --filter=@wordpress-tailwind/web",
+    "storybook:wordpress-tailwind": "turbo run storybook --filter=@wordpress-tailwind/web",
     "build": "turbo run build",
     "build:drupal": "turbo run build --filter=@drupal/web --filter=./packages/ws-vite/* --force --no-daemon",
     "build:liquid": "turbo run build --filter=@liquid/web --filter=./packages/ws-vite/* --force --no-daemon",

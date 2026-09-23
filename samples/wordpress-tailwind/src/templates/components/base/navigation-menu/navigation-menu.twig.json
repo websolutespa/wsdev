@@ -15,7 +15,7 @@
           {
             "label": "Risorse",
             "items": [
-              { "title": "Documentazione", "url": "/docs/components.html", "description": "Guide, riferimento API e ricette pronte." },
+              { "title": "Documentazione", "url": "/storybook/", "description": "Guide, riferimento API e ricette pronte." },
               { "title": "Casi studio", "url": "#casi-studio", "description": "Come i nostri clienti usano la piattaforma ogni giorno." }
             ]
           },

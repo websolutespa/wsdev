@@ -95,7 +95,7 @@
       {
         "label": "Risorse",
         "items": [
-          { "title": "Documentazione", "url": "/docs/components.html", "description": "Guide, riferimento API e libreria componenti." },
+          { "title": "Documentazione", "url": "/storybook/", "description": "Guide, riferimento API e libreria componenti." },
           { "title": "Blog", "url": "#blog", "description": "Novità di prodotto e casi studio." }
         ]
       },
@@ -128,9 +128,9 @@
         {
           "title": "Risorse",
           "links": [
-            { "label": "Documentazione", "url": "/docs/components.html" },
-            { "label": "Blocks", "url": "/docs/blocks.html" },
-            { "label": "Form", "url": "/docs/forms.html" },
+            { "label": "Documentazione", "url": "/storybook/" },
+            { "label": "Blocks", "url": "/storybook/" },
+            { "label": "Form", "url": "/storybook/" },
             { "label": "Blog", "url": "#blog" }
           ]
         },

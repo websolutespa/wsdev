@@ -1,0 +1,14 @@
+{
+  "mocks": {
+    "text-only": {
+      "default": {
+        "title": "Perché scegliere la nostra piattaforma",
+        "content": "<p>Costruita per team che vogliono muoversi velocemente senza perdere il controllo su dati e processi.</p><p>Ogni funzione nasce da richieste reali dei clienti, non da roadmap astratte.</p><ul><li>Setup guidato in meno di un giorno</li><li>Nessun vincolo di fornitore: esporti i dati quando vuoi</li><li>Supporto dedicato in italiano</li></ul>",
+        "cta": {
+          "label": "Scopri di più",
+          "url": "#"
+        }
+      }
+    }
+  }
+}

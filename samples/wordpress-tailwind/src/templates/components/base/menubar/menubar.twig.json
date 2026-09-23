@@ -27,7 +27,7 @@
           {
             "label": "Aiuto",
             "items": [
-              { "label": "Documentazione", "url": "/docs/components.html", "value": "docs" },
+              { "label": "Documentazione", "url": "/storybook/", "value": "docs" },
               { "label": "Segnala un problema", "value": "issue" }
             ]
           }

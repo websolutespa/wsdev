@@ -1,0 +1,54 @@
+{#
+  Storybook-only demo: base/field composition validated by form.module.js
+  (blur + submit, honeypot, fetch submit). Not shipped to the WordPress
+  theme — build:copy:twig only copies components/**.
+#}
+<form
+  data-module="form.module"
+  data-submit="fetch"
+  action="#"
+  method="post"
+  class="mt-6 flex flex-col gap-6 rounded-xl border bg-card p-6">
+
+  {% embed '@components/base/field/field.twig' with { label: 'Nome completo', for: 'forms-demo-nome', description: "Come indicato sul documento d'identità." } only %}
+    {% block control %}
+      {% include '@components/base/input/input.twig' with { id: 'forms-demo-nome', name: 'nome', required: true, placeholder: 'Mario Rossi' } only %}
+    {% endblock %}
+  {% endembed %}
+
+  {% embed '@components/base/field/field.twig' with { label: 'Email', for: 'forms-demo-email' } only %}
+    {% block control %}
+      {% include '@components/base/input/input.twig' with {
+        id: 'forms-demo-email', name: 'email', type: 'email', required: true, placeholder: 'nome@azienda.it',
+        attrs: 'data-error-value-missing="Inserisci un indirizzo email." data-error-type-mismatch="Il formato dell\'email non è valido."'
+      } only %}
+    {% endblock %}
+  {% endembed %}
+
+  {% embed '@components/base/field/field.twig' with { label: 'Priorità richiesta', for: 'forms-demo-priorita' } only %}
+    {% block control %}
+      {% include '@components/base/native-select/native-select.twig' with { id: 'forms-demo-priorita', name: 'priorita', options: [
+        { value: 'bassa', label: 'Bassa' },
+        { value: 'media', label: 'Media', selected: true },
+        { value: 'alta', label: 'Alta' }
+      ] } only %}
+    {% endblock %}
+  {% endembed %}
+
+  {% embed '@components/base/field/field.twig' with { label: 'Messaggio', for: 'forms-demo-messaggio' } only %}
+    {% block control %}
+      {% include '@components/base/textarea/textarea.twig' with { id: 'forms-demo-messaggio', name: 'messaggio', required: true, rows: 4, placeholder: 'Descrivi la richiesta…' } only %}
+    {% endblock %}
+  {% endembed %}
+
+  {# Honeypot — hidden from real users via layout, left filled only by bots; form.module.js
+     silently drops the submission if this has a value. #}
+  <div class="hidden" aria-hidden="true">
+    <label for="forms-demo-website">Non compilare questo campo</label>
+    <input type="text" id="forms-demo-website" name="website" data-honeypot tabindex="-1" autocomplete="off">
+  </div>
+
+  <div class="flex justify-end">
+    {% include '@components/base/button/button.twig' with { type: 'submit', label: 'Invia richiesta' } only %}
+  </div>
+</form>

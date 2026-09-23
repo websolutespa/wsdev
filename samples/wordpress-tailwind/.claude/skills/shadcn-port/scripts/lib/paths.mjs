@@ -61,24 +61,39 @@ export function skillPaths(sampleRoot) {
   };
 }
 
+/**
+ * @param {string} sampleRoot
+ * @param {string} [group] - component group directory (e.g. "base", "blocks")
+ */
+export function componentsGroupDir(sampleRoot, group = 'base') {
+  return join(sampleRoot, 'src', 'templates', 'components', group);
+}
+
 /** @param {string} sampleRoot */
 export function componentsBaseDir(sampleRoot) {
-  return join(sampleRoot, 'src', 'templates', 'components', 'base');
+  return componentsGroupDir(sampleRoot, 'base');
 }
 
 /**
  * @param {string} sampleRoot
  * @param {string} name - component directory name
+ * @param {string} [group] - component group directory (e.g. "base", "blocks")
  */
-export function componentPaths(sampleRoot, name) {
-  const dir = join(componentsBaseDir(sampleRoot), name);
+export function componentPaths(sampleRoot, name, group = 'base') {
+  const dir = join(componentsGroupDir(sampleRoot, group), name);
   return {
     dir,
     twig: join(dir, `${name}.twig`),
     mocks: join(dir, `${name}.twig.json`),
     module: join(dir, `${name}.module.js`),
     css: join(dir, `${name}.css`),
+    stories: join(dir, `${name}.stories.js`),
   };
+}
+
+/** @param {string} sampleRoot */
+export function storiesDir(sampleRoot) {
+  return join(sampleRoot, 'src', 'templates', 'stories');
 }
 
 /**
@@ -87,11 +102,6 @@ export function componentPaths(sampleRoot, name) {
  */
 export function registryCacheDir(sampleRoot, style) {
   return join(sampleRoot, '.cache', 'registry', style);
-}
-
-/** @param {string} sampleRoot */
-export function docsManifestFile(sampleRoot) {
-  return join(sampleRoot, 'src', 'docs', 'components.twig.json');
 }
 
 /** @param {string} sampleRoot */

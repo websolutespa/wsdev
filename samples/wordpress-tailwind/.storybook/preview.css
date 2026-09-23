@@ -1,0 +1,6 @@
+/* Storybook-only stylesheet — wraps the project's globals.css so stories
+   render with the real design tokens and utilities. Not part of the WP build. */
+@import '../src/css/globals.css';
+/* Storybook-only: globals.css keeps this import commented out (opt-in per
+   WP site), but form-control stories need the Formidable adapter classes. */
+@import '../src/css/adapters/formidable.css';
