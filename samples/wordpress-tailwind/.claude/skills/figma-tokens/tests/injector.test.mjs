@@ -67,7 +67,7 @@ test('findCollisions ignores names re-declared inside a figma-tokens:overrides r
     withMarker('semantic-light', '  --primary: #171717;') +
     ':root {\n' +
     '  /* figma-tokens:overrides START */\n' +
-    '  --primary: var(--color-brand-red-800);\n' +
+    '  --primary: var(--color-brand-blue-800);\n' +
     '  /* figma-tokens:overrides END */\n' +
     '}\n';
   assert.deepEqual(findCollisions(css, new Set(['--primary'])), []);

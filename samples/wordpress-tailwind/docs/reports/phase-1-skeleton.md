@@ -13,7 +13,7 @@ Eseguita da un agent Sonnet su brief dell'orchestratore; gate rieseguiti dall'or
 ## Deviazioni dal brief (motivate)
 
 1. `layout.labels` resta un array (lo schema `main.schema.json` lo impone); un global Twig `labels` a mappa è derivato in `vite.config.js`.
-2. Aggiunto `src/404.twig`: con una sola pagina ws-vite nomina il bundle dopo la pagina (`index.min.*`); servono ≥ 2 pagine e `<script>` prima di `<link>` per ottenere `globals.min.*` (verificato su `samples/tailwind` e area-broker).
+2. Aggiunto `src/404.twig`: con una sola pagina ws-vite nomina il bundle dopo la pagina (`index.min.*`); servono ≥ 2 pagine e `<script>` prima di `<link>` per ottenere `globals.min.*` (verificato su `samples/tailwind` e sul progetto di riferimento).
 3. Lo script inline no-flash non può contenere commenti `//`: il prettifier HTML di ws-vite unisce le righe e il commento inghiottiva l'IIFE. Commenti spostati in `{# #}`.
 
 ## Gate

@@ -1,0 +1,29 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   Storybook-only utilities — NOT shipped with the WordPress theme.
+
+   State simulators: extend the built-in hover / focus-visible / active
+   variants to ALSO fire when an `is-*` class is set, so interactive states
+   render statically in a grid (e.g. Button States Grid) with no JS. Real
+   `:hover` / `:focus-visible` / `:active` behaviour is preserved.
+
+   @source below force-scans story-helpers.ts for utilities used only there
+   (bg-card, bg-muted/40, border-border, text-muted-foreground, …) — .storybook/
+   is a dot-directory and is skipped by Tailwind v4's default scanner.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+@custom-variant hover {
+  @media (hover: hover) {
+    &:hover { @slot; }
+  }
+  &.is-hover { @slot; }
+}
+@custom-variant focus-visible {
+  &:focus-visible { @slot; }
+  &.is-focus-visible { @slot; }
+}
+@custom-variant active {
+  &:active { @slot; }
+  &.is-active { @slot; }
+}
+
+@source "./story-helpers.ts";

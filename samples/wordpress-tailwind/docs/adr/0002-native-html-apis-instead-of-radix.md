@@ -1,6 +1,6 @@
 # ADR 0002 — API HTML native e vanilla JS al posto di Radix
 
-Data: 2026-09-17 · Stato: accettato (eredita l'ADR omologo di area-broker)
+Data: 2026-09-17 · Stato: accettato (eredita l'ADR omologo di un progetto interno precedente)
 
 ## Contesto
 
@@ -13,7 +13,7 @@ shadcn/ui delega stato, focus management e ARIA a Radix UI in React. Il sample �
 - `@floating-ui/dom` (la libreria interna di Radix) per il posizionamento ancorato; le variabili `--radix-*` sono rimappate su `--transform-origin`, `--available-*`, `--anchor-*`, `--viewport-*`.
 - I moduli replicano `data-state`/`data-side`/`data-align`/`data-slot` di Radix, così le classi e le animazioni tw-animate-css upstream funzionano invariate.
 - Caricamento lazy via `data-module="<name>.module"` (IntersectionObserver + MutationObserver per i contenuti iniettati), contratto `default (node) => dispose`, eager-init per i contenitori fissi (sonner, sidebar). Utility condivise in `src/js/common/` (uid, dataState, dismiss, floating, keynav, focus, scrollLock, toast).
-- I moduli sono **copiati e auditati** da area-broker, non riscritti: sono comportamento, non brand.
+- I moduli sono **copiati e auditati** da un progetto interno precedente, non riscritti: sono comportamento, non brand.
 - Contratto pubblico verso il host theme: CustomEvent `<componente>:<verbo>` in ingresso, `<componente>:<participio>` in uscita, hook `data-*`; nessun global.
 
 ## Conseguenze

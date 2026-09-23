@@ -202,7 +202,7 @@ There is no ported `form` component (see [shadcn/ui components](#shadcnui-compon
 - `src/js/common/form.module.js` (loaded via `data-module="form.module"`) drives validation with the native Constraint Validation API — at blur and at submit — and dispatches `form:invalid`, `form:submitted` and `form:error` (see the [Integration API](#integration-api)). It supports native submission and `data-submit="fetch"`.
 - `src/css/adapters/formidable.css` is an optional stylesheet that reskins Formidable Forms' own markup with the kit's component classes, for WP projects where forms are authored in Formidable rather than hand-built with `field`. Import is commented out by default in `globals.css`.
 
-See it live under `Forms/*` in [Storybook](#storybook).
+See it live under `Base/Form` in [Storybook](#storybook).
 
 ## Integration API
 
@@ -230,10 +230,18 @@ See [Accessibility Guide](https://github.com/websolutespa/wsdev/blob/main/docs/A
 
 The component/blocks/forms showcase — never shipped to the host theme:
 
-- `npm run storybook` — dev server on `http://localhost:6006`, one story per component
-  mock scenario under `Base/*` and `Blocks/*`, plus the form demos under `Forms/*`.
-  Interactive components (anything with a `.module.js`) get an extra `play` story
-  that drives the real DOM trigger — see [PORTING.md § Story shape](PORTING.md#story-shape).
+- `npm run storybook` — dev server on `http://localhost:6006`. Sidebar taxonomy:
+  `Styleguide/*` (Logo, Layout, Palette, Typography, Borders, Shadows, Icons — one page
+  per design token family, read live from `globals.css`/`main.json`), `Base/*` (the 60
+  shadcn/ui ports), `Blocks/*` (CMS-shaped page components) and `Layout/*` (header,
+  footer, hero, main menu, page dispatcher). Every `Base/*`/`Blocks/*` component ships
+  a Controls playground (`Default`), interactive `play` stories for anything with a
+  `.module.js`, and a `Catalog` export stacking variant/size/state matrix grids — the
+  actual visual QA surface — see [PORTING.md § Story shape](PORTING.md#story-shape).
+- The **"Parametri" addon panel** (`.storybook/manager.tsx`) shows each control's
+  description, category and default value next to Controls/Actions, sourced from the
+  same `argTypes` `npm run scaffold:stories` generates from each component's
+  `{# Params: #}` header.
 - `npm run build:storybook` — static build into `dist/storybook`; `npm run build:vercel`
   runs `build` then `build:storybook` in that order (`vite build` empties `dist/` first,
   so the reverse order would delete the Storybook output) — **this must be the Vercel

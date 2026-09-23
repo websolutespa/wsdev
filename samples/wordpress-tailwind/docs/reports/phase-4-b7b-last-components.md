@@ -16,7 +16,7 @@ Agent Opus; revisione e commit dell'orchestratore. Dopo il batch: **60 component
 
 `eagerInit` era un no-op (path dinamico non risolvibile da Rollup): ora riceve un loader con `import()` statico, inizializza tutti i nodi e marca `init` subito; `lazyLoad.load()` salta i nodi già `init` e restituisce un dispose no-op quando nessun modulo combacia (bug latente). Registrati: `sonner.module`, `sidebar.module`, `command.module` (il root della variante dialog vive in un `<dialog>` chiuso, invisibile all'IntersectionObserver).
 
-## Deviazioni da area-broker
+## Deviazioni dal progetto di riferimento
 
 combobox con chips e mirror `<select>`; command con `cmdk-*` e riordino; sonner senza `window.toast` (evento `toast:show`); sidebar senza duplicazione del markup mobile (clone runtime nello sheet); message-scroller nuovo.
 

@@ -50,7 +50,13 @@ const preview: Preview = {
     backgrounds: { disable: true },
     options: {
       storySort: {
-        order: ['Base', 'Blocks', 'Forms'],
+        order: [
+          'Styleguide',
+          ['Layout', 'Palette', 'Typography', 'Borders', 'Shadows', 'Icons'],
+          'Base',
+          'Blocks',
+          'Layout',
+        ],
       },
     },
   },

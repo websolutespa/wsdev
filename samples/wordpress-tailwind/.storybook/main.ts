@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { mergeConfig } from 'vite';
 
 const config: StorybookConfig = {
-  stories: ['../src/templates/**/*.stories.@(ts|js)'],
+  stories: ['../src/stories/**/*.stories.@(ts|js)', '../src/templates/**/*.stories.@(ts|js)'],
   addons: ['@storybook/addon-a11y', '@storybook/addon-docs', '@storybook/addon-themes'],
   framework: {
     name: '@storybook/html-vite',

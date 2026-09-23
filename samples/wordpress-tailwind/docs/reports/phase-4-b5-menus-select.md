@@ -4,7 +4,7 @@ Agent Opus; revisione e commit dell'orchestratore. Dopo il batch: 40 componenti 
 
 ## Architettura
 
-`src/js/common/menuTree.js` (~270 righe, `createMenuTree(root, opts)`): livelli (un pannello aperto = posizione floating + roving nav + listener), submenu come fratelli del sub-trigger, checkbox/radio con `aria-checked`, typeahead, un dismiss layer per albero. Consumato da dropdown-menu (trigger bottone), context-menu (ancora virtuale dalle coordinate del puntatore, long-press 500 ms, Shift+F10) e menubar (barra orizzontale con `onHorizontal`). Rispetto ad area-broker: menubar guadagna i submenu, Tab riporta il focus al trigger invece di lasciarlo sul body.
+`src/js/common/menuTree.js` (~270 righe, `createMenuTree(root, opts)`): livelli (un pannello aperto = posizione floating + roving nav + listener), submenu come fratelli del sub-trigger, checkbox/radio con `aria-checked`, typeahead, un dismiss layer per albero. Consumato da dropdown-menu (trigger bottone), context-menu (ancora virtuale dalle coordinate del puntatore, long-press 500 ms, Shift+F10) e menubar (barra orizzontale con `onHorizontal`). Rispetto al progetto di riferimento: menubar guadagna i submenu, Tab riporta il focus al trigger invece di lasciarlo sul body.
 
 ## Override Figma
 
@@ -39,5 +39,5 @@ context-menu e menubar non sono nel kit ma condividono con dropdown-menu la stes
 
 ## Note
 
-- Un submenu aperto durante i 150 ms di zoom-in del pannello padre può essere clippato dal transform (come area-broker).
+- Un submenu aperto durante i 150 ms di zoom-in del pannello padre può essere clippato dal transform (come nel progetto di riferimento).
 - Il posizionamento item-aligned di Radix per select non è riprodotto (popper `bottom-start` + `matchWidth`).

@@ -6,6 +6,7 @@
 /* @import './adapters/formidable.css'; -- uncomment on sites/pages rendering Formidable forms, see src/css/adapters/formidable.css */
 
 @source '../templates';
+@source not '../templates/**/*.stories.js';
 @source '../js';
 
 @custom-variant dark (&:where(.dark, .dark *));

@@ -1,6 +1,6 @@
 # Figma Variables — JSON shape returned by `use_figma` (locked)
 
-> Verified against a real `use_figma` read of the Figma Plugin API (a shadcn/D-Sharp kit, used only to
+> Verified against a real `use_figma` read of the Figma Plugin API (a shadcn/ui-derived kit, used only to
 > confirm the **shape**). The shape is **file-independent**; only the names/brand vary per file.
 > This is the contract the `code-to-figma` / `figma-to-code` helpers build on.
 
@@ -46,4 +46,4 @@
 - Files may carry collections with **no code equivalent** (e.g. an "Icon Library" of BOOLEAN toggles) → ignored by `code-to-figma`.
 
 ## Name mapping (FILE-SPECIFIC — resolved at runtime)
-Collection/family/variable **names differ per file** (e.g. `Area Broker Color Palette`/`blue`/`light-grey` in code vs `D-Sharp Color Palette`/`dsharp blue`/`light grey` in the tested scaffold). The diff must take a **name-mapping** (code token ⇄ Figma collection + variable path) as input, discovered by reading the **real target file** with `use_figma` — never hard-coded.
+Collection/family/variable **names differ per file** (e.g. `Brand Color Palette`/`blue`/`light-grey` in code vs `Vendor Color Palette`/`vendor blue`/`light grey` in the tested scaffold). The diff must take a **name-mapping** (code token ⇄ Figma collection + variable path) as input, discovered by reading the **real target file** with `use_figma` — never hard-coded.

@@ -39,6 +39,8 @@
     "@storybook/addon-themes": "^10.4.3",
     "@storybook/html-vite": "^10.4.3",
     "@tailwindcss/vite": "^4.1.17",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
     "@types/twig": "^1.12.16",
     "@websolutespa/ws-vite": "*",
     "cpx2": "^7.0.1",

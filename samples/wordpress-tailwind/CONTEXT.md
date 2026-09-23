@@ -16,6 +16,6 @@ Vocabolario condiviso del progetto. Solo termini e significati: le decisioni sta
 - **Modulo** — file `<name>.module.js` che dà comportamento a un componente: `export default (node) => dispose`, caricato via `data-module`.
 - **Integration API** — il contratto pubblico dei moduli verso il host theme: CustomEvent `<componente>:<verbo>` in ingresso, `<componente>:<participio>` in uscita, hook `data-*`.
 - **Form adapter** — foglio CSS opzionale che veste il markup di un plugin WP (Formidable) con le classi dei componenti; non è un componente.
-- **Storybook** — component library di showcase (`Base/*`, `Blocks/*`, `Forms/*`), compila i Twig a runtime con twig.js ([ADR 0004](docs/adr/0004-storybook-twigjs.md)); esiste solo nel frontend workspace e non è mai copiata nel host theme.
+- **Storybook** — component library di showcase (`Styleguide/*`, `Base/*`, `Blocks/*`, `Layout/*`), compila i Twig a runtime con twig.js ([ADR 0004](docs/adr/0004-storybook-twigjs.md)); esiste solo nel frontend workspace e non è mai copiata nel host theme.
 - **Story** — file `<name>.stories.js` accanto al componente, generato da `scaffold:stories` dagli scenari del `<name>.twig.json` e rifinito a mano per gli interattivi (`play`).
 - **Gate** — controllo automatico che deve passare prima che un componente sia considerato fatto (`check:classes`, build, render, checklist tastiera, axe).

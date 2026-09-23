@@ -19,7 +19,7 @@ bloccante. Dettaglio batch per batch in [WORKLOG.md § Fase 7](../WORKLOG.md).
 | # | Verifica | Esito |
 |---|---|---|
 | 1 | `npx tsc --noEmit -p tsconfig.json` (`.storybook/**/*.ts`) | PASS |
-| 2 | `npx eslint .storybook --ext .ts` | PASS (0 errori, 3 warning `no-explicit-any` sui cast Twig, stesso pattern di area-broker) |
+| 2 | `npx eslint .storybook --ext .ts` | PASS (0 errori, 3 warning `no-explicit-any` sui cast Twig, stesso pattern del progetto di riferimento) |
 | 3 | `npx eslint src/templates --ext .js,.mjs` (story generate/rifinite) | PASS (0 problemi) |
 | 4 | `npx storybook dev -p 6006 --no-open --ci` | PASS ("Storybook ready!", nessun errore twig/indexer) |
 | 5 | `npx storybook build --output-dir dist/storybook` | PASS ("Storybook build completed successfully") |
@@ -32,5 +32,5 @@ bloccante. Dettaglio batch per batch in [WORKLOG.md § Fase 7](../WORKLOG.md).
 
 1. **Verifica browser** (focus trap, animazioni, floating-ui, delay `pointerenter` di hover-card/tooltip): non eseguibile in questa sessione, nessun tool browser disponibile. Il render Node (voce 6) conferma solo l'assenza di errori Twig, non l'esito visivo/interattivo. A carico dell'utente.
 2. **Smoke test `ws create`**: PASS (B4b). Progetto scaffoldato fuori dal monorepo con `@websolutespa/ws-vite@0.0.12` da npm: `check:types`, `build`, `build:storybook`, `build:vercel`, eslint verdi; Storybook dev serve 337 story (Base 331, Blocks 4, Forms 2); nessun path del monorepo residuo. Dettagli in `WORKLOG.md` § Fase 7 B4.
-3. **`docs/SHADCN.md`**: referenziato da README/WORKLOG ma assente nel sample (gap pre-esistente, non introdotto da questa fase; non creato in questo batch, solo segnalato).
-4. **Follow-up non fatti**: `story-helpers.ts`/catalog grid/`manager.tsx` di area-broker non portati; `components/layout/*` senza story; `addon-vitest` non aggiunto.
+3. **`docs/SHADCN.md`**: non è un gap. Il file vive nella cartella `docs/` del monorepo, non nel sample, ed è lì che punta il link del README.
+4. **Follow-up non fatti**: `story-helpers.ts`/catalog grid/`manager.tsx` del progetto di riferimento non portati; `components/layout/*` senza story; `addon-vitest` non aggiunto.

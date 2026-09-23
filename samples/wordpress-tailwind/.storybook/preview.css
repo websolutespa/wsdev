@@ -4,3 +4,26 @@
 /* Storybook-only: globals.css keeps this import commented out (opt-in per
    WP site), but form-control stories need the Formidable adapter classes. */
 @import '../src/css/adapters/formidable.css';
+@import './story-utilities.css';
+
+/* Force-scan story-only sources: globals.css excludes *.stories.js so
+   production CSS stays lean, but Storybook itself needs those utilities. */
+@source '../src/stories';
+@source '../src/templates/**/*.stories.js';
+
+/* Storybook-only: force-generate the full default Tailwind v4 palette so the
+   Styleguide/Palette → "Tailwind Palette" story can render every swatch
+   (bg-<hue>-<step>, built dynamically, so the JIT scanner never sees them in
+   source). Kept out of globals.css on purpose — it would bloat production CSS
+   with ~240 unused color utilities. */
+@source inline("bg-{red,orange,amber,yellow,lime,green,emerald,teal,cyan,sky,blue,indigo,violet,purple,fuchsia,pink,rose,slate,gray,zinc,neutral,stone}-{50,{100..900..100},950}");
+
+/* Brand scales (PROJECT-OWNED in globals.css) — force-generate for the
+   Styleguide/Palette → "Brand Palette" story; bg-brand-<hue>-<step> classes
+   are also built dynamically. */
+@source inline("bg-brand-blue-{50,{100..900..100},950}");
+@source inline("bg-brand-orange-{50,{100..900..100},950}");
+@source inline("bg-{white,black}");
+
+/* Adaptive swatch text color (set at runtime from luminance). */
+@source inline("text-{black,white}");

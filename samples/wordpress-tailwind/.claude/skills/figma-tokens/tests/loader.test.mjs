@@ -1,6 +1,6 @@
 /**
  * Tests for loader.mjs — collection routing (`collectionOf`) + the pure leaf-flattening
- * helper (`leaves`). Covers the pre-existing rules (kept from the area-broker copy) and
+ * helper (`leaves`). Covers the pre-existing rules (kept from the reference project's copy) and
  * the routing added for this Figma kit's collection names (Brand, Responsive).
  */
 import { test } from 'node:test';

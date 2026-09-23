@@ -77,7 +77,7 @@ Read it before porting or modifying a component. See also
 
 ## Design tokens from Figma
 
-The `.claude/skills/figma-tokens` skill (generalized from area-broker) is the token
+The `.claude/skills/figma-tokens` skill is the token
 pipeline: **Figma → code**, **code → Figma**, or **code → portable DTCG**. The code —
 the CSS custom properties in `globals.css` — is always the source of truth; everything
 under `tokens/` is git-ignored scratch, and Figma is optional.

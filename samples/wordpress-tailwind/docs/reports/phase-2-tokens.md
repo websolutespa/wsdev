@@ -2,12 +2,12 @@
 
 ## Skill `figma-tokens` (agent Sonnet)
 
-Copiata da `area-broker/.claude/skills/figma-tokens` in `.claude/skills/figma-tokens/` e generalizzata:
+Copiata dalla skill `figma-tokens` di un progetto interno precedente in `.claude/skills/figma-tokens/` e generalizzata:
 
 - `loader.mjs`: `findRepoRoot` = prima cartella con `package.json` e `src/css/globals.css`; `defaultPaths` senza prefisso `client/`, audit in `tokens/audits/`; routing aggiunto per `Brand` (primitives) e `Responsive` Desktop/Mobile (custom).
 - `classifier.mjs`: gruppi tipografici a N livelli (`text/xs/font-size` → `--ws-text-xs-font-size`), collasso del prefisso ripetuto (`spacing/spacing-xs` → `--ws-spacing-xs`), lookup del `font-size` fratello lungo il path annidato.
-- `reverse.mjs`: root discovery riallineato al loader (il precedente crashava fuori da area-broker); i builder DTCG di `reverse`/`code-to-figma` emettono ancora la forma 2-livelli di area-broker (follow-up se serviranno).
-- `SKILL.md` e `actions/*.md` riscritti in inglese neutro, senza Storybook/ADR area-broker; tabella di routing DTCG del kit documentata.
+- `reverse.mjs`: root discovery riallineato al loader (il precedente crashava fuori dal progetto originale); i builder DTCG di `reverse`/`code-to-figma` emettono ancora la forma 2-livelli del progetto originale (follow-up se serviranno).
+- `SKILL.md` e `actions/*.md` riscritti in inglese neutro, senza Storybook/ADR del progetto originale; tabella di routing DTCG del kit documentata.
 - Test: 49/49 → 51/51 dopo i fix dell'orchestratore.
 
 ## Export DTCG (agent Sonnet, `use_figma`, sola lettura)

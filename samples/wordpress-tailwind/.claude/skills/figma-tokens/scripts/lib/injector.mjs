@@ -67,7 +67,7 @@ export function extractGeneratedNames(blocks) {
  *   - the `figma:<block>` marker regions themselves (the importer owns them);
  *   - explicit `figma-tokens:overrides START … END` regions — the intentional-override
  *     pattern where a semantic token is re-declared to a brand value AFTER its
- *     marker (e.g. `--primary: var(--color-brand-red-800)`), so the override wins the
+ *     marker (e.g. `--primary: var(--color-brand-blue-800)`), so the override wins the
  *     CSS cascade over the imported default ON PURPOSE. Wrapping them in this region
  *     is the author's signed statement "yes, shadowing the marker is intended".
  */

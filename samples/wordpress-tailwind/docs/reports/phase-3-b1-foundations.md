@@ -4,8 +4,8 @@ Agent Sonnet; revisione e commit dell'orchestratore.
 
 ## Consegnato
 
-- `src/js/common/`: `uid`, `dataState`, `scrollLock`, `focus`, `dismiss`, `keynav`, `floating` (+ `--viewport-width/height`), `toast` copiati da area-broker. Unica deviazione: in `dataState.js` le due arrow function mutuamente referenziate sono diventate `function` dichiarate (regola eslint `no-use-before-define` del sample), comportamento identico.
-- `PORTING.md` (186 righe): spec forkata da area-broker senza Storybook/gates/ACF; aggiunte le sezioni Figma wins, Port exceptions, Integration API, Reference implementation, Where CSS goes.
+- `src/js/common/`: `uid`, `dataState`, `scrollLock`, `focus`, `dismiss`, `keynav`, `floating` (+ `--viewport-width/height`), `toast` copiati da un progetto interno precedente. Unica deviazione: in `dataState.js` le due arrow function mutuamente referenziate sono diventate `function` dichiarate (regola eslint `no-use-before-define` del sample), comportamento identico.
+- `PORTING.md` (186 righe): spec forkata da un progetto interno precedente senza Storybook/gates/ACF; aggiunte le sezioni Figma wins, Port exceptions, Integration API, Reference implementation, Where CSS goes.
 - 34 icone lucide in `src/assets/icons/` (+ le 3 preesistenti).
 - Componenti `base/{button,separator,label,input,textarea,card,skeleton}` con header params, mock `{ "mocks": … }` in italiano, registrati nel manifest docs. Stub `.module.js` dello scaffolder eliminati per button/separator/label (import Radix `Slot`/`Separator`/`Label` non è interattività).
 - `src/docs/components.twig`: jump-nav per gruppo, ogni scenario renderizzato in light e in `.dark`, toggle tema.

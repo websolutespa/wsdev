@@ -9,7 +9,8 @@
     "resolveJsonModule": true,
     "allowJs": true,
     "noEmit": true,
+    "jsx": "react-jsx",
     "types": ["vite/client"]
   },
-  "include": [".storybook/**/*.ts"]
+  "include": [".storybook/**/*.ts", ".storybook/**/*.tsx"]
 }

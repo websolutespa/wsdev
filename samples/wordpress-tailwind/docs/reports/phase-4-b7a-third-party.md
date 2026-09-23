@@ -18,9 +18,9 @@ Agent Opus; revisione e commit dell'orchestratore. Dopo il batch: 55 componenti 
 
 Divergenze dentro le eccezioni whole-component: calendar senza le utility `rtl:**:[.rdp-button_next>svg]`; chart senza i 13 selettori `[&_.recharts-*]` (CSS morto) e con wrapper dimensionato per il canvas.
 
-## Deviazioni da area-broker
+## Deviazioni dal progetto di riferimento
 
-carousel segue lo slot upstream (`carousel-content` = wrapper, non track) con opzioni tipizzate; calendar senza i ~200 righe di CSS `[data-vc-*]` (tema via `styles`); date-picker riusa popover invece di duplicarne la macchina; chart segue il contratto `config` upstream invece dello schema `series[]`; resizable N pannelli (area-broker: 2).
+carousel segue lo slot upstream (`carousel-content` = wrapper, non track) con opzioni tipizzate; calendar senza i ~200 righe di CSS `[data-vc-*]` (tema via `styles`); date-picker riusa popover invece di duplicarne la macchina; chart segue il contratto `config` upstream invece dello schema `series[]`; resizable N pannelli (progetto di riferimento: 2).
 
 ## Verifica tastiera/drag
 

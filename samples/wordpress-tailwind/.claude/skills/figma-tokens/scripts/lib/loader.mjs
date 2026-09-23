@@ -1,9 +1,9 @@
 /**
  * loader.mjs — thin wrapper: load + normalise the Figma DTCG export.
  *
- * Generalized copy of the area-broker `figma-tokens` skill
- * (area-broker/.claude/skills/figma-tokens/scripts/lib/loader.mjs), adapted to the
- * wsdev `wordpress-tailwind` sample layout (and any project scaffolded from it).
+ * Generalized copy of the `figma-tokens` skill from a previous internal project,
+ * adapted to the wsdev `wordpress-tailwind` sample layout (and any project
+ * scaffolded from it).
  *
  * Reads every `*.tokens.json` under the source folder, flattens each file to a
  * list of leaf tokens `{path, key, kind, hex, alpha, num, str, alias}`, and tags

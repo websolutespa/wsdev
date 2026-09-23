@@ -4,14 +4,14 @@ Agent Sonnet; revisione e commit dell'orchestratore. Dopo il batch: 35 component
 
 ## B3 — overlay (dialog, alert-dialog, sheet, drawer), tutti upstream-only
 
-- Un solo `base/dialog/dialog.module.js` (da area-broker, auditato): `<dialog>` + `showModal()`, `saveFocus`/`restoreFocus`, `lockScroll`, `data-state` via `dataState.js` con `closeWithAnimation` prima di `dialog.close()`, `[data-static]` = nessun light dismiss, hook `[data-dialog-trigger]`/`[data-dialog-close]`/`[data-dialog-open="<id>"]`, eventi `dialog:open|close` in, `dialog:opened|closed` out. Riusato da alert-dialog/sheet/drawer via `data-module="dialog.module"`.
+- Un solo `base/dialog/dialog.module.js` (da un progetto interno precedente, auditato): `<dialog>` + `showModal()`, `saveFocus`/`restoreFocus`, `lockScroll`, `data-state` via `dataState.js` con `closeWithAnimation` prima di `dialog.close()`, `[data-static]` = nessun light dismiss, hook `[data-dialog-trigger]`/`[data-dialog-close]`/`[data-dialog-open="<id>"]`, eventi `dialog:open|close` in, `dialog:opened|closed` out. Riusato da alert-dialog/sheet/drawer via `data-module="dialog.module"`.
 - Drift upstream recepito: `DialogClose` ha ora `data-[state=open]:bg-accent …` → il modulo replica `data-state` sul bottone di chiusura; `AlertDialogMedia` è un nuovo slot → aggiunti `icon` + `{% block media %}` (approvato dall'orchestratore: meglio della drop exception).
 - Port exceptions (`source: "port"`): l'overlay Radix non ha un host → `bg-black/50` diventa `backdrop:bg-black/50` sul `<dialog>`, `inset-0` cade (il `::backdrop` è già a tutto viewport), fade dell'overlay tolto su sheet/drawer per non raddoppiare l'animazione slide; `data-vaul-drawer-direction` → `data-direction` come regola globale in `adaptation-rules.json` + riga in Adaptation table. Reset UA del `<dialog>` (`m-0 max-w-none max-h-none text-foreground …`) additivi, documentati negli header.
 - Drawer senza drag-to-dismiss (documentato): una libreria gesture sarebbe una dipendenza nuova da approvare.
 
 ## B4 — floating (popover, tooltip, hover-card)
 
-- `popover.module.js`: `createFloating` + `pushDismissLayer`, focus dentro il pannello e ritorno al trigger, `aria-expanded`/`aria-controls`; eventi `popover:open|close` in, `popover:opened|closed` out (assenti in area-broker, aggiunti). Slot `popover-header` nuovo upstream.
+- `popover.module.js`: `createFloating` + `pushDismissLayer`, focus dentro il pannello e ritorno al trigger, `aria-expanded`/`aria-controls`; eventi `popover:open|close` in, `popover:opened|closed` out (assenti nel progetto originale, aggiunti). Slot `popover-header` nuovo upstream.
 - `tooltip.module.js`: hover + focus con 700 ms, chiusura su leave/blur/ESC, `role="tooltip"`, freccia via middleware `arrow`, non ruba il focus. **Override Figma**: `rounded-md` → `rounded-xl` (nodo 17089:47311, 14 px, variabile legata `border-radius/rounded-xl`); padding e testo già coincidenti; proposte `h-11`/`gap-2` scartate come rumore.
 - `hover-card.module.js`: solo pointer, delay 700/300 ms, nessun focus trap, ESC via dismiss layer.
 - Deviazione tecnica comune: coppie di funzioni mutuamente referenziate convertite in `function` dichiarate (eslint `no-use-before-define` del sample).

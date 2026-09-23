@@ -79,19 +79,28 @@ button + calendar).
 
 ## Story shape
 
-`npm run scaffold:stories -- <name>` (or `--all`) generates `<name>.stories.js`
-from the scenarios already in `<name>.twig.json`, one CSF export per scenario
-(kebab-case scenario key → PascalCase export name):
+Every `Base/*` and `Blocks/*` story follows the same four-part shape: a
+Controls playground (`Default`), one or more interactive `play` stories for
+components with a `.module.js`, and a `Catalog` export that stacks curated
+matrix/demo cards — the actual visual QA surface, equivalent to a
+`Styleguide/*` page but scoped to one component. `npm run scaffold:stories --
+<name>` (or `--all`) generates the skeleton — `Default` + `argTypes` + a
+one-card-per-scenario `Catalog` — from `<name>.twig.json` and `<name>.twig`'s
+`{# Params: #}` header; `play` stories and the real matrixCard grids are
+always added/refined by hand afterwards:
 
 ```js
 import { renderTwig } from '~sb/twig';
+import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './<name>.twig.json';
 
 const mocks = data.mocks['<name>'];
+const TWIG_ID = '@components/base/<name>/<name>.twig';
 
 export default {
   title: 'Base/<Name>',
-  render: (args) => renderTwig('@components/base/<name>/<name>.twig', args),
+  render: (args) => renderTwig(TWIG_ID, args),
+  argTypes: { /* see below */ },
   parameters: { layout: 'centered' },
 };
 
@@ -100,10 +109,44 @@ export const Default = { args: mocks['default'] };
 
 `layout` is scaffolded per component family (`centered` for most, `padded`/
 `fullscreen` for full-width ones like `sidebar`) — review it by eye, it is not
-derived from any prop. For a component with a `<name>.module.js`, add one more
-export with a `play` that imports `initModules` from `~sb/modules` and drives
-the real DOM trigger the module listens for (read the trigger from the
-`.module.js`/`.twig` pair, never guess it):
+derived from any prop.
+
+### `argTypes`
+
+Scaffolded from the twig header, one entry per param, so the Storybook
+Controls panel and the "Parametri" addon panel (`.storybook/manager.tsx`,
+addon id `wordpress-tailwind/params`) read the same source of truth as the
+component's own doc comment:
+
+- Enum params (`'a'|'b' as string`) → `control: 'select'` with `options`; an
+  optional enum with no stated default gets an `undefined` option prepended
+  (unset state, e.g. `target?`).
+- `Boolean` → `control: 'boolean'`; plain `Number` → `control: 'number'`;
+  `Array<…>`/`Object`/`{ … }` → `control: 'object'`; anything else
+  (`String`, mixed types) → `control: 'text'`.
+- `table.category` buckets params into `Content` / `Appearance` / `Behaviour`
+  / `State` / `Accessibility` / `Advanced` (heuristic — variant/size names →
+  Appearance, boolean names → State, `aria*` → Accessibility, `id`/`slot`/
+  `labelClass` → Advanced, everything else → Content); `table.defaultValue`
+  mirrors a `(default: …)` from the header.
+- `class` and `attrs` always get `table: { disable: true } }` (additive-only/
+  raw plumbing, never a real control); a `- blocks: <names>` header line
+  (documents the component's named `{% block %}`s, not a prop — PORTING.md
+  rule 5) is never turned into an argType.
+- **Descriptions come through verbatim in English** (the scaffold does not
+  translate prose) — hand-translate them to Italian before shipping, same as
+  every other hand-authored `argTypes` in this codebase (see
+  [button.stories.js](src/templates/components/base/button/button.stories.js)).
+  Category guesses and `select` options for unrecognized types are
+  best-effort too (the script warns on stderr when a type isn't recognized)
+  — review the whole block by eye.
+
+### Interactive `play` stories
+
+For a component with a `<name>.module.js`, add one export with a `play` that
+imports `initModules` from `~sb/modules` and drives the real DOM trigger the
+module listens for (read the trigger from the `.module.js`/`.twig` pair,
+never guess it):
 
 ```js
 import { initModules } from '~sb/modules';
@@ -117,13 +160,51 @@ export const Open = {
 };
 ```
 
-Blocks carry the same `<name>.stories.js` under `title: 'Blocks/<Name>'`, plus
-a `<name>.twig.json` (mocks migrated from the old docs manifest, same
-`{ "mocks": { "<name>": { "default": {…} } } }` shape as base components — see
+For a static state that has no DOM interaction to drive (hover/focus/active
+simulated in a `Catalog` grid rather than through a real event), use
+`stateProps(column)` from `~sb/story-helpers` instead of a `play` — see
+[button.stories.js](src/templates/components/base/button/button.stories.js)
+States Grid.
+
+### `Catalog`
+
+The scaffolded `Catalog` is a `storyStack` of one `demoCard` per mock
+scenario — a starting skeleton, always hand-refined into the component's real
+visual QA surface: variant/size/state `matrixCard` grids (columns × rows,
+`renderCell` per cell), `demoCard`s for one-off compositions, mock scenarios
+folded into whichever grid they belong to instead of listed flatly. Both
+helpers, plus `storyStack`, `STATE_COLUMNS` and `stateProps`, live in
+[`.storybook/story-helpers.ts`](.storybook/story-helpers.ts); the
+Storybook-only utility classes they rely on (`is-hover`/`is-focus-visible`/
+`is-active` simulators) are declared in `.storybook/story-utilities.css` and
+excluded from the production build via `@source not` in `src/css/globals.css`
+(see [ADR 0004](docs/adr/0004-storybook-twigjs.md)). See
+[button.stories.js](src/templates/components/base/button/button.stories.js)
+for a full worked example (mock scenarios, states grid, sizes grid, icon
+grid) and
 [dialog.stories.js](src/templates/components/base/dialog/dialog.stories.js)
-for a refined interactive example). Storybook-only demo templates (not part of
-any component) live under `src/templates/stories/<group>/` (e.g.
-`stories/forms/form-demo.twig`), title `<Group>/<Name>` — see
+for an overlay component (trigger matrix + a footer-actions demo).
+
+For a block or layout composition that has no own `.twig.json` mocks to
+render from (e.g. `Layout/Hero` inlines the mock straight from
+`index.twig`), use `renderTwigSource(source, ctx)` from `.storybook/twig.ts`
+to render an inline `{% embed %}` string with the same engine/registry/
+globals as `renderTwig`, instead of writing a throwaway `.twig` file.
+
+### Titles and non-component demos
+
+`Base/*` and `Blocks/*` carry the same shape (`GROUP_TITLES` in
+`scaffold-stories.mjs` maps the group directory to the title prefix); see
+[cta-banner.stories.js](src/templates/components/blocks/cta-banner/cta-banner.stories.js)
+for a `Blocks/*` example. `Layout/*` (header, footer, hero, main-menu, the
+`components.twig` page dispatcher) is entirely hand-authored — these read
+`main.json` globals directly rather than component-shaped `args`, so the
+scaffold does not cover them; see
+[header.stories.js](src/templates/components/layout/header/header.stories.js).
+`Styleguide/*` (`src/stories/styleguide/`) documents design tokens rather
+than components and is also hand-authored. Storybook-only demo templates
+(not part of any component) live under `src/templates/stories/<group>/`
+(e.g. `stories/forms/form-demo.twig`), title `<Group>/<Name>` — see
 [forms.stories.js](src/templates/stories/forms/forms.stories.js).
 
 ## Source of truth for class strings
@@ -246,11 +327,12 @@ component reads or writes `window.*`.
 
 ## Reference implementation
 
-`C:\Users\m.carletti\source\repos\area-broker\client` ported the full shadcn/ui
-library to this same Twig + vanilla JS architecture first, for a single brand.
-Rule: **copy and audit its `.module.js` files, never copy its class strings**
+A previous internal project ported the full shadcn/ui library to this same
+Twig + vanilla JS architecture first, for a single brand. Rule: **copy and
+audit an existing sibling `.module.js` file, never copy its class strings**
 (they carry brand-specific overrides). When porting an interactive component,
-start from the matching area-broker module (`src/js/common/*.js`,
+compare with upstream shadcn/ui behaviour and the existing modules in this
+sample (`src/js/common/*.js`,
 `src/templates/components/base/<name>/<name>.module.js`), adapt it to this
 sample's upstream `data-slot`s, and verify parity with the upstream React
 component's states, keyboard behaviour and events.

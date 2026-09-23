@@ -67,3 +67,12 @@ export function renderTwig(id: string, context: Record<string, unknown> = {}): s
   // Inject layout globals like the build does (twig.globals = main.json + labels + mocks).
   return tpl.render({ ...main, labels, mocks, ...context });
 }
+
+/**
+ * Render an inline Twig source (e.g. an `{% embed %}` that fills a component's blocks)
+ * with the same engine, registry and globals as renderTwig.
+ */
+export function renderTwigSource(source: string, context: Record<string, unknown> = {}): string {
+  const tpl = (Twig as any).twig({ data: source, allowInlineIncludes: true });
+  return tpl.render({ ...main, labels, mocks, ...context });
+}
