@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './calendar.twig.json';
 
@@ -73,15 +72,6 @@ export default {
 
 export const Default = { args: mocks.default };
 
-/* ── Mounted — play() interaction: module initialisation ─────────────────── */
-
-export const Mounted = {
-  args: mocks.default,
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
-
 /* ── Catalog — demoCards per mock scenario ────────────────────────────────── */
 
 /*
@@ -142,7 +132,4 @@ export const Catalog = {
   parameters: { layout: 'padded' },
   render: () =>
     storyStack(singleCard, rangeCard, multipleCard, multipleMonthsCard, dropdownCaptionCard, minMaxCard, disabledDaysCard),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

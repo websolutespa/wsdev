@@ -2,19 +2,59 @@
   "mocks": {
     "alert": {
       "default": {
-        "icon": "info",
-        "title": "Aggiornamento disponibile",
-        "description": "È disponibile una nuova versione dell'app. Ricarica la pagina per applicarla."
+        "icon": "circle-alert",
+        "title": "Modifiche salvate correttamente.",
+        "description": "Questo è un alert con icona, titolo e descrizione."
       },
       "destructive": {
         "variant": "destructive",
-        "icon": "octagon-x",
-        "title": "Impossibile salvare le modifiche",
-        "description": "Controlla la connessione e riprova. Se il problema persiste contatta l'assistenza."
+        "icon": "circle-alert",
+        "title": "Qualcosa è andato storto.",
+        "description": "La sessione è scaduta. Effettua di nuovo l'accesso."
       },
       "no-icon": {
         "title": "Manutenzione programmata",
         "description": "Il servizio sarà sospeso domenica dalle 2:00 alle 4:00 per manutenzione."
+      },
+      "icon-description": {
+        "icon": "circle-alert",
+        "description": "Questo ha solo icona e descrizione, senza titolo."
+      },
+      "description-only": {
+        "description": "Questo ha solo la descrizione: niente titolo, niente icona."
+      },
+      "icon-title": {
+        "icon": "circle-alert",
+        "title": "Proviamo con solo icona e titolo."
+      },
+      "long-title": {
+        "icon": "circle-alert",
+        "title": "Questo è un titolo di alert molto lungo che mostra come il componente gestisce il troncamento su una sola riga quando il testo supera la larghezza disponibile"
+      },
+      "long-description": {
+        "icon": "circle-alert",
+        "description": "Questa è una descrizione di alert molto lunga che mostra come il componente gestisce contenuti testuali estesi, andando a capo su più righe senza perdere l'allineamento con l'icona."
+      },
+      "long-content": {
+        "icon": "circle-alert",
+        "title": "Questo è un titolo estremamente lungo che occuperebbe più righe, per mostrare come il componente lo tronca con i puntini di sospensione",
+        "description": "Questa è una descrizione altrettanto lunga che contiene informazioni dettagliate sull'alert. Mostra come il componente accoglie contenuti estesi mantenendo spaziature, allineamento e leggibilità corretti su schermi e viewport di dimensioni diverse, così che l'esperienza resti coerente indipendentemente dalla lunghezza del testo."
+      },
+      "success": {
+        "icon": "circle-check",
+        "title": "Pagamento riuscito",
+        "description": "Il pagamento di 29,99 € è stato elaborato. Abbiamo inviato la ricevuta al tuo indirizzo email."
+      },
+      "info": {
+        "icon": "info",
+        "title": "Nuova funzionalità disponibile",
+        "description": "Abbiamo aggiunto il supporto alla modalità scura. Puoi attivarla dalle impostazioni dell'account."
+      },
+      "custom-colors": {
+        "icon": "triangle-alert",
+        "title": "Il tuo abbonamento scade tra 3 giorni.",
+        "description": "Rinnova ora per evitare interruzioni del servizio, oppure passa a un piano a pagamento per continuare a usarlo.",
+        "class": "border-amber-200! bg-amber-50! text-amber-900! dark:border-amber-900! dark:bg-amber-950! dark:text-amber-50!"
       }
     }
   }

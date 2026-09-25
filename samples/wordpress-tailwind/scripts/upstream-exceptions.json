@@ -1,6 +1,15 @@
 {
   "$schema": "./upstream-exceptions.schema.json",
   "components": {
+    "button-group": [
+      {
+        "from": "rounded-md",
+        "to": "rounded-4xl",
+        "source": "figma",
+        "node": "21178:6504",
+        "note": "ButtonGroupText chip. The kit never uses an 8px chip inside a group: prefixes (Prefix, GPU Size, Hours) are pill buttons with the 26px kit radius on the outer end, so the chip takes rounded-4xl; the group still squares the inner corners."
+      }
+    ],
     "button": [
       {
         "from": "rounded-md",
@@ -788,6 +797,29 @@
         "to": "start-1/2",
         "source": "port",
         "note": "Tailwind 4.1 has no inset-s-* utility (the logical inline-start inset is start-*), so the token would be inert and the scroll button would never be centered. Same declaration (inset-inline-start: 50%), different utility name."
+      }
+    ],
+    "accordion": [
+      {
+        "from": "items-start",
+        "to": "items-center",
+        "source": "figma",
+        "node": "22:516",
+        "note": "AccordionTrigger: Figma centres the chevron vertically against the trigger text (counterAxisAlignItems CENTER)."
+      },
+      {
+        "from": "py-4",
+        "to": "p-4",
+        "source": "figma",
+        "node": "22:516",
+        "note": "AccordionTrigger: Figma pads the trigger 16px on all sides (spacing/4), not only vertically; AccordionContent gets the matching px-4."
+      },
+      {
+        "from": "translate-y-0.5",
+        "to": null,
+        "source": "figma",
+        "node": "22:516",
+        "note": "Chevron nudge dropped: with items-center the icon is already optically aligned in the kit."
       }
     ]
   }

@@ -24,12 +24,49 @@
         "triggerLabel": "Chiudi editor"
       },
       "with-media": {
-        "title": "Connessione persa",
-        "description": "Controlla la tua connessione a internet e riprova.",
-        "icon": "triangle-alert",
+        "title": "Sei assolutamente sicuro?",
+        "description": "Questa azione non può essere annullata. L'account verrà eliminato definitivamente dai nostri server.",
+        "icon": "smile",
         "cancelLabel": "Annulla",
-        "actionLabel": "Riprova",
+        "actionLabel": "Continua",
         "triggerLabel": "Apri con icona"
+      },
+      "with-media-sm": {
+        "title": "Consentire l'accessorio?",
+        "description": "Vuoi consentire all'accessorio USB di connettersi a questo dispositivo?",
+        "icon": "smile",
+        "size": "sm",
+        "cancelLabel": "Non consentire",
+        "actionLabel": "Consenti",
+        "triggerLabel": "Collega accessorio"
+      },
+      "share": {
+        "title": "Condividere il progetto?",
+        "description": "Chiunque abbia il link potrà visualizzare il progetto e i suoi contenuti.",
+        "icon": "circle-fading-plus",
+        "cancelLabel": "Annulla",
+        "actionLabel": "Condividi",
+        "triggerLabel": "Condividi progetto"
+      },
+      "bluetooth": {
+        "title": "Consentire il Bluetooth?",
+        "description": "Vuoi consentire al dispositivo Bluetooth di connettersi a questo dispositivo?",
+        "icon": "bluetooth",
+        "size": "sm",
+        "cancelLabel": "Non consentire",
+        "actionLabel": "Consenti",
+        "triggerLabel": "Associa dispositivo"
+      },
+      "destructive-media": {
+        "title": "Eliminare la chat?",
+        "description": "La conversazione verrà eliminata definitivamente, insieme ai ricordi salvati durante la chat.",
+        "icon": "trash-2",
+        "mediaVariant": "destructive",
+        "destructive": true,
+        "size": "sm",
+        "cancelLabel": "Annulla",
+        "actionLabel": "Elimina",
+        "triggerLabel": "Elimina chat"
       }
     }
   }

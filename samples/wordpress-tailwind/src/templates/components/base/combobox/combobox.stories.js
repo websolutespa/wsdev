@@ -165,7 +165,4 @@ export const Catalog = {
   parameters: { layout: 'padded' },
   render: () =>
     storyStack(defaultCard, withValueCard, groupedCard, disabledItemCard, chipsCard, disabledCard, invalidCard),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

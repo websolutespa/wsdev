@@ -1,9 +1,11 @@
 {#
   Accordion — WAI-ARIA APG Accordion pattern (registry/new-york-v4/ui/accordion.tsx:
-  Accordion, AccordionItem, AccordionTrigger, AccordionContent). Upstream-only
-  component: classes follow the registry byte-identical.
+  Accordion, AccordionItem, AccordionTrigger, AccordionContent).
+  Figma deviations → scripts/upstream-exceptions.json "accordion".
 
   Params:
+  - variant?: 'default'|'border' as string (default: 'default') — 'border' is the Figma
+             "Accordion/Border": rounded bordered box, items inset by px-4
   - type?: 'single'|'multiple' as string (default: 'single') — single closes the open sibling
   - collapsible?: Boolean (default: true) — single mode: allow closing the open item
   - items: Array<{value: String, title: String, content: String (trusted HTML, rendered
@@ -21,34 +23,43 @@
   accordion-down/up keyframes (src/css/shadcn.css, KEPT as-is per the PORTING.md
   Adaptation table) can play.
 #}
+{% set variant = variant|default('default') == 'border' ? 'border' : 'default' %}
 {% set type = type|default('single') %}
 {% set collapsible = collapsible is defined ? collapsible : true %}
 {% set heading_tag = headingLevel|default('h3') == 'h4' ? 'h4' : 'h3' %}
-{% set trigger_classes = "flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180" %}
-{% set root_classes = (class is defined and class ? class : '')|trim %}
+{% set trigger_classes = "flex flex-1 items-center justify-between gap-4 rounded-md p-4 text-left text-sm font-medium transition-all outline-none hover:underline focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:rotate-180" %}
+{% set accordion_variants = {
+  default: "",
+  border: "overflow-hidden rounded-2xl border"
+} %}
+{% set item_variants = {
+  default: "",
+  border: " px-4"
+} %}
+{% set root_classes = (accordion_variants[variant] ~ (class is defined and class ? ' ' ~ class : ''))|trim %}
 
-<div data-slot="accordion" data-module="accordion.module" data-type="{{ type }}"
+<div data-slot="accordion" data-variant="{{ variant }}" data-module="accordion.module" data-type="{{ type }}"
   {%- if type == 'single' and not collapsible %} data-collapsible="false"{% endif %}
   {%- if id %} id="{{ id }}"{% endif %}
   {%- if root_classes %} class="{{ root_classes }}"{% endif %} {{ attrs|default('')|raw }}>
   {%- for item in items %}
   {%- set open = item.open|default(false) and not item.disabled %}
   <div data-slot="accordion-item" data-state="{{ open ? 'open' : 'closed' }}"
-    {%- if item.disabled %} data-disabled=""{% endif %} class="border-b last:border-b-0">
+    {%- if item.disabled %} data-disabled=""{% endif %} class="border-b last:border-b-0 data-[state=open]:bg-muted/50{{ item_variants[variant] }}">
     <{{ heading_tag }} class="flex">
       <button type="button" data-slot="accordion-trigger" data-value="{{ item.value }}"
         data-state="{{ open ? 'open' : 'closed' }}" aria-expanded="{{ open ? 'true' : 'false' }}"
         {%- if item.disabled %} disabled data-disabled=""{% endif %}
         class="{{ trigger_classes }}">
         {{ item.title }}
-        <svg aria-hidden="true" class="pointer-events-none size-4 shrink-0 translate-y-0.5 text-muted-foreground transition-transform duration-200"><use href="#icon-chevron-down"></use></svg>
+        <svg aria-hidden="true" class="pointer-events-none size-4 shrink-0 text-muted-foreground transition-transform duration-200"><use href="#icon-chevron-down"></use></svg>
       </button>
     </{{ heading_tag }}>
     <div role="region" data-slot="accordion-content" data-value="{{ item.value }}"
       data-state="{{ open ? 'open' : 'closed' }}"
       {%- if not open %} hidden{% endif %}
       class="overflow-hidden text-sm data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-      <div class="pt-0 pb-4">{{ item.content|default('')|raw }}</div>
+      <div class="px-4 pt-0 pb-4">{{ item.content|default('')|raw }}</div>
     </div>
   </div>
   {%- endfor %}

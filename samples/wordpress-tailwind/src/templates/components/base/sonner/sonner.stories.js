@@ -1,6 +1,5 @@
 import { renderTwig } from '~sb/twig';
 import { initModules } from '~sb/modules';
-import { toast } from '../../../../js/common/toast';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './sonner.twig.json';
 
@@ -67,20 +66,6 @@ export const Toast = {
   },
 };
 
-/** Fires one toast of each type via the imperative toast() API from common/toast.js. */
-export const Types = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    toast('Messaggio predefinito');
-    toast.success('Operazione riuscita');
-    toast.error('Si è verificato un errore');
-    toast.warning('Controlla i dati inseriti');
-    toast.info('Informazione disponibile');
-    toast.loading('Elaborazione in corso…');
-  },
-};
-
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 /**
@@ -129,7 +114,4 @@ const expandCard = demoCard({
 export const Catalog = {
   parameters: { layout: 'padded' },
   render: () => storyStack(defaultCard, richColorsCard, topCenterCard, loadingCard, noCloseButtonCard, expandCard),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

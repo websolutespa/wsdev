@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './carousel.twig.json';
 
@@ -77,15 +76,6 @@ export default {
 /* ── Default — Controls playground ───────────────────────────────────────── */
 
 export const Default = { args: mocks['default'] };
-
-/** Clicks the Next arrow once. */
-export const NextSlide = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelector('[data-carousel-next]').click();
-  },
-};
 
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 

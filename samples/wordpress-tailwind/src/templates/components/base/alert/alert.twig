@@ -12,13 +12,16 @@
             wrapper div lives inside the block, so an override must include
             the upstream wrapper with its data-slot and classes:
     description: <div data-slot="alert-description" class="col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed">...</div>
+          action: empty by default; an override must include the wrapper (backported
+            from upstream AlertAction, absent in new-york-v4; the root reserves pr-18):
+    action: <div data-slot="alert-action" class="absolute top-2.5 right-4">...</div>
 #}
 {% set variant = variant|default('default') %}
 {% set alert_variants = {
   default: "bg-card text-card-foreground",
   destructive: "bg-card text-destructive *:data-[slot=alert-description]:text-destructive/90 [&>svg]:text-current"
 } %}
-{% set alert_classes = "relative grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current " ~ alert_variants[variant] ~ (class is defined and class ? ' ' ~ class : '') %}
+{% set alert_classes = "relative grid w-full grid-cols-[0_1fr] items-start gap-y-0.5 rounded-lg border px-4 py-3 text-sm has-[>svg]:grid-cols-[calc(var(--spacing)*4)_1fr] has-[>svg]:gap-x-3 [&>svg]:size-4 [&>svg]:translate-y-0.5 [&>svg]:text-current has-data-[slot=alert-action]:pr-18 " ~ alert_variants[variant] ~ (class is defined and class ? ' ' ~ class : '') %}
 <div
   data-slot="alert"
   data-variant="{{ variant }}"
@@ -30,4 +33,5 @@
   {% block description %}
     {% if description %}<div data-slot="alert-description" class="col-start-2 grid justify-items-start gap-1 text-sm text-muted-foreground [&_p]:leading-relaxed"><p>{{ description }}</p></div>{% endif %}
   {% endblock %}
+  {% block action %}{% endblock %}
 </div>

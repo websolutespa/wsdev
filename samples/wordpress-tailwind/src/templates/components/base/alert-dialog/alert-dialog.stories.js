@@ -25,6 +25,12 @@ export default {
       description: 'Nome icona sprite renderizzata nello slot media opzionale.',
       table: { category: 'Content' },
     },
+    mediaVariant: {
+      control: 'select',
+      options: ['default', 'destructive'],
+      description: 'Colori dello slot media (visibile solo con icon).',
+      table: { category: 'Appearance', defaultValue: { summary: 'default' } },
+    },
     cancelLabel: {
       control: 'text',
       description: 'Etichetta del pulsante di annullamento.',
@@ -80,14 +86,18 @@ export const Open = {
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 /**
- * Rows: the mock scenarios (default, destructive, small size, with media icon).
+ * Rows: the mock scenarios — text-only ones first, then the media-icon ones from the Figma kit.
  * Columns: working trigger vs. disabled trigger visual state.
  */
 const VARIANT_ROWS = [
   { key: 'default', label: 'Default', args: mocks['default'] },
   { key: 'destructive', label: 'Destructive', args: mocks['destructive'] },
   { key: 'size-sm', label: 'Small size', args: mocks['size-sm'] },
-  { key: 'with-media', label: 'With media icon', args: mocks['with-media'] },
+  { key: 'with-media', label: 'Media icon', args: mocks['with-media'] },
+  { key: 'with-media-sm', label: 'Media icon · sm', args: mocks['with-media-sm'] },
+  { key: 'share', label: 'Media icon · share', args: mocks['share'] },
+  { key: 'bluetooth', label: 'Media icon · sm bluetooth', args: mocks['bluetooth'] },
+  { key: 'destructive-media', label: 'Destructive media · sm', args: mocks['destructive-media'] },
 ];
 
 const STATE_COLUMNS = ['Default', 'Disabled'];
@@ -96,7 +106,7 @@ const variantsCard = matrixCard({
   title: 'Alert Dialog Variants',
   intro:
     'Scenari di conferma (<code>default</code>), azione distruttiva, dimensione <code>sm</code> e slot media ' +
-    'con icona. Clic su un trigger per aprire; la colonna <code>Disabled</code> mostra solo lo stato visivo.',
+    'con icona (anche in variante <code>mediaVariant: destructive</code>). Clic su un trigger per aprire; la colonna <code>Disabled</code> mostra solo lo stato visivo.',
   rowAxisLabel: 'Scenario',
   columns: STATE_COLUMNS,
   rows: VARIANT_ROWS,

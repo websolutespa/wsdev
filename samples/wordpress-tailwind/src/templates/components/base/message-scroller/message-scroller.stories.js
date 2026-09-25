@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './message-scroller.twig.json';
 
@@ -42,15 +41,6 @@ export default {
 
 export const Default = { args: mocks['default'] };
 
-/* ── Mounted — verifies the stick-to-edge module lands on the last message ── */
-
-export const Mounted = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
-
 /* ── DirectionStart — jump button targets the top edge instead ───────────── */
 
 /**
@@ -58,12 +48,7 @@ export const Mounted = {
  * button targets the top of the viewport instead of the bottom, and the
  * arrow icon rotates 180° (data-[direction=start]:[&_svg]:rotate-180).
  */
-export const DirectionStart = {
-  args: mocks['direction-start'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
+export const DirectionStart = { args: mocks['direction-start'] };
 
 /* ── Catalog — short conversation and a composed chat card ────────────────── */
 

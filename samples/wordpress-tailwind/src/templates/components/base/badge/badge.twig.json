@@ -7,7 +7,10 @@
       "outline": { "label": "Beta", "variant": "outline" },
       "ghost": { "label": "Archiviato", "variant": "ghost" },
       "link": { "label": "Vedi dettagli", "variant": "link", "url": "#" },
-      "with-icon": { "label": "Verificato", "icon": "circle-check", "variant": "secondary" },
+      "with-icon": { "label": "Verificato", "icon": "badge-check", "variant": "outline" },
+      "with-icon-after": { "label": "Scopri", "iconAfter": "arrow-right", "url": "#" },
+      "alert": { "label": "Attenzione", "icon": "triangle-alert", "variant": "destructive" },
+      "number": { "label": "8", "size": "number" },
       "as-link": { "label": "Promo -20%", "url": "https://www.websolute.it", "target": "_blank" }
     }
   }

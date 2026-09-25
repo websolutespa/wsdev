@@ -1,5 +1,4 @@
-import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
+import { renderTwig, renderTwigSource } from '~sb/twig';
 import { demoCard, matrixCard, storyStack } from '~sb/story-helpers';
 import data from './accordion.twig.json';
 
@@ -10,6 +9,12 @@ export default {
   title: 'Base/Accordion',
   render: (args) => renderTwig(TWIG_ID, args),
   argTypes: {
+    variant: {
+      control: 'select',
+      options: ['default', 'border'],
+      description: 'border racchiude le voci in un box con bordo e angoli arrotondati (Figma "Accordion/Border").',
+      table: { category: 'Appearance', defaultValue: { summary: 'default' } },
+    },
     type: {
       control: 'select',
       options: ['single', 'multiple'],
@@ -43,15 +48,6 @@ export default {
 
 export const Default = { args: { ...mocks['default'], class: 'w-96' } };
 
-/** Opens the second (closed) item, exercising the single-mode close-sibling behaviour. */
-export const Expanded = {
-  args: { ...mocks['default'], class: 'w-96' },
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelector('[data-slot="accordion-trigger"][data-value="returns"]').click();
-  },
-};
-
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 const acc = (args) => renderTwig(TWIG_ID, { ...args, class: 'w-80' });
@@ -60,6 +56,26 @@ const singleCard = demoCard({
   title: 'Single (default)',
   intro: 'Una sola voce aperta alla volta. Clic su una voce aperta la richiude (<code>collapsible: true</code>).',
   content: acc(mocks['default']),
+});
+
+const borderCard = demoCard({
+  title: 'Border',
+  intro: 'Con <code>variant: "border"</code> le voci sono racchiuse in un box con bordo e angoli arrotondati; la voce aperta ha lo sfondo <code>muted/50</code>.',
+  content: acc(mocks['border']),
+});
+
+const IN_CARD_SOURCE = `{% embed '@components/base/card/card.twig' with { title: title, description: description, accordion: accordion, class: 'w-96' } only %}
+  {% block content %}<div data-slot="card-content" class="px-6">{% include '@components/base/accordion/accordion.twig' with accordion only %}</div>{% endblock %}
+{% endembed %}`;
+
+const inCardCard = demoCard({
+  title: 'Border in a card',
+  intro: 'Composizione Figma: accordion <code>border</code> nel contenuto di una Card.',
+  content: renderTwigSource(IN_CARD_SOURCE, {
+    title: 'Abbonamento e fatturazione',
+    description: 'Domande frequenti su account, piani, pagamenti e disdette.',
+    accordion: mocks['border'],
+  }),
 });
 
 const multipleCard = demoCard({
@@ -92,5 +108,5 @@ const headingLevelCard = matrixCard({
 
 export const Catalog = {
   parameters: { layout: 'padded' },
-  render: () => storyStack(singleCard, multipleCard, notCollapsibleCard, disabledCard, headingLevelCard),
+  render: () => storyStack(singleCard, borderCard, inCardCard, multipleCard, notCollapsibleCard, disabledCard, headingLevelCard),
 };

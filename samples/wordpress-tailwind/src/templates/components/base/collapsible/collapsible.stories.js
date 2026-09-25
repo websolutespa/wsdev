@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './collapsible.twig.json';
 
@@ -39,15 +38,6 @@ export default {
 /* ── Default — Controls playground ───────────────────────────────────────── */
 
 export const Default = { args: mocks['default'] };
-
-/** Clicks the trigger once, toggling the panel open. */
-export const Toggled = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelector('[data-collapsible-trigger]').click();
-  },
-};
 
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 

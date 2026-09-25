@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 import data from './resizable.twig.json';
 
@@ -42,33 +41,13 @@ export default {
 
 export const Default = { args: mocks['default'] };
 
-/* ── HorizontalWithHandle — play() demo: keyboard ArrowLeft on handle ────── */
+/* ── HorizontalWithHandle — configuration: withHandle=true ───────────────── */
 
-export const HorizontalWithHandle = {
-  args: mocks['with-handle'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    const handle = canvasElement.querySelector('[data-slot="resizable-handle"]');
-    if (handle) {
-      handle.focus();
-      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
-    }
-  },
-};
+export const HorizontalWithHandle = { args: mocks['with-handle'] };
 
-/* ── Vertical — play() demo: keyboard ArrowDown on handle ────────────────── */
+/* ── Vertical — configuration: direction=vertical ─────────────────────────── */
 
-export const Vertical = {
-  args: mocks['vertical'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    const handle = canvasElement.querySelector('[data-slot="resizable-handle"]');
-    if (handle) {
-      handle.focus();
-      handle.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
-    }
-  },
-};
+export const Vertical = { args: mocks['vertical'] };
 
 /* ── Catalog ─────────────────────────────────────────────────────────────── */
 

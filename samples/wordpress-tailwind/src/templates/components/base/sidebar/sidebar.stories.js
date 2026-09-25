@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import data from './sidebar.twig.json';
 
 const mocks = data.mocks['sidebar'];
@@ -75,26 +74,4 @@ export const RightSide = { args: mocks['side-right'] };
 export const Loading = { args: mocks['loading'] };
 export const CollapsibleNone = { args: mocks['collapsible-none'] };
 
-export const DefaultOpen = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
-
-/** Simulates Ctrl+B, the module's global keyboard shortcut to toggle the sidebar. */
-export const ToggledWithKeyboard = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    window.dispatchEvent(new KeyboardEvent('keydown', { key: 'b', ctrlKey: true, bubbles: true }));
-  },
-};
-
-export const ToggledWithTrigger = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelector('[data-slot="sidebar-trigger"]').click();
-  },
-};
+export const DefaultOpen = { args: mocks['default'] };

@@ -8,6 +8,15 @@
           { "value": "payment", "title": "Quali metodi di pagamento accettate?", "content": "<p>Carta di credito, PayPal e bonifico bancario.</p>" }
         ]
       },
+      "border": {
+        "variant": "border",
+        "items": [
+          { "value": "billing", "title": "Come funziona la fatturazione?", "content": "<p>Offriamo piani mensili e annuali. L'addebito avviene all'inizio di ogni ciclo e puoi disdire in qualsiasi momento.</p>", "open": true },
+          { "value": "security", "title": "I miei dati sono al sicuro?", "content": "<p>Sì, i dati sono cifrati in transito e a riposo.</p>" },
+          { "value": "integrations", "title": "Quali integrazioni supportate?", "content": "<p>Slack, Google Workspace, Microsoft 365 e webhook personalizzati.</p>" },
+          { "value": "auth", "title": "Quali sono gli aspetti chiave nell'implementare un sistema di autenticazione enterprise completo?", "content": "<p>SSO, MFA, gestione dei ruoli e audit log.</p>" }
+        ]
+      },
       "multiple": {
         "type": "multiple",
         "items": [

@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, matrixCard, storyStack } from '~sb/story-helpers';
 import data from './slider.twig.json';
 
@@ -82,15 +81,6 @@ export default {
 
 export const Default = { args: mocks.default };
 
-/* ── Mounted — play() interaction: module initialisation ─────────────────── */
-
-export const Mounted = {
-  args: mocks.default,
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
-
 /* ── Catalog — mock scenarios + configuration × disabled matrix ──────────── */
 
 function sl(overrides = {}) {
@@ -143,7 +133,7 @@ const configMatrix = matrixCard({
     'Configurazioni di valore e step mostrate in stato Default e Disabled. Riempimento, ' +
     'thumb e range sono stilizzati via selettori pseudo-elemento in <code>slider.css</code> — ' +
     'non possono ricevere classi utility Tailwind, quindi è mostrato solo lo stato reale ' +
-    '<code>disabled</code>. Il drag è coperto dalla story <strong>Mounted</strong> sopra.',
+    '<code>disabled</code>.',
   columns: SLIDER_COLUMNS,
   rows: CONFIG_ROWS,
   center: false,

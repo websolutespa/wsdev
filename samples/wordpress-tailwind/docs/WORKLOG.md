@@ -265,3 +265,60 @@ Convenzione: una riga per attività, ordine cronologico, stato ✅ fatto · ⏳ 
 - ✅ `.storybook/twig.ts` esporta `renderTwigSource`: card, empty, scroll-area e field riempiono i block con `{% embed %}` invece di copiare il markup a mano.
 - ✅ Step 9 e Definition of done di `shadcn-port/SKILL.md` aggiornati alla nuova forma delle story.
 - ⚠️ Verifica nel browser (temi, pannello Parametri, `play`, a11y, tastiera) a carico dell'utente.
+
+## 2026-09-25
+
+### Fase 8 — Story con `play` ridotte agli stati solo-JS (agent Sonnet)
+
+- ✅ Regola: il decorator di `preview.ts` inizializza già i moduli, quindi una `play` che chiama solo `initModules` è ridondante; una `play` interattiva resta solo se lo stato non è esprimibile con le props (overlay, pannelli flottanti, toast, filtri live). Documentata in `PORTING.md` §Story shape e in `shadcn-port/SKILL.md` step 9.
+- ✅ Story eliminate: accordion `Expanded`, collapsible/toggle/toggle-group `Toggled`, tabs `KeyboardSwitch`, carousel `NextSlide`, sidebar `ToggledWithKeyboard`/`ToggledWithTrigger`, calendar/slider/message-scroller `Mounted`, sonner `Types`. Tabs: aggiunta al `Catalog` la card "Custom initial tab" (`defaultValue`).
+- ✅ `play` tolte, story mantenute perché configurazioni diverse da `Default`: avatar `BrokenImage`, resizable `HorizontalWithHandle`/`Vertical`, message-scroller `DirectionStart`, sidebar `DefaultOpen`, drawer/sheet per lato, `Catalog` di calendar/combobox/command/date-picker/sonner, Form `Native`/`Catalog`.
+- ✅ Story con `play` rimaste (16 file): overlay e menu, select, combobox, date-picker, command, sonner `Toast`, tooltip, header `MobileMenuOpen`, e input-otp `Typed` (il twig non ha un parametro `value`, lo stato compilato esiste solo digitando).
+- ✅ Render Node 19/19 file modificati OK, eslint 0 errori; Storybook serve 212 story.
+
+### Fase 8 — Card attorno alle story `Default` (orchestratore)
+
+- ✅ Nuovo decorator `withPlaygroundCard` in `.storybook/preview.ts`: ogni story `Default` (70, tra Base, Blocks e Layout) viene avvolta nella stessa card dei `Catalog` (`demoCard`, titolo = nome del componente, intro "Playground: modifica i parametri dal pannello Controls."). Con layout `fullscreen` la card ha un margine `p-4`; opt-out per story con `parameters: { playgroundCard: false }`. Documentato in `PORTING.md` §Story shape.
+- ✅ I pannelli flottanti non vengono tagliati dall'`overflow-hidden` della card perché `src/js/common/floating.js` usa `position: fixed`.
+- ✅ `tsc` 0 errori, `storybook build` verde.
+- ⚠️ Resa visiva da controllare nel browser, in particolare Blocks, Layout e Sidebar, che sono a tutta pagina.
+
+### Fase 8 — ButtonGroup verificato su Figma (orchestratore)
+
+- ✅ Pagina Figma ButtonGroup (`18686:23344`, circa 45 esempi) letta con il Figma MCP. Regola del kit: estremità esterne del gruppo con il radius a pillola `rounded-4xl` (26px), giunzioni ad angolo vivo, bordi fusi, in orizzontale e in verticale, anche con pulsanti di testo (`21178:6531`). Il template la rispetta già.
+- ✅ Chip `kind: text` di `button-group.twig` da `rounded-md` a `rounded-4xl`: nel kit i prefissi sono pulsanti a pillola (`21178:6504`). Eccezione Figma in `scripts/upstream-exceptions.json`, `check:classes` OK.
+- ✅ Lacuna trovata e corretta: select, dropdown-menu, popover e tooltip avvolgono il trigger nel root del modulo, quindi le regole di giunzione di button-group non lo raggiungevano e gli split button non si fondevano come in Figma. Aggiunte le stesse regole su `[data-module] > [data-slot$=-trigger]`, in orizzontale e in verticale; riga nella Adaptation table di `PORTING.md`. La regola upstream del select in coda resta invariata: con il nostro markup non scatta.
+- ✅ Story: i pulsanti icona di button-group usano `icon-sm` accanto a `sm`, altrimenti le altezze sfalsano di 4px.
+- ✅ `Catalog` esteso da 3 a 8 card sui pattern Figma: taglie, varianti, gruppi annidati e paginazione, input, select e dropdown, contatore e Field, verticali. Icone assenti nello sprite sostituite con le più vicine (archivio, allineamento testo, cuore del Like).
+- ⚠️ Residuo: l'input dentro un gruppo ha 22px di radius (misura Figma del componente input), mentre gli InputGroup negli esempi ButtonGroup del kit mostrano 26px. Non modificato: è una misura del componente input, da decidere a parte.
+
+### Fase 8 — AlertDialog: icone e colori dal Figma
+
+- ✅ Pagina Figma AlertDialog (`17047:204630`, 5 esempi) letta con il Figma MCP: slot media con icone `smile`, `circle-fading-plus`, `bluetooth`, `trash-2`, e variante distruttiva con media `bg-destructive/10 text-destructive`.
+- ✅ Icone lucide-static v1.47.0 aggiunte a `src/assets/icons/`. Nuovo parametro `mediaVariant` (`default`/`destructive`) in `alert-dialog.twig`; ricalca il `className` che upstream mette su `AlertDialogMedia` nell'esempio distruttivo. `check:classes` OK.
+- ✅ Mock e `Catalog` estesi ai 5 scenari del kit.
+- ⚠️ Scostamenti rimasti, non modificati: nel kit il pannello ha `rounded-4xl` e `shadow-xl` (qui `rounded-lg` e `shadow-lg`), il media è `rounded-full` (qui `rounded-md`) e il pulsante distruttivo è tenue (`bg-destructive/10 text-destructive`), mentre il `button` destructive qui è pieno.
+
+### Fase 8 — Badge allineato al Figma
+
+- ✅ Pagina Figma Badge (`17083:177439`) e component set `Badge` (`26:169`) e `Badge Number` (`17100:10130`) letti con il Figma MCP. La nota di B2a "badge già coerente" non era corretta.
+- ✅ `badge.twig`: nuovi parametri `iconAfter` (icona dopo il label, stesso nome del button) e `size: 'number'` (contatore `h-5 min-w-5 px-1`). Destructive tenue (`bg-destructive/10 text-destructive`, `/20` in dark), Outline con `bg-background`, hover del Figma (`/80` su default e secondary, `destructive/20`, `bg-muted text-muted-foreground` su outline e ghost), focus con anello da 1px e bordo `ring/30`. Dieci eccezioni Figma in `scripts/upstream-exceptions.json`, `check:classes` OK.
+- ✅ Icona `badge-check` (lucide-static v1.47.0) aggiunta a `src/assets/icons/`.
+- ✅ Story: argType `size`/`iconAfter`, nuova story `Number`, `Catalog` con le card With icon (esempi del kit), Number, States (Default/Hover/Focus sulla forma `<a>`) e As link.
+- ⚠️ La variante `link` resta: viene da shadcn, nel kit non esiste. Resa visiva da controllare nel browser.
+
+### Fase 8 — Alert: esempi del Figma
+
+- ✅ Pagina Figma Alert (`17047:26054`, 14 esempi) letta con il Figma MCP. La story ne copriva 6 (2 varianti × 3 configurazioni).
+- ✅ `alert.twig`: nuovo block `action` con wrapper `data-slot="alert-action"` (`absolute top-2.5 right-4`) e `has-data-[slot=alert-action]:pr-18` sul root. È un backport di `AlertAction`, che upstream esiste negli stili radix-nova ma manca in new-york-v4. `check:classes` OK (5 EXTRA, attese).
+- ✅ Icona `circle-alert` (lucide-static v1.48.0) aggiunta a `src/assets/icons/`.
+- ✅ Mock e `Catalog` estesi a tutti gli scenari del kit: combinazioni di contenuto, testi lunghi, destructive con lista, azione (outline/default `xs`), icone semantiche, colori custom amber (via `class` con modificatore `!`). Verificato in light/dark con Chromium headless: 20 alert, nessun errore console legato all'alert.
+- ⚠️ Scostamenti rimasti, non modificati: nel kit il root ha `rounded-2xl` e `gap-2` tra icona e testo (qui `rounded-lg` e `gap-x-3`). Alert non ha un file in `tokens/figma-components/`, quindi segue upstream.
+- ✅ Card "Vertical" del `Catalog` riallineata ai nodi Figma `21178:6533` (coppia + e −, taglia `icon`) e `21178:6534` (toolbar verticale: gruppo cerca, copia, condividi; gruppo flip orizzontale, flip verticale, ruota; pulsante trash isolato; tutti `icon-lg` outline, distanza 8px). Aggiunte allo sprite le icone lucide `share`, `flip-horizontal`, `flip-vertical`, `rotate-cw`, `trash` (lucide-static, procedura di `PORTING.md`). Tolta la cella "With text" verticale dalla matrice Orientation × Content type.
+
+### Fase 9 — Accordion: allineamento al Figma
+
+- ✅ Nodi Figma `21119:34330` (Accordion/Border), `21119:39705` (Border dentro una Card) e item base `22:516` letti con il Figma MCP.
+- ✅ `accordion.twig`: trigger `items-center p-4` (prima `items-start py-4`), chevron senza `translate-y-0.5`, contenuto `px-4`, voce aperta con sfondo `data-[state=open]:bg-muted/50`. Nuovo parametro `variant: 'border'` (root `overflow-hidden rounded-2xl border`, item `px-4`) e `data-variant` sul root. Tre eccezioni Figma in `scripts/upstream-exceptions.json`, `check:classes` OK.
+- ✅ Mock `border` e story: argType `variant`, card Border e Border in a card nel `Catalog`. Verificato con Chrome headless.
+- ⚠️ Nel kit la Card ha `rounded-4xl` e shadow `md`; `card.twig` segue ancora upstream (`rounded-xl`, `shadow-sm`). Le classi `w-80`/`w-96` passate dalle story non hanno effetto (le story non sono tra i sorgenti scansionati da Tailwind).

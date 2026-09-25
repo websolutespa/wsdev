@@ -3,6 +3,8 @@
   - title?: String — rendered in alert-dialog-title (wired to aria-labelledby by dialog.module)
   - description?: String — rendered in alert-dialog-description (aria-describedby)
   - icon?: String — sprite icon name rendered in the optional alert-dialog-media slot
+  - mediaVariant?: 'default'|'destructive' as string (default: 'default') — media slot colors;
+                   'destructive' mirrors upstream's AlertDialogMedia className in the destructive example
   - cancelLabel?: String (default: 'Annulla') — [data-dialog-close][data-alertdialog-cancel] button label
   - actionLabel?: String (default: 'Continua') — [data-dialog-close][data-alertdialog-action] button label
   - destructive?: Boolean (default: false) — action button uses variant 'destructive'
@@ -26,6 +28,10 @@
   scripts/upstream-exceptions.json ("alert-dialog").
 #}
 {% set size = size|default('default') %}
+{% set media_variants = {
+  default: "bg-muted",
+  destructive: "bg-destructive/10 text-destructive dark:bg-destructive/20"
+} %}
 
 <div data-slot="alert-dialog" data-module="dialog.module"{% if id %} id="{{ id }}"{% endif %}>
 
@@ -49,7 +55,7 @@
       <div data-slot="alert-dialog-header" class="grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-6 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-left sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr]">
         {% block media %}
           {% if icon %}
-          <div data-slot="alert-dialog-media" class="mb-2 inline-flex size-16 items-center justify-center rounded-md bg-muted sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8">
+          <div data-slot="alert-dialog-media" class="mb-2 inline-flex size-16 items-center justify-center rounded-md {{ media_variants[mediaVariant|default('default')] }} sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-8">
             <svg aria-hidden="true"><use href="#icon-{{ icon }}"></use></svg>
           </div>
           {% endif %}

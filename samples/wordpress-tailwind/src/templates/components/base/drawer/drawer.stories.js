@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { matrixCard, storyStack } from '~sb/story-helpers';
 import data from './drawer.twig.json';
 
@@ -52,24 +51,18 @@ export default {
 
 export const Default = { args: mocks['direction-bottom'] };
 
-/* ── Open — drawer opened programmatically (one per direction) ──────────── */
+/* ── Direction variants — closed trigger, one per direction ──────────────── */
 
-const openPlay = async ({ canvasElement }) => {
-  await initModules(canvasElement);
-  canvasElement.querySelector('[data-dialog-trigger]').click();
-};
-
-export const Bottom = { args: mocks['direction-bottom'], play: openPlay };
-export const Top = { args: mocks['direction-top'], play: openPlay };
-export const Right = { args: mocks['direction-right'], play: openPlay };
-export const Left = { args: mocks['direction-left'], play: openPlay };
+export const Bottom = { args: mocks['direction-bottom'] };
+export const Top = { args: mocks['direction-top'] };
+export const Right = { args: mocks['direction-right'] };
+export const Left = { args: mocks['direction-left'] };
 
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 /**
  * Rows: the four directions exposed by the `direction` prop, closed triggers
- * only — open state is covered by the Bottom/Top/Right/Left play() stories
- * above. The grab handle only appears for direction == 'bottom' (Twig behaviour).
+ * only. The grab handle only appears for direction == 'bottom' (Twig behaviour).
  */
 const DIRECTION_ROWS = [
   { key: 'direction-bottom', label: 'Bottom (default)', args: mocks['direction-bottom'] },

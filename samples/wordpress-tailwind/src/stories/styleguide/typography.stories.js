@@ -44,16 +44,14 @@ const TYPE_SCALE = [
   'xs', 'sm', 'base', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl', '8xl', '9xl',
 ];
 
-/* Only H1 (hero.twig) and H2 (card-grid/faq/text-only) are actually used by
-   components today; H3–H6 extrapolate the same responsive text-* scale one
-   step at a time for completeness — not yet consumed anywhere. */
+/* Suggested heading ladder on the responsive text-* scale, H1 to H6. */
 const HEADINGS = [
-  { cls: 'font-serif text-5xl', role: 'H1', usage: 'hero.twig', key: '5xl' },
-  { cls: 'font-serif text-3xl', role: 'H2', usage: 'card-grid / faq / text-only', key: '3xl' },
-  { cls: 'font-serif text-2xl', role: 'H3', usage: 'estrapolato — non ancora usato', key: '2xl' },
-  { cls: 'font-serif text-xl',  role: 'H4', usage: 'estrapolato — non ancora usato', key: 'xl' },
-  { cls: 'font-serif text-lg',  role: 'H5', usage: 'estrapolato — non ancora usato', key: 'lg' },
-  { cls: 'font-serif text-base', role: 'H6', usage: 'estrapolato — non ancora usato', key: 'base' },
+  { cls: 'font-serif text-5xl', role: 'H1', key: '5xl' },
+  { cls: 'font-serif text-3xl', role: 'H2', key: '3xl' },
+  { cls: 'font-serif text-2xl', role: 'H3', key: '2xl' },
+  { cls: 'font-serif text-xl',  role: 'H4', key: 'xl' },
+  { cls: 'font-serif text-lg',  role: 'H5', key: 'lg' },
+  { cls: 'font-serif text-base', role: 'H6', key: 'base' },
 ];
 
 /* DM Sans and Geist Mono share the same named-weight ladder Tailwind exposes
@@ -189,7 +187,7 @@ export const AllStyles = {
     'Heading — Tenor Sans (serif)',
     HEADINGS.map((h) => ({
       sample: `<span class="${h.cls} block truncate text-foreground">Testo di esempio</span>`,
-      details: `${h.role} · <span class="text-muted-foreground">${h.usage}</span>`,
+      details: `<strong class="text-foreground">${h.role}</strong> · <span class="text-muted-foreground">token <code>--ws-text-${h.key}-font-size</code></span>`,
       cls: h.cls,
     }))
   )}

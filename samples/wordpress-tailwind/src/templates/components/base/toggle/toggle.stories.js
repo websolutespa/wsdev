@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { matrixCard, storyStack, stateProps } from '~sb/story-helpers';
 import data from './toggle.twig.json';
 
@@ -57,16 +56,6 @@ export default {
 /* ── Default — interactive playground ─────────────────────────────────── */
 
 export const Default = { args: mocks.default };
-
-/* ── Toggled — play() verifies runtime toggle behaviour ───────────────────── */
-
-export const Toggled = {
-  args: mocks.default,
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelector('[data-slot="toggle"]').click();
-  },
-};
 
 /* ── Catalog — variant × size matrix and states ───────────────────────────── */
 

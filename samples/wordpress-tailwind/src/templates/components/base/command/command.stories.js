@@ -142,7 +142,4 @@ const dialogCard = demoCard({
 export const Catalog = {
   parameters: { layout: 'padded' },
   render: () => storyStack(inlineCard, linksCard, disabledCard, dialogCard),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

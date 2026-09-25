@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, storyStack } from '~sb/story-helpers';
 
 export default {
@@ -10,9 +9,6 @@ export default {
 /** base/field composition validated by form.module.js (blur + submit, honeypot, fetch submit). */
 export const Native = {
   render: () => renderTwig('stories/forms/form-demo.twig'),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };
 
 /** Static Formidable markup; styled only because .storybook/preview.css imports the adapter CSS. */
@@ -39,7 +35,4 @@ export const Catalog = {
         content: renderTwig('stories/forms/formidable-demo.twig'),
       })
     ),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

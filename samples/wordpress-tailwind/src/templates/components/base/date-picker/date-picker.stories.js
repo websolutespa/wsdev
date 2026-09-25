@@ -154,7 +154,4 @@ export const Catalog = {
   parameters: { layout: 'padded' },
   render: () =>
     storyStack(defaultCard, withValueCard, rangeCard, rangeWithValueCard, minMaxCard, dropdownCaptionCard),
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
 };

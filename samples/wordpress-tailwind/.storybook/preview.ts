@@ -1,8 +1,9 @@
-import { Preview } from '@storybook/html-vite';
+import { Decorator, Preview } from '@storybook/html-vite';
 import { withThemeByClassName } from '@storybook/addon-themes';
 import { injectSpritemap } from './spritemap';
 import { injectFonts } from './fonts';
 import { initModules } from './modules';
+import { demoCard } from './story-helpers';
 import './preview.css';
 
 injectSpritemap();
@@ -12,8 +13,34 @@ injectFonts();
 // story initializes its own [data-module] components.
 let disposeCurrent: (() => void) | undefined;
 
+// Wraps every `Default` story (the Controls playground) in the same card shell as the
+// Catalog cards. Opt out per story with `parameters: { playgroundCard: false }`.
+const withPlaygroundCard: Decorator = (story, ctx) => {
+  const result = story();
+  if (ctx.name !== 'Default' || ctx.parameters.playgroundCard === false) {
+    return result;
+  }
+  const host = document.createElement('div');
+  if (ctx.parameters.layout === 'fullscreen') {
+    host.className = 'p-4';
+  }
+  host.innerHTML = demoCard({
+    title: ctx.title.split('/').pop() ?? ctx.title,
+    intro: 'Playground: modifica i parametri dal pannello Controls.',
+    content: '<div data-sb-playground></div>',
+  });
+  const slot = host.querySelector('[data-sb-playground]') as HTMLElement;
+  if (typeof result === 'string') {
+    slot.outerHTML = result;
+  } else {
+    slot.replaceWith(result as Node);
+  }
+  return host;
+};
+
 const preview: Preview = {
   decorators: [
+    withPlaygroundCard,
     withThemeByClassName({
       themes: { light: '', dark: 'dark' },
       defaultTheme: 'light',

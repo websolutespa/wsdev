@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { matrixCard, storyStack } from '~sb/story-helpers';
 import data from './avatar.twig.json';
 
@@ -59,12 +58,7 @@ export const Default = { args: mocks['default'] };
  * fallback only once the image has actually failed, mirroring Radix's async
  * image status instead of flashing a broken-image icon.
  */
-export const BrokenImage = {
-  args: mocks['broken-image'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-  },
-};
+export const BrokenImage = { args: mocks['broken-image'] };
 
 /* ── Catalog — content types, badges and groups ──────────────────────────── */
 

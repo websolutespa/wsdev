@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { matrixCard, storyStack } from '~sb/story-helpers';
 import data from './sheet.twig.json';
 
@@ -57,23 +56,17 @@ export default {
 
 export const Default = { args: mocks['side-right'] };
 
-/* ── Open stories — sheet opened programmatically (one per side) ─────────── */
+/* ── Side variants — closed trigger, one per side ─────────────────────────── */
 
-const openPlay = async ({ canvasElement }) => {
-  await initModules(canvasElement);
-  canvasElement.querySelector('[data-dialog-trigger]').click();
-};
-
-export const Right = { args: mocks['side-right'], play: openPlay };
-export const Left = { args: mocks['side-left'], play: openPlay };
-export const Top = { args: mocks['side-top'], play: openPlay };
-export const Bottom = { args: mocks['side-bottom'], play: openPlay };
+export const Right = { args: mocks['side-right'] };
+export const Left = { args: mocks['side-left'] };
+export const Top = { args: mocks['side-top'] };
+export const Bottom = { args: mocks['side-bottom'] };
 
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 /**
- * Rows: the four sides exposed by the `side` prop, closed triggers only —
- * the open state is covered by the Right/Left/Top/Bottom play() stories above.
+ * Rows: the four sides exposed by the `side` prop, closed triggers only.
  */
 const SIDE_ROWS = [
   { key: 'side-right', label: 'Right (default)', args: mocks['side-right'] },

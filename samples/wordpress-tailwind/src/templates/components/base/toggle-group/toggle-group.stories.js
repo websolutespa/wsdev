@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { matrixCard, demoCard, storyStack } from '~sb/story-helpers';
 import data from './toggle-group.twig.json';
 
@@ -48,17 +47,6 @@ export default {
 /* ── Default — interactive playground ─────────────────────────────────── */
 
 export const Default = { args: mocks.default };
-
-/* ── Toggled — play() verifies single-mode mutual exclusion ───────────────── */
-
-/** Single mode: pressing another item unpresses the sibling that was on. */
-export const Toggled = {
-  args: mocks.default,
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    canvasElement.querySelectorAll('[data-slot="toggle-group-item"]')[1].click();
-  },
-};
 
 /* ── Catalog — mock scenarios + type × variant × size and content patterns ── */
 

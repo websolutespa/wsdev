@@ -1,5 +1,4 @@
 import { renderTwig } from '~sb/twig';
-import { initModules } from '~sb/modules';
 import { demoCard, matrixCard, storyStack } from '~sb/story-helpers';
 import data from './tabs.twig.json';
 
@@ -49,17 +48,6 @@ export default {
 
 export const Default = { args: mocks['default'] };
 
-/** Auto activation: ArrowRight moves focus to the next tab and activates it. */
-export const KeyboardSwitch = {
-  args: mocks['default'],
-  play: async ({ canvasElement }) => {
-    await initModules(canvasElement);
-    const active = canvasElement.querySelector('[role="tab"][data-state="active"]');
-    active.focus();
-    active.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true, cancelable: true }));
-  },
-};
-
 /* ── Catalog ──────────────────────────────────────────────────────────────── */
 
 /* ─── 1. Variant × Orientation matrix ────────────────────────────────────── */
@@ -105,7 +93,15 @@ const manualCard = demoCard({
   content: renderTwig(TWIG_ID, mocks['manual']),
 });
 
+/* ─── 5. Custom initial tab ───────────────────────────────────────────────── */
+
+const defaultValueCard = demoCard({
+  title: 'Custom initial tab',
+  intro: '<code>defaultValue</code> sceglie la tab attiva al primo render, indipendentemente dal suo ordine nell\'array <code>items</code>.',
+  content: renderTwig(TWIG_ID, { ...mocks['default'], defaultValue: 'billing' }),
+});
+
 export const Catalog = {
   parameters: { layout: 'padded' },
-  render: () => storyStack(variantOrientationMatrix, withIconsCard, disabledCard, manualCard),
+  render: () => storyStack(variantOrientationMatrix, withIconsCard, disabledCard, manualCard, defaultValueCard),
 };
